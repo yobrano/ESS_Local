@@ -1,0 +1,42 @@
+#job-data-hift {
+    font-size: 1em;
+    background: #3498db;
+    color: #fff;
+    border: 1px solid #3498db;
+    padding: .6em 4em;
+    margin: 1rem;
+    position: relative;
+    z-index: 1;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.job-data-direction-btn-div.w-75.ml-5 {
+    margin: 61px auto;
+}
+#job-data-hift:hover {
+    color: #3498db;
+  }
+  #job-data-hift::after {
+    content: "";
+    background: #ecf0f1;
+    position: absolute;
+    z-index: -1;
+    padding: 0.85em 0.75em;
+    display: block;
+  }
+  #job-data-hift[class^="slide"]::after {
+    transition: all 0.35s;
+  }
+  #job-data-hift[class^="slide"]:hover::after {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    transition: all 0.35s;
+  }
+  #job-data-hift.slide_from_left::after {
+    top: 0;
+    bottom: 0;
+    left: -100%;
+    right: 100%;
+  }

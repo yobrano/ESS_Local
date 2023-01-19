@@ -1,0 +1,7 @@
+button.accordion-button {
+    z-index: 0;
+}
+
+h2.accordion-header {
+    z-index: 0;
+}
