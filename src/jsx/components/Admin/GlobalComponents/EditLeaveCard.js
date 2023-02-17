@@ -5,6 +5,7 @@ import swal from "sweetalert";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import { parse } from "date-fns";
+import BreadCrumb from "./BreadCrumb";
 
 const EditLeaveCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -853,8 +854,9 @@ const handlePushChecklistClick = (index) => {
 
   return (
     <>
-      <div className="container-fluid">
-        <div className="row">
+      <div className="container-fluid0">
+      <BreadCrumb props={props} backlink={"leave-lists"}/>
+        <div className="row mt-2"> 
           <div className="col-md-8">
             <div className="card rounded-0">
               <div className="card-header">New Leave Creation</div>

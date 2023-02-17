@@ -99,6 +99,7 @@ const PayslipCard = (props) => {
         } else {
           swal("Oh!", "View Failed", "error");
         }
+
       });
   };
 

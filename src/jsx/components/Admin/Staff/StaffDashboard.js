@@ -6,6 +6,7 @@ import { Sparklines, SparklinesLine } from "react-sparklines";
 
 import axios from "axios";
 import "./StaffDashboard.css";
+import DashboardUI from "../GlobalComponents/DashboardUI";
 
 // const sampleData1 = [8, 7, 6, 3, 2, 4, 6, 8, 12, 6, 12, 13, 10, 18, 14, 24, 16, 12, 19, 21, 16, 14, 24, 21, 13, 15, 27, 29, 21, 11, 14, 19, 21, 17,];
 const sampleData2 = [
@@ -120,16 +121,12 @@ const StaffDashboard = () => {
   path = path[path.length - 1];
   return (
     <Fragment>
-      <div className="row my-3 d-none">
+      <div className="row my-3 d-none0">
         <div className="col-md-12">
           {/* <h4 className="my-4">Staff Dashboard</h4> */}
-          {/* {leaveplaceholder} */}
+          {leaveplaceholder}
 
-          <div className="row">
-          
-
-      
-
+          <div className="d-none">
             <div className="col-xl-3 col-lg-6 col-sm-6 d-none">
               <Link
                 className=""
@@ -243,174 +240,7 @@ const StaffDashboard = () => {
       </div>
 
       <div className="row">
-        <div className="col-md-4">
-          <div className="card">
-            <div className="card-header">
-              <h4>Leave Shortcut</h4>
-            </div>
-            <div className="card-body">
-              <ul className="shortcut-menu">
-                <li>
-                  <Link to="/new-leave" style={{ textDecoration: "none" }}>
-                    <i className="flaticon-381-add-1 mr-3"></i>
-                    <span className="nav-text-drop">New Leave</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link to="/leave-lists" style={{ textDecoration: "none" }}>
-                    <i className="flaticon-381-album-1  mr-3"></i>
-                    <span className="nav-text-drop">Pending Leaves</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link to="/leave-approval" style={{ textDecoration: "none" }}>
-                    <i className="flaticon-381-layer-1 mr-3"></i>
-                    <span className="nav-text-drop">Approval Request</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link style={{ textDecoration: "none" }} to="/supervisees">
-                    <i className="flaticon-381-sunglasses mr-3"></i>
-                    <span className="nav-text-drop">Supervisees List</span>
-                  </Link>
-                </li>
-                {/* <li>
-                  <Link
-                    to="/leave-dashboard"
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className="flaticon-381-command mr-3"></i>
-                    <span className="nav-text-drop">Leave Dashboard</span>
-                  </Link>
-                </li> */}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-4">
-          <div className="card">
-            <div className="card-header">
-              <h4>Payroll Shortcut</h4>
-            </div>
-            <div className="card-body">
-              <ul className="shortcut-menu">
-                <li>
-                  <Link
-                    className={`${path === "Payslip" ? "mm-active" : ""}`}
-                    style={{ textDecoration: "none" }}
-                    to="/Payslip"
-                  >
-                    <i className="flaticon-381-stop mr-3"></i>
-                    <span className="nav-text-drop">Payslip</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className={`${path === "P-nine" ? "mm-active" : ""}`}
-                    style={{ textDecoration: "none" }}
-                    to="/P-nine"
-                  >
-                    <i className="flaticon-381-blueprint  mr-3"></i>
-                    <span className="nav-text-drop">P9</span>
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-4">
-          <div className="card">
-            <div className="card-header">
-              <h4>Performance Appraisal Shortcut</h4>
-            </div>
-            <div className="card-body">
-              <ul className="shortcut-menu">
-                <li>
-                  <Link
-                    className={`${
-                      path === "employee-appraisal" ? "mm-active" : ""
-                    }`}
-                    to="/employee-appraisal"
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className="fa fa-ellipsis-h mr-1"></i>
-                    <span className="nav-text-drop">Employee Appraisal</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className={`${
-                      path === "supervisor-appraisal" ? "mm-active" : ""
-                    }`}
-                    to="/supervisor-appraisal"
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className="fa fa-slideshare mr-1"></i>
-                    <span className="nav-text-drop">Supervisor Appraisals</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className={`${
-                      path === "employee-moderation" ? "mm-active" : ""
-                    }`}
-                    to="/employee-moderation"
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className=" 	fa fa-delicious mr-1"></i>
-                    <span className="nav-text-drop">Employee Moderated</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className={`${
-                      path === "supervisor-moderation" ? "mm-active" : ""
-                    }`}
-                    to="/supervisor-moderation"
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className="fa fa-crosshairs mr-1"></i>
-                    <span className="nav-text-drop">Supervisor Moderated</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className={`${
-                      path === "employee-complete" ? "mm-active" : ""
-                    }`}
-                    to="/employee-complete"
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className="fa fa-first-order mr-1"></i>
-                    <span className="nav-text-drop">Employee Completed</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className={`${
-                      path === "supervisor-complete" ? "mm-active" : ""
-                    }`}
-                    to="/supervisor-complete"
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className="fa fa-empire mr-1"></i>
-                    <span className="nav-text-drop">Supervisor Completed</span>
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
+          <DashboardUI/>
       </div>
     
     </Fragment>

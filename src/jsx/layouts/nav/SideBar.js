@@ -70,6 +70,7 @@ class SideBar extends Component {
     ];
     let Grievance = ["Grievance", "GrievanceList"];
     let Documents = ["document-list"];
+    let ContProbDocuments = ["contractprobation-list"];
     let Payroll = ["Payslip", "P9"];
     let TrainingNeeds = ["new-need", "need-list"];
     let KPIS = [
@@ -462,6 +463,25 @@ class SideBar extends Component {
             </li>
           </ul>
         </li>
+        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-7"></i>
+            <span className="nav-text">Contract/Probation</span>
+          </Link>
+          <ul>
+            <li>
+              <Link
+                className={`${path === "contractprobation-list" ? "mm-active" : ""}`}
+                to="/contractprobation-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Documents</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
         <li className={`${path === "exit-interview" ? "mm-active" : ""}`}>
           <Link
             className=""
@@ -847,6 +867,26 @@ class SideBar extends Component {
             </li>
           </ul>
         </li>
+        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-7"></i>
+            <span className="nav-text">Contract/Probation</span>
+          </Link>
+          <ul>
+            <li>
+              <Link
+                className={`${path === "contractprobation-list" ? "mm-active" : ""}`}
+                to="/contractprobation-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Documents</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
+
         <li className={`${path === "exit-interview" ? "mm-active" : ""}`}>
           <Link
             className=""
@@ -965,6 +1005,17 @@ class SideBar extends Component {
             <span className="nav-text">Staff End of Contract</span>
           </Link>
         </li>
+        <li className={`${path === "HR-probation-contract" ? "mm-active" : ""}`}>
+          <Link
+            className=""
+            to="/HR-probation-contract"
+            onClick={() => this.props.onClick3()}
+          >
+            <i className="flaticon-381-list-1"></i>
+            <span className="nav-text">Probation Contact Docs</span>
+          </Link>
+        </li>
+
         {/* className={`${Leaves.includes(path) ? "mm-active" : ""}`} */}
         <li>
           <Link className="has-arrow ai-icon" to="#">
@@ -1290,6 +1341,25 @@ class SideBar extends Component {
           </ul>
         </li>
 
+        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-7"></i>
+            <span className="nav-text">Contract/Probation</span>
+          </Link>
+          <ul>
+            <li>
+              <Link
+                className={`${path === "contractprobation-list" ? "mm-active" : ""}`}
+                to="/contractprobation-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Documents</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
         <li className={`${Exits.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-panel-1"></i>
@@ -1480,6 +1550,17 @@ class SideBar extends Component {
           >
             <i className="flaticon-381-folder-2"></i>
             <span className="nav-text">Staff End of Contract</span>
+          </Link>
+        </li>
+
+        <li className={`${path === "HR-probation-contract" ? "mm-active" : ""}`}>
+          <Link
+            className=""
+            to="/HR-probation-contract"
+            onClick={() => this.props.onClick3()}
+          >
+            <i className="flaticon-381-list-1"></i>
+            <span className="nav-text">Probation Contact Docs</span>
           </Link>
         </li>
 
@@ -1811,6 +1892,25 @@ class SideBar extends Component {
               >
                 <i className="flaticon-381-album-1  mr-3"></i>
                 <span className="nav-text-drop">Lists</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
+        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-7"></i>
+            <span className="nav-text">Contract/Probation</span>
+          </Link>
+          <ul>
+            <li>
+              <Link
+                className={`${path === "contractprobation-list" ? "mm-active" : ""}`}
+                to="/contractprobation-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Documents</span>
               </Link>
             </li>
           </ul>
@@ -2288,6 +2388,25 @@ class SideBar extends Component {
             </li>
           </ul>
         </li>
+        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-7"></i>
+            <span className="nav-text">Contract/Probation</span>
+          </Link>
+          <ul>
+            <li>
+              <Link
+                className={`${path === "contractprobation-list" ? "mm-active" : ""}`}
+                to="/contractprobation-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Documents</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
         <li className={`${path === "exit-interview" ? "mm-active" : ""}`}>
           <Link
             className=""
@@ -2690,6 +2809,25 @@ class SideBar extends Component {
             </li>
           </ul>
         </li>
+        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-7"></i>
+            <span className="nav-text">Contract/Probation</span>
+          </Link>
+          <ul>
+            <li>
+              <Link
+                className={`${path === "contractprobation-list" ? "mm-active" : ""}`}
+                to="/contractprobation-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Documents</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
         <li className={`${path === "exit-interview" ? "mm-active" : ""}`}>
           <Link
             className=""
@@ -3092,6 +3230,25 @@ class SideBar extends Component {
             </li>
           </ul>
         </li>
+        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-7"></i>
+            <span className="nav-text">Contract/Probation</span>
+          </Link>
+          <ul>
+            <li>
+              <Link
+                className={`${path === "contractprobation-list" ? "mm-active" : ""}`}
+                to="/contractprobation-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Documents</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
         <li className={`${path === "exit-interview" ? "mm-active" : ""}`}>
           <Link
             className=""
@@ -3495,6 +3652,26 @@ class SideBar extends Component {
             </li>
           </ul>
         </li>
+        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-7"></i>
+            <span className="nav-text">Contract/Probation</span>
+          </Link>
+          <ul>
+            <li>
+              <Link
+                className={`${path === "contractprobation-list" ? "mm-active" : ""}`}
+                to="/contractprobation-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Documents</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
+
         <li className={`${path === "exit-interview" ? "mm-active" : ""}`}>
           <Link
             className=""
@@ -3899,6 +4076,25 @@ class SideBar extends Component {
             </li>
           </ul>
         </li>
+        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-7"></i>
+            <span className="nav-text">Contract/Probation</span>
+          </Link>
+          <ul>
+            <li>
+              <Link
+                className={`${path === "contractprobation-list" ? "mm-active" : ""}`}
+                to="/contractprobation-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Documents</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
         <li className={`${path === "exit-interview" ? "mm-active" : ""}`}>
           <Link
             className=""
@@ -4297,6 +4493,25 @@ class SideBar extends Component {
             </li> */}
           </ul>
         </li>
+        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-7"></i>
+            <span className="nav-text">Contract/Probation</span>
+          </Link>
+          <ul>
+            <li>
+              <Link
+                className={`${path === "contractprobation-list" ? "mm-active" : ""}`}
+                to="/contractprobation-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Documents</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
 
         <li className={`${path === "exit-interview" ? "mm-active" : ""}`}>
           <Link
@@ -4705,7 +4920,8 @@ class SideBar extends Component {
             <span className="nav-text">Job Vacancy</span>
           </Link>
         </li>
-        <li className={`${Documents.includes(path) ? "mm-active" : ""}`}>
+        {/* className={`${Documents.includes(path) ? "mm-active" : ""}`} */}
+        <li>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-5"></i>
             <span className="nav-text">Documents</span>
@@ -4733,6 +4949,26 @@ class SideBar extends Component {
             </li> */}
           </ul>
         </li>
+
+        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-7"></i>
+            <span className="nav-text">Contract/Probation</span>
+          </Link>
+          <ul>
+            <li>
+              <Link
+                className={`${path === "contractprobation-list" ? "mm-active" : ""}`}
+                to="/contractprobation-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Documents</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
 
         <li className={`${path === "exit-interview" ? "mm-active" : ""}`}>
           <Link

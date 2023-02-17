@@ -1,5 +1,5 @@
 import axios from "axios";
-import { format } from "date-fns";
+// import { format } from "date-fns";
 import React, { useState, useRef, useEffect, useMemo, forwardRef } from "react";
 import { Container, Row } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
@@ -13,7 +13,8 @@ import {
 } from "react-table";
 import { matchSorter } from "match-sorter";
 import swal from "sweetalert";
-import { Interweave, Markup } from "interweave";
+import { format } from "date-fns";
+// import { Interweave, Markup } from "interweave";
 
 const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
   const defaultRef = useRef();
@@ -64,7 +65,7 @@ function GlobalFilter({
 function DefaultColumnFilter({
   column: { filterValue, preFilteredRows, setFilter },
 }) {
-  const count = preFilteredRows.length;
+  // const count = preFilteredRows.length;
 
   return (
     <input
@@ -424,7 +425,7 @@ const DataTable = ({ columns, data, setSelection }) => {
   );
 };
 
-function ContractList(props) {
+function ContProbDocumentList(props) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const config = {
@@ -439,12 +440,12 @@ function ContractList(props) {
     setLoading(true);
     axios
       .get(
-        `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/v1/getstaffcontractlist`,
+        `${process.env.REACT_APP_API_S_LINK}/documents/getcontractprobationdocs`,
         config
       )
       .then((result) => {
         console.log(result.data);
-        setData(result.data.eoCs);
+        setData(result.data.cp);
       })
       .catch((err) => {
         console.log(err);
@@ -456,40 +457,29 @@ function ContractList(props) {
 
   const columns = useMemo(
     () => [
-
       {
-        Header: "Contract",
-        accessor: "contractNo",
+        Header: "Document Name",
+        accessor: "docname",
       },
       {
-        Header: "Employee",
-        accessor: "empName",
+        Header: "Document Type",
+        accessor: "doctype",
       },
-      {
-        Header: "Emp ID",
-        accessor: "empID",
-      },
-      // {
-      //   Header: "Department",
-      //   accessor: "department",
-      // },
-      // {
-      //   Header: "Position",
-      //   accessor: "position",
-      // },
       {
         Header: "Creation Date",
-        accessor: "creationDate",
+        accessor: "creationdate",
         Cell: ({ value }) => {
           return format(new Date(value), "MM/dd/yyyy");
         },
       },
       {
-        Header: "Status",
-        accessor: "status",
+        Header: "Signed",
+        accessor: "signed",
         Filter: SelectColumnFilter,
         filter: "includes",
       },
+  
+
     ],
     []
   );
@@ -498,9 +488,9 @@ function ContractList(props) {
   //     setSelection,
   //   ]);
   if (selection.length === 1) {
-    // console.log(selection[0].contractNo );
-    if(selection[0].contractNo !== undefined){
-      props.history.push("/contract-card", [{ datum: selection }]);
+    // console.log(selection[0].docname);
+    if (selection[0].docname !== undefined) {
+      props.history.push("/contract-probation-display", [{ datum: selection }]);
     }
   }
 
@@ -508,13 +498,12 @@ function ContractList(props) {
     return (
       <>
         <Container>
-          <div className="headerDiv">
-         
-          </div>
+          <div className="headerDiv"></div>
           {/* List */}
           <Row className="jobRow">
             <div id="preloader-home">
-              <div className="sk-three-bounce">
+              <div className="sk-three-bounce"
+              style={{ backgroundColor: "#f9f9f9" }}>
                 <div className="sk-child sk-bounce1"></div>
                 <div className="sk-child sk-bounce2"></div>
                 <div className="sk-child sk-bounce3"></div>
@@ -532,4 +521,4 @@ function ContractList(props) {
     </>
   );
 }
-export default withRouter(ContractList);
+export default withRouter(ContProbDocumentList);

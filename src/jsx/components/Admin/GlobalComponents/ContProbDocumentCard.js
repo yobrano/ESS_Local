@@ -3,11 +3,9 @@ import axios from "axios";
 import { Document, Page, pdfjs } from "react-pdf";
 import swal from "sweetalert";
 import "./DocumentCard.css";
-import "./BreadCrumb.css";
-import BreadCrumb from "./BreadCrumb";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const ViewPDF = ({ pdf,prop }) => {
+const ViewPDF = ({ pdf, prop }) => {
   const [scale, setScale] = useState(1);
   const [numPages, setNumPages] = useState(null);
   let [plusScaling, setPlusScaling] = useState(0.1);
@@ -38,24 +36,23 @@ const ViewPDF = ({ pdf,prop }) => {
     window.scrollTo(0, 0);
   };
 
-  const zoomDocument = (arg)=>{
+  const zoomDocument = (arg) => {
     let zoomVal;
-    if(arg ===+1){
-      zoomVal=scale+0.1;
-      if(zoomVal<1.8){
-        setScale(scale+0.1)
+    if (arg === +1) {
+      zoomVal = scale + 0.1;
+      if (zoomVal < 1.8) {
+        setScale(scale + 0.1);
       }
-    }else{
-      zoomVal=scale-0.1;
-      if(zoomVal>0.1){
-        setScale(scale-0.1)
+    } else {
+      zoomVal = scale - 0.1;
+      if (zoomVal > 0.1) {
+        setScale(scale - 0.1);
       }
     }
-  }
+  };
 
   const approveRead = () => {
-    let eid = prop.location.state[0].datum[0].employeeNo;
-    let did = prop.location.state[0].datum[0].documentCode;
+    let lid = prop.location.state[0].datum[0].lineno;
     //let did = props.location.state[0].datum[0].documentCode;
 
     const config = {
@@ -75,7 +72,7 @@ const ViewPDF = ({ pdf,prop }) => {
       .then((willCreate) => {
         if (willCreate) {
           return axios.get(
-            `${process.env.REACT_APP_API_S_LINK}/documents/viewedemployeedocument/${eid}/${did}`,
+            `${process.env.REACT_APP_API_S_LINK}/documents/approvecontractprobationdocs/${lid}`,
             config
           );
         }
@@ -84,7 +81,7 @@ const ViewPDF = ({ pdf,prop }) => {
       .then(function (response) {
         if (response.status === 200) {
        
-          swal("Success!", "Checked as Read", "success");
+          swal("Success!", response.data.message, "success");
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
@@ -100,16 +97,15 @@ const ViewPDF = ({ pdf,prop }) => {
         }
       });
   };
-  // props.history.go(-2)
+
   return (
     <>
       <div className="container mt-0">
-        <BreadCrumb props={prop} backlink={"document-list"}/>
         <div className="text-center">
           <div className="filter-pagination  mt-3">
-          <button
+            <button
               type="button"
-              onClick={()=>zoomDocument(-1)}
+              onClick={() => zoomDocument(-1)}
               className="next-button"
             >
               <i className="fa fa-search-minus"></i> Zoom Out
@@ -134,7 +130,7 @@ const ViewPDF = ({ pdf,prop }) => {
             </button>
             <button
               type="button"
-              onClick={()=>zoomDocument(+1)}
+              onClick={() => zoomDocument(+1)}
               className="next-button"
             >
               <i className="fa fa-search-plus"></i> Zoom In
@@ -146,13 +142,14 @@ const ViewPDF = ({ pdf,prop }) => {
               style={{ backgroundColor: "orange", color: "white" }}
             >
               <i className="fa fa-check"></i>
-              Confirm you've read
+              Read & Approved
             </button>
           </div>
           <p>
             Page {pageNumber || (numPages ? 1 : "--")} of {numPages || "--"}
           </p>
         </div>
+
         <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
           <Page pageNumber={pageNumber} scale={scale} />
         </Document>
@@ -187,12 +184,13 @@ const ViewPDF = ({ pdf,prop }) => {
     </>
   );
 };
-const DocumentCard = (props) => {
+const ContProbDocumentCard = (props) => {
   const [loading, setLoading] = useState(true);
   const [pdfBuffer, setPDFBuffer] = useState("");
   useEffect(() => {
     //console.log(props.location.state[0].datum[0].url);
     // setLoading(false)
+
     let filename = props.location.state[0].datum[0].url.split("\\")[2];
     let docCode = props.location.state[0].datum[0].documentCode;
 
@@ -203,15 +201,16 @@ const DocumentCard = (props) => {
           JSON.parse(localStorage.getItem("userDetails")).idToken
         }`,
       },
-      timeout: 600000,//10 min
+      timeout: 600000, //10 min
     };
     const data = {
-      Path:props.location.state[0].datum[0].url
+      Path: props.location.state[0].datum[0].url,
     };
 
     axios
       .post(
-        `${process.env.REACT_APP_API_S_LINK}/documents/reademployeedocument`,data,
+        `${process.env.REACT_APP_API_S_LINK}/documents/reademployeedocument`,
+        data,
         config
       )
       .then(function (response) {
@@ -303,9 +302,9 @@ const DocumentCard = (props) => {
   }
   return (
     <>
-      <ViewPDF pdf={pdfBuffer}  prop={props}/>
+      <ViewPDF pdf={pdfBuffer} prop={props} />
     </>
   );
 };
 
-export default DocumentCard;
+export default ContProbDocumentCard;

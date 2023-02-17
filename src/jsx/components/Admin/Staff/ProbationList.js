@@ -439,12 +439,12 @@ function ProbationList(props) {
     setLoading(true);
     axios
       .get(
-        `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/getprobationlist`,
+        `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/v1/getprobationlist`,
         config
       )
       .then((result) => {
         console.log(result.data);
-        setData(result.data.employeeEndofs);
+        setData(result.data.proBs);
       })
       .catch((err) => {
         console.log(err);
@@ -464,14 +464,14 @@ function ProbationList(props) {
         Header: "Emp ID",
         accessor: "empID",
       },
-      {
-        Header: "Department",
-        accessor: "department",
-      },
-      {
-        Header: "Position",
-        accessor: "position",
-      },
+      // {
+      //   Header: "Department",
+      //   accessor: "department",
+      // },
+      // {
+      //   Header: "Position",
+      //   accessor: "position",
+      // },
       {
         Header: "Creation Date",
         accessor: "creationDate",

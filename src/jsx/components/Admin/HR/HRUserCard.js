@@ -94,6 +94,50 @@ const HRUserCard = (props) => {
         });
   }
 
+  const deleteBio = () =>{
+    const config = {
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("userDetails")).idToken
+          }`,
+        },
+      };
+  
+     
+    swal({
+        title: "Are you sure?",
+        text: "Are you sure that you want to Delete the Profile",
+        icon: "warning",
+        dangerMode: true,
+      })
+        .then((willCreate) => {
+          if (willCreate) {
+            return axios.get(
+              `${process.env.REACT_APP_API_S_LINK}/authenticate/deleteuser/${props.location.state[0].datum[0].id}/`,
+            //   data,
+              config
+            );
+          }
+        })
+  
+        .then(function (response) {
+          if (response.status === 200) {
+            swal("Success!", "Profile Deleted", "success");
+          }
+          if (response.status === 404) {
+            alert(response.data.message);
+          }
+        })
+        .catch((err) => {
+          if(err.response!==undefined){
+            swal("Oh!", err.response.data.message, "error");
+          }else{
+            swal("Oh!", err.message, "error");
+          }
+          console.log({ err: err });
+        });
+  }
+
   if (loading) {
     return (
       <>
@@ -186,9 +230,15 @@ const HRUserCard = (props) => {
 
         <div className="card rounded-0">
           <div className="row">
-            <div className="col-md-4 mx-1 text-left">
-                <button className="btn btn-info my-2" onClick={updateBio}>
+            <div className="col-md-12 mx-1 d-flex">
+                <button className="btn btn-info " onClick={updateBio}>
+                
+                <i className="fa fa-cloud-upload mr-2"></i>
                     Update 
+                </button>
+                <button className="btn btn-danger ml-auto" onClick={deleteBio}>
+                  <i className="fa fa-user-times mr-2"></i>
+                    Delete this Record 
                 </button>
             </div>
           </div>

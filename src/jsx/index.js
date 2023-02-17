@@ -135,6 +135,9 @@ import LeaveDashboard from "./components/Admin/GlobalComponents/LeaveDashboard";
 import LeaveDashboardPage from "./components/Admin/GlobalComponents/LeaveDashboardPage";
 import ImmediateMgrProbationList from "./components/Admin/Staff/ImmediateMgrProbationList";
 import ImmediateMgrProbationCard from "./components/Admin/Staff/ImmediateMgrProbationCard";
+import ContProbDocumentList from "./components/Admin/GlobalComponents/ContProbDocumentList";
+import ContProbDocumentCard from "./components/Admin/GlobalComponents/ContProbDocumentCard";
+import ContProbDocumentListHR from "./components/Admin/GlobalComponents/ContProbDocumentListHR";
 
 // import Landing from './pages/Landing'
 
@@ -226,6 +229,10 @@ const Markup = () => {
     {url:"profile",component:StaffProfile,usr:"HR"},
     {url:"leave-dashboard",component:LeaveDashboard,usr:"HR"},
     {url:"dashboard-list",component:LeaveDashboardPage,usr:"HR"},
+    //02/02/23
+    { url: "HR-probation-contract", component:ContProbDocumentListHR, usr: "HR" },
+    { url: "contractprobation-list", component:ContProbDocumentList, usr: "HR" },
+    { url: "contract-probation-display", component:ContProbDocumentCard, usr: "HR" },
 
   ];
 
@@ -307,6 +314,11 @@ const Markup = () => {
     {url:"profile",component:StaffProfile,usr:"HEAD-HR"},
     {url:"leave-dashboard",component:LeaveDashboard,usr:"HEAD-HR"},
     {url:"dashboard-list",component:LeaveDashboardPage,usr:"HEAD-HR"},
+
+    //02/02/23
+    { url: "HR-probation-contract", component:ContProbDocumentListHR, usr: "HEAD-HR" },
+    { url: "contractprobation-list", component:ContProbDocumentList, usr: "HEAD-HR" },
+    { url: "contract-probation-display", component:ContProbDocumentCard, usr: "HEAD-HR" },
   ];
   //Job Seeker
   const routes2=[
@@ -385,6 +397,9 @@ const Markup = () => {
     {url:"job-vacancy",component:InternalJobAdvertList,usr:"HOD"},
     {url:"vacancy-card",component:InternalJobAdvertCard,usr:"HOD"},
 
+    { url: "contractprobation-list", component:ContProbDocumentList, usr: "HOD" },
+    { url: "contract-probation-display", component:ContProbDocumentCard, usr: "HOD" },
+
   ];
   //HOD-ADMIN
   const routes6 = [
@@ -455,6 +470,10 @@ const Markup = () => {
     {url:"profile",component:StaffProfile,usr:"HOD-ADMIN"},
     {url:"job-vacancy",component:InternalJobAdvertList,usr:"HOD-ADMIN"},
     {url:"vacancy-card",component:InternalJobAdvertCard,usr:"HOD-ADMIN"},
+
+    //from 01/02/23
+    { url: "contractprobation-list", component:ContProbDocumentList, usr: "HOD-ADMIN" },
+    { url: "contract-probation-display", component:ContProbDocumentCard, usr: "HOD-ADMIN" },
   ];
   //HOD-ICT
   const routes7 = [
@@ -524,6 +543,10 @@ const Markup = () => {
      { url:"profile",component:StaffProfile,usr:"HOD-ICT"},
      { url:"job-vacancy",component:InternalJobAdvertList,usr:"HOD-ICT"},
      { url:"vacancy-card",component:InternalJobAdvertCard,usr:"HOD-ICT"},
+
+         //from 01/02/23
+    { url: "contractprobation-list", component:ContProbDocumentList, usr: "HOD-ICT" },
+    { url: "contract-probation-display", component:ContProbDocumentCard, usr: "HOD-ICT" },
   ];
   //HOD-HR
   const routes8 = [
@@ -595,6 +618,10 @@ const Markup = () => {
     { url:"profile",component:StaffProfile,usr:"HOD-HR"},
     { url:"job-vacancy",component:InternalJobAdvertList,usr:"HOD-HR"},
     { url:"vacancy-card",component:InternalJobAdvertCard,usr:"HOD-HR"},
+
+    //from 01/02/23
+    { url: "contractprobation-list", component:ContProbDocumentList, usr: "HOD-HR" },
+    { url: "contract-probation-display", component:ContProbDocumentCard, usr: "HOD-HR" },
 
   ];
   //HOD-FIN
@@ -668,6 +695,9 @@ const Markup = () => {
     { url:"job-vacancy",component:InternalJobAdvertList,usr:"HOD-FIN"},
     { url:"vacancy-card",component:InternalJobAdvertCard,usr:"HOD-FIN"},
 
+    //from 01/02/23
+    { url: "contractprobation-list", component:ContProbDocumentList, usr: "HOD-FIN" },
+    { url: "contract-probation-display", component:ContProbDocumentCard, usr: "HOD-FIN" },
   ];
   //FD
   const routes10 = [
@@ -736,6 +766,9 @@ const Markup = () => {
     { url:"job-vacancy",component:InternalJobAdvertList,usr:"FD"},
     { url:"vacancy-card",component:InternalJobAdvertCard,usr:"FD"},
 
+    //from 01/02/23
+    { url: "contractprobation-list", component:ContProbDocumentList, usr: "FD" },
+    { url: "contract-probation-display", component:ContProbDocumentCard, usr: "FD" },
   ];
   //NOS
   const routes11 = [
@@ -797,6 +830,9 @@ const Markup = () => {
     { url:"job-vacancy",component:InternalJobAdvertList,usr:"NOS"},
     { url:"vacancy-card",component:InternalJobAdvertCard,usr:"NOS"},
 
+    //from 01/02/23
+    { url: "contractprobation-list", component:ContProbDocumentList, usr: "HOS" },
+    { url: "contract-probation-display", component:ContProbDocumentCard, usr: "HOS" },
   ];
   //MD
   const routes4 = [
@@ -866,6 +902,9 @@ const Markup = () => {
     { url:"job-vacancy",component:InternalJobAdvertList,usr:"MD"},
     { url:"vacancy-card",component:InternalJobAdvertCard,usr:"MD"},
 
+    //from 01/02/23
+    { url: "contractprobation-list", component:ContProbDocumentList, usr: "MD" },
+    { url: "contract-probation-display", component:ContProbDocumentCard, usr: "MD" },
   ];
 
   //Normal - Staff
@@ -925,6 +964,9 @@ const Markup = () => {
     { url:"job-vacancy",component:InternalJobAdvertList,usr:"NORMAL"},
     { url:"vacancy-card",component:InternalJobAdvertCard,usr:"NORMAL"},
 
+    //from 01/02/23
+    { url: "contractprobation-list", component:ContProbDocumentList, usr: "NORMAL" },
+    { url: "contract-probation-display", component:ContProbDocumentCard, usr: "NORMAL" },
   ];
 
 

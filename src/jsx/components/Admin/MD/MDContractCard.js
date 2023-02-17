@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Accordion } from "react-bootstrap";
+import { Accordion, Collapse } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "./ExitForm.css";
@@ -124,6 +124,23 @@ const MDContractCard = (props) => {
   const [skills, setSkills] = useState("");
   const [datax, setDatax] = useState({});
   const [disableBtn, setDisableBtn] = useState(false);
+
+  const [extensionF, setExtensionF] = useState(false);
+  const [stage, setStage] = useState("");
+  const [stageMessage, setStageMessage] = useState("");
+
+
+  const toggleCollapse = (from) => {
+    switch (from) {
+      case "reversal":
+        setExtensionF(!extensionF);
+        break;
+
+      default:
+        setExtensionF(false);
+        break;
+    }
+  };
 
   useEffect(() => {
     const config = {
@@ -382,6 +399,60 @@ const MDContractCard = (props) => {
         swal("Oh!", err.data.message, "error");
       });
   }, []);
+
+  const ReversalAction = (e) => {
+    e.preventDefault();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+
+    let data = {
+      ContractStatus: parseInt(stage),
+      BackTrackingReason: stageMessage,
+      ContractNo:props.location.state[0].datum[0].contractNo,
+    };
+
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Reverse the Record?",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        if (willCreate) {
+          setDisableBtn(true);
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/contractreversal`,
+            data,
+            config
+          );
+        }
+      })
+
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          setDisableBtn(false);
+          swal("Success!", "Contract Record Reversed.", "success");
+        }
+        if (response.status === 404) {
+          alert(response.data.message);
+        }
+      })
+      .catch((err) => {
+        setDisableBtn(false);
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+        console.log({ err: err });
+      });
+  };
 
   const pushToMDFD = (e) => {
     e.preventDefault();
@@ -1229,7 +1300,57 @@ const MDContractCard = (props) => {
         </Accordion>
         <div className="card-footer">
           <div className="text-right">
-            {btnUP} {sectionOne}
+            {btnUP}
+            <button
+              className="btn btn-danger mx-2"
+              onClick={() => toggleCollapse("reversal")}
+              aria-controls="example-collapse-text"
+              aria-expanded={extensionF}
+              disabled={disableBtn}
+            >
+              <i className="fa fa-repeat px-1"></i>
+              Re-verse
+            </button>
+             {sectionOne}
+          </div>
+          <div className="row">
+            <Collapse in={extensionF}>
+              <div id="example-collapse-text">
+                <div className="row">
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label htmlFor="">Select Reversal Stage</label>
+                      <select name="stage" id=""  onChange={(e) => setStage(e.target.value)} className="form-control">
+                        <option value="">Choose Level</option>
+                        <option value="0">HOD</option>
+                        <option value="1">HR</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-md-8">
+                  <label foo="">Reversal Reason</label>
+                    <textarea
+                      className="w-100 form-control"
+                      name="stageMessage"
+                      rows="2"
+                      placeholder="Summary 240 characters"
+                      value={stageMessage}
+                      onChange={(e) => setStageMessage(e.target.value)}
+                      disabled={false}
+                    ></textarea>
+                  </div>
+
+                  <div className="col-12">
+                    <button
+                      className="btn btn-danger rounded-0 w-100 mt-2"
+                      onClick={ReversalAction}
+                    >
+                      Re-verse <i className="fa fa-repeat"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Collapse>
           </div>
         </div>
       </div>

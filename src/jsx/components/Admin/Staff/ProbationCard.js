@@ -120,6 +120,9 @@ const ProbationCard = (props) => {
   const [MDFDRemark, setMDFDRemark] = useState("");
   const [supportingfile, setSupportingfile] = useState("");
 
+  const [probationTime, setProbationTime] = useState("");
+  const [skills, setSkills] = useState("");
+
   useEffect(() => {
     const config = {
       headers: {
@@ -136,17 +139,16 @@ const ProbationCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
-
+          setProbationTime(props.location.state[0].datum[0].supervisionTime)
+          setSkills(props.location.state[0].datum[0].importantSkills)
           setLoading(false);
+
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
         }
       })
       .catch((err) => {
-        console.log({ err: err });
         swal("Oh!", err.data.message, "error");
       });
   }, []);
@@ -179,7 +181,6 @@ const ProbationCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
           swal("Success!", "Probation Form Moved", "success");
         }
         if (response.status === 404) {
@@ -451,6 +452,54 @@ const ProbationCard = (props) => {
     }
   };
 
+  const uploadFirstSegmentSection = (e)=>{
+    e.preventDefault();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+
+    let data = {
+      ProbationNo: props.location.state[0].datum[0].probationNo,
+      SupervisionTime: probationTime,
+      ImportantSkills: skills,
+    };
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Upload",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        if (willCreate) {
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/v1/storeprobationcreatefirstsection`,
+            data,
+            config
+          );
+        }
+      })
+
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          swal("Success!", "Probation Card Updated", "success");
+        }
+       
+      })
+      .catch((err) => {
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+        console.log({ err: err });
+      });
+
+  }
 
   let btnUP = "";
   let sectionOne = "";
@@ -498,7 +547,84 @@ const ProbationCard = (props) => {
     <>
       <h4 className="text-center">EMPLOYEE’S PROGRESS REPORT (PROBATIONARY)</h4>
       <div className="card">
-        <Accordion defaultActiveKey={["0"]} alwaysOpen>
+        <Accordion defaultActiveKey={["1"]} alwaysOpen>
+        <Accordion.Item eventKey="-1">
+            <Accordion.Header>
+              <div className="title mb-4">
+                <span className="fs-18 text-black font-w600">
+                  New Contract Creation Card
+                </span>
+              </div>
+            </Accordion.Header>
+            <Accordion.Body>
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label htmlFor="">Employee Number</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={props.location.state[0].datum[0].empID}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label htmlFor="">Employee Name</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={props.location.state[0].datum[0].empName}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-xl-12 col-sm-6">
+                  <div className="form-group">
+                    <label htmlFor=""> How long have you supervised the Employee</label>
+                    <textarea
+                      className="form-control"
+                      cols="30"
+                      rows="3"
+                      name="Howlongs"
+                      placeholder="How long have you been supervising this employee? (max 240 characters)"
+                      value={probationTime}
+                      onChange={(e) => setProbationTime(e.target.value)}
+                    ></textarea>
+                  </div>
+                </div>
+
+                <div className="col-xl-6 col-sm-6">
+                  <div className="form-group">
+                    <label htmlFor="">Skills</label>
+                    <textarea
+                      className="form-control"
+                      cols="30"
+                      rows="3"
+                      name="Howlongs"
+                      placeholder="What skills are most important for performing this Job (max 240 characters)"
+                      value={skills}
+                    onChange={(e) => setSkills(e.target.value)}
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <button
+                      className="btn btn-warning"
+                      onClick={uploadFirstSegmentSection}
+                    >
+                      Upload this section
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Accordion.Body>
+          </Accordion.Item>
+
           <Accordion.Item eventKey="0">
             <Accordion.Header>
               <div className="title mb-4">

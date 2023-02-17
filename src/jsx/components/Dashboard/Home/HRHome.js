@@ -7,6 +7,7 @@ import { Sparklines, SparklinesLine } from "react-sparklines";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./HRDashboard.css";
+import LeaveStatistic from "../../Admin/GlobalComponents/LeaveStatistic";
 
 const sampleData1 = [
   8, 7, 6, 3, 2, 4, 6, 8, 12, 6, 12, 13, 10, 18, 14, 24, 16, 12, 19, 21, 16, 14,
@@ -56,6 +57,7 @@ const HRHome = () => {
 
   return (
     <Fragment>
+      <LeaveStatistic/>
       <div className="row d-none">
         <div className="col-xl-3 col-lg-6 col-sm-6">
           <Link className="" to="/applicants" style={{textDecoration:'none',}}>
@@ -295,6 +297,30 @@ const HRHome = () => {
             </div>
           </div>
         </div>
+
+        <div className="col-md-4">
+          <div className="card" style={{backgroundColor:''}}>
+            <div className="card-header">
+              <h4>Documents Shortcut</h4>
+            </div>
+            <div className="card-body">
+              <ul className="shortcut-menu">
+                <li>
+                  <Link
+                    // className={`${path === "document-list" ? "mm-active" : ""}`}
+                    style={{ textDecoration: "none" }}
+                    to="/document-list"
+                  >
+                    <i className="flaticon-381-album-1 mr-3"></i>
+                    <span className="nav-text-drop">Document List</span>
+                  </Link>
+                </li>
+
+              </ul>
+            </div>
+          </div>
+        </div>
+
       </div>
     </Fragment>
   );

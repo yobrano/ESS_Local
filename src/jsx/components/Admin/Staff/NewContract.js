@@ -145,7 +145,7 @@ const NewContract = () => {
 
               <div className="col-xl-3 col-sm-6">
                 <div className="form-control1">
-                  <label htmlFor="">Manager</label>
+                  <label htmlFor="">HOD</label>
                   <Select
                     defaultValue={selectedMgr}
                     onChange={setSelectedMgr}
@@ -193,6 +193,8 @@ const NewContract = () => {
                       onChange={(e) => setHowlong(e.target.value)}
                     >
                       <option>Choose</option>
+                      <option value="1 Month">1 Months</option>
+                      <option value="3 Months">3 Months</option>
                       <option value="6 Months">6 Months</option>
                       <option value="12 Months">12 Months</option>
                     </select>

@@ -140,7 +140,7 @@ const NewProbation = () => {
 
               <div className="col-xl-3 col-sm-6">
                 <div className="form-control1">
-                  <label htmlFor="">Manager</label>
+                  <label htmlFor="">HOD</label>
                   <Select
                     defaultValue={selectedMgr}
                     onChange={setSelectedMgr}

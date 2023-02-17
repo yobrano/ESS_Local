@@ -8,7 +8,7 @@ import swal from "sweetalert";
 
 const ContractCard = (props) => {
   const [loading, setLoading] = useState(true);
-  
+
   const [outstanding, setOutstanding] = useState(false);
   const [aboveAverage, setAboveAverage] = useState(false);
   const [satisfactory, setSatisfactory] = useState(false);
@@ -73,7 +73,8 @@ const ContractCard = (props) => {
   const [seeksAddResponsibility, setSeeksAddResponsibility] = useState(false);
   const [willinglyAcceptResp, setWillinglyAcceptResp] = useState(false);
   const [assumesWhenUnavoidable, setAssumesWhenUnavoidable] = useState(false);
-  const [alwaysAvoidResponsibility, setAlwaysAvoidResponsibility] = useState(false);
+  const [alwaysAvoidResponsibility, setAlwaysAvoidResponsibility] =
+    useState(false);
   const [responsiblityComment, setResponsiblityComment] = useState("");
 
   const [graspImmediately, setGraspImmediately] = useState(false);
@@ -119,36 +120,47 @@ const ContractCard = (props) => {
   const [MDFDRemark, setMDFDRemark] = useState("");
   const [supportingfile, setSupportingfile] = useState("");
 
+  const [howLong, setHowlong] = useState("");
+  const [doRenew, setDoRenew] = useState("");
+  const [renewReason, setRenewReason] = useState("");
+  const [superVisionTime, setSuperVisionTime] = useState("");
 
   useEffect(() => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
-        }`,
-      },
-    };
+    // const config = {
+    //   headers: {
+    //     Authorization: `Bearer ${
+    //       JSON.parse(localStorage.getItem("userDetails")).idToken
+    //     }`,
+    //   },
+    // };
 
-    axios
-      .get(
-        `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/getprobationcard/${props.location.state[0].datum[0].probationno}`,
-        config
-      )
-      .then(function (response) {
-        if (response.status === 200) {
-          console.log(response.data);
+    // axios
+    //   .get(
+    //     `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/getprobationcard/${props.location.state[0].datum[0].probationno}`,
+    //     config
+    //   )
+    //   .then(function (response) {
+    //     if (response.status === 200) {
+    //       console.log(response.data);
 
+    //       setLoading(false);
+    //     }
+    //     if (response.status === 404) {
+    //       swal("Oh!", response.data.message, "error");
+    //       console.log(response.data.message);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log({ err: err });
+    //     swal("Oh!", err.data.message, "error");
+    //   });
+        setSuperVisionTime(props.location.state[0].datum[0].supervisionTime)
+        setDoRenew(props.location.state[0].datum[0].doRenew)
+        setHowlong(props.location.state[0].datum[0].howlong)
+        setRenewReason(props.location.state[0].datum[0].renewReason)
+        setTimeout(() => {
           setLoading(false);
-        }
-        if (response.status === 404) {
-          swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
-        }
-      })
-      .catch((err) => {
-        console.log({ err: err });
-        swal("Oh!", err.data.message, "error");
-      });
+        }, 500);
   }, []);
 
   const updateCard = (e) => {
@@ -238,9 +250,9 @@ const ContractCard = (props) => {
           }
         })
         .catch((err) => {
-          if(err.response!==undefined){
+          if (err.response !== undefined) {
             swal("Oh!", err.response.data.message, "error");
-          }else{
+          } else {
             swal("Oh!", err.message, "error");
           }
           console.log({ err: err });
@@ -248,7 +260,6 @@ const ContractCard = (props) => {
         });
     }
   };
-
 
   //Push first segment
   const uploadFirstSegmentCard = (e) => {
@@ -261,102 +272,101 @@ const ContractCard = (props) => {
       },
     };
 
-    let data ={
-      PerformanceComment:performanceComment,
-      AttendanceComment:attendanceComment,
-      AttitudeComment:attitudeComment,
-      AppearanceComment:appearanceComment,
-      InitiativeComment:initiativeComment,
-      DependabilityComment:dependabilityComment,
-      JudmentComment:judmentComment,
-      AttentionToDetailComment:attentionToDetailComment,
-      InterpersonalComment:interpersonalComment,
-      MannersComment:mannersComment,
-      ResponsiblityComment:responsiblityComment,
-      LearningCampacityComment:learningCampacityComment,
-      OutputComment:outputComment,
-      LeadershipComment:leadershipComment,
-      PressureComment:pressureComment,
+    let data = {
+      PerformanceComment: performanceComment,
+      AttendanceComment: attendanceComment,
+      AttitudeComment: attitudeComment,
+      AppearanceComment: appearanceComment,
+      InitiativeComment: initiativeComment,
+      DependabilityComment: dependabilityComment,
+      JudmentComment: judmentComment,
+      AttentionToDetailComment: attentionToDetailComment,
+      InterpersonalComment: interpersonalComment,
+      MannersComment: mannersComment,
+      ResponsiblityComment: responsiblityComment,
+      LearningCampacityComment: learningCampacityComment,
+      OutputComment: outputComment,
+      LeadershipComment: leadershipComment,
+      PressureComment: pressureComment,
 
-      Outstanding:outstanding,
-      AboveAverage:aboveAverage,
-      Satisfactory:satisfactory,
-      Marginal:marginal,
-      Unsatisfactory:unsatisfactory,
+      Outstanding: outstanding,
+      AboveAverage: aboveAverage,
+      Satisfactory: satisfactory,
+      Marginal: marginal,
+      Unsatisfactory: unsatisfactory,
 
-      ExcellentAttendance:excellentAttendance,
-      OccasionalAbsence:occasionalAbsence,
-      RepeatedAbsence:repeatedAbsence,
-      UnjustifiedAbsence:unjustifiedAbsence,
+      ExcellentAttendance: excellentAttendance,
+      OccasionalAbsence: occasionalAbsence,
+      RepeatedAbsence: repeatedAbsence,
+      UnjustifiedAbsence: unjustifiedAbsence,
 
-      AlwaysInterested:alwaysInterested,
-      ReasonablyDevoted:reasonablyDevoted,
-      PassiveAttitude:passiveAttitude,
-      ActiveDislikeofWork:activeDislikeofWork,
+      AlwaysInterested: alwaysInterested,
+      ReasonablyDevoted: reasonablyDevoted,
+      PassiveAttitude: passiveAttitude,
+      ActiveDislikeofWork: activeDislikeofWork,
 
-      AlwaysNeat:alwaysNeat,
-      GenerallyNeat:generallyNeat,
-      SometimesCareles:sometimesCareles,
-      AttirenotSuitable:attirenotSuitable,
+      AlwaysNeat: alwaysNeat,
+      GenerallyNeat: generallyNeat,
+      SometimesCareles: sometimesCareles,
+      AttirenotSuitable: attirenotSuitable,
 
-      SelfStarter:selfStarter,
-      NeedsStimilus:needsStimilus,
-      NeedsCSupervision:needsCSupervision,
-      ShowNoInitiative:showNoInitiative,
+      SelfStarter: selfStarter,
+      NeedsStimilus: needsStimilus,
+      NeedsCSupervision: needsCSupervision,
+      ShowNoInitiative: showNoInitiative,
 
-      AlwayOnTime:alwayOnTime,
-      OccasionallyLate:occasionallyLate,
-      RepeatedLate:repeatedLate,
-      RarelyOnTime:rarelyOnTime,
+      AlwayOnTime: alwayOnTime,
+      OccasionallyLate: occasionallyLate,
+      RepeatedLate: repeatedLate,
+      RarelyOnTime: rarelyOnTime,
 
-      DecisionLogical:decisionLogical,
-      GenSoundJudgment:genSoundJudgment,
-      ReqFreqCorrection:reqFreqCorrection,
-      JudgmentOftenFaulty:judgmentOftenFaulty,
+      DecisionLogical: decisionLogical,
+      GenSoundJudgment: genSoundJudgment,
+      ReqFreqCorrection: reqFreqCorrection,
+      JudgmentOftenFaulty: judgmentOftenFaulty,
 
-      RarelyMakesErrs:rarelyMakesErrs,
-      FewErrThanMost:fewErrThanMost,
-      AvgAccuracy:avgAccuracy,
-      UnacceptablyErratic:unacceptablyErratic,
+      RarelyMakesErrs: rarelyMakesErrs,
+      FewErrThanMost: fewErrThanMost,
+      AvgAccuracy: avgAccuracy,
+      UnacceptablyErratic: unacceptablyErratic,
 
-      FriendlyOutgoing:friendlyOutgoing,
-      SomewhatBusinesslike:somewhatBusinesslike,
-      GregariousToPoint:gregariousToPoint,
-      SullenAndWithdrawn:sullenAndWithdrawn,
+      FriendlyOutgoing: friendlyOutgoing,
+      SomewhatBusinesslike: somewhatBusinesslike,
+      GregariousToPoint: gregariousToPoint,
+      SullenAndWithdrawn: sullenAndWithdrawn,
 
-      AlwayscourteousTactful:alwayscourteousTactful,
-      GenCourteous:genCourteous,
-      SometimesIncosiderate:sometimesIncosiderate,
-      ArouseAntagonism:arouseAntagonism,
+      AlwayscourteousTactful: alwayscourteousTactful,
+      GenCourteous: genCourteous,
+      SometimesIncosiderate: sometimesIncosiderate,
+      ArouseAntagonism: arouseAntagonism,
 
-      SeeksAddResponsibility:seeksAddResponsibility,
-      WillinglyAcceptResp:willinglyAcceptResp,
-      AssumesWhenUnavoidable:assumesWhenUnavoidable,
-      AlwaysAvoidResponsibility:alwaysAvoidResponsibility,
+      SeeksAddResponsibility: seeksAddResponsibility,
+      WillinglyAcceptResp: willinglyAcceptResp,
+      AssumesWhenUnavoidable: assumesWhenUnavoidable,
+      AlwaysAvoidResponsibility: alwaysAvoidResponsibility,
 
-      GraspImmediately:graspImmediately,
-      QuickerThanAvg:quickerThanAvg,
-      AvgLearning:avgLearning,
-      SlowLearner:slowLearner,
-      UnableToGraspNew:unableToGraspNew,
+      GraspImmediately: graspImmediately,
+      QuickerThanAvg: quickerThanAvg,
+      AvgLearning: avgLearning,
+      SlowLearner: slowLearner,
+      UnableToGraspNew: unableToGraspNew,
 
-      ExcepHighProductivity:excepHighProductivity,
-      CompleteMoreThanAvg:completeMoreThanAvg,
-      AdequatePerHr:adequatePerHr,
-      InadequateOutput:inadequateOutput,
+      ExcepHighProductivity: excepHighProductivity,
+      CompleteMoreThanAvg: completeMoreThanAvg,
+      AdequatePerHr: adequatePerHr,
+      InadequateOutput: inadequateOutput,
 
-      AssumesLeadershipInit:assumesLeadershipInit,
-      WillLeadEncouraged:willLeadEncouraged,
-      CanLeadifNecessary:canLeadifNecessary,
-      RefusesLeadership:refusesLeadership,
-      AttemptbutInefficient:attemptbutInefficient,
+      AssumesLeadershipInit: assumesLeadershipInit,
+      WillLeadEncouraged: willLeadEncouraged,
+      CanLeadifNecessary: canLeadifNecessary,
+      RefusesLeadership: refusesLeadership,
+      AttemptbutInefficient: attemptbutInefficient,
 
-      NeverFalter:neverFalter,
-      MaintainPoise:maintainPoise,
-      DependableExcUnderPress:dependableExcUnderPress,
-      CantTakePressure:cantTakePressure,
-
-    }
+      NeverFalter: neverFalter,
+      MaintainPoise: maintainPoise,
+      DependableExcUnderPress: dependableExcUnderPress,
+      CantTakePressure: cantTakePressure,
+    };
     swal({
       title: "Are you sure?",
       text: "Are you sure that you want to Upload",
@@ -392,7 +402,7 @@ const ContractCard = (props) => {
       });
   };
 
-  const uploadRecomSection = (e)=>{
+  const uploadFirstSegmentSection = (e)=>{
     e.preventDefault();
     const config = {
       headers: {
@@ -402,19 +412,71 @@ const ContractCard = (props) => {
       },
     };
 
-    let data ={
-      EmployeeStrongestPoint:empStrongestpt,
-      EmployeeWeakestPoint:areaofImprovement,//area of improvement
-      EmployeeQualifiedForPromo:qualifiedPromo,
-      PromoPosition:promoPstn,
-      PromotableInTheFuture:promotable,
-      EffectiveDifferentAssignment:effectiveWithDifferent,
-      WhichAssignment:differentAssingment,
-      AdditionalComment:recommendationSectionComment,
-      confirm:empRecConfirm,
-      Extend:empRecExtProb,
-      Terminate:empRecTerminate
-    }
+    let data = {
+      // EmpID: selectedEmp.value,
+      ContractNo: props.location.state[0].datum[0].contractNo,
+      SupervisionTime: superVisionTime,
+      DoRenew:doRenew,
+      Howlong:howLong,
+      RenewReason:renewReason,
+    };
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Upload",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        if (willCreate) {
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/v1/storeendofcontractfirstdata`,
+            data,
+            config
+          );
+        }
+      })
+
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          swal("Success!", "Probation Card Updated", "success");
+        }
+       
+      })
+      .catch((err) => {
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+        console.log({ err: err });
+      });
+
+  }
+
+  const uploadRecomSection = (e) => {
+    e.preventDefault();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+
+    let data = {
+      EmployeeStrongestPoint: empStrongestpt,
+      EmployeeWeakestPoint: areaofImprovement, //area of improvement
+      EmployeeQualifiedForPromo: qualifiedPromo,
+      PromoPosition: promoPstn,
+      PromotableInTheFuture: promotable,
+      EffectiveDifferentAssignment: effectiveWithDifferent,
+      WhichAssignment: differentAssingment,
+      AdditionalComment: recommendationSectionComment,
+      confirm: empRecConfirm,
+      Extend: empRecExtProb,
+      Terminate: empRecTerminate,
+    };
     swal({
       title: "Are you sure?",
       text: "Are you sure that you want to Upload",
@@ -448,26 +510,24 @@ const ContractCard = (props) => {
         }
         console.log({ err: err });
       });
-  }
-
+  };
 
   let btnUP = "";
   let sectionOne = "";
-  if (props.location.state[0].datum[0].status === 'Open') {
+  if (props.location.state[0].datum[0].status === "Open") {
     btnUP = (
       <button className="btn btn-success" onClick={updateCard}>
-       Push to HR
+        Push to HR
       </button>
     );
-    sectionOne=(
+    sectionOne = (
       <button className="btn btn-warning" onClick={uploadFirstSegmentCard}>
-      Upload this section
-     </button>
+        Upload this section
+      </button>
     );
-  } else if (props.location.state[0].datum[0].status === 'Approved') {
+  } else if (props.location.state[0].datum[0].status === "Approved") {
     btnUP = <button className="btn btn-secondary">Form Pushed Already</button>;
   }
-
 
   if (loading) {
     return (
@@ -496,7 +556,118 @@ const ContractCard = (props) => {
     <>
       <h4 className="text-center">END OF CONTRACT REPORT</h4>
       <div className="card">
-        <Accordion defaultActiveKey={["0"]} alwaysOpen>
+        <Accordion defaultActiveKey={["-1"]} alwaysOpen>
+          <Accordion.Item eventKey="-1">
+            <Accordion.Header>
+              <div className="title mb-4">
+                <span className="fs-18 text-black font-w600">
+                  New Contract Creation Card
+                </span>
+              </div>
+            </Accordion.Header>
+            <Accordion.Body>
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label htmlFor="">Employee Number</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={props.location.state[0].datum[0].empID}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label htmlFor="">Employee Name</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={props.location.state[0].datum[0].empName}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-xl-12 col-sm-6">
+                  <div className="form-group">
+                    <label htmlFor=""> How long have you supervised</label>
+                    <textarea
+                      className="form-control"
+                      cols="30"
+                      rows="3"
+                      name="Howlongs"
+                      placeholder="How long have you been supervising this employee? (max 240 characters)"
+                      value={superVisionTime}
+                      onChange={(e) => setSuperVisionTime(e.target.value)}
+                    ></textarea>
+                  </div>
+                </div>
+                <div className="col-xl-3 col-sm-3">
+                  <div className="form-group">
+                    <label htmlFor="">Do we renew the contract?</label>
+                    <select
+                      name="qualifiedForPromo"
+                      id=""
+                      className="form-control"
+                      onChange={(e) => setDoRenew(e.target.value)}
+                      value={doRenew}
+                    >
+                      <option>Choose</option>
+                      <option value="YES">YES</option>
+                      <option value="NO">NO</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="col-xl-3 col-sm-3">
+                  <div className="form-group">
+                    <label htmlFor="">If yes, for how long?</label>
+                    <select
+                      name="qualifiedForPromo"
+                      id=""
+                      className="form-control"
+                      onChange={(e) => setHowlong(e.target.value)}
+                      value={howLong}
+                    >
+                      <option>Choose</option>
+                      <option value="1 Month">1 Months</option>
+                      <option value="3 Months">3 Months</option>
+                      <option value="6 Months">6 Months</option>
+                      <option value="12 Months">12 Months</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="col-xl-6 col-sm-6">
+                  <div className="form-group">
+                    <label htmlFor="">Reason for renewal</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="probationTime"
+                      placeholder="Reason(s) for renewal/non-renewal"
+                      value={renewReason}
+                      onChange={(e) => setRenewReason(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <button
+                      className="btn btn-warning"
+                      onClick={uploadFirstSegmentSection}
+                    >
+                      Upload this section
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Accordion.Body>
+          </Accordion.Item>
+
           <Accordion.Item eventKey="0">
             <Accordion.Header>
               <div className="title mb-4">
@@ -509,7 +680,7 @@ const ContractCard = (props) => {
             <Accordion.Body>
               <div className="row">
                 <div className="col-md-6">
-                 <div className="form-group">
+                  <div className="form-group">
                     <label foo="" className="b-2">
                       Overall Performance
                     </label>
@@ -814,16 +985,12 @@ const ContractCard = (props) => {
                     ></textarea>
                   </div>
                 </div>
-
               </div>
               <div className="row">
                 <div className="col-md-12">
-                <div className="form-group">
-                   {sectionOne}
-                  </div>
+                  <div className="form-group">{sectionOne}</div>
                 </div>
               </div>
-
             </Accordion.Body>
           </Accordion.Item>
 
@@ -856,7 +1023,7 @@ const ContractCard = (props) => {
                 <div className="col-md-6">
                   <div className="form-group">
                     <label foo="">
-                    What areas do you feel the employee needs to improve on?
+                      What areas do you feel the employee needs to improve on?
                     </label>
                     <textarea
                       className="w-100 form-control"
@@ -967,7 +1134,6 @@ const ContractCard = (props) => {
                   </div>
                 </div>
                 <div className="col-md-6">
-
                   <div className="form-group">
                     <label htmlFor=""> Supporting Documents</label>
                     <input
@@ -976,24 +1142,23 @@ const ContractCard = (props) => {
                       onChange={onChangeSupportingDoc}
                     />
                   </div>
-                
-
-
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="">Action</label> <br />
-                <button
-                        className="btn btn-primary rounded-0"
-                        onClick={uploadSupportindDoc}
-                      >
-                        Upload Supporting File{" "}
-                        <i className="fa fa-cloud-upload"></i>
+                  <button
+                    className="btn btn-primary rounded-0"
+                    onClick={uploadSupportindDoc}
+                  >
+                    Upload Supporting File{" "}
+                    <i className="fa fa-cloud-upload"></i>
                   </button>
-                  <button className="btn btn-warning rounded-0" onClick={uploadRecomSection}>
+                  <button
+                    className="btn btn-warning rounded-0"
+                    onClick={uploadRecomSection}
+                  >
                     Upload this Section
                   </button>
                 </div>
-
               </div>
             </Accordion.Body>
           </Accordion.Item>
@@ -1010,9 +1175,7 @@ const ContractCard = (props) => {
               <div className="row">
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label foo="">
-                      HR Remarks
-                    </label>
+                    <label foo="">HR Remarks</label>
                     <textarea
                       className="w-100 form-control"
                       name="hrRemark"
@@ -1025,9 +1188,7 @@ const ContractCard = (props) => {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label foo="">
-                      MD/FD Remarks
-                    </label>
+                    <label foo="">MD/FD Remarks</label>
                     <textarea
                       className="w-100 form-control"
                       name="MDFDRemark"
@@ -1038,7 +1199,6 @@ const ContractCard = (props) => {
                     ></textarea>
                   </div>
                 </div>
-              
               </div>
             </Accordion.Body>
           </Accordion.Item>
