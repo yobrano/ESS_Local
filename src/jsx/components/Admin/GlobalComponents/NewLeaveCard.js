@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
+import BreadCrumb from "./BreadCrumb";
 
 const NewLeaveCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -675,8 +676,9 @@ const handlePushChecklistClick = (index) => {
 
   return (
     <>
-      <div className="container-fluid">
-        <div className="row">
+      <div className="#">
+      <BreadCrumb props={props} backlink={"staff-dashboard"}/>
+        <div className="row mt-2">
           <div className="col-md-8">
             <div className="card rounded-0">
               <div className="card-header">New Leave Creation</div>

@@ -29,6 +29,9 @@ function NavbarPg(props) {
 
     ]
 
+    let stafflogin=()=>{
+      return props.history.push('/asignup')
+    }
 
     let login=()=>{
       return props.history.push('/login')
@@ -85,6 +88,15 @@ function NavbarPg(props) {
                   <div className="nav-button ms-auto">
                     <Nav className="navbar-right flex-row justify-content-end" navbar>
                       {/* <NavItem> */}
+                      <button
+                          type="button"
+                          className="btn btn-primary btn-rounded mx-1 me-sm-2"
+                          onClick={stafflogin}
+                          id="loginBtn"
+                        >
+                          Staff
+                        </button>
+                        
                         <button
                           type="button"
                           className="btn btn-primary btn-rounded mx-1 me-sm-2"

@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "./ExitForm.css";
 import axios from "axios";
 import swal from "sweetalert";
+import BreadCrumb from "../GlobalComponents/BreadCrumb";
 
 const ContractCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -119,12 +120,14 @@ const ContractCard = (props) => {
   const [hrRemark, setHRRemark] = useState("");
   const [MDFDRemark, setMDFDRemark] = useState("");
   const [supportingfile, setSupportingfile] = useState("");
+  const [managerRemark, setManagerRemark] = useState("");
 
   const [howLong, setHowlong] = useState("");
   const [doRenew, setDoRenew] = useState("");
   const [renewReason, setRenewReason] = useState("");
   const [superVisionTime, setSuperVisionTime] = useState("");
 
+  const [immediateStatus,setImmediateStatus] = useState(false)
   useEffect(() => {
     // const config = {
     //   headers: {
@@ -164,6 +167,10 @@ const ContractCard = (props) => {
   }, []);
 
   const updateCard = (e) => {
+    // if(managerRemark.length == 0){
+    //   setImmediateStatus(true)
+    //   return;
+    // }
     e.preventDefault();
     const config = {
       headers: {
@@ -171,6 +178,10 @@ const ContractCard = (props) => {
           JSON.parse(localStorage.getItem("userDetails")).idToken
         }`,
       },
+    };
+    const data= {
+      ContractNo:props.location.state[0].datum[0].contractNo,
+      // UIDComment:managerRemark
     };
 
     swal({
@@ -181,9 +192,9 @@ const ContractCard = (props) => {
     })
       .then((willCreate) => {
         if (willCreate) {
-          return axios.get(
-            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/movecontractfrommanagertohr/${props.location.state[0].datum[0].contractNo}`,
-            // data,
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/movecontractfromsupervisortohod`,
+            data,
             config
           );
         }
@@ -517,7 +528,7 @@ const ContractCard = (props) => {
   if (props.location.state[0].datum[0].status === "Open") {
     btnUP = (
       <button className="btn btn-success" onClick={updateCard}>
-        Push to HR
+        Push the Form
       </button>
     );
     sectionOne = (
@@ -554,6 +565,7 @@ const ContractCard = (props) => {
   }
   return (
     <>
+     <BreadCrumb props={props} backlink={"contract-list"}/>
       <h4 className="text-center">END OF CONTRACT REPORT</h4>
       <div className="card">
         <Accordion defaultActiveKey={["-1"]} alwaysOpen>
@@ -1121,6 +1133,9 @@ const ContractCard = (props) => {
 
                 <div className="col-md-12">
                   <div className="form-group">
+                  <label foo="">
+                    <b> Immediate Supervisor Recommendation</b> 
+                    </label>
                     <textarea
                       className="w-100 form-control"
                       name="recommendationSectionComment"
@@ -1173,6 +1188,26 @@ const ContractCard = (props) => {
             </Accordion.Header>
             <Accordion.Body>
               <div className="row">
+              {/* <div className="col-md-12">
+                  <div className="form-group">
+                    <label foo="">
+                      Immediate Supervisor
+                    </label>
+                    <textarea
+                      className="w-100 form-control"
+                      name="managerRemark"
+                      rows="2"
+                      placeholder="Summary 240 characters"
+                      value={managerRemark}
+                      onChange={(e) => setManagerRemark(e.target.value)}
+                    ></textarea>
+                      {immediateStatus && (
+                            <div className="text-danger fs-12">
+                              This field is Mandatory
+                            </div>
+                          )}
+                  </div>
+                </div> */}
                 <div className="col-md-6">
                   <div className="form-group">
                     <label foo="">HR Remarks</label>

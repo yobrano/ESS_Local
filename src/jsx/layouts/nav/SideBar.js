@@ -60,6 +60,7 @@ class SideBar extends Component {
       "EndofContract",
       "MD-probation",
       "FD-probation",
+      "probation-approval-hod",
     ];
     let EmpUpdateDetailCont = [
       "Contract",
@@ -67,6 +68,8 @@ class SideBar extends Component {
       "contract-card",
       "MD-approvals",
       "FD-approvals",
+      "HR-contract",
+      "contract-approval-hod",
     ];
     let Grievance = ["Grievance", "GrievanceList"];
     let Documents = ["document-list"];
@@ -151,7 +154,7 @@ class SideBar extends Component {
                 <span className="nav-text-drop">Probation List</span>
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 className={`${path === "immediate-probation-list" ? "mm-active" : ""}`}
                 to="/immediate-probation-list"
@@ -160,7 +163,7 @@ class SideBar extends Component {
                 <i className="flaticon-381-album-1  mr-3"></i>
                 <span className="nav-text-drop">Immediate Manager</span>
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 className={`${path === "FD-probation" ? "mm-active" : ""}`}
@@ -214,6 +217,9 @@ class SideBar extends Component {
             </li>
           </ul>
         </li>
+
+      
+
         <li className={`${Leaves.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-time"></i>
@@ -507,9 +513,7 @@ class SideBar extends Component {
             <span className="nav-text">Dashboard</span>
           </Link>
         </li>
-        <li
-          className={`${path === "MD-employee-requisition" ? "mm-active" : ""}`}
-        >
+        <li className={`${path === "MD-employee-requisition" ? "mm-active" : ""}`}>
           <Link
             className=""
             to="/MD-employee-requisition"
@@ -560,7 +564,7 @@ class SideBar extends Component {
                 <span className="nav-text-drop">Approval Request</span>
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 className={`${path === "immediate-probation-list" ? "mm-active" : ""}`}
                 to="/immediate-probation-list"
@@ -569,12 +573,10 @@ class SideBar extends Component {
                 <i className="flaticon-381-album-1  mr-3"></i>
                 <span className="nav-text-drop">Immediate Manager</span>
               </Link>
-            </li>
+            </li> */}
           </ul>
         </li>
-        <li
-          className={`${EmpUpdateDetailCont.includes(path) ? "mm-active" : ""}`}
-        >
+        <li className={`${EmpUpdateDetailCont.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-2"></i>
             <span className="nav-text">Staff End of Contract</span>
@@ -614,6 +616,7 @@ class SideBar extends Component {
             </li>
           </ul>
         </li>
+
         {/* className={`${Leaves.includes(path) ? "mm-active" : ""}`} */}
         <li>
           <Link className="has-arrow ai-icon" to="#">
@@ -958,12 +961,21 @@ class SideBar extends Component {
             <span className="nav-text">Employee Probation</span>
           </Link>
           <ul>
-        
+          <li>
+              <Link
+                className={`${path === "new-probation" ? "mm-active" : ""}`}
+                onClick={() => this.props.onClick()}
+                to="/new-probation"
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text-drop">New Probation</span>
+              </Link>
+            </li>
 
             <li>
               <Link
-                className={`${path === "HR-probation" ? "mm-active" : ""}`}
-                to="/HR-probation"
+                className={`${path === "probation-list" ? "mm-active" : ""}`}
+                to="/probation-list"
                 onClick={() => this.props.onClick3()}
               >
                 <i className="flaticon-381-album-1  mr-3"></i>
@@ -973,16 +985,58 @@ class SideBar extends Component {
           
             <li>
               <Link
-                className={`${path === "immediate-probation-list" ? "mm-active" : ""}`}
-                to="/immediate-probation-list"
+                className={`${path === "HR-probation" ? "mm-active" : ""}`}
+                to="/HR-probation"
                 onClick={() => this.props.onClick3()}
               >
-                <i className="flaticon-381-album-1  mr-3"></i>
-                <span className="nav-text-drop">Immediate Manager</span>
+                <i className="flaticon-381-album-2  mr-3"></i>
+                <span className="nav-text-drop">Probation Approval</span>
               </Link>
             </li>
           </ul>
         </li>
+        
+        <li className={`${EmpUpdateDetailCont.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-2"></i>
+            <span className="nav-text">Staff End of Contract</span>
+          </Link>
+          <ul>
+          <li>
+              <Link
+                className={`${path === "Contract" ? "mm-active" : ""}`}
+                onClick={() => this.props.onClick()}
+                to="/Contract"
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text-drop">New End of Contract</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${path === "contract-list" ? "mm-active" : ""}`}
+                to="/contract-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">End of Contract List</span>
+              </Link>
+            </li>
+
+            <li >
+              <Link
+               className={`${path === "HR-contract" ? "mm-active" : ""}`}
+                to="/HR-contract"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-folder-2 mr-3"></i>
+                <span className="nav-text-drop">Contracts Approval</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
 
         {/* <li className={`${path === "HR-probation" ? "mm-active" : ""}`}>
           <Link
@@ -995,7 +1049,7 @@ class SideBar extends Component {
           </Link>
         </li> */}
 
-        <li className={`${path === "HR-contract" ? "mm-active" : ""}`}>
+        {/* <li className={`${path === "HR-contract" ? "mm-active" : ""}`}>
           <Link
             className=""
             to="/HR-contract"
@@ -1004,7 +1058,7 @@ class SideBar extends Component {
             <i className="flaticon-381-folder-2"></i>
             <span className="nav-text">Staff End of Contract</span>
           </Link>
-        </li>
+        </li> */}
         <li className={`${path === "HR-probation-contract" ? "mm-active" : ""}`}>
           <Link
             className=""
@@ -1504,6 +1558,87 @@ class SideBar extends Component {
             <span className="nav-text">Employee Probation</span>
           </Link>
           <ul>
+          <li>
+              <Link
+                className={`${path === "new-probation" ? "mm-active" : ""}`}
+                onClick={() => this.props.onClick()}
+                to="/new-probation"
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text-drop">New Probation</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className={`${path === "probation-list" ? "mm-active" : ""}`}
+                to="/probation-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Probation List</span>
+              </Link>
+            </li>
+          
+            <li>
+              <Link
+                className={`${path === "HR-probation" ? "mm-active" : ""}`}
+                to="/HR-probation"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-2  mr-3"></i>
+                <span className="nav-text-drop">Probation Approval</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+        <li className={`${EmpUpdateDetailCont.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-2"></i>
+            <span className="nav-text">Staff End of Contract</span>
+          </Link>
+          <ul>
+          <li>
+              <Link
+                className={`${path === "Contract" ? "mm-active" : ""}`}
+                onClick={() => this.props.onClick()}
+                to="/Contract"
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text-drop">New End of Contract</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${path === "contract-list" ? "mm-active" : ""}`}
+                to="/contract-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">End of Contract List</span>
+              </Link>
+            </li>
+
+            <li >
+              <Link
+               className={`${path === "HR-contract" ? "mm-active" : ""}`}
+                to="/HR-contract"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-folder-2 mr-3"></i>
+                <span className="nav-text-drop">Contracts Approval</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
+        {/* <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-10"></i>
+            <span className="nav-text">Employee Probation</span>
+          </Link>
+          <ul>
         
 
             <li>
@@ -1528,7 +1663,7 @@ class SideBar extends Component {
               </Link>
             </li>
           </ul>
-        </li>
+        </li> */}
 
 
         {/* <li className={`${path === "HR-probation" ? "mm-active" : ""}`}>
@@ -1542,16 +1677,7 @@ class SideBar extends Component {
           </Link>
         </li> */}
 
-        <li className={`${path === "HR-contract" ? "mm-active" : ""}`}>
-          <Link
-            className=""
-            to="/HR-contract"
-            onClick={() => this.props.onClick3()}
-          >
-            <i className="flaticon-381-folder-2"></i>
-            <span className="nav-text">Staff End of Contract</span>
-          </Link>
-        </li>
+      
 
         <li className={`${path === "HR-probation-contract" ? "mm-active" : ""}`}>
           <Link
@@ -2096,12 +2222,12 @@ class SideBar extends Component {
           
             <li>
               <Link
-                className={`${path === "immediate-probation-list" ? "mm-active" : ""}`}
-                to="/immediate-probation-list"
+                className={`${path === "probation-approval-hod" ? "mm-active" : ""}`}
+                to="/probation-approval-hod"
                 onClick={() => this.props.onClick3()}
               >
                 <i className="flaticon-381-album-1  mr-3"></i>
-                <span className="nav-text-drop">Immediate Manager</span>
+                <span className="nav-text-drop">Probation Approval</span>
               </Link>
             </li>
           </ul>
@@ -2112,6 +2238,17 @@ class SideBar extends Component {
             <span className="nav-text">Staff End of Contract</span>
           </Link>
           <ul>
+          <li>
+              <Link
+                className={`${path === "Contract" ? "mm-active" : ""}`}
+                onClick={() => this.props.onClick()}
+                to="/Contract"
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text-drop">New End of Contract</span>
+              </Link>
+            </li>
+
             <li>
               <Link
                 className={`${path === "contract-list" ? "mm-active" : ""}`}
@@ -2122,17 +2259,18 @@ class SideBar extends Component {
                 <span className="nav-text-drop">End of Contract List</span>
               </Link>
             </li>
-
-            <li>
+            <li >
               <Link
-                className={`${path === "Contract" ? "mm-active" : ""}`}
-                onClick={() => this.props.onClick()}
-                to="/Contract"
+               className={`${path === "contract-approval-hod" ? "mm-active" : ""}`}
+                to="/contract-approval-hod"
+                onClick={() => this.props.onClick3()}
+
               >
-                <i className="flaticon-381-add-1 mr-3"></i>
-                <span className="nav-text-drop">New End of Contract</span>
+                <i className="flaticon-381-folder-2 mr-3"></i>
+                <span className="nav-text-drop">Contracts Approval</span>
               </Link>
             </li>
+
           </ul>
         </li>
         {/* className={`${Leaves.includes(path) ? "mm-active" : ""}`} */}
@@ -2487,7 +2625,7 @@ class SideBar extends Component {
 
         {/* Every Employer Menus */}
 
-        <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
+        {/* <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-10"></i>
             <span className="nav-text">Employee Probation</span>
@@ -2556,7 +2694,89 @@ class SideBar extends Component {
               </Link>
             </li>
           </ul>
+        </li> */}
+
+        <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-10"></i>
+            <span className="nav-text">Employee Probation</span>
+          </Link>
+          <ul>
+          <li>
+              <Link
+                className={`${path === "new-probation" ? "mm-active" : ""}`}
+                onClick={() => this.props.onClick()}
+                to="/new-probation"
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text-drop">New Probation</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className={`${path === "probation-list" ? "mm-active" : ""}`}
+                to="/probation-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Probation List</span>
+              </Link>
+            </li>
+          
+            <li>
+              <Link
+                className={`${path === "probation-approval-hod" ? "mm-active" : ""}`}
+                to="/probation-approval-hod"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-2  mr-3"></i>
+                <span className="nav-text-drop">Probation Approval</span>
+              </Link>
+            </li>
+          </ul>
         </li>
+        <li className={`${EmpUpdateDetailCont.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-2"></i>
+            <span className="nav-text">Staff End of Contract</span>
+          </Link>
+          <ul>
+          <li>
+              <Link
+                className={`${path === "Contract" ? "mm-active" : ""}`}
+                onClick={() => this.props.onClick()}
+                to="/Contract"
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text-drop">New End of Contract</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${path === "contract-list" ? "mm-active" : ""}`}
+                to="/contract-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">End of Contract List</span>
+              </Link>
+            </li>
+
+            <li >
+              <Link
+               className={`${path === "HR-contract" ? "mm-active" : ""}`}
+                to="/HR-contract"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-folder-2 mr-3"></i>
+                <span className="nav-text-drop">Contracts Approval</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
         {/* className={`${Leaves.includes(path) ? "mm-active" : ""}`} */}
         <li>
           <Link className="has-arrow ai-icon" to="#">
@@ -2907,7 +3127,7 @@ class SideBar extends Component {
 
         {/* Every Employer Menus */}
 
-        <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
+        {/* <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-10"></i>
             <span className="nav-text">Employee Probation</span>
@@ -2976,7 +3196,89 @@ class SideBar extends Component {
               </Link>
             </li>
           </ul>
+        </li> */}
+               <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-10"></i>
+            <span className="nav-text">Employee Probation</span>
+          </Link>
+          <ul>
+          <li>
+              <Link
+                className={`${path === "new-probation" ? "mm-active" : ""}`}
+                onClick={() => this.props.onClick()}
+                to="/new-probation"
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text-drop">New Probation</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className={`${path === "probation-list" ? "mm-active" : ""}`}
+                to="/probation-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Probation List</span>
+              </Link>
+            </li>
+          
+            <li>
+              <Link
+                className={`${path === "probation-approval-hod" ? "mm-active" : ""}`}
+                to="/probation-approval-hod"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-2  mr-3"></i>
+                <span className="nav-text-drop">Probation Approval</span>
+              </Link>
+            </li>
+          </ul>
         </li>
+        
+        <li className={`${EmpUpdateDetailCont.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-2"></i>
+            <span className="nav-text">Staff End of Contract</span>
+          </Link>
+          <ul>
+          <li>
+              <Link
+                className={`${path === "Contract" ? "mm-active" : ""}`}
+                onClick={() => this.props.onClick()}
+                to="/Contract"
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text-drop">New End of Contract</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${path === "contract-list" ? "mm-active" : ""}`}
+                to="/contract-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">End of Contract List</span>
+              </Link>
+            </li>
+
+            <li >
+              <Link
+               className={`${path === "HR-contract" ? "mm-active" : ""}`}
+                to="/HR-contract"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-folder-2 mr-3"></i>
+                <span className="nav-text-drop">Contracts Approval</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
         {/* className={`${Leaves.includes(path) ? "mm-active" : ""}`} */}
         <li>
           <Link className="has-arrow ai-icon" to="#">
@@ -3329,7 +3631,7 @@ class SideBar extends Component {
 
         {/* Every Employer Menus */}
 
-        <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
+        {/* <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-10"></i>
             <span className="nav-text">Employee Probation</span>
@@ -3398,7 +3700,89 @@ class SideBar extends Component {
               </Link>
             </li>
           </ul>
+        </li> */}
+        <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-10"></i>
+            <span className="nav-text">Employee Probation</span>
+          </Link>
+          <ul>
+          <li>
+              <Link
+                className={`${path === "new-probation" ? "mm-active" : ""}`}
+                onClick={() => this.props.onClick()}
+                to="/new-probation"
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text-drop">New Probation</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className={`${path === "probation-list" ? "mm-active" : ""}`}
+                to="/probation-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Probation List</span>
+              </Link>
+            </li>
+          
+            <li>
+              <Link
+                className={`${path === "probation-approval-hod" ? "mm-active" : ""}`}
+                to="/probation-approval-hod"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-2  mr-3"></i>
+                <span className="nav-text-drop">Probation Approval</span>
+              </Link>
+            </li>
+          </ul>
         </li>
+        
+        <li className={`${EmpUpdateDetailCont.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-2"></i>
+            <span className="nav-text">Staff End of Contract</span>
+          </Link>
+          <ul>
+          <li>
+              <Link
+                className={`${path === "Contract" ? "mm-active" : ""}`}
+                onClick={() => this.props.onClick()}
+                to="/Contract"
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text-drop">New End of Contract</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${path === "contract-list" ? "mm-active" : ""}`}
+                to="/contract-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">End of Contract List</span>
+              </Link>
+            </li>
+
+            <li >
+              <Link
+               className={`${path === "HR-contract" ? "mm-active" : ""}`}
+                to="/HR-contract"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-folder-2 mr-3"></i>
+                <span className="nav-text-drop">Contracts Approval</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
         {/* className={`${Leaves.includes(path) ? "mm-active" : ""}`} */}
         <li >
           <Link className="has-arrow ai-icon" to="#">
@@ -3751,7 +4135,7 @@ class SideBar extends Component {
 
         {/* Every Employer Menus */}
 
-        <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
+        {/* <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-10"></i>
             <span className="nav-text">Employee Probation</span>
@@ -3822,7 +4206,89 @@ class SideBar extends Component {
               </Link>
             </li>
           </ul>
+        </li> */}
+        <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-10"></i>
+            <span className="nav-text">Employee Probation</span>
+          </Link>
+          <ul>
+          <li>
+              <Link
+                className={`${path === "new-probation" ? "mm-active" : ""}`}
+                onClick={() => this.props.onClick()}
+                to="/new-probation"
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text-drop">New Probation</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className={`${path === "probation-list" ? "mm-active" : ""}`}
+                to="/probation-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Probation List</span>
+              </Link>
+            </li>
+          
+            <li>
+              <Link
+                className={`${path === "probation-approval-hod" ? "mm-active" : ""}`}
+                to="/probation-approval-hod"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-2  mr-3"></i>
+                <span className="nav-text-drop">Probation Approval</span>
+              </Link>
+            </li>
+          </ul>
         </li>
+        
+        <li className={`${EmpUpdateDetailCont.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-2"></i>
+            <span className="nav-text">Staff End of Contract</span>
+          </Link>
+          <ul>
+          <li>
+              <Link
+                className={`${path === "Contract" ? "mm-active" : ""}`}
+                onClick={() => this.props.onClick()}
+                to="/Contract"
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text-drop">New End of Contract</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${path === "contract-list" ? "mm-active" : ""}`}
+                to="/contract-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">End of Contract List</span>
+              </Link>
+            </li>
+
+            <li >
+              <Link
+               className={`${path === "HR-contract" ? "mm-active" : ""}`}
+                to="/HR-contract"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-folder-2 mr-3"></i>
+                <span className="nav-text-drop">Contracts Approval</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
         {/* className={`${Leaves.includes(path) ? "mm-active" : ""}`} */}
         <li>
           <Link className="has-arrow ai-icon" to="#">
@@ -4121,7 +4587,7 @@ class SideBar extends Component {
           </Link>
         </li>
 
-        <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
+        {/* <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-10"></i>
             <span className="nav-text">Employee Probation</span>
@@ -4191,7 +4657,89 @@ class SideBar extends Component {
               </Link>
             </li>
           </ul>
+        </li> */}
+        <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-10"></i>
+            <span className="nav-text">Employee Probation</span>
+          </Link>
+          <ul>
+          <li>
+              <Link
+                className={`${path === "new-probation" ? "mm-active" : ""}`}
+                onClick={() => this.props.onClick()}
+                to="/new-probation"
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text-drop">New Probation</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className={`${path === "probation-list" ? "mm-active" : ""}`}
+                to="/probation-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Probation List</span>
+              </Link>
+            </li>
+          
+            <li>
+              <Link
+                className={`${path === "HR-probation" ? "mm-active" : ""}`}
+                to="/HR-probation"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-2  mr-3"></i>
+                <span className="nav-text-drop">Probation Approval</span>
+              </Link>
+            </li>
+          </ul>
         </li>
+        
+        <li className={`${EmpUpdateDetailCont.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-2"></i>
+            <span className="nav-text">Staff End of Contract</span>
+          </Link>
+          <ul>
+          <li>
+              <Link
+                className={`${path === "Contract" ? "mm-active" : ""}`}
+                onClick={() => this.props.onClick()}
+                to="/Contract"
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text-drop">New End of Contract</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${path === "contract-list" ? "mm-active" : ""}`}
+                to="/contract-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">End of Contract List</span>
+              </Link>
+            </li>
+
+            <li >
+              <Link
+               className={`${path === "HR-contract" ? "mm-active" : ""}`}
+                to="/HR-contract"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-folder-2 mr-3"></i>
+                <span className="nav-text-drop">Contracts Approval</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
 
         {/* <li className={`${Grievance.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
@@ -4586,7 +5134,7 @@ class SideBar extends Component {
           </Link>
         </li>
 
-        <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
+        {/* <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-10"></i>
             <span className="nav-text">Employee Probation</span>
@@ -4602,18 +5150,9 @@ class SideBar extends Component {
                 <span className="nav-text-drop">Probation List</span>
               </Link>
             </li>
-            {/* <li>
-              <Link
-                className={`${path === "new-probation" ? "mm-active" : ""}`}
-                onClick={() => this.props.onClick()}
-                to="/new-probation"
-              >
-                <i className="flaticon-381-add-1 mr-3"></i>
-                <span className="nav-text-drop">New Probation</span>
-              </Link>
-            </li> */}
+            
           </ul>
-        </li>
+        </li> */}
 
         {/* <li className={`${EmpUpdateDetailCont.includes(path) ? "mm-active" : ""}`} >
           <Link className="has-arrow ai-icon" to="#">
@@ -4910,16 +5449,107 @@ class SideBar extends Component {
             </li>
           </ul>
         </li> */}
-        <li className={`${path === "job-vacancy" ? "mm-active" : ""}`}>
-          <Link
-            className=""
-            to="/job-vacancy"
-            onClick={() => this.props.onClick3()}
-          >
-            <i className="flaticon-381-target"></i>
-            <span className="nav-text">Job Vacancy</span>
+        <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-10"></i>
+            <span className="nav-text">Employee Probation</span>
           </Link>
+          <ul>
+          <li>
+              <Link
+                className={`${path === "new-probation" ? "mm-active" : ""}`}
+                onClick={() => this.props.onClick()}
+                to="/new-probation"
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text-drop">New Probation</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className={`${path === "probation-list" ? "mm-active" : ""}`}
+                to="/probation-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Probation List</span>
+              </Link>
+            </li>
+          
+            {/* <li>
+              <Link
+                className={`${path === "HR-probation" ? "mm-active" : ""}`}
+                to="/HR-probation"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-2  mr-3"></i>
+                <span className="nav-text-drop">Probation Approval</span>
+              </Link>
+            </li> */}
+          </ul>
         </li>
+        
+        <li className={`${EmpUpdateDetailCont.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-2"></i>
+            <span className="nav-text">Staff End of Contract</span>
+          </Link>
+          <ul>
+          <li>
+              <Link
+                className={`${path === "Contract" ? "mm-active" : ""}`}
+                onClick={() => this.props.onClick()}
+                to="/Contract"
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text-drop">New End of Contract</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${path === "contract-list" ? "mm-active" : ""}`}
+                to="/contract-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">End of Contract List</span>
+              </Link>
+            </li>
+
+            {/* <li >
+              <Link
+               className={`${path === "HR-contract" ? "mm-active" : ""}`}
+                to="/HR-contract"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-folder-2 mr-3"></i>
+                <span className="nav-text-drop">Contracts Approval</span>
+              </Link>
+            </li> */}
+          </ul>
+        </li>
+
+        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-folder-7"></i>
+            <span className="nav-text">Contract/Probation</span>
+          </Link>
+          <ul>
+            <li>
+              <Link
+                className={`${path === "contractprobation-list" ? "mm-active" : ""}`}
+                to="/contractprobation-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Documents</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
         {/* className={`${Documents.includes(path) ? "mm-active" : ""}`} */}
         <li>
           <Link className="has-arrow ai-icon" to="#">
@@ -4949,27 +5579,16 @@ class SideBar extends Component {
             </li> */}
           </ul>
         </li>
-
-        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
-          <Link className="has-arrow ai-icon" to="#">
-            <i className="flaticon-381-folder-7"></i>
-            <span className="nav-text">Contract/Probation</span>
+        <li className={`${path === "job-vacancy" ? "mm-active" : ""}`}>
+          <Link
+            className=""
+            to="/job-vacancy"
+            onClick={() => this.props.onClick3()}
+          >
+            <i className="flaticon-381-target"></i>
+            <span className="nav-text">Job Vacancy</span>
           </Link>
-          <ul>
-            <li>
-              <Link
-                className={`${path === "contractprobation-list" ? "mm-active" : ""}`}
-                to="/contractprobation-list"
-                onClick={() => this.props.onClick3()}
-              >
-                <i className="flaticon-381-album-1  mr-3"></i>
-                <span className="nav-text-drop">Documents</span>
-              </Link>
-            </li>
-          </ul>
         </li>
-
-
         <li className={`${path === "exit-interview" ? "mm-active" : ""}`}>
           <Link
             className=""

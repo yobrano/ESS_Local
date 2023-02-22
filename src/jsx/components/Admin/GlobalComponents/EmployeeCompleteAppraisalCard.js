@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import Select from "react-select";
 import swal from "sweetalert";
+import BreadCrumb from "./BreadCrumb";
 
 const EmployeeCompleteAppraisalCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -814,7 +815,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
   return (
     <>
       <div className="container">
-    
+      <BreadCrumb props={props} backlink={""}/>
         <div className="d-md-flex justify-content-end mb-2">
           {/* <button className="btn btn-danger rounded-0" onClick={PushToEmployee} disabled={!isActive}>
              Return to Employee<i className="ml-2 fa fa-arrow-circle-left"></i>{" "}

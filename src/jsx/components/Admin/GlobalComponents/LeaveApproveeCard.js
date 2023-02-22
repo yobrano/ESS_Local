@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
+import BreadCrumb from "./BreadCrumb";
  
 const LeaveApproveeCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -353,8 +354,9 @@ const LeaveApproveeCard = (props) => {
 
   return (
     <>
-      <div className="container-fluid">
-        <div className="row">
+      <div className="container-fluid0">
+      <BreadCrumb props={props} backlink={"leave-approval"}/>
+        <div className="row mt-2">
           <div className="col-md-12">
             <div className="card rounded-0">
               <div className="card-header">

@@ -67,7 +67,7 @@ const PayslipCard = (props) => {
     })
       .then((willProcede) => {
         if (willProcede) {
-          return axios.get(
+           return  axios.get(
             `${process.env.REACT_APP_API_S_LINK}/payroll/generatepayslip/${selectedPeriod.value}`,
             config
           );
@@ -84,21 +84,23 @@ const PayslipCard = (props) => {
         }
       })
       .catch((err) => {
-        // swal("Oh!", err.data.message, "error");
-        if (err.response !== undefined) {
-          // swal("Oh!", err.response.data.message, "error");
-          if (err.response.data) {
-            swal("Oh!", err.response.data, "error");
-          } else  if (err.response.data.message) {
-            swal("Oh!", err.response.data.message, "error");
-          } else {
-            swal("Oop!", err.message, "error");
-          }
-        } else if (err.message) {
-          swal("Oh!", err.message, "error");
-        } else {
-          swal("Oh!", "View Failed", "error");
-        }
+
+        // console.log(err.response.data);
+        swal("Oh!", 'Payslip for the choosen Period is NOT Ready', "error");
+        // if (err.response !== undefined) {
+        //   // swal("Oh!", err.response.data.message, "error");
+        //   if (err.response.data) {
+        //     swal("Oh!", err.response.data, "error");
+        //   } else  if (err.response.data.message) {
+        //     swal("Oh!", err.response.data.message, "error");
+        //   } else {
+        //     swal("Oop!", err.message, "error");
+        //   }
+        // } else if (err.message) {
+        //   swal("Oh!", err.message, "error");
+        // } else {
+        //   swal("Oh!", "View Failed", "error");
+        // }
 
       });
   };

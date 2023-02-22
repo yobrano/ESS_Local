@@ -1,65 +1,73 @@
-import React, { Fragment, useEffect, useState} from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 //** Import Image */
 
-import {  Sparklines,  SparklinesLine,  } from "react-sparklines";
+import { Sparklines, SparklinesLine } from "react-sparklines";
 
 // import ApexchartsNegPost from './ApexNagetivePosative';
 // import ApexchartsNegPost1 from './ApexNagetivePosative1';
 import axios from "axios";
 import { Link } from "react-router-dom";
+import LeaveStatistic from "../GlobalComponents/LeaveStatistic";
+import DashboardUI from "../GlobalComponents/DashboardUI";
 
 // const sampleData1 = [8, 7, 6, 3, 2, 4, 6, 8, 12, 6, 12, 13, 10, 18, 14, 24, 16, 12, 19, 21, 16, 14, 24, 21, 13, 15, 27, 29, 21, 11, 14, 19, 21, 17,];
-const sampleData2 = [19, 21, 16, 14, 24, 21, 13, 15, 27, 29, 21, 11, 14, 19, 21, 17, 12, 6, 12, 13, 10, 18, 14, 24, 16, 12, 8, 7, 6, 3, 2, 7, 6, 8,];
+const sampleData2 = [
+  19, 21, 16, 14, 24, 21, 13, 15, 27, 29, 21, 11, 14, 19, 21, 17, 12, 6, 12, 13,
+  10, 18, 14, 24, 16, 12, 8, 7, 6, 3, 2, 7, 6, 8,
+];
 // const sampleData3 = [8, 7, 6, 3, 2, 4, 6, 8, 10, 6, 12, 15, 13, 15, 14, 13, 21, 11, 14, 10, 21, 10, 13, 10, 12, 14, 16, 14, 12, 10, 9, 8, 4, 1,];
 // const sampleData4 = [20, 18, 16, 12, 8, 10, 13, 15, 12, 6, 12, 13, 10, 18, 14, 16, 17, 15, 19, 16, 16, 14, 18, 21, 13, 15, 18, 17, 21, 11, 14, 19, 21, 17,];
 
-
 const HODDashboard = () => {
-    const [pending, setPending] = useState(0);
-    const [viewed, setViewed] = useState(0);
-    const [loading, setLoading] = useState(false);
-    const config = {
-      headers: {
-        Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
-        }`,
-      },
-    };
-  
-    useEffect(() => {
-      setLoading(true);
-      axios
-        .get(
-          `${process.env.REACT_APP_API_S_LINK}/staffrequision/hoddashboard`,
-          config
-        )
-        .then((result) => {
-          console.log(result.data);
-          setViewed(result.data.viewedCount);
-          setPending(result.data.pendingCount);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }, []);
-    let path = window.location.pathname;
-    path = path.split("/");
-    path = path[path.length - 1];
-   return (
-      <Fragment>
-            <div className="row d-none">
-                <div className="col-xl-3 col-lg-6 col-sm-6">
-                    <div className="card overflow-hidden">
-                        <div className="card-header media border-0 pb-0">
-                            <div className="media-body">
-                                <h2 className="text-black">{pending}<span className="text-success fs-14">+</span></h2>
-                                <p className="mb-0 text-black">Pending Requisition</p>
-                            </div>
-                            <svg
+  const [pending, setPending] = useState(0);
+  const [viewed, setViewed] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${
+        JSON.parse(localStorage.getItem("userDetails")).idToken
+      }`,
+    },
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(
+        `${process.env.REACT_APP_API_S_LINK}/staffrequision/hoddashboard`,
+        config
+      )
+      .then((result) => {
+        console.log(result.data);
+        setViewed(result.data.viewedCount);
+        setPending(result.data.pendingCount);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+  let path = window.location.pathname;
+  path = path.split("/");
+  path = path[path.length - 1];
+  return (
+    <Fragment>
+      <LeaveStatistic />
+      <div className="row d-none">
+        <div className="col-xl-3 col-lg-6 col-sm-6">
+          <div className="card overflow-hidden">
+            <div className="card-header media border-0 pb-0">
+              <div className="media-body">
+                <h2 className="text-black">
+                  {pending}
+                  <span className="text-success fs-14">+</span>
+                </h2>
+                <p className="mb-0 text-black">Pending Requisition</p>
+              </div>
+              <svg
                 width="55"
                 height="53"
                 viewBox="0 0 55 53"
@@ -71,24 +79,26 @@ const HODDashboard = () => {
                   fill="#3F9AE0"
                 />
               </svg>
-                        </div>
-                        <div className="card-body pt-4 p-0">
-                        {/* Sparkline Chart  */}
-                            <Sparklines data={sampleData2}>
-                                <SparklinesLine style={{ strokeWidth: 2}}  color="#3f9ae0" />
-                            </Sparklines>
-                        {/* Sparkline Chart End */}	
-                        </div>
-                    </div>
-                </div>
-                <div className="col-xl-3 col-lg-6 col-sm-6">
-                    <div className="card overflow-hidden">
-                        <div className="card-header media border-0 pb-0">
-                            <div className="media-body">
-                                <h2 className="text-black">{viewed} <span className="text-success fs-14">+</span></h2>
-                                <p className="mb-0 text-black">Finalised Requisition</p>
-                            </div>
-                            <svg
+            </div>
+            <div className="card-body pt-4 p-0">
+              {/* Sparkline Chart  */}
+              <Sparklines data={sampleData2}>
+                <SparklinesLine style={{ strokeWidth: 2 }} color="#3f9ae0" />
+              </Sparklines>
+              {/* Sparkline Chart End */}
+            </div>
+          </div>
+        </div>
+        <div className="col-xl-3 col-lg-6 col-sm-6">
+          <div className="card overflow-hidden">
+            <div className="card-header media border-0 pb-0">
+              <div className="media-body">
+                <h2 className="text-black">
+                  {viewed} <span className="text-success fs-14">+</span>
+                </h2>
+                <p className="mb-0 text-black">Finalised Requisition</p>
+              </div>
+              <svg
                 width="55"
                 height="53"
                 viewBox="0 0 55 53"
@@ -100,191 +110,23 @@ const HODDashboard = () => {
                   fill="#3F9AE0"
                 />
               </svg>
-                        </div>
-                        <div className="card-body pt-4 p-0">
-                        {/* Sparkline Chart  */}
-                            <Sparklines data={sampleData2}>
-                                <SparklinesLine style={{ strokeWidth: 2}}  color="#3f9ae0" />
-                            </Sparklines>
-                        {/* Sparkline Chart End */}	
-                        </div>
-                    </div>
-                </div>
             </div>
-            <div className="row">
-        <div className="col-md-4">
-          <div className="card">
-            <div className="card-header">
-              <h4>Leave Shortcut</h4>
-            </div>
-            <div className="card-body">
-              <ul className="shortcut-menu">
-                <li>
-                  <Link to="/new-leave" style={{ textDecoration: "none" }}>
-                    <i className="flaticon-381-add-1 mr-3"></i>
-                    <span className="nav-text-drop">New Leave</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link to="/leave-lists" style={{ textDecoration: "none" }}>
-                    <i className="flaticon-381-album-1  mr-3"></i>
-                    <span className="nav-text-drop">Pending Leaves</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link to="/leave-approval" style={{ textDecoration: "none" }}>
-                    <i className="flaticon-381-layer-1 mr-3"></i>
-                    <span className="nav-text-drop">Approval Request</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link style={{ textDecoration: "none" }} to="/supervisees">
-                    <i className="flaticon-381-sunglasses mr-3"></i>
-                    <span className="nav-text-drop">Supervisees List</span>
-                  </Link>
-                </li>
-                {/* <li>
-                  <Link
-                    to="/leave-dashboard"
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className="flaticon-381-command mr-3"></i>
-                    <span className="nav-text-drop">Leave Dashboard</span>
-                  </Link>
-                </li> */}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-4">
-          <div className="card">
-            <div className="card-header">
-              <h4>Payroll Shortcut</h4>
-            </div>
-            <div className="card-body">
-              <ul className="shortcut-menu">
-                <li>
-                  <Link
-                    className={`${path === "Payslip" ? "mm-active" : ""}`}
-                    style={{ textDecoration: "none" }}
-                    to="/Payslip"
-                  >
-                    <i className="flaticon-381-stop mr-3"></i>
-                    <span className="nav-text-drop">Payslip</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className={`${path === "P-nine" ? "mm-active" : ""}`}
-                    style={{ textDecoration: "none" }}
-                    to="/P-nine"
-                  >
-                    <i className="flaticon-381-blueprint  mr-3"></i>
-                    <span className="nav-text-drop">P9</span>
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-4">
-          <div className="card">
-            <div className="card-header">
-              <h4>Performance Appraisal Shortcut</h4>
-            </div>
-            <div className="card-body">
-              <ul className="shortcut-menu">
-                <li>
-                  <Link
-                    className={`${
-                      path === "employee-appraisal" ? "mm-active" : ""
-                    }`}
-                    to="/employee-appraisal"
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className="fa fa-ellipsis-h mr-1"></i>
-                    <span className="nav-text-drop">Employee Appraisal</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className={`${
-                      path === "supervisor-appraisal" ? "mm-active" : ""
-                    }`}
-                    to="/supervisor-appraisal"
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className="fa fa-slideshare mr-1"></i>
-                    <span className="nav-text-drop">Supervisor Appraisals</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className={`${
-                      path === "employee-moderation" ? "mm-active" : ""
-                    }`}
-                    to="/employee-moderation"
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className=" 	fa fa-delicious mr-1"></i>
-                    <span className="nav-text-drop">Employee Moderated</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className={`${
-                      path === "supervisor-moderation" ? "mm-active" : ""
-                    }`}
-                    to="/supervisor-moderation"
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className="fa fa-crosshairs mr-1"></i>
-                    <span className="nav-text-drop">Supervisor Moderated</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className={`${
-                      path === "employee-complete" ? "mm-active" : ""
-                    }`}
-                    to="/employee-complete"
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className="fa fa-first-order mr-1"></i>
-                    <span className="nav-text-drop">Employee Completed</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className={`${
-                      path === "supervisor-complete" ? "mm-active" : ""
-                    }`}
-                    to="/supervisor-complete"
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className="fa fa-empire mr-1"></i>
-                    <span className="nav-text-drop">Supervisor Completed</span>
-                  </Link>
-                </li>
-              </ul>
+            <div className="card-body pt-4 p-0">
+              {/* Sparkline Chart  */}
+              <Sparklines data={sampleData2}>
+                <SparklinesLine style={{ strokeWidth: 2 }} color="#3f9ae0" />
+              </Sparklines>
+              {/* Sparkline Chart End */}
             </div>
           </div>
         </div>
       </div>
-            
-         
-      </Fragment>
-   );
+
+      <div className="row">
+        <DashboardUI />
+      </div>
+    </Fragment>
+  );
 };
 
 export default HODDashboard;

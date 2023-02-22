@@ -3,6 +3,7 @@ import axios from "axios";
 import { Document, Page, pdfjs } from "react-pdf";
 import swal from "sweetalert";
 import "./DocumentCard.css";
+import BreadCrumb from "./BreadCrumb";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const ViewPDF = ({ pdf, prop }) => {
@@ -101,6 +102,7 @@ const ViewPDF = ({ pdf, prop }) => {
   return (
     <>
       <div className="container mt-0">
+      <BreadCrumb props={prop} backlink={"contractprobation-list"}/>
         <div className="text-center">
           <div className="filter-pagination  mt-3">
             <button

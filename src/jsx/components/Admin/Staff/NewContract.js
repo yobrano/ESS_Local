@@ -61,7 +61,7 @@ const NewContract = () => {
 
     let data = {
       EmpID: selectedEmp.value,
-      MgrID: selectedMgr.value,
+      // MgrID: selectedMgr.value,
       SupervisionTime: superVisionTime,
       DoRenew:doRenew,
       Howlong:howLong,
@@ -143,16 +143,16 @@ const NewContract = () => {
                 </div>
               </div>
 
-              <div className="col-xl-3 col-sm-6">
+              {/* <div className="col-xl-3 col-sm-6">
                 <div className="form-control1">
-                  <label htmlFor="">HOD</label>
+                  <label htmlFor="">Immediate Supervisor</label>
                   <Select
                     defaultValue={selectedMgr}
                     onChange={setSelectedMgr}
                     options={employeeList}
                   />
                 </div>
-              </div>
+              </div> */}
               <div className="col-xl-12 col-sm-6">
                 <div className="form-group">
                   <label htmlFor=""> How long have you supervised</label>

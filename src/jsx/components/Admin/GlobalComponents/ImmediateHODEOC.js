@@ -424,7 +424,7 @@ const DataTable = ({ columns, data, setSelection }) => {
   );
 };
 
-function ContractList(props) {
+function ImmediateHODEOC(props) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const config = {
@@ -439,7 +439,7 @@ function ContractList(props) {
     setLoading(true);
     axios
       .get(
-        `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/getstaffcontractlist`,
+        `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/gethodeoclist`,
         config
       )
       .then((result) => {
@@ -456,9 +456,8 @@ function ContractList(props) {
 
   const columns = useMemo(
     () => [
-
       {
-        Header: "Contract",
+        Header: "Id",
         accessor: "contractNo",
       },
       {
@@ -498,9 +497,9 @@ function ContractList(props) {
   //     setSelection,
   //   ]);
   if (selection.length === 1) {
-    // console.log(selection[0].contractNo );
+    console.log(selection[0].contractNo );
     if(selection[0].contractNo !== undefined){
-      props.history.push("/contract-card", [{ datum: selection }]);
+      props.history.push("/contract-approval-card-hod", [{ datum: selection }]);
     }
   }
 
@@ -532,4 +531,4 @@ function ContractList(props) {
     </>
   );
 }
-export default withRouter(ContractList);
+export default withRouter(ImmediateHODEOC);

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import Select from "react-select";
 import swal from "sweetalert";
+import BreadCrumb from "./BreadCrumb";
 
 const SupervisorAppraisalCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -773,7 +774,8 @@ const SupervisorAppraisalCard = (props) => {
 
   return (
     <>
-      <div className="container">
+      <div className="container0">
+      <BreadCrumb props={props} backlink={"supervisor-appraisal"}/>
         {/* <div className="row">
           <div className="col-md-2"></div>
           <div className="col-md-8"> */}

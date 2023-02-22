@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "./ExitForm.css";
 import axios from "axios";
 import swal from "sweetalert";
+import BreadCrumb from "../GlobalComponents/BreadCrumb";
 
 const ImmediateMgrProbationCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -641,6 +642,7 @@ const ImmediateMgrProbationCard = (props) => {
   }
   return (
     <>
+    <BreadCrumb props={props} backlink={"probation-list"}/>
       <h4 className="text-center">EMPLOYEE’S PROGRESS REPORT (PROBATIONARY)</h4>
       <div className="card">
         <Accordion defaultActiveKey={["0"]} alwaysOpen>

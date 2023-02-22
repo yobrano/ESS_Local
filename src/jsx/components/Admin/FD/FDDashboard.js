@@ -1,61 +1,68 @@
-import React, { Fragment, useEffect, useState} from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 //** Import Image */
 
-import {  Sparklines,  SparklinesLine,  } from "react-sparklines";
+import { Sparklines, SparklinesLine } from "react-sparklines";
 
 // import ApexchartsNegPost from './ApexNagetivePosative';
 // import ApexchartsNegPost1 from './ApexNagetivePosative1';
 import axios from "axios";
+import LeaveStatistic from "../GlobalComponents/LeaveStatistic";
+import DashboardUI from "../GlobalComponents/DashboardUI";
 
 // const sampleData1 = [8, 7, 6, 3, 2, 4, 6, 8, 12, 6, 12, 13, 10, 18, 14, 24, 16, 12, 19, 21, 16, 14, 24, 21, 13, 15, 27, 29, 21, 11, 14, 19, 21, 17,];
-const sampleData2 = [19, 21, 16, 14, 24, 21, 13, 15, 27, 29, 21, 11, 14, 19, 21, 17, 12, 6, 12, 13, 10, 18, 14, 24, 16, 12, 8, 7, 6, 3, 2, 7, 6, 8,];
+const sampleData2 = [
+  19, 21, 16, 14, 24, 21, 13, 15, 27, 29, 21, 11, 14, 19, 21, 17, 12, 6, 12, 13,
+  10, 18, 14, 24, 16, 12, 8, 7, 6, 3, 2, 7, 6, 8,
+];
 // const sampleData3 = [8, 7, 6, 3, 2, 4, 6, 8, 10, 6, 12, 15, 13, 15, 14, 13, 21, 11, 14, 10, 21, 10, 13, 10, 12, 14, 16, 14, 12, 10, 9, 8, 4, 1,];
 // const sampleData4 = [20, 18, 16, 12, 8, 10, 13, 15, 12, 6, 12, 13, 10, 18, 14, 16, 17, 15, 19, 16, 16, 14, 18, 21, 13, 15, 18, 17, 21, 11, 14, 19, 21, 17,];
 
-
 const FDDashboard = () => {
-    const [pending, setPending] = useState(0);
-    const [viewed, setViewed] = useState(0);
-    const [loading, setLoading] = useState(false);
-    const config = {
-      headers: {
-        Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
-        }`,
-      },
-    };
-  
-    useEffect(() => {
-      setLoading(true);
-      axios
-        .get(
-          `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/fddashboard`,
-          config
-        )
-        .then((result) => {
-          console.log(result.data);
-          setViewed(result.data.doneCount);
-          setPending(result.data.pendingCount);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }, []);
-   return (
-      <Fragment>
-            <div className="row d-none">
-                <div className="col-xl-3 col-lg-6 col-sm-6">
-                    <div className="card overflow-hidden">
-                        <div className="card-header media border-0 pb-0">
-                            <div className="media-body">
-                                <h2 className="text-black">{pending}<span className="text-success fs-14">+</span></h2>
-                                <p className="mb-0 text-black">Pending Requisition</p>
-                            </div>
-                            <svg
+  const [pending, setPending] = useState(0);
+  const [viewed, setViewed] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${
+        JSON.parse(localStorage.getItem("userDetails")).idToken
+      }`,
+    },
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(
+        `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/fddashboard`,
+        config
+      )
+      .then((result) => {
+        console.log(result.data);
+        setViewed(result.data.doneCount);
+        setPending(result.data.pendingCount);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+  return (
+    <Fragment>
+      <div className="row d-none">
+        <div className="col-xl-3 col-lg-6 col-sm-6">
+          <div className="card overflow-hidden">
+            <div className="card-header media border-0 pb-0">
+              <div className="media-body">
+                <h2 className="text-black">
+                  {pending}
+                  <span className="text-success fs-14">+</span>
+                </h2>
+                <p className="mb-0 text-black">Pending Requisition</p>
+              </div>
+              <svg
                 width="55"
                 height="53"
                 viewBox="0 0 55 53"
@@ -67,24 +74,26 @@ const FDDashboard = () => {
                   fill="#3F9AE0"
                 />
               </svg>
-                        </div>
-                        <div className="card-body pt-4 p-0">
-                        {/* Sparkline Chart  */}
-                            <Sparklines data={sampleData2}>
-                                <SparklinesLine style={{ strokeWidth: 2}}  color="#3f9ae0" />
-                            </Sparklines>
-                        {/* Sparkline Chart End */}	
-                        </div>
-                    </div>
-                </div>
-                <div className="col-xl-3 col-lg-6 col-sm-6">
-                    <div className="card overflow-hidden">
-                        <div className="card-header media border-0 pb-0">
-                            <div className="media-body">
-                                <h2 className="text-black">{viewed} <span className="text-success fs-14">+</span></h2>
-                                <p className="mb-0 text-black">Viewed Requisition</p>
-                            </div>
-                            <svg
+            </div>
+            <div className="card-body pt-4 p-0">
+              {/* Sparkline Chart  */}
+              <Sparklines data={sampleData2}>
+                <SparklinesLine style={{ strokeWidth: 2 }} color="#3f9ae0" />
+              </Sparklines>
+              {/* Sparkline Chart End */}
+            </div>
+          </div>
+        </div>
+        <div className="col-xl-3 col-lg-6 col-sm-6">
+          <div className="card overflow-hidden">
+            <div className="card-header media border-0 pb-0">
+              <div className="media-body">
+                <h2 className="text-black">
+                  {viewed} <span className="text-success fs-14">+</span>
+                </h2>
+                <p className="mb-0 text-black">Viewed Requisition</p>
+              </div>
+              <svg
                 width="55"
                 height="53"
                 viewBox="0 0 55 53"
@@ -96,22 +105,23 @@ const FDDashboard = () => {
                   fill="#3F9AE0"
                 />
               </svg>
-                        </div>
-                        <div className="card-body pt-4 p-0">
-                        {/* Sparkline Chart  */}
-                            <Sparklines data={sampleData2}>
-                                <SparklinesLine style={{ strokeWidth: 2}}  color="#3f9ae0" />
-                            </Sparklines>
-                        {/* Sparkline Chart End */}	
-                        </div>
-                    </div>
-                </div>
             </div>
-        
-            
-         
-      </Fragment>
-   );
+            <div className="card-body pt-4 p-0">
+              {/* Sparkline Chart  */}
+              <Sparklines data={sampleData2}>
+                <SparklinesLine style={{ strokeWidth: 2 }} color="#3f9ae0" />
+              </Sparklines>
+              {/* Sparkline Chart End */}
+            </div>
+          </div>
+        </div>
+      </div>
+      <LeaveStatistic />
+      <div className="row">
+        <DashboardUI />
+      </div>
+    </Fragment>
+  );
 };
 
 export default FDDashboard;

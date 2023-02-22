@@ -41,15 +41,16 @@ const DashboardUI = () => {
                   <span className="nav-text-drop">Supervisees List</span>
                 </Link>
               </li>
-              {/* <li>
+              <li className={`${path === "HR-dashboard" ? "" : "d-none"}`}>
                   <Link
                     to="/leave-dashboard"
                     style={{ textDecoration: "none" }}
+                    className="dui-a"
                   >
                     <i className="flaticon-381-command mr-3"></i>
                     <span className="nav-text-drop">Leave Dashboard</span>
                   </Link>
-                </li> */}
+                </li>
             </ul>
           </div>
         </div>

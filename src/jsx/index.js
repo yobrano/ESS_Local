@@ -138,6 +138,10 @@ import ImmediateMgrProbationCard from "./components/Admin/Staff/ImmediateMgrProb
 import ContProbDocumentList from "./components/Admin/GlobalComponents/ContProbDocumentList";
 import ContProbDocumentCard from "./components/Admin/GlobalComponents/ContProbDocumentCard";
 import ContProbDocumentListHR from "./components/Admin/GlobalComponents/ContProbDocumentListHR";
+import ImmediateHODEOC from "./components/Admin/GlobalComponents/ImmediateHODEOC";
+import ImmediateHODEOCCard from "./components/Admin/GlobalComponents/ImmediateHODEOCCard";
+import ImmediateHODPROBCard from "./components/Admin/GlobalComponents/ImmediateHODPROBCard";
+import ImmediateHODPROB from "./components/Admin/GlobalComponents/ImmediateHODPROB";
 
 // import Landing from './pages/Landing'
 
@@ -233,6 +237,9 @@ const Markup = () => {
     { url: "HR-probation-contract", component:ContProbDocumentListHR, usr: "HR" },
     { url: "contractprobation-list", component:ContProbDocumentList, usr: "HR" },
     { url: "contract-probation-display", component:ContProbDocumentCard, usr: "HR" },
+    { url: "Contract", component:NewContract, usr: "HR" },
+    { url: "contract-list", component:ContractList, usr: "HR" },
+    { url: "contract-card", component:ContractCard, usr: "HR" },
 
   ];
 
@@ -263,6 +270,7 @@ const Markup = () => {
     { url: "HR-probation-card", component:HRProbationCard ,usr:"HEAD-HR" },
     { url: "immediate-probation-list", component:ImmediateMgrProbationList, usr: "HEAD-HR" },
     { url: "immediate-probation-card", component:ImmediateMgrProbationCard, usr: "HEAD-HR" },
+
 
     { url: "HR-contract", component:HRHEADContractList ,usr:"HEAD-HR" },
     { url: "HR-contract-card", component:HRContractCard ,usr:"HEAD-HR" },
@@ -319,6 +327,13 @@ const Markup = () => {
     { url: "HR-probation-contract", component:ContProbDocumentListHR, usr: "HEAD-HR" },
     { url: "contractprobation-list", component:ContProbDocumentList, usr: "HEAD-HR" },
     { url: "contract-probation-display", component:ContProbDocumentCard, usr: "HEAD-HR" },
+    //21/02/23
+    { url: "Contract", component:NewContract, usr: "HEAD-HR" },
+    { url: "contract-list", component:ContractList, usr: "HEAD-HR" },
+    { url: "contract-card", component:ContractCard, usr: "HEAD-HR" },
+    { url: "new-probation", component:NewProbation, usr: "HEAD-HR" },
+    { url: "probation-list", component:ProbationList, usr: "HEAD-HR" },
+    { url: "probation-card", component:ProbationCard, usr: "HEAD-HR" },
   ];
   //Job Seeker
   const routes2=[
@@ -400,6 +415,11 @@ const Markup = () => {
     { url: "contractprobation-list", component:ContProbDocumentList, usr: "HOD" },
     { url: "contract-probation-display", component:ContProbDocumentCard, usr: "HOD" },
 
+    { url: "contract-approval-hod", component:ImmediateHODEOC, usr: "HOD" },
+    { url: "contract-approval-card-hod", component:ImmediateHODEOCCard, usr: "HOD" },
+    { url: "probation-approval-hod", component:ImmediateHODPROB, usr: "HOD" },
+    { url: "probation-approval-card-hod", component:ImmediateHODPROBCard, usr: "HOD" },
+
   ];
   //HOD-ADMIN
   const routes6 = [
@@ -474,6 +494,12 @@ const Markup = () => {
     //from 01/02/23
     { url: "contractprobation-list", component:ContProbDocumentList, usr: "HOD-ADMIN" },
     { url: "contract-probation-display", component:ContProbDocumentCard, usr: "HOD-ADMIN" },
+
+    { url: "contract-approval-hod", component:ImmediateHODEOC, usr: "HOD-ADMIN" },
+    { url: "contract-approval-card-hod", component:ImmediateHODEOCCard, usr: "HOD-ADMIN" },
+    { url: "probation-approval-hod", component:ImmediateHODPROB, usr: "HOD-ADMIN" },
+    { url: "probation-approval-card-hod", component:ImmediateHODPROBCard, usr: "HOD-ADMIN" },
+
   ];
   //HOD-ICT
   const routes7 = [
@@ -547,6 +573,12 @@ const Markup = () => {
          //from 01/02/23
     { url: "contractprobation-list", component:ContProbDocumentList, usr: "HOD-ICT" },
     { url: "contract-probation-display", component:ContProbDocumentCard, usr: "HOD-ICT" },
+
+    { url: "contract-approval-hod", component:ImmediateHODEOC, usr: "HOD-ICT" },
+    { url: "contract-approval-card-hod", component:ImmediateHODEOCCard, usr: "HOD-ICT" },
+    { url: "probation-approval-hod", component:ImmediateHODPROB, usr: "HOD-ICT" },
+    { url: "probation-approval-card-hod", component:ImmediateHODPROBCard, usr: "HOD-ICT" },
+
   ];
   //HOD-HR
   const routes8 = [
@@ -623,6 +655,11 @@ const Markup = () => {
     { url: "contractprobation-list", component:ContProbDocumentList, usr: "HOD-HR" },
     { url: "contract-probation-display", component:ContProbDocumentCard, usr: "HOD-HR" },
 
+    { url: "contract-approval-hod", component:ImmediateHODEOC, usr: "HOD-HR" },
+    { url: "contract-approval-card-hod", component:ImmediateHODEOCCard, usr: "HOD-HR" },
+    { url: "probation-approval-hod", component:ImmediateHODPROB, usr: "HOD-HR" },
+    { url: "probation-approval-card-hod", component:ImmediateHODPROBCard, usr: "HOD-HR" },
+
   ];
   //HOD-FIN
   const routes9 = [
@@ -698,6 +735,12 @@ const Markup = () => {
     //from 01/02/23
     { url: "contractprobation-list", component:ContProbDocumentList, usr: "HOD-FIN" },
     { url: "contract-probation-display", component:ContProbDocumentCard, usr: "HOD-FIN" },
+
+    { url: "contract-approval-hod", component:ImmediateHODEOC, usr: "HOD-FIN" },
+    { url: "contract-approval-card-hod", component:ImmediateHODEOCCard, usr: "HOD-FIN" },
+    { url: "probation-approval-hod", component:ImmediateHODPROB, usr: "HOD-FIN" },
+    { url: "probation-approval-card-hod", component:ImmediateHODPROBCard, usr: "HOD-FIN" },
+
   ];
   //FD
   const routes10 = [
@@ -705,7 +748,7 @@ const Markup = () => {
     { url: "FD-dashboard", component:FDDashboard, usr: "FD" },
     { url: "FD-probation", component: FDProbationList,usr:"FD" },
     { url: "FD-probation-card", component: FDProbationCard,usr:"FD" },
-    { url: "FD-contract-card", component: FDContractCard,usr:"FD" },
+    { url: "FD-contract-card", component: MDContractCard,usr:"FD" },
     { url: "FD-approvals", component: FDContractList,usr:"FD" },
 
 

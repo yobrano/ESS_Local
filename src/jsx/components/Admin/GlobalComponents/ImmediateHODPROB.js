@@ -424,7 +424,7 @@ const DataTable = ({ columns, data, setSelection }) => {
   );
 };
 
-function ContractList(props) {
+function ImmediateHODPROB(props) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const config = {
@@ -439,12 +439,12 @@ function ContractList(props) {
     setLoading(true);
     axios
       .get(
-        `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/getstaffcontractlist`,
+        `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/getprobationlistimmediatemanager`,
         config
       )
       .then((result) => {
         console.log(result.data);
-        setData(result.data.employeeContracts);
+        setData(result.data.employeeEndofs);
       })
       .catch((err) => {
         console.log(err);
@@ -456,11 +456,6 @@ function ContractList(props) {
 
   const columns = useMemo(
     () => [
-
-      {
-        Header: "Contract",
-        accessor: "contractNo",
-      },
       {
         Header: "Employee",
         accessor: "empName",
@@ -469,14 +464,14 @@ function ContractList(props) {
         Header: "Emp ID",
         accessor: "empID",
       },
-      // {
-      //   Header: "Department",
-      //   accessor: "department",
-      // },
-      // {
-      //   Header: "Position",
-      //   accessor: "position",
-      // },
+      {
+        Header: "Department",
+        accessor: "department",
+      },
+      {
+        Header: "Position",
+        accessor: "position",
+      },
       {
         Header: "Creation Date",
         accessor: "creationDate",
@@ -498,9 +493,9 @@ function ContractList(props) {
   //     setSelection,
   //   ]);
   if (selection.length === 1) {
-    // console.log(selection[0].contractNo );
-    if(selection[0].contractNo !== undefined){
-      props.history.push("/contract-card", [{ datum: selection }]);
+    console.log(selection[0].probationNo );
+    if(selection[0].probationNo !== undefined){
+      props.history.push("/immediate-probation-card", [{ datum: selection }]);
     }
   }
 
@@ -532,4 +527,4 @@ function ContractList(props) {
     </>
   );
 }
-export default withRouter(ContractList);
+export default withRouter(ImmediateHODPROB);

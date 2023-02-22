@@ -123,6 +123,7 @@ const ProbationCard = (props) => {
   const [probationTime, setProbationTime] = useState("");
   const [skills, setSkills] = useState("");
 
+  const [immediateStatus,setImmediateStatus] = useState(false)
   useEffect(() => {
     const config = {
       headers: {
@@ -154,6 +155,10 @@ const ProbationCard = (props) => {
   }, []);
 
   const updateCard = (e) => {
+    // if(managerRemark.length == 0){
+    //   setImmediateStatus(true)
+    //   return;
+    // }
     e.preventDefault();
     const config = {
       headers: {
@@ -172,7 +177,7 @@ const ProbationCard = (props) => {
       .then((willCreate) => {
         if (willCreate) {
           return axios.get(
-            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/moveprobationfromhodtomanger/${props.location.state[0].datum[0].probationNo}`,
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/moveprobationfromsupervisortohod/${props.location.state[0].datum[0].probationNo}`,
             // data,
             config
           );
@@ -2019,6 +2024,9 @@ const ProbationCard = (props) => {
 
                 <div className="col-md-12">
                   <div className="form-group">
+                  <label foo="">
+                    <b> Immediate Supervisor Ramark</b>
+                    </label>
                     <textarea
                       className="w-100 form-control"
                       name="recommendationSectionComment"
@@ -2066,13 +2074,13 @@ const ProbationCard = (props) => {
             <Accordion.Header>
               <div className="title mb-4">
                 <span className="fs-18 text-black font-w600">
-                 Immediate Manager, HR, MD/FD Section
+                HR, MD/FD Section
                 </span>
               </div>
             </Accordion.Header>
             <Accordion.Body>
               <div className="row">
-              <div className="col-md-12">
+              {/* <div className="col-md-12">
                   <div className="form-group">
                     <label foo="">
                       Immediate Manager
@@ -2085,8 +2093,13 @@ const ProbationCard = (props) => {
                       value={managerRemark}
                       onChange={(e) => setManagerRemark(e.target.value)}
                     ></textarea>
+                      {immediateStatus && (
+                            <div className="text-danger fs-12">
+                              This field is Mandatory
+                            </div>
+                          )}
                   </div>
-                </div>
+                </div> */}
                 <div className="col-md-6">
                   <div className="form-group">
                     <label foo="">

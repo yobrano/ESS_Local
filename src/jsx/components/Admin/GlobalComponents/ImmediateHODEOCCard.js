@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Accordion, Button, Collapse } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import DatePicker from "react-datepicker";
-import "./ExitForm.css";
+import "../HR/ExitForm.css";
 import axios from "axios";
 import swal from "sweetalert";
 
-const HRContractCard = (props) => {
+const ImmediateHODEOCCard = (props) => {
   const [loading, setLoading] = useState(true);
 
   const [outstanding, setOutstanding] = useState(false);
@@ -138,7 +138,8 @@ const HRContractCard = (props) => {
   const [endDate, setEndDate] = useState(new Date());
   const [newSalary, setNewSalary] = useState("");
 
-  const [hodComment,setHODComment] = useState("");
+  const [hodComment,setHODComment]=useState("");
+  const [hodCommentStatus,setHodCommentStatus] = useState(false)
 
   const toggleCollapse = (from) => {
     switch (from) {
@@ -402,8 +403,6 @@ const HRContractCard = (props) => {
             response.data.probationFirstList[0].empRecTerminate
           );
 
-          setHODComment(props.location.state[0].datum[0].hodComment)
-
           setLoading(false);
         }
         if (response.status === 404) {
@@ -417,8 +416,12 @@ const HRContractCard = (props) => {
       });
   }, []);
 
-  const pushToMDFD = (e) => {
+  const pushToHR = (e) => {
     e.preventDefault();
+    if(hodComment.length == 0){
+      setHodCommentStatus(true)
+      return;
+    }
     const config = {
       headers: {
         Authorization: `Bearer ${
@@ -428,7 +431,8 @@ const HRContractCard = (props) => {
     };
 
     let data = {
-      HRcomment: hrRemark,
+      ContractNo: props.location.state[0].datum[0].contractNo,
+      HODComment: hodComment,
     };
 
     swal({
@@ -441,7 +445,7 @@ const HRContractCard = (props) => {
         if (willCreate) {
           setDisableBtn(true);
           return axios.post(
-            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/hrpushcontracttomdfd/${props.location.state[0].datum[0].contractNo}`,
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/v1/movecontractfromhodtohr`,
             data,
             config
           );
@@ -716,52 +720,18 @@ const HRContractCard = (props) => {
   let btnUP = "";
   let sectionOne = "";
   if (props.location.state[0].datum[0].status === "Open") {
-    if (props.location.state[0].datum[0].contractStatus === 4) {
-      btnUP = (
-        // <button
-        //   className="btn btn-success"
-        //   onClick={HRApprovedProbation}
-        //   disabled={disableBtn}
-        // >
-        //   Approve
-        // </button>
-        <>
-          <Button
-            className="btn btn-success rounded-0 w-100"
-            onClick={() => toggleCollapse("renewal")}
-            aria-controls="example-collapse-text"
-            aria-expanded={renewalF}
-          >
-            Renewal <i className="fa fa-check"></i>
-          </Button>
-          <Button
-            className="btn btn-danger rounded-0 w-100"
-            onClick={() => toggleCollapse("nonrenewal")}
-            aria-controls="example-collapse-text"
-            aria-expanded={nonRenewalF}
-          >
-            Non-Renewal <i className="fa fa-times"></i>
-          </Button>
-        </>
-      );
-    } else {
+    
       btnUP = (
         <button
           className="btn btn-success"
-          onClick={pushToMDFD}
+          onClick={pushToHR}
           disabled={disableBtn}
         >
-          Push to MD/FD
+          Push the Form
         </button>
       );
-    }
-
-    // sectionOne=(
-    //   <button className="btn btn-warning" onClick={uploadFirstSegmentCard}>
-    //   Upload this section
-    //  </button>
-    // );
-  } else if (props.location.state[0].datum[0].status === "Approved") {
+    
+  } else {
     btnUP = (
       <button className="btn btn-secondary">Form Approved Already</button>
     );
@@ -1311,7 +1281,6 @@ const HRContractCard = (props) => {
 
                 <div className="col-md-12">
                   <div className="form-group">
-                  <label foo=""><b>Immediate Supervisor Comment</b> </label>
                     <textarea
                       className="w-100 form-control"
                       name="recommendationSectionComment"
@@ -1346,23 +1315,30 @@ const HRContractCard = (props) => {
             <Accordion.Header>
               <div className="title mb-4">
                 <span className="fs-18 text-black font-w600">
-                 HOD, Human Resource and MD/FD Section
+                  HOD,Human Resource and MD/FD Section
                 </span>
               </div>
             </Accordion.Header>
             <Accordion.Body>
               <div className="row">
-              <div className="col-md-6">
+                 <div className="col-md-12">
                   <div className="form-group">
-                    <label foo="">HOD Remark</label>
+                    <label foo="">
+                      <b> HOD Comment</b>
+                    </label>
                     <textarea
                       className="w-100 form-control"
-                      name="hrRemark"
+                      name="managerRemark"
                       rows="2"
                       placeholder="Summary 240 characters"
                       value={hodComment}
-                      disabled={true}
+                      onChange={(e) => setHODComment(e.target.value)}
                     ></textarea>
+                      {hodCommentStatus && (
+                            <div className="text-danger fs-12">
+                              This field is Mandatory
+                            </div>
+                          )}
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -1409,112 +1385,8 @@ const HRContractCard = (props) => {
         </Accordion>
         <div className="card-footer">
           <div className="row">
-            <div className="col-md-3"></div>
-            <div className="col-md-9">
-              <div className="d-flex">
-
-              {btnUP}
-              </div>
-            </div>
-            <div className="col-md-12 mt-3">
-              <Collapse in={nonRenewalF}>
-                <div id="example-collapse-text">
-                  <div className="row">
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label htmlFor="">Termination Date</label>
-                        <DatePicker
-                          name="terminationDate"
-                          selected={terminationDate}
-                          onChange={(date) => setTerminationDate(date)}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="col-12">
-                      <button
-                        className="btn btn-danger rounded-0 w-100"
-                        onClick={NONRenewal}
-                      >
-                        Non Renewal <i className="fa fa-times"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </Collapse>
-
-              <Collapse in={renewalF}>
-                <div id="example-collapse-text">
-                  <div className="row">
-                    <div className="col-md-6">
-                      <label htmlFor="">Renewal Time</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="renewalTime"
-                        value={renewalTime}
-                        onChange={(e) => setRenewalTime(e.target.value)}
-                        placeholder="1 Year"
-                      />
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label htmlFor="">Commencement Date</label>
-                        {/* <label htmlFor="">Contracted Date</label> */}
-                        <DatePicker
-                          name="contractedDate"
-                          selected={contractedDate}
-                          onChange={(date) => setContractedDate(date)}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label htmlFor="">Start Date</label>
-                        <DatePicker
-                          name="startDate"
-                          selected={startDate}
-                          onChange={(date) => setStartDate(date)}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label htmlFor="">End Date</label>
-                        <DatePicker
-                          name="endDate"
-                          selected={endDate}
-                          onChange={(date) => setEndDate(date)}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label htmlFor="">New Salary</label>
-                        <input
-                        type="number"
-                        className="form-control"
-                        name="newSalary"
-                        value={newSalary}
-                        onChange={(e) => setNewSalary(e.target.value)}
-                        placeholder="New Salary"
-                      />
-                      </div>
-                    </div>
-
-                    <div className="col-12">
-                      <button
-                        className="btn btn-success rounded-0 w-100"
-                        onClick={EndofRenewal}
-                      >
-                        Renew <i className="fa fa-check"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </Collapse>
+            <div className="col-md-12">
+            {btnUP}
             </div>
           </div>
         </div>
@@ -1523,4 +1395,4 @@ const HRContractCard = (props) => {
   );
 };
 
-export default withRouter(HRContractCard);
+export default withRouter(ImmediateHODEOCCard);

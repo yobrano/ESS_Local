@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Accordion, Button, Collapse } from "react-bootstrap";
+import { Accordion } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import DatePicker from "react-datepicker";
-import "./ExitForm.css";
+import "../HR/ExitForm.css";
 import axios from "axios";
 import swal from "sweetalert";
-import BreadCrumb from "../GlobalComponents/BreadCrumb";
+import BreadCrumb from "./BreadCrumb";
 
-const MDProbationCard = (props) => {
+const ImmediateHODPROBCard = (props) => {
   const [loading, setLoading] = useState(true);
 
   const [outstanding, setOutstanding] = useState(false);
@@ -127,22 +127,6 @@ const MDProbationCard = (props) => {
   const [datax, setDatax] = useState({});
   const [disableBtn, setDisableBtn] = useState(false);
 
-  const [extensionF, setExtensionF] = useState(false);
-  const [stage, setStage] = useState("");
-  const [stageMessage, setStageMessage] = useState("");
-
-
-  const toggleCollapse = (from) => {
-    switch (from) {
-      case "reversal":
-        setExtensionF(!extensionF);
-        break;
-
-      default:
-        setExtensionF(false);
-        break;
-    }
-  };
 
   useEffect(() => {
     const config = {
@@ -167,9 +151,6 @@ const MDProbationCard = (props) => {
           setSelectedMgr(response.data.probationFirstList[0].managername);
           setHRRemark(response.data.probationFirstList[0].hRcomment);
           setMDFDRemark(response.data.probationFirstList[0].mDcomment);
-          setManagerRemark(
-            response.data.probationFirstList[0].immediateManagerComment
-          );
 
           setOutstanding(response.data.probationFirstList[0].outstanding);
           setAboveAverage(response.data.probationFirstList[0].aboveAverage);
@@ -388,9 +369,7 @@ const MDProbationCard = (props) => {
           );
           setEmpRecConfirm(response.data.probationFirstList[0].empRecConfirm);
           setEmpRecExtProb(response.data.probationFirstList[0].empRecExtProb);
-          setEmpRecTerminate(
-            response.data.probationFirstList[0].empRecTerminate
-          );
+          setEmpRecTerminate(response.data.probationFirstList[0].empRecTerminate);
 
           setLoading(false);
         }
@@ -405,8 +384,12 @@ const MDProbationCard = (props) => {
       });
   }, []);
 
-  const ReversalAction = (e) => {
+  const pushToHR = (e) => {
     e.preventDefault();
+
+    if(managerRemark.length ===0){
+      return ;
+    }
     const config = {
       headers: {
         Authorization: `Bearer ${
@@ -416,14 +399,12 @@ const MDProbationCard = (props) => {
     };
 
     let data = {
-      ProbationStatus: parseInt(stage),
-      BackTrackingReason: stageMessage,
-      ProbationNo:props.location.state[0].datum[0].probationNo,
+      ImmediateManagerComment: managerRemark,
     };
 
     swal({
       title: "Are you sure?",
-      text: "Are you sure that you want to Reverse the Record?",
+      text: "Are you sure that you want to Push",
       icon: "warning",
       dangerMode: true,
     })
@@ -431,58 +412,7 @@ const MDProbationCard = (props) => {
         if (willCreate) {
           setDisableBtn(true);
           return axios.post(
-            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/probationreversal/`,
-            data,
-            config
-          );
-        }
-      })
-
-      .then(function (response) {
-        if (response.status === 200) {
-          console.log(response.data);
-          setDisableBtn(false);
-          swal("Success!", "Probation Record Reversed.", "success");
-        }
-        if (response.status === 404) {
-          alert(response.data.message);
-        }
-      })
-      .catch((err) => {
-        if (err.response !== undefined) {
-          swal("Oh!", err.response.data.message, "error");
-        } else {
-          swal("Oh!", err.message, "error");
-        }
-        console.log({ err: err });
-      });
-  };
-
-  const pushToMDFD = (e) => {
-    e.preventDefault();
-    const config = {
-      headers: {
-        Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
-        }`,
-      },
-    };
-
-    let data = {
-      MDcomment: MDFDRemark,
-    };
-
-    swal({
-      title: "Are you sure?",
-      text: "Are you sure that you want to Update Probation Form and Push",
-      icon: "warning",
-      dangerMode: true,
-    })
-      .then((willCreate) => {
-        if (willCreate) {
-          setDisableBtn(true);
-          return axios.post(
-            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/fdapproveprobation/${props.location.state[0].datum[0].probationNo}`,
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/immediatepushtohr/${props.location.state[0].datum[0].probationNo}`,
             data,
             config
           );
@@ -506,6 +436,7 @@ const MDProbationCard = (props) => {
           swal("Oh!", err.message, "error");
         }
         console.log({ err: err });
+        setDisableBtn(false);
       });
   };
 
@@ -667,10 +598,10 @@ const MDProbationCard = (props) => {
     btnUP = (
       <button
         className="btn btn-success"
-        onClick={pushToMDFD}
+        onClick={pushToHR}
         disabled={disableBtn}
       >
-        Approve
+        Comment and Push
       </button>
     );
     sectionOne = (
@@ -711,8 +642,7 @@ const MDProbationCard = (props) => {
   }
   return (
     <>
-    <BreadCrumb props={props} backlink={"MD-probation"}/>
-    
+    <BreadCrumb props={props} backlink={"probation-list"}/>
       <h4 className="text-center">EMPLOYEE’S PROGRESS REPORT (PROBATIONARY)</h4>
       <div className="card">
         <Accordion defaultActiveKey={["0"]} alwaysOpen>
@@ -2182,9 +2112,9 @@ const MDProbationCard = (props) => {
                         type="checkbox"
                         name="empRecConfirm"
                         id="empRecConfirm"
-                        value="true"
-                        checked={empRecConfirm === "false" ? false : true}
-                        onChange={(e) => setEmpRecConfirm(!empRecConfirm)}
+                        // value="true"
+                        checked={empRecConfirm==="false"?false:true}
+                        // onChange={(e) => setEmpRecConfirm(!empRecConfirm)}
                       />
                       <label className="form-check-label" foo="empRecConfirm">
                         Confirm
@@ -2197,9 +2127,9 @@ const MDProbationCard = (props) => {
                         type="checkbox"
                         name="empRecExtProb"
                         id="empRecExtProb"
-                        value="true"
-                        checked={empRecExtProb === "false" ? false : true}
-                        onChange={(e) => setEmpRecExtProb(!empRecExtProb)}
+                        // value="true"
+                        checked={empRecExtProb==="false"?false:true}
+                        // onChange={(e) => setEmpRecExtProb(!empRecExtProb)}
                       />
                       <label className="form-check-label" foo="empRecExtProb">
                         Extend Probation
@@ -2212,9 +2142,9 @@ const MDProbationCard = (props) => {
                         type="checkbox"
                         name="empRecTerminate"
                         id="empRecTerminate"
-                        checked={empRecTerminate === "false" ? false : true}
-                        value="true"
-                        onChange={(e) => setEmpRecTerminate(!empRecTerminate)}
+                        checked={empRecTerminate==="false"?false:true}
+                        // value="true"
+                        // onChange={(e) => setEmpRecTerminate(!empRecTerminate)}
                       />
                       <label className="form-check-label" foo="empRecTerminate">
                         Terminate
@@ -2249,13 +2179,28 @@ const MDProbationCard = (props) => {
             <Accordion.Header>
               <div className="title mb-4">
                 <span className="fs-18 text-black font-w600">
-                  Human Resource and MD/FD Section
+                  Immediate Manager Section
                 </span>
               </div>
             </Accordion.Header>
             <Accordion.Body>
               <div className="row">
-                <div className="col-md-6">
+              <div className="col-md-12">
+                  <div className="form-group">
+                    <label foo="">
+                      Immediate Manager
+                    </label>
+                    <textarea
+                      className="w-100 form-control"
+                      name="managerRemark"
+                      rows="2"
+                      placeholder="Summary 240 characters"
+                      value={managerRemark}
+                      onChange={(e) => setManagerRemark(e.target.value)}
+                    ></textarea>
+                  </div>
+                </div>
+                <div className="col-md-6 d-none">
                   <div className="form-group">
                     <label foo="">HR Remarks</label>
                     <textarea
@@ -2268,7 +2213,7 @@ const MDProbationCard = (props) => {
                     ></textarea>
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6 d-none">
                   <div className="form-group">
                     <label foo="">MD/FD Remarks</label>
                     <textarea
@@ -2283,27 +2228,12 @@ const MDProbationCard = (props) => {
                 </div>
                 <div className="col-md-12">
                   <div className="form-group">
-                    <label foo="">Immediate Manager Comment</label>
-                    <textarea
-                      className="w-100 form-control"
-                      name="managerRemark"
-                      rows="2"
-                      placeholder="Summary 240 characters"
-                      value={managerRemark}
-                      // onChange={(e) => setHRRemark(e.target.value)}
-                      disabled={true}
-                    ></textarea>
-                  </div>
-                </div>
-                <div className="col-md-12">
-                  <div className="form-group">
                     <label htmlFor=""> Action</label>
                     <button
                       className="form-control btn btn-info rounded-0"
                       onClick={viewSupportingDoc}
                     >
-                      View Supporting Document{" "}
-                      <i className="fa fa-file-pdf-o"></i>
+                      View Supporting Document <i className="fa fa-file-pdf-o"></i>
                     </button>
                   </div>
                 </div>
@@ -2313,60 +2243,8 @@ const MDProbationCard = (props) => {
         </Accordion>
         <div className="card-footer">
           <div className="text-right">
-            {btnUP}
-
-            <button
-              className="btn btn-danger mx-2"
-              onClick={() => toggleCollapse("reversal")}
-              aria-controls="example-collapse-text"
-              aria-expanded={extensionF}
-              disabled={disableBtn}
-            >
-              <i className="fa fa-repeat px-1"></i>
-              Re-verse
-            </button>
-
-            {sectionOne}
-          </div>
-
-          <div className="row">
-            <Collapse in={extensionF}>
-              <div id="example-collapse-text">
-                <div className="row">
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <label htmlFor="">Select Reversal Stage</label>
-                      <select name="stage" id=""  onChange={(e) => setStage(e.target.value)} className="form-control">
-                        <option value="">Choose Level</option>
-                        <option value="0">HOD</option>
-                        <option value="1">HR</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="col-md-8">
-                  <label foo="">Reversal Reason</label>
-                    <textarea
-                      className="w-100 form-control"
-                      name="stageMessage"
-                      rows="2"
-                      placeholder="Summary 240 characters"
-                      value={stageMessage}
-                      onChange={(e) => setStageMessage(e.target.value)}
-                      disabled={false}
-                    ></textarea>
-                  </div>
-
-                  <div className="col-12">
-                    <button
-                      className="btn btn-danger rounded-0 w-100 mt-2"
-                      onClick={ReversalAction}
-                    >
-                      Re-verse <i className="fa fa-repeat"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </Collapse>
+            {btnUP} 
+            {/* {sectionOne} */}
           </div>
         </div>
       </div>
@@ -2374,4 +2252,4 @@ const MDProbationCard = (props) => {
   );
 };
 
-export default withRouter(MDProbationCard);
+export default withRouter(ImmediateHODPROBCard);

@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "./ExitForm.css";
 import axios from "axios";
 import swal from "sweetalert";
+import BreadCrumb from "../GlobalComponents/BreadCrumb";
 
 const MDContractCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -128,6 +129,7 @@ const MDContractCard = (props) => {
   const [extensionF, setExtensionF] = useState(false);
   const [stage, setStage] = useState("");
   const [stageMessage, setStageMessage] = useState("");
+  const [hodRemark, setHodRemark] = useState("");
 
 
   const toggleCollapse = (from) => {
@@ -159,6 +161,7 @@ const MDContractCard = (props) => {
       .then(function (response) {
         if (response.status === 200) {
           console.log(response.data.probationFirstList[0]);
+          setHodRemark(props.location.state[0].datum[0].hodComment)
           setDatax(response.data.probationFirstList[0]);
           setSelectedEmp(response.data.probationFirstList[0].employeename);
           setSkills(response.data.probationFirstList[0].skill);
@@ -706,6 +709,7 @@ const MDContractCard = (props) => {
   }
   return (
     <>
+    <BreadCrumb props={props} backlink={"MD-approvals"}/>
       <h4 className="text-center">END OF CONTRACT REPORT</h4>
       <div className="card">
         <Accordion defaultActiveKey={["0"]} alwaysOpen>
@@ -1225,7 +1229,7 @@ const MDContractCard = (props) => {
 
                 <div className="col-md-12">
                   <div className="form-group">
-                    <label foo="">Additional Comment </label>
+                    <label foo=""><b>Immediate Supervisor Comment</b></label>
                     <textarea
                       className="w-100 form-control"
                       name="recommendationSectionComment"
@@ -1235,6 +1239,7 @@ const MDContractCard = (props) => {
                       onChange={(e) =>
                         setRecommendationSectionComment(e.target.value)
                       }
+                      disabled={true}
                     ></textarea>
                   </div>
                 </div>
@@ -1251,12 +1256,27 @@ const MDContractCard = (props) => {
             <Accordion.Header>
               <div className="title mb-4">
                 <span className="fs-18 text-black font-w600">
-                  Human Resource and MD/FD Section
+                HOD, Human Resource and MD/FD Section
                 </span>
               </div>
             </Accordion.Header>
             <Accordion.Body>
               <div className="row">
+              <div className="col-md-12">
+                  <div className="form-group">
+                    <label foo="">HOD Remark</label>
+                    <textarea
+                      className="w-100 form-control"
+                      name="hrRemark"
+                      rows="2"
+                      placeholder="Summary 240 characters"
+                      value={hodRemark}
+                      // onChange={(e) => setHODRemark(e.target.value)}
+                      disabled={true}
+                    ></textarea>
+                  </div>
+                </div>
+
                 <div className="col-md-6">
                   <div className="form-group">
                     <label foo="">HR Remarks</label>
@@ -1322,8 +1342,8 @@ const MDContractCard = (props) => {
                       <label htmlFor="">Select Reversal Stage</label>
                       <select name="stage" id=""  onChange={(e) => setStage(e.target.value)} className="form-control">
                         <option value="">Choose Level</option>
-                        <option value="0">HOD</option>
-                        <option value="1">HR</option>
+                        <option value="1">HOD</option>
+                        <option value="2">HR</option>
                       </select>
                     </div>
                   </div>
