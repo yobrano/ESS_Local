@@ -456,14 +456,18 @@ function ProbationList(props) {
 
   const columns = useMemo(
     () => [
+        {
+        Header: "Id",
+        accessor: "probationNo",
+      },
       {
         Header: "Employee",
         accessor: "empName",
       },
-      {
-        Header: "Emp ID",
-        accessor: "empID",
-      },
+      // {
+      //   Header: "Emp ID",
+      //   accessor: "empID",
+      // },
       // {
       //   Header: "Department",
       //   accessor: "department",

@@ -439,12 +439,12 @@ function ImmediateHODPROB(props) {
     setLoading(true);
     axios
       .get(
-        `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/getprobationlistimmediatemanager`,
+        `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/getprobationlisthod`,
         config
       )
       .then((result) => {
         console.log(result.data);
-        setData(result.data.employeeEndofs);
+        setData(result.data.employeeProbs);
       })
       .catch((err) => {
         console.log(err);
@@ -495,7 +495,7 @@ function ImmediateHODPROB(props) {
   if (selection.length === 1) {
     console.log(selection[0].probationNo );
     if(selection[0].probationNo !== undefined){
-      props.history.push("/immediate-probation-card", [{ datum: selection }]);
+      props.history.push("/probation-approval-card-hod", [{ datum: selection }]);
     }
   }
 

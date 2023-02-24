@@ -54,7 +54,7 @@ const LeaveStatistic = () => {
     );
   } else {
     leaveplaceholder = (
-      <div className="table-responsive">
+      <div className="table-responsive" style={{width: '100%'}}>
         <table
           id="example"
           className="display w-100 dataTable table"
@@ -63,19 +63,19 @@ const LeaveStatistic = () => {
         >
           <thead className="thead-light">
             <tr>
-              <th>ID</th>
-              <th>Leave Type</th>
-              <th>Leave Balance (Days)</th>
-              <th>Description</th>
+              {/* <th>ID</th> */}
+              <th style={{fontSize: "13px"}}>Leave Type</th>
+              <th style={{fontSize: "13px"}}>Balance (Days)</th>
+              {/* <th>Description</th> */}
             </tr>
           </thead>
           <tbody>
             {leaveData.map((d, i) => (
               <tr key={i}>
-                <td>{++i}</td>
-                <td>{d.value}</td>
-                <td>{d.leavebalance}</td>
-                <td>{d.label}</td>
+                {/* <td>{++i}</td> */}
+                <td style={{padding: "15px 20px"}}>{d.value}</td>
+                <td style={{padding: "15px 20px"}}>{d.leavebalance}</td>
+                {/* <td>{d.label}</td> */}
               </tr>
             ))}
           </tbody>

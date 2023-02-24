@@ -190,7 +190,7 @@ const HRProbationCard = (props) => {
           setSkills(response.data.probationFirstList[0].skill)
           setSelectedMgr(response.data.probationFirstList[0].managername)
           setHRRemark(response.data.probationFirstList[0].hRcomment)
-          setManagerRemark(response.data.probationFirstList[0].immediateManagerComment)
+          setManagerRemark(response.data.probationFirstList[0].hodComment)
           setMDFDRemark(response.data.probationFirstList[0].mDcomment)
           
         setOutstanding(response.data.probationFirstList[0].outstanding)
@@ -665,7 +665,7 @@ const HRProbationCard = (props) => {
   let btnUP = "";
   let sectionOne = "";
   if (props.location.state[0].datum[0].status === 'Open') {
-    if(props.location.state[0].datum[0].probationStatus ===3){
+    if(props.location.state[0].datum[0].probationStatus ===4){
       btnUP = (
         // <button className="btn btn-success" onClick={HRApprovedProbation} disabled={disableBtn}>
         //  Approve
@@ -2253,6 +2253,9 @@ const HRProbationCard = (props) => {
                 </div>
                 <div className="col-md-12">
                   <div className="form-group">
+                  <label foo="">
+                    <b>Immediate Supervisor Comment</b>
+                    </label>
                     <textarea
                       className="w-100 form-control"
                       name="recommendationSectionComment"
@@ -2285,7 +2288,22 @@ const HRProbationCard = (props) => {
             </Accordion.Header>
             <Accordion.Body>
               <div className="row"> 
-              
+              <div className="col-md-12">
+                  <div className="form-group">
+                    <label foo="">
+                      HOD Comment
+                    </label>
+                    <textarea
+                      className="w-100 form-control"
+                      name="managerRemark" 
+                      rows="2"
+                      placeholder="Summary 240 characters"
+                      value={managerRemark}
+                      // onChange={(e) => setHRRemark(e.target.value)}
+                      disabled={true}
+                    ></textarea>
+                  </div>
+                </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label foo="">
@@ -2316,22 +2334,7 @@ const HRProbationCard = (props) => {
                     ></textarea>
                   </div>
                 </div>
-                <div className="col-md-12">
-                  <div className="form-group">
-                    <label foo="">
-                      Immediate Manager Comment
-                    </label>
-                    <textarea
-                      className="w-100 form-control"
-                      name="managerRemark" 
-                      rows="2"
-                      placeholder="Summary 240 characters"
-                      value={managerRemark}
-                      // onChange={(e) => setHRRemark(e.target.value)}
-                      disabled={true}
-                    ></textarea>
-                  </div>
-                </div>
+              
                 <div className="col-md-12">
                   <div className="form-group">
                     <label htmlFor=""> Action</label>

@@ -1,19 +1,42 @@
 .yellow-bg {
-  background-color: #fff599 !important;
+  background-color: #3d9970  !important;
+  /* background-color: #fff599 !important; */
+}
+.yellow-bg div h4,.yellow-bg div ul li a,.yellow-bg div i{
+  color: white
 }
 
 .pink-bg {
-  background-color: #ffced7 !important;
+  background-color: #00bfff  !important;
+  /* background-color: #ffced7 !important; */
 }
+.pink-bg div h4,.pink-bg div ul li a,.pink-bg div i{
+  color: white
+}
+
 
 .green-bg {
-  background-color: #dcf9da !important;
+  background-color: #52527a !important;
+  /* background-color: #dcf9da !important; */
+}
+.green-bg div h4,.green-bg div ul li a,.green-bg div i{
+  color: white
 }
 
+
 .brown-bg {
-  background-color: #ffebcf !important;
+  background-color: #72777A !important;
+  /* background-color: #ffebcf !important; */
 }
+.brown-bg div h4,.brown-bg div ul li a,.brown-bg div i{
+  color: white
+}
+
 
 .dui-a {
   color: #585858;
+}
+
+.shortcut-menu{
+  padding-left:0rem !important;
 }

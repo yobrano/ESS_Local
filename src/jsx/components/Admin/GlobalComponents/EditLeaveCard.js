@@ -910,7 +910,7 @@ const handlePushChecklistClick = (index) => {
                         <input
                           // parseInt(x3.kalue.replace(/\,/g,''))
                           type="number"
-                          // step="0.01"
+                          step="0.1"
                           className="form-control "
                           // placeholder="Balance Days"
                           name="balDays"

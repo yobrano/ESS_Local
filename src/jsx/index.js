@@ -957,6 +957,7 @@ const Markup = () => {
     // { url: "leave-lists", component:"", usr: "NORMAL" },
     // 
     { url: "new-probation", component:NewProbation, usr: "NORMAL" },
+    { url: "probation-list", component:ProbationList, usr: "NORMAL" },
     { url: "immediate-probation-list", component:ImmediateMgrProbationList, usr: "NORMAL" },
     { url: "immediate-probation-card", component:ImmediateMgrProbationCard, usr: "NORMAL" },
     { url: "exit-interview", component:ExitForm, usr: "NORMAL" },
@@ -1010,6 +1011,7 @@ const Markup = () => {
     //from 01/02/23
     { url: "contractprobation-list", component:ContProbDocumentList, usr: "NORMAL" },
     { url: "contract-probation-display", component:ContProbDocumentCard, usr: "NORMAL" },
+    { url: "probation-card", component:ProbationCard, usr: "NORMAL" },
   ];
 
 

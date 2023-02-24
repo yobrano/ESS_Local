@@ -9685,7 +9685,7 @@ a {
   position: relative;
   padding: 0rem;
   background-color: #ffffff;
-  z-index: 3;
+  z-index: 4;
   padding-left: 21.563rem;
   transition: all .2s ease; }
   @media only screen and (max-width: 1400px) {

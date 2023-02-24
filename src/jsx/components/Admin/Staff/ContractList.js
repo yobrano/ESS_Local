@@ -439,12 +439,12 @@ function ContractList(props) {
     setLoading(true);
     axios
       .get(
-        `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/getstaffcontractlist`,
+        `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/v1/getstaffcontractlist`,
         config
       )
       .then((result) => {
         console.log(result.data);
-        setData(result.data.employeeContracts);
+        setData(result.data.eoCs);
       })
       .catch((err) => {
         console.log(err);

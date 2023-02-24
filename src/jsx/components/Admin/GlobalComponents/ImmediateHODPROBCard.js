@@ -399,7 +399,7 @@ const ImmediateHODPROBCard = (props) => {
     };
 
     let data = {
-      ImmediateManagerComment: managerRemark,
+      HODComment: managerRemark,
     };
 
     swal({
@@ -412,7 +412,7 @@ const ImmediateHODPROBCard = (props) => {
         if (willCreate) {
           setDisableBtn(true);
           return axios.post(
-            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/immediatepushtohr/${props.location.state[0].datum[0].probationNo}`,
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/hodpushtohr/${props.location.state[0].datum[0].probationNo}`,
             data,
             config
           );
@@ -642,7 +642,7 @@ const ImmediateHODPROBCard = (props) => {
   }
   return (
     <>
-    <BreadCrumb props={props} backlink={"probation-list"}/>
+    <BreadCrumb props={props} backlink={"probation-approval-hod"}/>
       <h4 className="text-center">EMPLOYEE’S PROGRESS REPORT (PROBATIONARY)</h4>
       <div className="card">
         <Accordion defaultActiveKey={["0"]} alwaysOpen>
@@ -2154,6 +2154,9 @@ const ImmediateHODPROBCard = (props) => {
                 </div>
                 <div className="col-md-12">
                   <div className="form-group">
+                  <label foo="">
+                    <b>Immediate Supervisor Comment</b>
+                    </label>
                     <textarea
                       className="w-100 form-control"
                       name="recommendationSectionComment"
@@ -2179,7 +2182,7 @@ const ImmediateHODPROBCard = (props) => {
             <Accordion.Header>
               <div className="title mb-4">
                 <span className="fs-18 text-black font-w600">
-                  Immediate Manager Section
+                  HOD Section
                 </span>
               </div>
             </Accordion.Header>
@@ -2188,7 +2191,7 @@ const ImmediateHODPROBCard = (props) => {
               <div className="col-md-12">
                   <div className="form-group">
                     <label foo="">
-                      Immediate Manager
+                      HOD Comment
                     </label>
                     <textarea
                       className="w-100 form-control"

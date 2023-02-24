@@ -167,9 +167,7 @@ const MDProbationCard = (props) => {
           setSelectedMgr(response.data.probationFirstList[0].managername);
           setHRRemark(response.data.probationFirstList[0].hRcomment);
           setMDFDRemark(response.data.probationFirstList[0].mDcomment);
-          setManagerRemark(
-            response.data.probationFirstList[0].immediateManagerComment
-          );
+          setManagerRemark(response.data.probationFirstList[0].hodComment);
 
           setOutstanding(response.data.probationFirstList[0].outstanding);
           setAboveAverage(response.data.probationFirstList[0].aboveAverage);
@@ -2224,6 +2222,9 @@ const MDProbationCard = (props) => {
                 </div>
                 <div className="col-md-12">
                   <div className="form-group">
+                  <label foo="">
+                      <b>Immediate Supervisor Comment</b>
+                    </label>
                     <textarea
                       className="w-100 form-control"
                       name="recommendationSectionComment"
@@ -2255,6 +2256,22 @@ const MDProbationCard = (props) => {
             </Accordion.Header>
             <Accordion.Body>
               <div className="row">
+              <div className="col-md-12">
+                  <div className="form-group">
+                    <label foo="">
+                      HOD Comment
+                    </label>
+                    <textarea
+                      className="w-100 form-control"
+                      name="managerRemark" 
+                      rows="2"
+                      placeholder="Summary 240 characters"
+                      value={managerRemark}
+                      // onChange={(e) => setHRRemark(e.target.value)}
+                      disabled={true}
+                    ></textarea>
+                  </div>
+                </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label foo="">HR Remarks</label>
@@ -2281,20 +2298,7 @@ const MDProbationCard = (props) => {
                     ></textarea>
                   </div>
                 </div>
-                <div className="col-md-12">
-                  <div className="form-group">
-                    <label foo="">Immediate Manager Comment</label>
-                    <textarea
-                      className="w-100 form-control"
-                      name="managerRemark"
-                      rows="2"
-                      placeholder="Summary 240 characters"
-                      value={managerRemark}
-                      // onChange={(e) => setHRRemark(e.target.value)}
-                      disabled={true}
-                    ></textarea>
-                  </div>
-                </div>
+              
                 <div className="col-md-12">
                   <div className="form-group">
                     <label htmlFor=""> Action</label>
@@ -2338,8 +2342,8 @@ const MDProbationCard = (props) => {
                       <label htmlFor="">Select Reversal Stage</label>
                       <select name="stage" id=""  onChange={(e) => setStage(e.target.value)} className="form-control">
                         <option value="">Choose Level</option>
-                        <option value="0">HOD</option>
-                        <option value="1">HR</option>
+                        <option value="1">HOD</option>
+                        <option value="2">HR</option>
                       </select>
                     </div>
                   </div>
