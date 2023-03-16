@@ -128,42 +128,56 @@ const ContractCard = (props) => {
   const [superVisionTime, setSuperVisionTime] = useState("");
 
   const [immediateStatus,setImmediateStatus] = useState(false)
+
+  //Additional Fields
+  const [jobTitle, setJobTitle] = useState("");
+  const [branch, setBranch] = useState("");
+  const [product, setProduct] = useState("");
+  const [employmentYear, setEmploymentYear] = useState("");
+  const [yearsOfService, setYearsOfService] = useState("");
+
   useEffect(() => {
-    // const config = {
-    //   headers: {
-    //     Authorization: `Bearer ${
-    //       JSON.parse(localStorage.getItem("userDetails")).idToken
-    //     }`,
-    //   },
-    // };
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
 
-    // axios
-    //   .get(
-    //     `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/getprobationcard/${props.location.state[0].datum[0].probationno}`,
-    //     config
-    //   )
-    //   .then(function (response) {
-    //     if (response.status === 200) {
-    //       console.log(response.data);
+    axios
+      .get(
+        `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/geteocgeneralcard/${props.location.state[0].datum[0].contractNo}`,
+        config
+      )
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          setSuperVisionTime(props.location.state[0].datum[0].supervisionTime)
+          setDoRenew(props.location.state[0].datum[0].doRenew)
+          setHowlong(props.location.state[0].datum[0].howlong)
+          setRenewReason(props.location.state[0].datum[0].renewReason)
 
-    //       setLoading(false);
-    //     }
-    //     if (response.status === 404) {
-    //       swal("Oh!", response.data.message, "error");
-    //       console.log(response.data.message);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log({ err: err });
-    //     swal("Oh!", err.data.message, "error");
-    //   });
-        setSuperVisionTime(props.location.state[0].datum[0].supervisionTime)
-        setDoRenew(props.location.state[0].datum[0].doRenew)
-        setHowlong(props.location.state[0].datum[0].howlong)
-        setRenewReason(props.location.state[0].datum[0].renewReason)
-        setTimeout(() => {
+          setJobTitle(response.data.employeeEndofForms[0].jobtitle)
+          setBranch(response.data.employeeEndofForms[0].branch)
+          setProduct(response.data.employeeEndofForms[0].product)
+          setEmploymentYear(response.data.employeeEndofForms[0].employmentyear)
+          setYearsOfService(response.data.employeeEndofForms[0].tenureofservice)
+          // setTimeout(() => {
+          //   setLoading(false);
+          // }, 500);
           setLoading(false);
-        }, 500);
+        }
+        if (response.status === 404) {
+          swal("Oh!", response.data.message, "error");
+          console.log(response.data.message);
+        }
+      })
+      .catch((err) => {
+        console.log({ err: err });
+        swal("Oh!", err.data.message, "error");
+      });
+
   }, []);
 
   const updateCard = (e) => {
@@ -579,7 +593,7 @@ const ContractCard = (props) => {
             </Accordion.Header>
             <Accordion.Body>
               <div className="row">
-                <div className="col-md-6">
+                <div className="col-md-4">
                   <div className="form-group">
                     <label htmlFor="">Employee Number</label>
                     <input
@@ -590,13 +604,68 @@ const ContractCard = (props) => {
                     />
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-4">
                   <div className="form-group">
                     <label htmlFor="">Employee Name</label>
                     <input
                       type="text"
                       className="form-control"
                       value={props.location.state[0].datum[0].empName}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Job Title</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={jobTitle}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Branch</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={branch}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Product</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={product}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Year of Employment</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={employmentYear}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Tenure of Service</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={yearsOfService}
                       disabled
                     />
                   </div>

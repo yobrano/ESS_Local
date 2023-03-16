@@ -142,6 +142,14 @@ const HRProbationCard = (props) => {
   //Non-Confirmation Fields
   const [constractEndDate, setContractEndDate] = useState(new Date());
 
+  
+      //Additional Fields
+      const [jobTitle, setJobTitle] = useState("");
+      const [branch, setBranch] = useState("");
+      const [product, setProduct] = useState("");
+      const [employmentYear, setEmploymentYear] = useState("");
+      const [yearsOfService, setYearsOfService] = useState("");
+
   const toggleCollapse = (from) => {
     switch (from) {
       case "extend":
@@ -186,6 +194,13 @@ const HRProbationCard = (props) => {
         if (response.status === 200) {
           console.log(response.data.probationFirstList[0]);
           setDatax(response.data.probationFirstList[0])
+
+          setJobTitle(response.data.probationFirstList[0].jobtitle)
+          setBranch(response.data.probationFirstList[0].branch)
+          setProduct(response.data.probationFirstList[0].product)
+          setEmploymentYear(response.data.probationFirstList[0].employmentyear)
+          setYearsOfService(response.data.probationFirstList[0].tenureofservice)
+
           setSelectedEmp(response.data.probationFirstList[0].employeename)
           setSkills(response.data.probationFirstList[0].skill)
           setSelectedMgr(response.data.probationFirstList[0].managername)
@@ -476,11 +491,13 @@ const HRProbationCard = (props) => {
     // //Non-Confirmation
     const NonConfirmation = () => {
       const config = {
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
-          }`,
-        },
+        responseType: "blob",
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+      timeout: 60000,
       };
   
       let Data = {
@@ -504,31 +521,52 @@ const HRProbationCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
-          swal("Success!", json.data.message, "success");
+          // console.log(json.data);
+          // swal("Success!", json.data.message, "success");
           // swal("Success!", "Your record has been non confirmed!", "success");
+          var saveData = (function () {
+            var a = document.createElement("a");
+            document.body.appendChild(a);
+            a.style = "display: none";
+            return function (data, fileName) {
+                //var json = JSON.stringify(data),
+                 var blob = new Blob([data.data], {type: "application/msword"}),
+                    url = window.URL.createObjectURL(blob);
+                a.href = url;
+                a.download = fileName;
+                a.click();
+               window.URL.revokeObjectURL(url);
+               swal("Success!", "Non Confirmation Success", "success");
+            };
+        }());
+        let fileName = Data.StaffID+"_NonConfirmation.doc";
+        saveData(json, fileName);
+
         })
         .catch((err) => {
-          if (err.response !== undefined) {
-            swal("Oh!", err.response.data.message, "error");
-          } else {
-            swal("Oh!", err.message, "error");
-          }
-          if(err !== undefined){
-            swal("Oh!","Non Confirmation/Mailing Failed", "error");
-          }
-          console.log(err);
+          swal("Oh!", err.message, "error");
+          // if (err.response !== undefined) {
+          //   swal("Oh!", err.response.data.message, "error");
+          // } else {
+          //   swal("Oh!", err.message, "error");
+          // }
+          // if(err !== undefined){
+          //   swal("Oh!","Non Confirmation/Mailing Failed", "error");
+          // }
+          // console.log(err);
         });
     };
   
     // //Confirm
     const Confirm = () => {
       const config = {
+        responseType: "blob",
         headers: {
           Authorization: `Bearer ${
             JSON.parse(localStorage.getItem("userDetails")).idToken
           }`,
         },
+        timeout: 60000,
       };
   
       let Data = {
@@ -553,31 +591,40 @@ const HRProbationCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
-          swal("Success!", json.data.message, "success");
-          // swal("Success!", "Your record has been confirmed!", "success");
+          var saveData = (function () {
+            var a = document.createElement("a");
+            document.body.appendChild(a);
+            a.style = "display: none";
+            return function (data, fileName) {
+                //var json = JSON.stringify(data),
+                 var blob = new Blob([data.data], {type: "application/msword"}),
+                    url = window.URL.createObjectURL(blob);
+                a.href = url;
+                a.download = fileName;
+                a.click();
+               window.URL.revokeObjectURL(url);
+               swal("Success!", "Confirmation Success", "success");
+            };
+        }());
+        let fileName = Data.StaffID+"_Confirmation.doc";
+        saveData(json, fileName);
+
         })
         .catch((err) => {
-          if (err.response !== undefined) {
-            swal("Oh!", err.response.data.message, "error");
-          } else {
-            swal("Oh!", err.message, "error");
-          }
-          if(err !== undefined){
-            swal("Oh!","Confirmation/Mailing Failed", "error");
-          }
-          console.log(err);
+          swal("Oh!", err.message, "error");
         });
     };
   
     // //Extend
     const Extend = () => {
       const config = {
+        responseType: "blob",
         headers: {
           Authorization: `Bearer ${
             JSON.parse(localStorage.getItem("userDetails")).idToken
           }`,
         },
+        timeout: 60000,
       };
   
       let Data = {
@@ -604,9 +651,24 @@ const HRProbationCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
-          swal("Success!", json.data.message, "success");
-          // swal("Success!", "Your record has been Extended!", "success");
+          var saveData = (function () {
+            var a = document.createElement("a");
+            document.body.appendChild(a);
+            a.style = "display: none";
+            return function (data, fileName) {
+                //var json = JSON.stringify(data),
+                 var blob = new Blob([data.data], {type: "application/msword"}),
+                    url = window.URL.createObjectURL(blob);
+                a.href = url;
+                a.download = fileName;
+                a.click();
+               window.URL.revokeObjectURL(url);
+               swal("Success!", "Extension Success", "success");
+            };
+        }());
+        let fileName = Data.StaffID+"_Extension.doc";
+        saveData(json, fileName);
+
         })
         .catch((err) => {
           if (err.response !== undefined) {
@@ -615,9 +677,8 @@ const HRProbationCard = (props) => {
             swal("Oh!", err.message, "error");
           }
           if(err !== undefined){
-            swal("Oh!","Confirmation/Mailing Failed", "error");
+            swal("Oh!","Extension Failed", "error");
           }
-          console.log(err);
         });
     };
 
@@ -758,17 +819,72 @@ const HRProbationCard = (props) => {
             <Accordion.Body>
             <div className="card-body">
             <div className="row">
-              <div className="col-xl-3 col-sm-6">
+              <div className="col-xl-4 col-sm-6">
                 <div className="form-group">
                   <label htmlFor="">Employee</label>
                   <input type="text" className="form-control" value={selectedEmp} disabled />
                   
                 </div>
               </div>
+              <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Job Title</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={jobTitle}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Branch</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={branch}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Product</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={product}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Year of Employment</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={employmentYear}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Tenure of Service</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={yearsOfService}
+                      disabled
+                    />
+                  </div>
+                </div>
 
               <div className="col-xl-3 col-sm-6">
                 <div className="form-group">
-                  <label htmlFor="">Manager</label>
+                  <label htmlFor="">Immediate Supervisor</label>
                   
                   <input type="text" className="form-control" value={selectedMgr} disabled />
                 </div>

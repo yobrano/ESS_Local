@@ -124,6 +124,14 @@ const ProbationCard = (props) => {
   const [skills, setSkills] = useState("");
 
   const [immediateStatus,setImmediateStatus] = useState(false)
+
+  //Additional Fields
+  const [jobTitle, setJobTitle] = useState("");
+  const [branch, setBranch] = useState("");
+  const [product, setProduct] = useState("");
+  const [employmentYear, setEmploymentYear] = useState("");
+  const [yearsOfService, setYearsOfService] = useState("");
+
   useEffect(() => {
     const config = {
       headers: {
@@ -142,6 +150,13 @@ const ProbationCard = (props) => {
         if (response.status === 200) {
           setProbationTime(props.location.state[0].datum[0].supervisionTime)
           setSkills(props.location.state[0].datum[0].importantSkills)
+
+          setJobTitle(response.data.employeeEndofForms[0].jobtitle)
+          setBranch(response.data.employeeEndofForms[0].branch)
+          setProduct(response.data.employeeEndofForms[0].product)
+          setEmploymentYear(response.data.employeeEndofForms[0].employmentyear)
+          setYearsOfService(response.data.employeeEndofForms[0].tenureofservice)
+
           setLoading(false);
 
         }
@@ -552,7 +567,7 @@ const ProbationCard = (props) => {
     <>
       <h4 className="text-center">EMPLOYEE’S PROGRESS REPORT (PROBATIONARY)</h4>
       <div className="card">
-        <Accordion defaultActiveKey={["1"]} alwaysOpen>
+        <Accordion defaultActiveKey={["-1"]} alwaysOpen>
         <Accordion.Item eventKey="-1">
             <Accordion.Header>
               <div className="title mb-4">
@@ -563,7 +578,7 @@ const ProbationCard = (props) => {
             </Accordion.Header>
             <Accordion.Body>
               <div className="row">
-                <div className="col-md-6">
+                <div className="col-md-4">
                   <div className="form-group">
                     <label htmlFor="">Employee Number</label>
                     <input
@@ -574,13 +589,69 @@ const ProbationCard = (props) => {
                     />
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-4">
                   <div className="form-group">
                     <label htmlFor="">Employee Name</label>
                     <input
                       type="text"
                       className="form-control"
                       value={props.location.state[0].datum[0].empName}
+                      disabled
+                    />
+                  </div>
+                </div>
+              
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Job Title</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={jobTitle}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Branch</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={branch}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Product</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={product}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Year of Employment</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={employmentYear}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Tenure of Service</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={yearsOfService}
                       disabled
                     />
                   </div>

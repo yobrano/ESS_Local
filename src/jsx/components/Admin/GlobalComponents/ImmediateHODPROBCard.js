@@ -127,6 +127,12 @@ const ImmediateHODPROBCard = (props) => {
   const [datax, setDatax] = useState({});
   const [disableBtn, setDisableBtn] = useState(false);
 
+      //Additional Fields
+      const [jobTitle, setJobTitle] = useState("");
+      const [branch, setBranch] = useState("");
+      const [product, setProduct] = useState("");
+      const [employmentYear, setEmploymentYear] = useState("");
+      const [yearsOfService, setYearsOfService] = useState("");
 
   useEffect(() => {
     const config = {
@@ -145,6 +151,13 @@ const ImmediateHODPROBCard = (props) => {
       .then(function (response) {
         if (response.status === 200) {
           console.log(response.data.probationFirstList[0]);
+
+          setJobTitle(response.data.probationFirstList[0].jobtitle)
+          setBranch(response.data.probationFirstList[0].branch)
+          setProduct(response.data.probationFirstList[0].product)
+          setEmploymentYear(response.data.probationFirstList[0].employmentyear)
+          setYearsOfService(response.data.probationFirstList[0].tenureofservice)
+
           setDatax(response.data.probationFirstList[0]);
           setSelectedEmp(response.data.probationFirstList[0].employeename);
           setSkills(response.data.probationFirstList[0].skill);
@@ -658,7 +671,7 @@ const ImmediateHODPROBCard = (props) => {
             <Accordion.Body>
               <div className="card-body">
                 <div className="row">
-                  <div className="col-xl-3 col-sm-6">
+                  <div className="col-xl-4 col-sm-6">
                     <div className="form-group">
                       <label htmlFor="">Employee</label>
                       <input
@@ -669,10 +682,65 @@ const ImmediateHODPROBCard = (props) => {
                       />
                     </div>
                   </div>
+                  <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Job Title</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={jobTitle}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Branch</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={branch}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Product</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={product}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Year of Employment</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={employmentYear}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Tenure of Service</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={yearsOfService}
+                      disabled
+                    />
+                  </div>
+                </div>
 
                   <div className="col-xl-3 col-sm-6">
                     <div className="form-group">
-                      <label htmlFor="">Manager</label>
+                      <label htmlFor="">Immediate Supervisor</label>
 
                       <input
                         type="text"

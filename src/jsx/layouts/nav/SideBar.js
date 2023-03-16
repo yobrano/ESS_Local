@@ -2765,8 +2765,8 @@ class SideBar extends Component {
 
             <li >
               <Link
-               className={`${path === "HR-contract" ? "mm-active" : ""}`}
-                to="/HR-contract"
+               className={`${path === "contract-approval-hod" ? "mm-active" : ""}`}
+                to="/contract-approval-hod"
                 onClick={() => this.props.onClick3()}
 
               >
@@ -3267,8 +3267,8 @@ class SideBar extends Component {
 
             <li >
               <Link
-               className={`${path === "HR-contract" ? "mm-active" : ""}`}
-                to="/HR-contract"
+               className={`${path === "contract-approval-hod" ? "mm-active" : ""}`}
+                to="/contract-approval-hod"
                 onClick={() => this.props.onClick3()}
 
               >
@@ -3771,8 +3771,8 @@ class SideBar extends Component {
 
             <li >
               <Link
-               className={`${path === "HR-contract" ? "mm-active" : ""}`}
-                to="/HR-contract"
+               className={`${path === "contract-approval-hod" ? "mm-active" : ""}`}
+                to="/contract-approval-hod"
                 onClick={() => this.props.onClick3()}
 
               >
@@ -4277,8 +4277,8 @@ class SideBar extends Component {
 
             <li >
               <Link
-               className={`${path === "HR-contract" ? "mm-active" : ""}`}
-                to="/HR-contract"
+               className={`${path === "contract-approval-hod" ? "mm-active" : ""}`}
+                to="/contract-approval-hod"
                 onClick={() => this.props.onClick3()}
 
               >

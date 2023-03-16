@@ -55,7 +55,6 @@ const HODDashboard = () => {
   path = path[path.length - 1];
   return (
     <Fragment>
-      <LeaveStatistic />
       <div className="row d-none">
         <div className="col-xl-3 col-lg-6 col-sm-6">
           <div className="card overflow-hidden">
@@ -123,7 +122,11 @@ const HODDashboard = () => {
       </div>
 
       <div className="row">
-        <DashboardUI />
+        <div className="col-md-9">
+          <div className="d-md-flex align-items-start gap-1"><DashboardUI/></div>
+        </div>
+        <div className="col-md-3"><LeaveStatistic/></div>
+        
       </div>
     </Fragment>
   );

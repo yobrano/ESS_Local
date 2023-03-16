@@ -140,6 +140,13 @@ const HRContractCard = (props) => {
 
   const [hodComment,setHODComment] = useState("");
 
+  //Additional Fields
+  const [jobTitle, setJobTitle] = useState("");
+  const [branch, setBranch] = useState("");
+  const [product, setProduct] = useState("");
+  const [employmentYear, setEmploymentYear] = useState("");
+  const [yearsOfService, setYearsOfService] = useState("");
+
   const toggleCollapse = (from) => {
     switch (from) {
       case "renewal":
@@ -174,6 +181,13 @@ const HRContractCard = (props) => {
       .then(function (response) {
         if (response.status === 200) {
           console.log(response.data.probationFirstList[0]);
+
+          setJobTitle(response.data.probationFirstList[0].jobtitle)
+          setBranch(response.data.probationFirstList[0].branch)
+          setProduct(response.data.probationFirstList[0].product)
+          setEmploymentYear(response.data.probationFirstList[0].employmentyear)
+          setYearsOfService(response.data.probationFirstList[0].tenureofservice)
+          
           setDatax(response.data.probationFirstList[0]);
           setSelectedEmp(response.data.probationFirstList[0].employeename);
           setSkills(response.data.probationFirstList[0].skill);
@@ -622,11 +636,13 @@ const HRContractCard = (props) => {
   //NONRenewal
   const NONRenewal = () => {
     const config = {
+      responseType: "blob",
       headers: {
         Authorization: `Bearer ${
           JSON.parse(localStorage.getItem("userDetails")).idToken
         }`,
       },
+      timeout: 60000,
     };
 
     let Data = {
@@ -649,29 +665,62 @@ const HRContractCard = (props) => {
           );
         }
       })
-      .then((json) => {
-        swal("Success!", json.data.message, "success");
-        console.log(json.data);
+      .then((response) => {
+
+        // if (response.status === 200) {
+        //   const file = new Blob([response.data], { type: "application/msword" });
+        //   //Build a URL from the file
+        //   const fileURL = URL.createObjectURL(file);
+        //   //Open the URL on new Window
+        //   //const pdfWindow = window.open();
+        //   window.location.href = fileURL;
+          
+        // }
+
+        var saveData = (function () {
+          var a = document.createElement("a");
+          document.body.appendChild(a);
+          a.style = "display: none";
+          return function (data, fileName) {
+              //var json = JSON.stringify(data),
+               var blob = new Blob([data.data], {type: "application/msword"}),
+                  url = window.URL.createObjectURL(blob);
+              a.href = url;
+              a.download = fileName;
+              a.click();
+             window.URL.revokeObjectURL(url);
+             swal("Success!", "The record has been Non Renewed!", "success");
+          };
+      }());
+      let fileName = Data.StaffNo+"_NonRenewal.doc";
+      saveData(response, fileName);
+
+
+        // swal("Success!", json.data.message, "success");
+        // console.log(json.data);
         // swal("Success!", "Your record has been Non Renewed!", "success");
       })
       .catch((err) => {
-        if (err.response !== undefined) {
-          swal("Oh!", err.response.data.message, "error");
-        } else {
-          swal("Oh!", err.message, "error");
-        }
-        console.log(err);
+        swal("Oh!", err.message, "error");
+        // if (err.response !== undefined) {
+        //   swal("Oh!", err.response.data.message, "error");
+        // } else {
+        //   swal("Oh!", err.message, "error");
+        // }
+        // console.log(err);
       });
   };
 
   //Renewal
   const EndofRenewal = () => {
     const config = {
+      responseType: "blob",
       headers: {
         Authorization: `Bearer ${
           JSON.parse(localStorage.getItem("userDetails")).idToken
         }`,
       },
+      timeout: 60000,
     };
 
     let Data = {
@@ -698,18 +747,38 @@ const HRContractCard = (props) => {
           );
         }
       })
-      .then((json) => {
-        swal("Success!", json.data.message, "success");
-        console.log(json.data);
+      .then((response) => {
+        var saveData = (function () {
+          var a = document.createElement("a");
+          document.body.appendChild(a);
+          a.style = "display: none";
+          return function (data, fileName) {
+              //var json = JSON.stringify(data),
+               var blob = new Blob([data.data], {type: "application/msword"}),
+                  url = window.URL.createObjectURL(blob);
+              a.href = url;
+              a.download = fileName;
+              a.click();
+             window.URL.revokeObjectURL(url);
+             swal("Success!", "The record has been Renewed!", "success");
+          };
+      }());
+      let fileName = Data.StaffNo+"_Renewal.doc";
+      saveData(response, fileName);
+
+        // swal("Success!", json.data.message, "success");
+        // console.log(json.data);
         // swal("Success!", "Your record has been Renewed!", "success");
       })
       .catch((err) => {
-        if (err.response !== undefined) {
-          swal("Oh!", err.response.data.message, "error");
-        } else {
-          swal("Oh!", err.message, "error");
-        }
-        console.log(err);
+        console.log({"i/o err":err.response});
+        swal("Oh!", err.message, "error");
+        // if (err.response !== undefined) {
+        //   swal("Oh!", err.response.message, "error");
+        // } else {
+        //   swal("Oh!", err.message, "error");
+        // }
+        // console.log(err);
       });
   };
 
@@ -807,7 +876,7 @@ const HRContractCard = (props) => {
             <Accordion.Body>
               <div className="card-body">
                 <div className="row">
-                  <div className="col-xl-6 col-sm-6">
+                  <div className="col-xl-4 col-sm-4">
                     <div className="form-group">
                       <label htmlFor="">Employee</label>
                       <input
@@ -818,10 +887,65 @@ const HRContractCard = (props) => {
                       />
                     </div>
                   </div>
+                  <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Job Title</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={jobTitle}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Branch</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={branch}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Product</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={product}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Year of Employment</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={employmentYear}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Tenure of Service</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={yearsOfService}
+                      disabled
+                    />
+                  </div>
+                </div>
 
                   <div className="col-xl-6 col-sm-6">
                     <div className="form-group">
-                      <label htmlFor="">Manager</label>
+                      <label htmlFor="">Immediate Supervisor</label>
 
                       <input
                         type="text"

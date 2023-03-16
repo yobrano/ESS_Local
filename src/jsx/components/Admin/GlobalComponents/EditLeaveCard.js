@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
-import { parse } from "date-fns";
+import { format, parse } from "date-fns";
 import BreadCrumb from "./BreadCrumb";
 
 const EditLeaveCard = (props) => {
@@ -41,19 +41,17 @@ const EditLeaveCard = (props) => {
     {
       id: "",
       Startdate: new Date(),
-      Returndate: '',
+      Returndate: "",
       Days: "",
-      Leaveno:"",
-      Employeeno:"",
-      Enddate:"",
-      Assignedleaveno:''
+      Leaveno: "",
+      Employeeno: "",
+      Enddate: "",
+      Assignedleaveno: "",
       //original: false, //Whether its a new addition
     },
   ]);
 
-
-  const [hasExtraDays,setHasExtraDays] = useState(false);
-
+  const [hasExtraDays, setHasExtraDays] = useState(false);
 
   useEffect(() => {
     //let docCode = props.location.state[0].datum[0].documentCode;
@@ -134,7 +132,7 @@ const EditLeaveCard = (props) => {
         )
         .then(function (response) {
           if (response.status === 200) {
-            console.log(">>"+response.data.hasExtraDays);
+            console.log(">>" + response.data.hasExtraDays);
             if (response.data.return_value === true) {
               // check if the leave is already pending approval
               if (props.location.state[0].datum[0].leaveType === "") {
@@ -255,8 +253,6 @@ const EditLeaveCard = (props) => {
               setReturnDate(props.location.state[0].datum[0].leaveReturnDate);
               setAppliedDays(props.location.state[0].datum[0].daysApplied);
               setLeaveStatus(props.location.state[0].datum[0].status);
-
-            
             } else {
               setDisplayAttachment(false);
               setDisplayUpload(true);
@@ -295,7 +291,7 @@ const EditLeaveCard = (props) => {
   }, [selectedLeave]);
 
   //Get extra leaves if leave has them
-  const HasExtraDays=()=>{
+  const HasExtraDays = () => {
     const config = {
       headers: {
         Authorization: `Bearer ${
@@ -311,7 +307,7 @@ const EditLeaveCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          setDlines(response.data.extraDays)
+          setDlines(response.data.extraDays);
         }
       })
       .catch((err) => {
@@ -322,7 +318,7 @@ const EditLeaveCard = (props) => {
           swal("Oh!", err.message, "error");
         }
       });
-  }
+  };
 
   //Get End and Return Dates
   const onTapReturnDate = () => {
@@ -338,8 +334,8 @@ const EditLeaveCard = (props) => {
       const Data = {
         EmployeeNo: "",
         LeaveType: selectedLeave.value,
-        LeaveStartDate: leaveStartDate,
-        DaysApplied: parseInt(appliedDays),
+        LeaveStartDate: format(leaveStartDate, "yyyy'-'MM'-'dd'T'HH':'mm':'ss"),
+        DaysApplied: parseFloat(appliedDays),
       };
 
       axios
@@ -586,8 +582,8 @@ const EditLeaveCard = (props) => {
     let Data = {
       LeaveAppNo: leaveNo,
       LeaveType: selectedLeave.value,
-      LeaveStartDate: leaveStartDate,
-      DaysApplied: parseInt(appliedDays),
+      LeaveStartDate: format(leaveStartDate, "yyyy'-'MM'-'dd'T'HH':'mm':'ss"),
+      DaysApplied: parseFloat(appliedDays),
       RelieverRemark: employeeRemark,
       RelieverNo: selectedEmp.value,
     };
@@ -622,10 +618,9 @@ const EditLeaveCard = (props) => {
           setDisplayUpload(false);
 
           setHasExtraDays(response.data.hasExtraDays);
-          if(response.data.hasExtraDays){
-            HasExtraDays()
+          if (response.data.hasExtraDays) {
+            HasExtraDays();
           }
-
         }
         if (response.status === 404) {
           alert(response.data.message);
@@ -641,23 +636,59 @@ const EditLeaveCard = (props) => {
       });
   };
   const dropApprovalRequest = () => {
-    alert("approval dropping: missing");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Cancel the Leave Application",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        // setPostBtnState(true)
+        if (willCreate) {
+          return axios.get(
+            `${process.env.REACT_APP_API_S_LINK}/leave/usercancelleaveapplication/${leaveNo}`,
+            config
+          );
+        }
+      })
+
+      .then(function (response) {
+        if (response.status === 200) {
+          swal("Success", response.data.message, "success");
+        }
+        if (response.status === 404) {
+          alert(response.data.message);
+        }
+      })
+      .catch((err) => {
+        console.log({ err: err });
+        if (err.response !== undefined) {
+          swal("Ooh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+      });
   };
   let upploadBtnDiv = "";
   if (
-    leaveStatus === "Pending Approval" ||
-    leaveStatus === "Approved" ||
-    leaveStatus === "Rejected" ||
-    leaveStatus === "Posted"
+    leaveStatus === "Pending Approval"
+    // ||
+    // leaveStatus === "Approved" ||
+    // leaveStatus === "Rejected" ||
+    // leaveStatus === "Posted"
   ) {
     upploadBtnDiv = (
       <>
         <div className="d-flex justify-content-end">
-          <button
-            className="btn btn-danger d-none"
-            onClick={dropApprovalRequest}
-          >
-            Drop Approval <i className="fa fa-sitemap"></i>
+          <button className="btn btn-danger" onClick={dropApprovalRequest}>
+            Terminate Leave Approval Process<i className="fa fa-sitemap"></i>
           </button>
         </div>
       </>
@@ -678,157 +709,152 @@ const EditLeaveCard = (props) => {
     );
   }
 
+  // handle input change
+  const handleInputChecklistChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...dlines];
+    list[index][name] = value;
+    list[index].id = index;
+    setDlines(list);
+  };
+  // handle date input change
+  const handleInputDateChange = (e, index) => {
+    //const { name, value } = e.target;
+    const list = [...dlines];
+    list[index]["Startdate"] = e;
+    list[index].id = index;
+    setDlines(list);
+  };
+  // handle cick event of the remove button
+  const handleRemoveCheckistClick = (index) => {
+    const list1 = [...dlines];
+    let _no = list1[index].Returndate;
+    if (_no !== "") {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("userDetails")).idToken
+          }`,
+        },
+      };
+      let data = {
+        Leaveno: list1[index].Leaveno,
+        Startdate: list1[index].Startdate,
+      };
 
-// handle input change
-const handleInputChecklistChange = (e, index) => {
-  const { name, value } = e.target;
-  const list = [...dlines];
-  list[index][name] = value;
-  list[index].id = index;
-  setDlines(list);
- 
-};
-// handle date input change
-const handleInputDateChange = (e, index) => {
-  //const { name, value } = e.target;
-  const list = [...dlines];
-  list[index]['Startdate'] = e;
-  list[index].id = index;
-  setDlines(list);
- 
-};
-// handle cick event of the remove button
-const handleRemoveCheckistClick = (index) => {
-  const list1 = [...dlines];
-  let _no = list1[index].Returndate;
-  if (_no !== "") {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
-        }`,
-      },
-    };
-    let data = {
-      Leaveno: list1[index].Leaveno,
-      Startdate: list1[index].Startdate
-    };
-
-    swal({
-      title: "Are you sure?",
-      text: "Are you sure that you want to delete",
-      icon: "warning",
-      dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-          return axios.post(
-            `${process.env.REACT_APP_API_S_LINK}/leave/deleteday`,
-            data,
-            config
-          );
-        }
+      swal({
+        title: "Are you sure?",
+        text: "Are you sure that you want to delete",
+        icon: "warning",
+        dangerMode: true,
       })
-      .then((json) => {
-        // console.log(json.data);
-        list1.splice(index, 1);
-        setDlines(list1);
-        swal("Success!", "Your record has been Deleted!", "success");
-      })
-      .catch((err) => {
-        if(err.response!==undefined){
-          swal("Oh!", err.response.data.message, "error");
-        }else{
-          swal("Oh!", err.message, "error");
-        }
-        console.log(err);
-        
-        // swal("Oops!", "Seems like we couldn't delete the record", "error");
-      });
-  } else {
-    list1.splice(index, 1);
-    setDlines(list1);
-  }
-};
+        .then((willDelete) => {
+          if (willDelete) {
+            return axios.post(
+              `${process.env.REACT_APP_API_S_LINK}/leave/deleteday`,
+              data,
+              config
+            );
+          }
+        })
+        .then((json) => {
+          // console.log(json.data);
+          list1.splice(index, 1);
+          setDlines(list1);
+          swal("Success!", "Your record has been Deleted!", "success");
+        })
+        .catch((err) => {
+          if (err.response !== undefined) {
+            swal("Oh!", err.response.data.message, "error");
+          } else {
+            swal("Oh!", err.message, "error");
+          }
+          console.log(err);
 
-//handle click event of the Add button
-const handleAddChecklistClick = () => {
+          // swal("Oops!", "Seems like we couldn't delete the record", "error");
+        });
+    } else {
+      list1.splice(index, 1);
+      setDlines(list1);
+    }
+  };
+
+  //handle click event of the Add button
+  const handleAddChecklistClick = () => {
     setDlines([
       ...dlines,
       {
         id: "",
         Startdate: new Date(),
-        Returndate: '',
+        Returndate: "",
         Days: "",
-        Leaveno:leaveNo,
-        Employeeno:"",
-        Enddate:"",
-        Assignedleaveno:''
-      //  original: false,
+        Leaveno: leaveNo,
+        Employeeno: "",
+        Enddate: "",
+        Assignedleaveno: "",
+        //  original: false,
       },
     ]);
-};
-const handlePushChecklistClick = (index) => {
-  //Add record to d365
+  };
+  const handlePushChecklistClick = (index) => {
+    //Add record to d365
 
-  const list = [...dlines];
-  let record = list[index];
-  let _code = list[0]["Leaveno"];
-  if (list[0]["Leaveno"] === undefined || list[0]["Leaveno"] === "") {
-    //means its the first record
-    let data = {
-      id: record.id,
-      Leaveno:leaveNo,
-      Startdate:record.Startdate,
-      Days:parseFloat(record.Days)
-    };
+    const list = [...dlines];
+    let record = list[index];
+    let _code = list[0]["Leaveno"];
+    if (list[0]["Leaveno"] === undefined || list[0]["Leaveno"] === "") {
+      //means its the first record
+      let data = {
+        id: record.id,
+        Leaveno: leaveNo,
+        Startdate: record.Startdate,
+        Days: parseFloat(record.Days),
+      };
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
-        }`,
-      },
-    };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("userDetails")).idToken
+          }`,
+        },
+      };
 
-    swal({
-      title: "Are you sure?",
-      text: "Are you sure that you want to upload",
-      icon: "warning",
-      dangerMode: true,
-    })
-      .then((willUpload) => {
-        if (willUpload) {
-          return axios.post(
-            `${process.env.REACT_APP_API_S_LINK}/leave/addanextraday`,
-            data,
-            config
-          );
-        }
+      swal({
+        title: "Are you sure?",
+        text: "Are you sure that you want to upload",
+        icon: "warning",
+        dangerMode: true,
       })
-      .then((json) => {
-        console.log(json.data);
-        if(json.data.return_value !== ""){
-          list[index]['Returndate']=json.data.return_value;
-          //record.Returndate
-          setDlines(list);
-        }
-      
-        swal("Success!", "Your record has been uploaded!", "success");
-      })
-      .catch((err) => {
-        if(err.response!==undefined){
-          swal("Oh!", err.response.data.message, "error");
-        }else{
-          swal("Oh!", err.message, "error");
-        }
-        console.log(err);
-        // swal("Oops!", "Seems like we couldn't upload the record", "error");
-      });
-  }
- 
-};
+        .then((willUpload) => {
+          if (willUpload) {
+            return axios.post(
+              `${process.env.REACT_APP_API_S_LINK}/leave/addanextraday`,
+              data,
+              config
+            );
+          }
+        })
+        .then((json) => {
+          console.log(json.data);
+          if (json.data.return_value !== "") {
+            list[index]["Returndate"] = json.data.return_value;
+            //record.Returndate
+            setDlines(list);
+          }
 
+          swal("Success!", "Your record has been uploaded!", "success");
+        })
+        .catch((err) => {
+          if (err.response !== undefined) {
+            swal("Oh!", err.response.data.message, "error");
+          } else {
+            swal("Oh!", err.message, "error");
+          }
+          console.log(err);
+          // swal("Oops!", "Seems like we couldn't upload the record", "error");
+        });
+    }
+  };
 
   if (loading) {
     return (
@@ -855,8 +881,8 @@ const handlePushChecklistClick = (index) => {
   return (
     <>
       <div className="container-fluid0">
-      <BreadCrumb props={props} backlink={"leave-lists"}/>
-        <div className="row mt-2"> 
+        <BreadCrumb props={props} backlink={"leave-lists"} />
+        <div className="row mt-2">
           <div className="col-md-8">
             <div className="card rounded-0">
               <div className="card-header">New Leave Creation</div>
@@ -976,10 +1002,9 @@ const handlePushChecklistClick = (index) => {
 
                     {/* Extra Date For Exam Leave */}
 
-                    <div className={hasExtraDays?"col-md-12":"d-none"} >
+                    <div className={hasExtraDays ? "col-md-12" : "d-none"}>
                       <div className="extra-date-div border rounded-1 p-1">
                         <h6 className="text-center my-1">Additional Days</h6>
-
 
                         <div className="lines-set">
                           {dlines.map((x3, i3) => (
@@ -995,15 +1020,13 @@ const handlePushChecklistClick = (index) => {
                                         onChange={(e) =>
                                           handleInputDateChange(e, i3)
                                         }
-
                                       />
                                     </div>
-
                                   </div>
 
                                   <div className="col-md-6">
                                     <div className="form-group">
-                                    <label>Set Days</label>
+                                      <label>Set Days</label>
                                       <input
                                         type="number"
                                         className="form-control "
@@ -1018,28 +1041,29 @@ const handlePushChecklistClick = (index) => {
                                       />
                                     </div>
                                   </div>
-                               
-                               
                                 </div>
                               </div>
 
                               <div className="col-md-4">
-                              <label>Action</label>
+                                <label>Action</label>
                                 <div className="button-div">
-                               
                                   {dlines.length !== 1 && (
                                     <>
                                       <button
                                         type="button"
                                         className="btn btn-danger "
-                                        onClick={() => handleRemoveCheckistClick(i3)}
+                                        onClick={() =>
+                                          handleRemoveCheckistClick(i3)
+                                        }
                                       >
                                         Del <i className="fa fa-trash"></i>
                                       </button>
                                       <button
                                         type="button"
                                         className="btn btn-success "
-                                        onClick={() => handlePushChecklistClick(i3)}
+                                        onClick={() =>
+                                          handlePushChecklistClick(i3)
+                                        }
                                       >
                                         Push <i className="fa fa-arrow-up"></i>
                                       </button>
@@ -1061,8 +1085,6 @@ const handlePushChecklistClick = (index) => {
                             </div>
                           ))}
                         </div>
-
-
                       </div>
                     </div>
 

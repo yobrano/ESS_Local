@@ -5,6 +5,7 @@ import swal from "sweetalert";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import BreadCrumb from "./BreadCrumb";
+import ApproveeLeaveStatistic from "./ApproveeLeaveStatistic";
  
 const LeaveApproveeCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -357,7 +358,7 @@ const LeaveApproveeCard = (props) => {
       <div className="container-fluid0">
       <BreadCrumb props={props} backlink={"leave-approval"}/>
         <div className="row mt-2">
-          <div className="col-md-12">
+          <div className="col-md-8">
             <div className="card rounded-0">
               <div className="card-header">
                 Approve/Reject Leave Application
@@ -569,6 +570,9 @@ const LeaveApproveeCard = (props) => {
               </div>
             </div>
             {/* If attachment is needed */}
+          </div>
+          <div className="col-md-4">
+              <ApproveeLeaveStatistic eid ={props.location.state[0].datum[0].senderEmployeeNo}/>
           </div>
         </div>
       </div>

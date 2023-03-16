@@ -7,6 +7,7 @@ import { Sparklines, SparklinesLine } from "react-sparklines";
 import axios from "axios";
 import "./StaffDashboard.css";
 import DashboardUI from "../GlobalComponents/DashboardUI";
+import LeaveStatistic from "../GlobalComponents/LeaveStatistic";
 
 // const sampleData1 = [8, 7, 6, 3, 2, 4, 6, 8, 12, 6, 12, 13, 10, 18, 14, 24, 16, 12, 19, 21, 16, 14, 24, 21, 13, 15, 27, 29, 21, 11, 14, 19, 21, 17,];
 const sampleData2 = [
@@ -124,7 +125,7 @@ const StaffDashboard = () => {
       <div className="row my-3 d-none0">
         <div className="col-md-12">
           {/* <h4 className="my-4">Staff Dashboard</h4> */}
-          {leaveplaceholder}
+          {/* {leaveplaceholder} */}
 
           <div className="d-none">
             <div className="col-xl-3 col-lg-6 col-sm-6 d-none">
@@ -240,7 +241,11 @@ const StaffDashboard = () => {
       </div>
 
       <div className="row">
-          <DashboardUI/>
+        <div className="col-md-9">
+          <div className="d-md-flex align-items-start gap-1"><DashboardUI/></div>
+        </div>
+        <div className="col-md-3"><LeaveStatistic/></div>
+        
       </div>
     
     </Fragment>

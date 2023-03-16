@@ -6,6 +6,7 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 
 import "./PayslipCard.css";
+import { format } from "date-fns";
 const LeaveDashboard = (props) => {
   const [loading, setLoading] = useState(true);
   const [employeeList, setEmployeeList] = useState([]);
@@ -65,8 +66,8 @@ const LeaveDashboard = (props) => {
     };
     let data = {
       EmployeeId: selectedEmployee.value,
-      StartDate: startDate,
-      EndDate: endDate,
+      StartDate:  format(startDate, "yyyy'-'MM'-'dd'T'HH':'mm':'ss"),
+      EndDate: format(endDate, "yyyy'-'MM'-'dd'T'HH':'mm':'ss"), 
     };
     // axios.get(`${process.env.REACT_APP_API_S_LINK}/staffrequision/getempreqcode/${selectedJob}`, config)
     swal({

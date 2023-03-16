@@ -244,7 +244,7 @@ const DashboardUI = () => {
       <div className="dashboard-item" onClick={() => toggleCollapse("doc")}>
         <div className="card brown-bg">
           <div className="card-header">
-            <h4>Documents </h4>
+            <h4>Policies </h4>
             <i className="flaticon-381-folder-5 ml-3"></i>
           </div>
           <Collapse in={docCollapse}>

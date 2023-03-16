@@ -194,7 +194,7 @@ const NewLeaveCard = (props) => {
         EmployeeNo: "",
         LeaveType: selectedLeave.value,
         LeaveStartDate: leaveStartDate,
-        DaysApplied: parseInt(appliedDays),
+        DaysApplied: parseFloat(appliedDays),
       };
 
       axios
@@ -436,7 +436,7 @@ const NewLeaveCard = (props) => {
       LeaveAppNo: leaveNo,
       LeaveType: selectedLeave.value,
       LeaveStartDate: leaveStartDate,
-      DaysApplied: parseInt(appliedDays),
+      DaysApplied: parseFloat(appliedDays),
       RelieverRemark: employeeRemark,
       RelieverNo: selectedEmp.value,
     };

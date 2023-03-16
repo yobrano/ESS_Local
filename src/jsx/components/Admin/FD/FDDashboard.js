@@ -116,9 +116,12 @@ const FDDashboard = () => {
           </div>
         </div>
       </div>
-      <LeaveStatistic />
       <div className="row">
-        <DashboardUI />
+        <div className="col-md-9">
+          <div className="d-md-flex align-items-start gap-1"><DashboardUI/></div>
+        </div>
+        <div className="col-md-3"><LeaveStatistic/></div>
+        
       </div>
     </Fragment>
   );

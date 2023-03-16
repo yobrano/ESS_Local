@@ -4,7 +4,7 @@ import { Fragment } from "react";
 import { useState } from "react";
 import { withRouter } from "react-router-dom";
 
-const LeaveStatistic = () => {
+const ApproveeLeaveStatistic = (props) => {
   const [leaveData, setleaveData] = useState([]);
   const [loadingLeaves, setLoadingLeaves] = useState(true);
 
@@ -23,7 +23,7 @@ const LeaveStatistic = () => {
 
     axios
       .get(
-        `${process.env.REACT_APP_API_S_LINK}/leave/getstaffleavebalance`,
+        `${process.env.REACT_APP_API_S_LINK}/leave/getstaffleavebalance/${props.eid}`,
         config
       )
       .then((result) => {
@@ -92,4 +92,4 @@ const LeaveStatistic = () => {
     </Fragment>
   );
 };
-export default withRouter(LeaveStatistic);
+export default withRouter(ApproveeLeaveStatistic);

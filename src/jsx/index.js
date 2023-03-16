@@ -241,6 +241,10 @@ const Markup = () => {
     { url: "contract-list", component:ContractList, usr: "HR" },
     { url: "contract-card", component:ContractCard, usr: "HR" },
 
+    { url: "new-probation", component:NewProbation, usr: "HR" },
+    { url: "probation-list", component:ProbationList, usr: "HR" },
+    { url: "probation-card", component:ProbationCard, usr: "HR" },
+
   ];
 
   //HEAD-HR
