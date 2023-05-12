@@ -136,6 +136,20 @@ const ContractCard = (props) => {
   const [employmentYear, setEmploymentYear] = useState("");
   const [yearsOfService, setYearsOfService] = useState("");
 
+  // Error alerts
+  let errorsObj = { radiofield1: "", comment1: "" };
+  const [alrtone, setAlrtone] = useState('alrt-border-1 border-0 border-danger p-3 rounded');
+  const [alrttwo, setAlrttwo] = useState('alrt-border-2 border-0 border-danger p-3 rounded');
+  const [alrtthree, setAlrtthree] = useState('alrt-border-3 border-0 border-danger p-3 rounded');
+  const [alrtfour, setAlrtfour] = useState('alrt-border-4 border-0 border-danger p-3 rounded');
+
+  const [alrtfive, setAlrtfive] = useState('alrt-border-1 border-0 border-danger p-3 rounded');
+  const [alrtsix, setAlrtsix] = useState('alrt-border-2 border-0 border-danger p-3 rounded');
+  const [alrtseven, setAlrtseven] = useState('alrt-border-3 border-0 border-danger p-3 rounded');
+  const [alrteight, setAlrteight] = useState('alrt-border-4 border-0 border-danger p-3 rounded');
+
+  const [errors, setErrors] = useState(errorsObj);
+
   useEffect(() => {
     const config = {
       headers: {
@@ -181,10 +195,19 @@ const ContractCard = (props) => {
   }, []);
 
   const updateCard = (e) => {
-    // if(managerRemark.length == 0){
-    //   setImmediateStatus(true)
-    //   return;
-    // }
+    let error;
+    if ((recommendationSectionComment === '')) {
+      setAlrtseven('alrt-border-4 border border-danger p-3 m-2 rounded')
+      error = true;
+    }else{
+      setAlrtseven('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
+      error = false;
+    }
+    if (error) {
+      swal("Oops!", "Immediate Supervisor Comment is missing", "error");
+      return;
+    }
+
     e.preventDefault();
     const config = {
       headers: {
@@ -289,6 +312,47 @@ const ContractCard = (props) => {
   //Push first segment
   const uploadFirstSegmentCard = (e) => {
     e.preventDefault();
+
+    //console.log(`outstanding=${outstanding} aboveAverage=${aboveAverage} satisfactory=${satisfactory} marginal=${marginal} unsatisfactory=${unsatisfactory}`);
+    let error=false;
+    if ((outstanding === false && aboveAverage === false && satisfactory === false && marginal === false && unsatisfactory === false ) ) {
+      setAlrtone('alrt-border-1 border border-danger p-3 m-2 rounded')
+      error = true;
+    }else{
+      setAlrtone('alrt-border-1 border-0 border-danger p-3 m-2 rounded')
+      error = false;
+    }
+
+    if ((excellentAttendance === false || occasionalAbsence === false || repeatedAbsence === false || unjustifiedAbsence === false) && (attendanceComment === "") ) {
+      setAlrttwo('alrt-border-2 border border-danger p-3 m-2 rounded')
+      error = true;
+    }else{
+      setAlrttwo('alrt-border-2 border-0 border-danger p-3 m-2 rounded')
+  
+      error = false;
+    }
+
+    if ((alwaysInterested === false || reasonablyDevoted === false || passiveAttitude === false || activeDislikeofWork === false) && (attitudeComment === "") ) {
+      setAlrtthree('alrt-border-3 border border-danger p-3 m-2 rounded')
+      error = true;
+    }else{
+      setAlrtthree('alrt-border-3 border-0 border-danger p-3 m-2 rounded')
+      error = false;
+    }
+
+    if ((alwaysNeat === false ||  generallyNeat === false ||  sometimesCareles === false ||  attirenotSuitable === false) &&  (appearanceComment === "" )) {
+      setAlrtfour('alrt-border-4 border border-danger p-3 m-2 rounded')
+      error = true;
+    }else{
+      setAlrtfour('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
+      error = false;
+    }
+
+    if (error) {
+      swal("Oops!", "Comment(s) field empty", "error");
+      return;
+    }
+
     const config = {
       headers: {
         Authorization: `Bearer ${
@@ -481,6 +545,36 @@ const ContractCard = (props) => {
 
   const uploadRecomSection = (e) => {
     e.preventDefault();
+
+    let error;
+    if ((empStrongestpt === '')) {
+      setAlrtfive('alrt-border-4 border border-danger p-3 m-2 rounded')
+      error = true;
+    }else{
+      setAlrtfive('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
+      error = false;
+    }
+    if ((areaofImprovement === '')) {
+      setAlrtsix('alrt-border-4 border border-danger p-3 m-2 rounded')
+      error = true;
+    }else{
+      setAlrtsix('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
+      error = false;
+    }
+    if ((recommendationSectionComment === '')) {
+      setAlrtseven('alrt-border-4 border border-danger p-3 m-2 rounded')
+      error = true;
+    }else{
+      setAlrtseven('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
+      error = false;
+    }
+
+
+    if (error) {
+      swal("Oops!", "Comment(s) field empty", "error");
+      return;
+    }
+
     const config = {
       headers: {
         Authorization: `Bearer ${
@@ -539,7 +633,13 @@ const ContractCard = (props) => {
 
   let btnUP = "";
   let sectionOne = "";
-  if (props.location.state[0].datum[0].status === "Open") {
+  let reversePath="";
+  let authUser= "";
+  if (JSON.parse(localStorage.getItem("userDetails")).user.length > 0) {
+    authUser = JSON.parse(localStorage.getItem("userDetails")).user[0];
+  }
+
+  if (props.location.state[0].datum[0].status === "Open"  && props.location.state[0].datum[0].contractStatus !== 10 ) {
     btnUP = (
       <button className="btn btn-success" onClick={updateCard}>
         Push the Form
@@ -550,8 +650,17 @@ const ContractCard = (props) => {
         Upload this section
       </button>
     );
+    reversePath="contract-list";
   } else if (props.location.state[0].datum[0].status === "Approved") {
     btnUP = <button className="btn btn-secondary">Form Pushed Already</button>;
+    reversePath="contract-list";
+  }else if(props.location.state[0].datum[0].contractStatus === 10){
+    btnUP = <button className="btn btn-secondary">Bucketed Already</button>;
+    if(authUser !=="HEAD-HR"){
+      reversePath="bucketed-contracts";
+    }else{
+      reversePath="bucketed-contracts-head";
+    }
   }
 
   if (loading) {
@@ -579,7 +688,7 @@ const ContractCard = (props) => {
   }
   return (
     <>
-     <BreadCrumb props={props} backlink={"contract-list"}/>
+     <BreadCrumb props={props} backlink={reversePath} />{/*  */}
       <h4 className="text-center">END OF CONTRACT REPORT</h4>
       <div className="card">
         <Accordion defaultActiveKey={["-1"]} alwaysOpen>
@@ -716,6 +825,8 @@ const ContractCard = (props) => {
                       <option value="3 Months">3 Months</option>
                       <option value="6 Months">6 Months</option>
                       <option value="12 Months">12 Months</option>
+                      <option value="24 Months">24 Months</option>
+                      <option value="36 Months">36 Months</option>
                     </select>
                   </div>
                 </div>
@@ -761,309 +872,319 @@ const ContractCard = (props) => {
             <Accordion.Body>
               <div className="row">
                 <div className="col-md-6">
-                  <div className="form-group">
-                    <label foo="" className="b-2">
-                      Overall Performance
-                    </label>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="Outstanding"
-                        id="outstanding1"
-                        value="true"
-                        onChange={(e) => setOutstanding(!outstanding)}
-                      />
-                      <label className="form-check-label" foo="outstanding1">
-                        Outstanding
-                      </label>
-                    </div>
+                    <div className= {alrtone}  >
+                        <div className="form-group">
+                          
+                          <label foo="" className="b-2">
+                            Overall Performance
+                          </label>
+                          <div className="form-check">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              name="Outstanding"
+                              id="outstanding1"
+                              value="true"
+                              onChange={(e) => setOutstanding(!outstanding)}
+                            />
+                            <label className="form-check-label" foo="outstanding1">
+                              Outstanding
+                            </label>
+                          </div>
 
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="Above Averange"
-                        id="aboveAvg1"
-                        value="true"
-                        onChange={(e) => setAboveAverage(!aboveAverage)}
-                      />
-                      <label className="form-check-label" foo="aboveAvg1">
-                        Above Averange
-                      </label>
-                    </div>
+                          <div className="form-check">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              name="Above Averange"
+                              id="aboveAvg1"
+                              value="true"
+                              onChange={(e) => setAboveAverage(!aboveAverage)}
+                            />
+                            <label className="form-check-label" foo="aboveAvg1">
+                              Above Averange
+                            </label>
+                          </div>
 
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="Satisfactory"
-                        id="satisfactory1"
-                        value="true"
-                        onChange={(e) => setSatisfactory(!satisfactory)}
-                      />
-                      <label className="form-check-label" foo="satisfactory1">
-                        Satisfactory
-                      </label>
-                    </div>
+                          <div className="form-check">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              name="Satisfactory"
+                              id="satisfactory1"
+                              value="true"
+                              onChange={(e) => setSatisfactory(!satisfactory)}
+                            />
+                            <label className="form-check-label" foo="satisfactory1">
+                              Satisfactory
+                            </label>
+                          </div>
 
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="Marginal"
-                        id="marginal1"
-                        value="true"
-                        onChange={() => setMarginal(!marginal)}
-                      />
-                      <label className="form-check-label" foo="marginal1">
-                        Marginal
-                      </label>
-                    </div>
+                          <div className="form-check">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              name="Marginal"
+                              id="marginal1"
+                              value="true"
+                              onChange={() => setMarginal(!marginal)}
+                            />
+                            <label className="form-check-label" foo="marginal1">
+                              Marginal
+                            </label>
+                          </div>
 
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="Unsatisfactory"
-                        id="unsatisfactory"
-                        checked={unsatisfactory}
-                        onChange={() => setUnsatisfactory(!unsatisfactory)}
-                      />
-                      <label className="form-check-label" foo="unsatisfactory">
-                        Unsatisfactory
+                          <div className="form-check">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              name="Unsatisfactory"
+                              id="unsatisfactory"
+                              checked={unsatisfactory}
+                              onChange={() => setUnsatisfactory(!unsatisfactory)}
+                            />
+                            <label className="form-check-label" foo="unsatisfactory">
+                              Unsatisfactory
+                            </label>
+                          </div>
+
+                        </div>
+                    </div>
+               
+                </div>
+                <div className="col-md-6">
+                  <div className= {alrttwo}  >
+                    <div className="form-group">
+                      <label foo="" className="b-2">
+                        Attendance
                       </label>
+                      <div className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          name="excellentAttendance"
+                          id="excattance"
+                          value={excellentAttendance}
+                          onChange={(e) =>
+                            setExcellentAttendance(!excellentAttendance)
+                          }
+                        />
+                        <label className="form-check-label" foo="excattance">
+                          Excellent attendance record
+                        </label>
+                      </div>
+
+                      <div className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          name="attendane"
+                          id="abjecjustice"
+                          value={occasionalAbsence}
+                          onChange={(e) =>
+                            setOccasionalAbsence(!occasionalAbsence)
+                          }
+                        />
+                        <label className="form-check-label" foo="abjecjustice">
+                          Occasional absence but justified
+                        </label>
+                      </div>
+
+                      <div className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          name="attendane"
+                          id="absjusticc"
+                          value={repeatedAbsence}
+                          onChange={(e) => setRepeatedAbsence(!repeatedAbsence)}
+                        />
+                        <label className="form-check-label" foo="absjusticc">
+                          Repeated absence but justified
+                        </label>
+                      </div>
+
+                      <div className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          name="attendane"
+                          id="unjustabsent"
+                          value={unjustifiedAbsence}
+                          onChange={(e) =>
+                            setUnjustifiedAbsence(!unjustifiedAbsence)
+                          }
+                        />
+                        <label className="form-check-label" foo="unjustabsent">
+                          Unjustified absences
+                        </label>
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <textarea
+                        className="w-100 form-control"
+                        name="appearanceComment"
+                        rows="2"
+                        placeholder="Comment"
+                        value={attendanceComment}
+                        onChange={(e) => setAttendanceComment(e.target.value)}
+                      ></textarea>
                     </div>
                   </div>
                 </div>
                 <div className="col-md-6">
-                  <div className="form-group">
-                    <label foo="" className="b-2">
-                      Attendance
-                    </label>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="excellentAttendance"
-                        id="excattance"
-                        value={excellentAttendance}
-                        onChange={(e) =>
-                          setExcellentAttendance(!excellentAttendance)
-                        }
-                      />
-                      <label className="form-check-label" foo="excattance">
-                        Excellent attendance record
+                  <div className= {alrtthree}  >
+                    <div className="form-group">
+                      <label foo="" className="b-2">
+                        Attitude
                       </label>
-                    </div>
+                      <div className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          name="alwaysInterested"
+                          id="intenthusiastic"
+                          value={alwaysInterested}
+                          onChange={(e) => setAlwaysInterested(!alwaysInterested)}
+                        />
+                        <label className="form-check-label" foo="intenthusiastic">
+                          Always interested and enthusiastic
+                        </label>
+                      </div>
 
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="attendane"
-                        id="abjecjustice"
-                        value={occasionalAbsence}
-                        onChange={(e) =>
-                          setOccasionalAbsence(!occasionalAbsence)
-                        }
-                      />
-                      <label className="form-check-label" foo="abjecjustice">
-                        Occasional absence but justified
-                      </label>
-                    </div>
+                      <div className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          name="reasonablyDevoted"
+                          id="deveotedwrk"
+                          value={reasonablyDevoted}
+                          onChange={(e) =>
+                            setReasonablyDevoted(!reasonablyDevoted)
+                          }
+                        />
+                        <label className="form-check-label" foo="deveotedwrk">
+                          Reasonably devoted to work
+                        </label>
+                      </div>
 
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="attendane"
-                        id="absjusticc"
-                        value={repeatedAbsence}
-                        onChange={(e) => setRepeatedAbsence(!repeatedAbsence)}
-                      />
-                      <label className="form-check-label" foo="absjusticc">
-                        Repeated absence but justified
-                      </label>
-                    </div>
+                      <div className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          name="attitude"
+                          id="passiveatt"
+                          value={passiveAttitude}
+                          onChange={(e) => setPassiveAttitude(!passiveAttitude)}
+                        />
+                        <label className="form-check-label" foo="passiveatt">
+                          Passive attitude toward work
+                        </label>
+                      </div>
 
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="attendane"
-                        id="unjustabsent"
-                        value={unjustifiedAbsence}
-                        onChange={(e) =>
-                          setUnjustifiedAbsence(!unjustifiedAbsence)
-                        }
-                      />
-                      <label className="form-check-label" foo="unjustabsent">
-                        Unjustified absences
-                      </label>
+                      <div className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          name="attitude"
+                          id="dislwork"
+                          value={activeDislikeofWork}
+                          onChange={(e) =>
+                            setActiveDislikeofWork(!activeDislikeofWork)
+                          }
+                        />
+                        <label className="form-check-label" foo="dislwork">
+                          Shows active dislike of work
+                        </label>
+                      </div>
                     </div>
-                  </div>
-                  <div className="form-group">
-                    <textarea
-                      className="w-100 form-control"
-                      name="appearanceComment"
-                      rows="2"
-                      placeholder="Comment"
-                      value={attendanceComment}
-                      onChange={(e) => setAttendanceComment(e.target.value)}
-                    ></textarea>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label foo="" className="b-2">
-                      Attitude
-                    </label>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="alwaysInterested"
-                        id="intenthusiastic"
-                        value={alwaysInterested}
-                        onChange={(e) => setAlwaysInterested(!alwaysInterested)}
-                      />
-                      <label className="form-check-label" foo="intenthusiastic">
-                        Always interested and enthusiastic
-                      </label>
+                    <div className="form-group">
+                      <textarea
+                        className="w-100 form-control"
+                        name="attitudeComment"
+                        rows="2"
+                        placeholder="Comment"
+                        value={attitudeComment}
+                        onChange={(e) => setAttitudeComment(e.target.value)}
+                      ></textarea>
                     </div>
-
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="reasonablyDevoted"
-                        id="deveotedwrk"
-                        value={reasonablyDevoted}
-                        onChange={(e) =>
-                          setReasonablyDevoted(!reasonablyDevoted)
-                        }
-                      />
-                      <label className="form-check-label" foo="deveotedwrk">
-                        Reasonably devoted to work
-                      </label>
-                    </div>
-
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="attitude"
-                        id="passiveatt"
-                        value={passiveAttitude}
-                        onChange={(e) => setPassiveAttitude(!passiveAttitude)}
-                      />
-                      <label className="form-check-label" foo="passiveatt">
-                        Passive attitude toward work
-                      </label>
-                    </div>
-
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="attitude"
-                        id="dislwork"
-                        value={activeDislikeofWork}
-                        onChange={(e) =>
-                          setActiveDislikeofWork(!activeDislikeofWork)
-                        }
-                      />
-                      <label className="form-check-label" foo="dislwork">
-                        Shows active dislike of work
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <textarea
-                      className="w-100 form-control"
-                      name="attitudeComment"
-                      rows="2"
-                      placeholder="Comment"
-                      value={attitudeComment}
-                      onChange={(e) => setAttitudeComment(e.target.value)}
-                    ></textarea>
                   </div>
                 </div>
 
                 <div className="col-md-6">
-                  <div className="form-group">
-                    <label foo="" className="b-2">
-                      Appearance
-                    </label>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="appearance"
-                        id="appropdressd"
-                        value={alwaysNeat}
-                        onChange={(e) => setAlwaysNeat(!alwaysNeat)}
-                      />
-                      <label className="form-check-label" foo="appropdressd">
-                        Always neat and appropriately dressed
+                  <div className= {alrtfour}  >
+                    <div className="form-group">
+                      <label foo="" className="b-2">
+                        Appearance
                       </label>
-                    </div>
+                      <div className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          name="appearance"
+                          id="appropdressd"
+                          value={alwaysNeat}
+                          onChange={(e) => setAlwaysNeat(!alwaysNeat)}
+                        />
+                        <label className="form-check-label" foo="appropdressd">
+                          Always neat and appropriately dressed
+                        </label>
+                      </div>
 
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="generallyNeat"
-                        id="genapproderss"
-                        value={generallyNeat}
-                        onChange={(e) => setGenerallyNeat(!generallyNeat)}
-                      />
-                      <label className="form-check-label" foo="genapproderss">
-                        Generally neat appropriately dressed
-                      </label>
-                    </div>
+                      <div className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          name="generallyNeat"
+                          id="genapproderss"
+                          value={generallyNeat}
+                          onChange={(e) => setGenerallyNeat(!generallyNeat)}
+                        />
+                        <label className="form-check-label" foo="genapproderss">
+                          Generally neat appropriately dressed
+                        </label>
+                      </div>
 
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="sometimesCareles"
-                        id="somejtapp"
-                        value={sometimesCareles}
-                        onChange={(e) => setSometimesCareles(!sometimesCareles)}
-                      />
-                      <label className="form-check-label" foo="somejtapp">
-                        Sometimes careless about appearance
-                      </label>
-                    </div>
+                      <div className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          name="sometimesCareles"
+                          id="somejtapp"
+                          value={sometimesCareles}
+                          onChange={(e) => setSometimesCareles(!sometimesCareles)}
+                        />
+                        <label className="form-check-label" foo="somejtapp">
+                          Sometimes careless about appearance
+                        </label>
+                      </div>
 
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="attirenotSuitable"
-                        id="ErPosition"
-                        value={attirenotSuitable}
-                        onChange={(e) =>
-                          setAttirenotSuitable(!attirenotSuitable)
-                        }
-                      />
-                      <label className="form-check-label" foo="ErPosition">
-                        Attire not suitable for position
-                      </label>
+                      <div className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          name="attirenotSuitable"
+                          id="ErPosition"
+                          value={attirenotSuitable}
+                          onChange={(e) =>
+                            setAttirenotSuitable(!attirenotSuitable)
+                          }
+                        />
+                        <label className="form-check-label" foo="ErPosition">
+                          Attire not suitable for position
+                        </label>
+                      </div>
                     </div>
-                  </div>
-                  <div className="form-group">
-                    <textarea
-                      className="w-100 form-control"
-                      name="appearanceComment"
-                      rows="2"
-                      placeholder="Comment"
-                      value={appearanceComment}
-                      onChange={(e) => setAppearanceComment(e.target.value)}
-                    ></textarea>
+                    <div className="form-group">
+                      <textarea
+                        className="w-100 form-control"
+                        name="appearanceComment"
+                        rows="2"
+                        placeholder="Comment"
+                        value={appearanceComment}
+                        onChange={(e) => setAppearanceComment(e.target.value)}
+                      ></textarea>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1086,34 +1207,38 @@ const ContractCard = (props) => {
             <Accordion.Body>
               <div className="row">
                 <div className="col-md-6">
-                  <div className="form-group">
-                    <label foo="">
-                      What do you consider to be the employee’s strongest
-                      points?
-                    </label>
-                    <textarea
-                      className="w-100 form-control"
-                      name="empStrongestpt"
-                      rows="2"
-                      placeholder="Summary 240 characters"
-                      value={empStrongestpt}
-                      onChange={(e) => setEmpStrongestpt(e.target.value)}
-                    ></textarea>
+                  <div className= {alrtfive}  >
+                    <div className="form-group">
+                      <label foo="">
+                        What do you consider to be the employee’s strongest
+                        points?
+                      </label>
+                      <textarea
+                        className="w-100 form-control"
+                        name="empStrongestpt"
+                        rows="2"
+                        placeholder="Summary 240 characters"
+                        value={empStrongestpt}
+                        onChange={(e) => setEmpStrongestpt(e.target.value)}
+                      ></textarea>
+                    </div>
                   </div>
                 </div>
                 <div className="col-md-6">
-                  <div className="form-group">
-                    <label foo="">
-                      What areas do you feel the employee needs to improve on?
-                    </label>
-                    <textarea
-                      className="w-100 form-control"
-                      name="empWeakestPt"
-                      rows="2"
-                      placeholder="Summary 240 characters"
-                      value={areaofImprovement}
-                      onChange={(e) => setAreaofImprovement(e.target.value)}
-                    ></textarea>
+                <div className= {alrtsix}  >
+                    <div className="form-group">
+                      <label foo="">
+                        What areas do you feel the employee needs to improve on?
+                      </label>
+                      <textarea
+                        className="w-100 form-control"
+                        name="empWeakestPt"
+                        rows="2"
+                        placeholder="Summary 240 characters"
+                        value={areaofImprovement}
+                        onChange={(e) => setAreaofImprovement(e.target.value)}
+                      ></textarea>
+                    </div>
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -1201,6 +1326,7 @@ const ContractCard = (props) => {
                 </div>
 
                 <div className="col-md-12">
+                <div className= {alrtseven}  >
                   <div className="form-group">
                   <label foo="">
                     <b> Immediate Supervisor Recommendation</b> 
@@ -1215,6 +1341,7 @@ const ContractCard = (props) => {
                         setRecommendationSectionComment(e.target.value)
                       }
                     ></textarea>
+                  </div>
                   </div>
                 </div>
                 <div className="col-md-6">
