@@ -61,6 +61,8 @@ class SideBar extends Component {
       "MD-probation",
       "FD-probation",
       "probation-approval-hod",
+      "bucketed-probations",
+      "bucketed-probations-head",
     ];
     let EmpUpdateDetailCont = [
       "Contract",
@@ -70,6 +72,8 @@ class SideBar extends Component {
       "FD-approvals",
       "HR-contract",
       "contract-approval-hod",
+      "bucketed-contracts",
+      "bucketed-contracts-head",
     ];
     let Grievance = ["Grievance", "GrievanceList"];
     let Documents = ["document-list"];
@@ -993,6 +997,17 @@ class SideBar extends Component {
                 <span className="nav-text-drop">Probation Approval</span>
               </Link>
             </li>
+            <li >
+              <Link
+               className={`${path === "bucketed-probations" ? "mm-active" : ""}`}
+                to="/bucketed-probations"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-trash-2 mr-3"></i>
+                <span className="nav-text-drop">Bucketed Probations </span>
+              </Link>
+            </li>
           </ul>
         </li>
         
@@ -1032,6 +1047,18 @@ class SideBar extends Component {
               >
                 <i className="flaticon-381-folder-2 mr-3"></i>
                 <span className="nav-text-drop">Contracts Approval</span>
+              </Link>
+            </li>
+
+            <li >
+              <Link
+               className={`${path === "bucketed-contracts" ? "mm-active" : ""}`}
+                to="/bucketed-contracts"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-trash-2 mr-3"></i>
+                <span className="nav-text-drop">Bucketed Contracts </span>
               </Link>
             </li>
           </ul>
@@ -1590,6 +1617,17 @@ class SideBar extends Component {
                 <span className="nav-text-drop">Probation Approval</span>
               </Link>
             </li>
+            <li >
+              <Link
+               className={`${path === "bucketed-probations-head" ? "mm-active" : ""}`}
+                to="/bucketed-probations-head"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-trash-2 mr-3"></i>
+                <span className="nav-text-drop">Bucketed Probations </span>
+              </Link>
+            </li>
           </ul>
         </li>
         <li className={`${EmpUpdateDetailCont.includes(path) ? "mm-active" : ""}`}>
@@ -1628,6 +1666,17 @@ class SideBar extends Component {
               >
                 <i className="flaticon-381-folder-2 mr-3"></i>
                 <span className="nav-text-drop">Contracts Approval</span>
+              </Link>
+            </li>
+            <li >
+              <Link
+               className={`${path === "bucketed-contracts-head" ? "mm-active" : ""}`}
+                to="/bucketed-contracts-head"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-trash-2 mr-3"></i>
+                <span className="nav-text-drop">Bucketed Contracts </span>
               </Link>
             </li>
           </ul>
@@ -2230,6 +2279,18 @@ class SideBar extends Component {
                 <span className="nav-text-drop">Probation Approval</span>
               </Link>
             </li>
+
+            <li >
+              <Link
+               className={`${path === "bucketed-probations" ? "mm-active" : ""}`}
+                to="/bucketed-probations"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-trash-2 mr-3"></i>
+                <span className="nav-text-drop">Bucketed Probations </span>
+              </Link>
+            </li>
           </ul>
         </li>
         <li className={`${EmpUpdateDetailCont.includes(path) ? "mm-active" : ""}`}>
@@ -2268,6 +2329,17 @@ class SideBar extends Component {
               >
                 <i className="flaticon-381-folder-2 mr-3"></i>
                 <span className="nav-text-drop">Contracts Approval</span>
+              </Link>
+            </li>
+            <li >
+              <Link
+               className={`${path === "bucketed-contracts" ? "mm-active" : ""}`}
+                to="/bucketed-contracts"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-trash-2 mr-3"></i>
+                <span className="nav-text-drop">Bucketed Contracts </span>
               </Link>
             </li>
 
@@ -2734,6 +2806,17 @@ class SideBar extends Component {
                 <span className="nav-text-drop">Probation Approval</span>
               </Link>
             </li>
+            <li >
+              <Link
+               className={`${path === "bucketed-probations" ? "mm-active" : ""}`}
+                to="/bucketed-probations"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-trash-2 mr-3"></i>
+                <span className="nav-text-drop">Bucketed Probations </span>
+              </Link>
+            </li>
           </ul>
         </li>
         <li className={`${EmpUpdateDetailCont.includes(path) ? "mm-active" : ""}`}>
@@ -2772,6 +2855,17 @@ class SideBar extends Component {
               >
                 <i className="flaticon-381-folder-2 mr-3"></i>
                 <span className="nav-text-drop">Contracts Approval</span>
+              </Link>
+            </li>
+            <li >
+              <Link
+               className={`${path === "bucketed-contracts" ? "mm-active" : ""}`}
+                to="/bucketed-contracts"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-trash-2 mr-3"></i>
+                <span className="nav-text-drop">Bucketed Contracts </span>
               </Link>
             </li>
           </ul>
@@ -3197,7 +3291,7 @@ class SideBar extends Component {
             </li>
           </ul>
         </li> */}
-               <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
+        <li className={`${EmpUpdateDetail.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-10"></i>
             <span className="nav-text">Employee Probation</span>
@@ -3233,6 +3327,17 @@ class SideBar extends Component {
               >
                 <i className="flaticon-381-album-2  mr-3"></i>
                 <span className="nav-text-drop">Probation Approval</span>
+              </Link>
+            </li>
+            <li >
+              <Link
+               className={`${path === "bucketed-probations" ? "mm-active" : ""}`}
+                to="/bucketed-probations"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-trash-2 mr-3"></i>
+                <span className="nav-text-drop">Bucketed Probations </span>
               </Link>
             </li>
           </ul>
@@ -3274,6 +3379,17 @@ class SideBar extends Component {
               >
                 <i className="flaticon-381-folder-2 mr-3"></i>
                 <span className="nav-text-drop">Contracts Approval</span>
+              </Link>
+            </li>
+            <li >
+              <Link
+               className={`${path === "bucketed-contracts" ? "mm-active" : ""}`}
+                to="/bucketed-contracts"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-trash-2 mr-3"></i>
+                <span className="nav-text-drop">Bucketed Contracts </span>
               </Link>
             </li>
           </ul>
@@ -3739,6 +3855,17 @@ class SideBar extends Component {
                 <span className="nav-text-drop">Probation Approval</span>
               </Link>
             </li>
+            <li >
+              <Link
+               className={`${path === "bucketed-probations" ? "mm-active" : ""}`}
+                to="/bucketed-probations"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-trash-2 mr-3"></i>
+                <span className="nav-text-drop">Bucketed Probations </span>
+              </Link>
+            </li>
           </ul>
         </li>
         
@@ -3778,6 +3905,17 @@ class SideBar extends Component {
               >
                 <i className="flaticon-381-folder-2 mr-3"></i>
                 <span className="nav-text-drop">Contracts Approval</span>
+              </Link>
+            </li>
+            <li >
+              <Link
+               className={`${path === "bucketed-contracts" ? "mm-active" : ""}`}
+                to="/bucketed-contracts"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-trash-2 mr-3"></i>
+                <span className="nav-text-drop">Bucketed Contracts </span>
               </Link>
             </li>
           </ul>
@@ -4066,6 +4204,34 @@ class SideBar extends Component {
             <span className="nav-text">Exit Interview</span>
           </Link>
         </li>
+        <li className={`${Settings.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-settings-2"></i>
+            <span className="nav-text">Settings</span>
+          </Link>
+          <ul>
+            <li className={`${path === "HR-users" ? "mm-active" : ""}`}>
+              <Link
+                className=""
+                to="/HR-users"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-user-8 mr-3"></i>
+                <span className="nav-text">Users</span>
+              </Link>
+            </li>
+            <li className={`${path === "HR-document" ? "mm-active" : ""}`}>
+              <Link
+                className=""
+                to="/HR-document"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-box mr-3"></i>
+                <span className="nav-text">Documents</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
       </>
     );
 
@@ -4245,6 +4411,18 @@ class SideBar extends Component {
                 <span className="nav-text-drop">Probation Approval</span>
               </Link>
             </li>
+            <li >
+              <Link
+               className={`${path === "bucketed-probations" ? "mm-active" : ""}`}
+                to="/bucketed-probations"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-trash-2 mr-3"></i>
+                <span className="nav-text-drop">Bucketed Probations </span>
+              </Link>
+            </li>
+
           </ul>
         </li>
         
@@ -4286,6 +4464,18 @@ class SideBar extends Component {
                 <span className="nav-text-drop">Contracts Approval</span>
               </Link>
             </li>
+            <li >
+              <Link
+               className={`${path === "bucketed-contracts" ? "mm-active" : ""}`}
+                to="/bucketed-contracts"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-trash-2 mr-3"></i>
+                <span className="nav-text-drop">Bucketed Contracts </span>
+              </Link>
+            </li>
+
           </ul>
         </li>
 
@@ -4696,6 +4886,17 @@ class SideBar extends Component {
                 <span className="nav-text-drop">Probation Approval</span>
               </Link>
             </li>
+            <li >
+              <Link
+               className={`${path === "bucketed-probations" ? "mm-active" : ""}`}
+                to="/bucketed-probations"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-trash-2 mr-3"></i>
+                <span className="nav-text-drop">Bucketed Probations </span>
+              </Link>
+            </li>
           </ul>
         </li>
         
@@ -4735,6 +4936,17 @@ class SideBar extends Component {
               >
                 <i className="flaticon-381-folder-2 mr-3"></i>
                 <span className="nav-text-drop">Contracts Approval</span>
+              </Link>
+            </li>
+            <li >
+              <Link
+               className={`${path === "bucketed-contracts" ? "mm-active" : ""}`}
+                to="/bucketed-contracts"
+                onClick={() => this.props.onClick3()}
+
+              >
+                <i className="flaticon-381-trash-2 mr-3"></i>
+                <span className="nav-text-drop">Bucketed Contracts </span>
               </Link>
             </li>
           </ul>
@@ -5187,7 +5399,7 @@ class SideBar extends Component {
         {/* <li className={`${Grievance.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-id-card"></i>
-            <span className="nav-text">Grievance</span>
+            <span className="nav-text">Grievances</span>
           </Link>
           <ul>
             <li>
