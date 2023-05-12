@@ -20,8 +20,8 @@ const BreadCrumb = (props) => {
     }
   };
   const Back = () => {
-    if (props.backlink == "") {
-      return props.history.go(-2);
+    if (props.backlink === "") {
+      return props.history.go(-1);
     } else {
       return props.history.push(props.backlink);
     }
