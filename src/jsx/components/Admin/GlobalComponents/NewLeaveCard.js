@@ -493,7 +493,7 @@ const NewLeaveCard = (props) => {
     <>
       <div className="d-flex justify-content-end">
         <button className="btn btn-warning" onClick={uploadLeaveApp}>
-          Upload the Leave <i className="fa fa-sitemap"></i>
+          Submit Leave Application<i className="fa fa-sitemap"></i>
         </button>
       </div>
     </>
