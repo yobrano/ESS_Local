@@ -147,6 +147,10 @@ const ImmediateHODEOCCard = (props) => {
     const [employmentYear, setEmploymentYear] = useState("");
     const [yearsOfService, setYearsOfService] = useState("");
 
+    const [extensionF, setExtensionF] = useState(false);
+    const [stage, setStage] = useState("");
+    const [stageMessage, setStageMessage] = useState("");
+
   const toggleCollapse = (from) => {
     switch (from) {
       case "renewal":
@@ -157,6 +161,10 @@ const ImmediateHODEOCCard = (props) => {
         setRenewalF(false);
         setnonRenewalF(true);
         break;
+      case "reversal":
+        setExtensionF(!extensionF);
+        break;
+  
       default:
         setRenewalF(true);
         setnonRenewalF(false);
@@ -428,6 +436,62 @@ const ImmediateHODEOCCard = (props) => {
         swal("Oh!", err.data.message, "error");
       });
   }, []);
+
+  //Revesal
+  const ReversalAction = (e) => {
+    e.preventDefault();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+
+    let data = {
+      ContractStatus: parseInt(stage),
+      BackTrackingReason: stageMessage,
+      ContractNo:props.location.state[0].datum[0].contractNo,
+    };
+
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Reverse the Record?",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        if (willCreate) {
+          setDisableBtn(true);
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/contractreversalfromhod`,
+            data,
+            config
+          );
+        }
+      })
+
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          setDisableBtn(false);
+          swal("Success!", "Contract Record Reversed.", "success");
+        }
+        if (response.status === 404) {
+          alert(response.data.message);
+        }
+      })
+      .catch((err) => {
+        setDisableBtn(false);
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+        console.log({ err: err });
+      });
+  };
+
 
   const pushToHR = (e) => {
     e.preventDefault();
@@ -730,18 +794,76 @@ const ImmediateHODEOCCard = (props) => {
       });
   };
 
+
+  const pushToBucketHOD =(e)=>{
+    e.preventDefault();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Push to Bucket.",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        if (willCreate) {
+          setDisableBtn(true);
+          return axios.get(
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/movecontracttobuckethod/${props.location.state[0].datum[0].contractNo}`,
+            // data,
+            config
+          );
+        }
+      })
+
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          setDisableBtn(false);
+          swal("Success!", "Contract Pushed", "success");
+        }
+        if (response.status === 404) {
+          alert(response.data.message);
+        }
+      })
+      .catch((err) => {
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+        console.log({ err: err });
+      });
+  }
+
   let btnUP = "";
   let sectionOne = "";
   if (props.location.state[0].datum[0].status === "Open") {
     
       btnUP = (
-        <button
+        <>
+          <button
           className="btn btn-success"
           onClick={pushToHR}
           disabled={disableBtn}
         >
           Push the Form
+        </button> 
+        <button
+            className="btn btn-info ml-1"
+            onClick={pushToBucketHOD}
+            disabled={disableBtn}
+          >
+            Move To Bucket
         </button>
+        </>
+      
       );
     
   } else {
@@ -856,20 +978,75 @@ const ImmediateHODEOCCard = (props) => {
                     />
                   </div>
                 </div>
+                <div className="col-xl-4 col-sm-4">
+                  <div className="form-group">
+                    <label htmlFor="">Immediate Supervisor</label>
 
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={selectedMgr}
+                      disabled
+                    />
+                  </div>
+                </div>
 
-                  <div className="col-xl-4 col-sm-4">
+         
+                  <div className="col-xl-3 col-sm-3">
                     <div className="form-group">
-                      <label htmlFor="">Immediate Supervisor</label>
-
+                      <label htmlFor="">Do we renew the contract?</label>
+                      <select
+                          name="qualifiedForPromo"
+                          id=""
+                          className="form-control"
+                          disabled={true}
+                        >
+                          <option>{props.location.state[0].datum[0].doRenew}</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div className="col-xl-3 col-sm-3">
+                    <div className="form-group">
+                      <label htmlFor="">If yes, for how long?</label>
+                      <select
+                          name="qualifiedForPromo"
+                          id=""
+                          className="form-control"
+                          disabled={true}
+                        >
+                          <option>{props.location.state[0].datum[0].howlong}</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div className="col-xl-12 col-sm-12">
+                    <div className="form-group">
+                      <label htmlFor="">Reason for renewal</label>
                       <input
                         type="text"
                         className="form-control"
-                        value={selectedMgr}
-                        disabled
+                        name="probationTime"
+                        placeholder="Reason(s) for renewal/non-renewal"
+                        value={props.location.state[0].datum[0].renewReason}
+                        disabled={true}
                       />
                     </div>
+
                   </div>
+                  <div className="col-xl-12 col-sm-6">
+                    <div className="form-group">
+                      <label htmlFor=""> How long have you supervised</label>
+                      <textarea
+                        className="form-control"
+                        cols="30"
+                        rows="1"
+                        name="Howlongs"
+                        placeholder="How long have you been supervising this employee? (max 240 characters)"
+                        value={props.location.state[0].datum[0].supervisionTime}
+                        disabled={true}
+                      ></textarea>
+                    </div>
+                  </div>
+                  
                 </div>
               </div>
 
@@ -1456,7 +1633,56 @@ const ImmediateHODEOCCard = (props) => {
           <div className="row">
             <div className="col-md-12">
             {btnUP}
+            <button
+              className="btn btn-danger mx-2"
+              onClick={() => toggleCollapse("reversal")}
+              aria-controls="example-collapse-text"
+              aria-expanded={extensionF}
+              disabled={disableBtn}
+            >
+              <i className="fa fa-repeat px-1"></i>
+              Re-verse
+            </button>
             </div>
+          </div>
+          <div className="row">
+            <Collapse in={extensionF}>
+              <div id="example-collapse-text">
+                <div className="row">
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label htmlFor="">Select Reversal Stage</label>
+                      <select name="stage" id=""  onChange={(e) => setStage(e.target.value)} className="form-control">
+                        <option value="">Choose Level</option>
+                        <option value="0">Immediate Supervisor</option>
+                        {/* <option value="2">HR</option> */}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-md-8">
+                  <label foo="">Reversal Reason</label>
+                    <textarea
+                      className="w-100 form-control"
+                      name="stageMessage"
+                      rows="2"
+                      placeholder="Summary 240 characters"
+                      value={stageMessage}
+                      onChange={(e) => setStageMessage(e.target.value)}
+                      disabled={false}
+                    ></textarea>
+                  </div>
+
+                  <div className="col-12">
+                    <button
+                      className="btn btn-danger rounded-0 w-100 mt-2"
+                      onClick={ReversalAction}
+                    >
+                      Re-verse <i className="fa fa-repeat"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Collapse>
           </div>
         </div>
       </div>
