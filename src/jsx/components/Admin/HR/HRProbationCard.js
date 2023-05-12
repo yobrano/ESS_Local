@@ -6,6 +6,7 @@ import { Button, Collapse } from "react-bootstrap";
 import "./ExitForm.css";
 import axios from "axios";
 import swal from "sweetalert";
+import Select from "react-select";
 
 const HRProbationCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -131,6 +132,9 @@ const HRProbationCard = (props) => {
   const [extensionF, setExtensionF] = useState(false);
   const [confirmationF, setConfirmationF] = useState(false);
   const [nonConfirmF, setnonConfirmF] = useState(false);
+  const [reverseF, setReverseF] = useState(false);
+  const [stage, setStage] = useState("");
+  const [stageMessage, setStageMessage] = useState("");
 
   //Extesion Fields
   const [extendDuration, setExtendDuration] = useState("");
@@ -143,12 +147,27 @@ const HRProbationCard = (props) => {
   const [constractEndDate, setContractEndDate] = useState(new Date());
 
   
-      //Additional Fields
-      const [jobTitle, setJobTitle] = useState("");
-      const [branch, setBranch] = useState("");
-      const [product, setProduct] = useState("");
-      const [employmentYear, setEmploymentYear] = useState("");
-      const [yearsOfService, setYearsOfService] = useState("");
+  //Additional Fields
+  const [jobTitle, setJobTitle] = useState("");
+  const [branch, setBranch] = useState("");
+  const [product, setProduct] = useState("");
+  const [employmentYear, setEmploymentYear] = useState("");
+  const [yearsOfService, setYearsOfService] = useState("");
+
+  const [selectedNo, setSelectedNo] = useState("");
+  const [selectedDuration, setSelectedDuration] = useState("");
+
+  const numberList=[
+    {value:"1",label:"1"},{value:"2",label:"2"},{value:"3",label:"3"},{value:"4",label:"4"},{value:"5",label:"5"},{value:"6",label:"6"},{value:"7",label:"7"},{value:"8",label:"9"},{value:"10",label:"10"},
+    {value:"11",label:"11"},{value:"12",label:"12"},{value:"13",label:"13"},{value:"14",label:"14"},{value:"15",label:"15"},{value:"16",label:"16"},{value:"17",label:"17"},{value:"18",label:"19"},{value:"20",label:"20"},
+    {value:"21",label:"21"},{value:"22",label:"22"},{value:"23",label:"23"},{value:"24",label:"24"},{value:"25",label:"25"},{value:"26",label:"26"},{value:"27",label:"27"},{value:"28",label:"29"},{value:"30",label:"30"},
+    {value:"31",label:"31"},{value:"32",label:"32"},{value:"33",label:"33"},{value:"34",label:"34"},{value:"35",label:"35"},{value:"36",label:"36"},{value:"37",label:"37"},{value:"38",label:"39"},{value:"40",label:"40"},
+
+  ]
+  const durationList=[
+    {value:"D",label:"Day(s)"},{value:"M",label:"Month(s)"},{value:"Y",label:"Year(s)"}
+  ] 
+
 
   const toggleCollapse = (from) => {
     switch (from) {
@@ -167,8 +186,14 @@ const HRProbationCard = (props) => {
         setConfirmationF(false);
         setnonConfirmF(true);
         break;
+      case "reversal":
+        setReverseF(!reverseF);
+        setExtensionF(false);
+        setConfirmationF(false);
+        setnonConfirmF(false);
+        break;
       default:
-        setExtensionF(true);
+        setExtensionF(false);
         setConfirmationF(false);
         setnonConfirmF(false);
         break;
@@ -488,283 +513,475 @@ const HRProbationCard = (props) => {
       });
   }
 
-    // //Non-Confirmation
-    const NonConfirmation = () => {
-      const config = {
-        responseType: "blob",
+  // //Non-Confirmation
+  const NonConfirmation = () => {
+    const config = {
+      responseType: "blob",
+    headers: {
+      Authorization: `Bearer ${
+        JSON.parse(localStorage.getItem("userDetails")).idToken
+      }`,
+    },
+    timeout: 60000,
+    };
+
+    let Data = {
+      StaffID: props.location.state[0].datum[0].empID,
+      ProbationEndDate: constractEndDate,
+      ProbationID: props.location.state[0].datum[0].probationNo,
+    };
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Non-Confirm",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        if (willCreate) {
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/nonconfirmation`,
+            Data,
+            config
+          );
+        }
+      })
+      .then((json) => {
+        // console.log(json.data);
+        // swal("Success!", json.data.message, "success");
+        // swal("Success!", "Your record has been non confirmed!", "success");
+        var saveData = (function () {
+          var a = document.createElement("a");
+          document.body.appendChild(a);
+          a.style = "display: none";
+          return function (data, fileName) {
+              //var json = JSON.stringify(data),
+                var blob = new Blob([data.data], {type: "application/msword"}),
+                  url = window.URL.createObjectURL(blob);
+              a.href = url;
+              a.download = fileName;
+              a.click();
+              window.URL.revokeObjectURL(url);
+              swal("Success!", "Non Confirmation Success", "success");
+          };
+      }());
+      let fileName = Data.StaffID+"_NonConfirmation.doc";
+      saveData(json, fileName);
+
+      })
+      .catch((err) => {
+        swal("Oh!", err.message, "error");
+        // if (err.response !== undefined) {
+        //   swal("Oh!", err.response.data.message, "error");
+        // } else {
+        //   swal("Oh!", err.message, "error");
+        // }
+        // if(err !== undefined){
+        //   swal("Oh!","Non Confirmation/Mailing Failed", "error");
+        // }
+        // console.log(err);
+      });
+  };
+
+  // //Confirm
+  const Confirm = () => {
+    const config = {
+      responseType: "blob",
       headers: {
         Authorization: `Bearer ${
           JSON.parse(localStorage.getItem("userDetails")).idToken
         }`,
       },
       timeout: 60000,
-      };
-  
-      let Data = {
-        StaffID: props.location.state[0].datum[0].empID,
-        ProbationEndDate: constractEndDate,
-        ProbationID: props.location.state[0].datum[0].probationNo,
-      };
-      swal({
-        title: "Are you sure?",
-        text: "Are you sure that you want to Non-Confirm",
-        icon: "warning",
-        dangerMode: true,
-      })
-        .then((willCreate) => {
-          if (willCreate) {
-            return axios.post(
-              `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/nonconfirmation`,
-              Data,
-              config
-            );
-          }
-        })
-        .then((json) => {
-          // console.log(json.data);
-          // swal("Success!", json.data.message, "success");
-          // swal("Success!", "Your record has been non confirmed!", "success");
-          var saveData = (function () {
-            var a = document.createElement("a");
-            document.body.appendChild(a);
-            a.style = "display: none";
-            return function (data, fileName) {
-                //var json = JSON.stringify(data),
-                 var blob = new Blob([data.data], {type: "application/msword"}),
-                    url = window.URL.createObjectURL(blob);
-                a.href = url;
-                a.download = fileName;
-                a.click();
-               window.URL.revokeObjectURL(url);
-               swal("Success!", "Non Confirmation Success", "success");
-            };
-        }());
-        let fileName = Data.StaffID+"_NonConfirmation.doc";
-        saveData(json, fileName);
+    };
 
-        })
-        .catch((err) => {
+    let Data = {
+      StaffID:props.location.state[0].datum[0].empID,
+      ProbationExpire: contractExpire,
+      ProbationDate: contractDate,
+      ProbationID: props.location.state[0].datum[0].probationNo,
+    };
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Confirm",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        if (willCreate) {
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/confirmation`,
+            Data,
+            config
+          );
+        }
+      })
+      .then((json) => {
+        var saveData = (function () {
+          var a = document.createElement("a");
+          document.body.appendChild(a);
+          a.style = "display: none";
+          return function (data, fileName) {
+              //var json = JSON.stringify(data),
+                var blob = new Blob([data.data], {type: "application/msword"}),
+                  url = window.URL.createObjectURL(blob);
+              a.href = url;
+              a.download = fileName;
+              a.click();
+              window.URL.revokeObjectURL(url);
+              swal("Success!", "Confirmation Success", "success");
+          };
+      }());
+      let fileName = Data.StaffID+"_Confirmation.doc";
+      saveData(json, fileName);
+
+      })
+      .catch((err) => {
+        swal("Oh!", err.message, "error");
+      });
+  };
+
+  // //Extend
+  const Extend = () => {
+    const config = {
+      responseType: "blob",
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+      timeout: 60000,
+    };
+
+    let Data = {
+      StaffID:props.location.state[0].datum[0].empID,
+      ExtendDuration: selectedNo.label+" "+selectedDuration.label,
+      DateFormulae: selectedNo.value+selectedDuration.value,
+      ExtendDate: extendDate,
+      NextReviewDate: nextReviewDate,
+      ProbationID: props.location.state[0].datum[0].probationNo,
+
+    };
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Extend",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        if (willCreate) {
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/extension`,
+            Data,
+            config
+          );
+        }
+      })
+      .then((json) => {
+        var saveData = (function () {
+          var a = document.createElement("a");
+          document.body.appendChild(a);
+          a.style = "display: none";
+          return function (data, fileName) {
+              //var json = JSON.stringify(data),
+                var blob = new Blob([data.data], {type: "application/msword"}),
+                  url = window.URL.createObjectURL(blob);
+              a.href = url;
+              a.download = fileName;
+              a.click();
+              window.URL.revokeObjectURL(url);
+              swal("Success!", "Extension Success", "success");
+          };
+      }());
+      let fileName = Data.StaffID+"_Extension.doc";
+      saveData(json, fileName);
+
+      })
+      .catch((err) => {
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
           swal("Oh!", err.message, "error");
-          // if (err.response !== undefined) {
-          //   swal("Oh!", err.response.data.message, "error");
-          // } else {
-          //   swal("Oh!", err.message, "error");
-          // }
-          // if(err !== undefined){
-          //   swal("Oh!","Non Confirmation/Mailing Failed", "error");
-          // }
-          // console.log(err);
-        });
-    };
-  
-    // //Confirm
-    const Confirm = () => {
-      const config = {
-        responseType: "blob",
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
-          }`,
-        },
-        timeout: 60000,
-      };
-  
-      let Data = {
-        StaffID:props.location.state[0].datum[0].empID,
-        ProbationExpire: contractExpire,
-        ProbationDate: contractDate,
-        ProbationID: props.location.state[0].datum[0].probationNo,
-      };
-      swal({
-        title: "Are you sure?",
-        text: "Are you sure that you want to Confirm",
-        icon: "warning",
-        dangerMode: true,
-      })
-        .then((willCreate) => {
-          if (willCreate) {
-            return axios.post(
-              `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/confirmation`,
-              Data,
-              config
-            );
-          }
-        })
-        .then((json) => {
-          var saveData = (function () {
-            var a = document.createElement("a");
-            document.body.appendChild(a);
-            a.style = "display: none";
-            return function (data, fileName) {
-                //var json = JSON.stringify(data),
-                 var blob = new Blob([data.data], {type: "application/msword"}),
-                    url = window.URL.createObjectURL(blob);
-                a.href = url;
-                a.download = fileName;
-                a.click();
-               window.URL.revokeObjectURL(url);
-               swal("Success!", "Confirmation Success", "success");
-            };
-        }());
-        let fileName = Data.StaffID+"_Confirmation.doc";
-        saveData(json, fileName);
+        }
+        if(err !== undefined){
+          swal("Oh!","Extension Failed", "error");
+        }
+      });
+  };
 
-        })
-        .catch((err) => {
+  //View Attached Document
+  const viewSupportingDoc = () => {
+    const config = {
+      responseType: "blob",
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+    axios
+      .get(
+        `${process.env.REACT_APP_API_S_LINK}/home/getmonitoring/${props.location.state[0].datum[0].probationNo}`,
+        config
+      )
+
+      .then(function (response) {
+        if (response.status === 200) {
+          const file = new Blob([response.data], { type: "application/pdf" });
+          //Build a URL from the file
+          const fileURL = URL.createObjectURL(file);
+          //Open the URL on new Window
+          const pdfWindow = window.open();
+          pdfWindow.location.href = fileURL;
+        }
+      })
+      .catch((err) => {
+        if (err !== undefined) {
+          swal("Oops!", "Document Missing/Fetch Failed", "error");
+        }
+
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
           swal("Oh!", err.message, "error");
-        });
-    };
-  
-    // //Extend
-    const Extend = () => {
-      const config = {
-        responseType: "blob",
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
-          }`,
-        },
-        timeout: 60000,
-      };
-  
-      let Data = {
-        StaffID:props.location.state[0].datum[0].empID,
-        ExtendDuration: extendDuration,
-        ExtendDate: extendDate,
-        NextReviewDate: nextReviewDate,
-        ProbationID: props.location.state[0].datum[0].probationNo,
+        }
 
-      };
-      swal({
-        title: "Are you sure?",
-        text: "Are you sure that you want to Extend",
-        icon: "warning",
-        dangerMode: true,
+        console.log({ err: err });
+      });
+  };
+
+  const pushToHeadHR = (e) => {
+    e.preventDefault();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+
+    let data = {
+      HRcomment: hrRemark,
+    };
+
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Push to Head HR.",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        if (willCreate) {
+          setDisableBtn(true);
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/hrpushprobationtoheadhr/${props.location.state[0].datum[0].probationNo}`,
+            data,
+            config
+          );
+        }
       })
-        .then((willCreate) => {
-          if (willCreate) {
-            return axios.post(
-              `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/extension`,
-              Data,
-              config
-            );
-          }
-        })
-        .then((json) => {
-          var saveData = (function () {
-            var a = document.createElement("a");
-            document.body.appendChild(a);
-            a.style = "display: none";
-            return function (data, fileName) {
-                //var json = JSON.stringify(data),
-                 var blob = new Blob([data.data], {type: "application/msword"}),
-                    url = window.URL.createObjectURL(blob);
-                a.href = url;
-                a.download = fileName;
-                a.click();
-               window.URL.revokeObjectURL(url);
-               swal("Success!", "Extension Success", "success");
-            };
-        }());
-        let fileName = Data.StaffID+"_Extension.doc";
-        saveData(json, fileName);
 
-        })
-        .catch((err) => {
-          if (err.response !== undefined) {
-            swal("Oh!", err.response.data.message, "error");
-          } else {
-            swal("Oh!", err.message, "error");
-          }
-          if(err !== undefined){
-            swal("Oh!","Extension Failed", "error");
-          }
-        });
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          setDisableBtn(false);
+          swal("Success!", "Probation Form Updated/Pushed", "success");
+        }
+        if (response.status === 404) {
+          alert(response.data.message);
+        }
+      })
+      .catch((err) => {
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+        console.log({ err: err });
+      });
+  };
+
+  const pushToBucketHR =(e)=>{
+    e.preventDefault();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
     };
 
-    //View Attached Document
-    const viewSupportingDoc = () => {
-      const config = {
-        responseType: "blob",
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
-          }`,
-        },
-      };
-      axios
-        .get(
-          `${process.env.REACT_APP_API_S_LINK}/home/getmonitoring/${props.location.state[0].datum[0].probationNo}`,
-          config
-        )
-  
-        .then(function (response) {
-          if (response.status === 200) {
-            const file = new Blob([response.data], { type: "application/pdf" });
-            //Build a URL from the file
-            const fileURL = URL.createObjectURL(file);
-            //Open the URL on new Window
-            const pdfWindow = window.open();
-            pdfWindow.location.href = fileURL;
-          }
-        })
-        .catch((err) => {
-          if (err !== undefined) {
-            swal("Oops!", "Document Missing/Fetch Failed", "error");
-          }
-  
-          if (err.response !== undefined) {
-            swal("Oh!", err.response.data.message, "error");
-          } else {
-            swal("Oh!", err.message, "error");
-          }
-  
-          console.log({ err: err });
-        });
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Push to Bucket.",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        if (willCreate) {
+          setDisableBtn(true);
+          return axios.get(
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/moveprobationtobuckethr/${props.location.state[0].datum[0].probationNo}`,
+            // data,
+            config
+          );
+        }
+      })
+
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          setDisableBtn(false);
+          swal("Success!", "Probation Moved to Bucket", "success");
+        }
+        if (response.status === 404) {
+          alert(response.data.message);
+        }
+      })
+      .catch((err) => {
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+        console.log({ err: err });
+      });
+  }
+
+  //Revesal
+  const ReversalAction = (e) => {
+    e.preventDefault();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
     };
+
+    let data = {
+      ProbationStatus: parseInt(stage),
+      BackTrackingReason: stageMessage,
+      ProbationNo:props.location.state[0].datum[0].probationNo,
+    };
+
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Reverse the Record?",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        if (willCreate) {
+          setDisableBtn(true);
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/probationreversalfromhr`,
+            data,
+            config
+          );
+        }
+      })
+
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          setDisableBtn(false);
+          swal("Success!", "Probation Record Reversed.", "success");
+        }
+        if (response.status === 404) {
+          alert(response.data.message);
+        }
+      })
+      .catch((err) => {
+        setDisableBtn(false);
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+        console.log({ err: err });
+      });
+  };
+
+ 
 
   let btnUP = "";
   let sectionOne = "";
+  let authUser= "";
+  if (JSON.parse(localStorage.getItem("userDetails")).user.length > 0) {
+    authUser = JSON.parse(localStorage.getItem("userDetails")).user[0];
+  }
+
   if (props.location.state[0].datum[0].status === 'Open') {
     if(props.location.state[0].datum[0].probationStatus ===4){
       btnUP = (
         // <button className="btn btn-success" onClick={HRApprovedProbation} disabled={disableBtn}>
         //  Approve
-        // </button>
+        // </button> 
         <>
-         <Button
-        className="btn btn-secondary rounded-0 w-100"
-        onClick={() => toggleCollapse("extend")}
-        aria-controls="example-collapse-text"
-        aria-expanded={extensionF}   disabled={disableBtn}
-      >
-        Extension <i className="fa fa-repeat"></i>
-      </Button>
+          <Button
+            className="btn btn-info rounded-0 w-100"
+            onClick={pushToBucketHR}
+            disabled={disableBtn}
+          >
+            Move To Bucket
+          </Button>
 
-      <Button
-        className="btn btn-success rounded-0 w-100"
-        onClick={() => toggleCollapse("confirm")}
-        aria-controls="example-collapse-text"
-        aria-expanded={confirmationF}  disabled={disableBtn}
-      >
-        Confirmation <i className="fa fa-check"></i>
-      </Button>
-      <Button
-        className="btn btn-danger rounded-0 w-100"
-        onClick={() => toggleCollapse("nonconfirm")}
-        aria-controls="example-collapse-text"
-        aria-expanded={nonConfirmF}  disabled={disableBtn}
-      >
-        Non-Confirmation <i className="fa fa-times"></i>
-      </Button>
+          <Button
+            className="btn btn-secondary rounded-0 w-100"
+            onClick={() => toggleCollapse("extend")}
+            aria-controls="example-collapse-text"
+            aria-expanded={extensionF}   disabled={disableBtn}
+          >
+            Extension <i className="fa fa-repeat"></i>
+          </Button>
+
+          <Button
+            className="btn btn-success rounded-0 w-100"
+            onClick={() => toggleCollapse("confirm")}
+            aria-controls="example-collapse-text"
+            aria-expanded={confirmationF}  disabled={disableBtn}
+          >
+            Confirmation <i className="fa fa-check"></i>
+          </Button>
+
+          <Button
+            className="btn btn-danger rounded-0 w-100"
+            onClick={() => toggleCollapse("nonconfirm")}
+            aria-controls="example-collapse-text"
+            aria-expanded={nonConfirmF}  disabled={disableBtn}
+          >
+            Non-Confirmation <i className="fa fa-times"></i>
+          </Button>
         </>
       );
     }else{
       btnUP = (
-        <button className="btn btn-success" onClick={pushToMDFD} disabled={disableBtn}>
+        <>
+
+          <button
+          className="btn btn-primary rounded-0 w-100"
+          onClick={pushToHeadHR}
+          disabled={disableBtn}
+        >
+          Push to Head HR
+        </button>
+          <button className="btn btn-success rounded-0 w-100" onClick={pushToMDFD} disabled={disableBtn}>
          Push to MD/FD
         </button>
+
+        <button
+        className="btn btn-info rounded-0 w-100"
+        onClick={pushToBucketHR}
+        disabled={disableBtn}
+        >
+        Move To Bucket
+        </button>
+        </>
+      
       );
+      if(authUser !=="HEAD-HR"){
+        
+      }
     }
     
   
@@ -2471,6 +2688,22 @@ const HRProbationCard = (props) => {
           <div className="row">
           <div className="d-flex">
             {btnUP}
+            <button
+              // className="btn btn-danger mx-2"
+              // onClick={() => toggleCollapse("reversal")}
+              // aria-controls="example-collapse-text"
+              // aria-expanded={extensionF}
+              // disabled={disableBtn}
+              className="btn btn-warning rounded-0 w-100"
+              onClick={() => toggleCollapse("reversal")}
+              aria-controls="example-collapse-text"
+              aria-expanded={reverseF}
+              disabled={disableBtn}
+
+            >
+              <i className="fa fa-repeat px-1"></i>
+              Re-verse
+            </button>
           
           </div>
 
@@ -2481,7 +2714,20 @@ const HRProbationCard = (props) => {
                   <div className="col-md-4">
                     <div className="form-group">
                       <label htmlFor="">Extend Duration For</label>
-                      <input
+                      <div className="d-flex">
+                        <Select
+                          defaultValue={selectedNo}
+                          onChange={setSelectedNo}
+                          options={numberList}
+                        />
+                        <Select
+                          defaultValue={selectedDuration}
+                          onChange={setSelectedDuration}
+                          options={durationList}
+                        />
+                    
+                      </div>
+                      {/* <input
                         type="text"
                         className="form-control"
                         value={extendDuration}
@@ -2489,7 +2735,7 @@ const HRProbationCard = (props) => {
                           setExtendDuration(e.target.value)
                         }
                         placeholder="1 Weeks"
-                      />
+                      /> */}
                     </div>
                   </div>
                   <div className="col-md-4">
@@ -2582,6 +2828,44 @@ const HRProbationCard = (props) => {
                       onClick={NonConfirmation}
                     >
                       Non-Confirmation <i className="fa fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Collapse>
+
+            <Collapse in={reverseF}>
+              <div id="example-collapse-text">
+                <div className="row">
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label htmlFor="">Select Reversal Stage</label>
+                      <select name="stage" id=""  onChange={(e) => setStage(e.target.value)} className="form-control">
+                        <option value="">Choose Level</option>
+                        <option value="0">Immediate Supervisor</option>
+                        <option value="1">HOD</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-md-8">
+                  <label foo="">Reversal Reason</label>
+                    <textarea
+                      className="w-100 form-control"
+                      name="stageMessage"
+                      rows="2"
+                      placeholder="Summary 240 characters"
+                      value={stageMessage}
+                      onChange={(e) => setStageMessage(e.target.value)}
+                      disabled={false}
+                    ></textarea>
+                  </div>
+
+                  <div className="col-12">
+                    <button
+                      className="btn btn-danger rounded-0 w-100 mt-2"
+                      onClick={ReversalAction}
+                    >
+                      Re-verse <i className="fa fa-repeat"></i>
                     </button>
                   </div>
                 </div>
