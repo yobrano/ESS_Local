@@ -71,6 +71,7 @@ import MDProbationCard from "./components/Admin/MD/MDProbationCard";
 import NewContract from "./components/Admin/Staff/NewContract";
 import ContractList from "./components/Admin/Staff/ContractList";
 import ContractCard from "./components/Admin/Staff/ContractCard";
+// import ContractCard from "./components/Admin/Staff/BucketContractCard";
 import HRContractList from "./components/Admin/HR/HRContractList";
 import HRContractCard from "./components/Admin/HR/HRContractCard";
 import FDContractList from "./components/Admin/FD/FDContractList";
@@ -142,6 +143,17 @@ import ImmediateHODEOC from "./components/Admin/GlobalComponents/ImmediateHODEOC
 import ImmediateHODEOCCard from "./components/Admin/GlobalComponents/ImmediateHODEOCCard";
 import ImmediateHODPROBCard from "./components/Admin/GlobalComponents/ImmediateHODPROBCard";
 import ImmediateHODPROB from "./components/Admin/GlobalComponents/ImmediateHODPROB";
+import BucketContractList from "./components/Admin/Staff/BucketContractList";
+import BucketContractListHOD from "./components/Admin/Staff/BucketContractListHOD";
+import BucketContractListHEAD from "./components/Admin/Staff/BucketContractListHEAD";
+import BucketProbationList from "./components/Admin/Staff/BucketProbationList";
+import BucketProbationListHOD from "./components/Admin/Staff/BucketProbationListHOD";
+import BucketProbationListHEAD from "./components/Admin/Staff/BucketProbationListHEAD";
+import BucketProbationHODCard from "./components/Admin/Staff/BucketProbationHODCard";
+import BucketContractCard from "./components/Admin/Staff/BucketContractCard";
+import CompetenceList from "./components/Admin/GlobalComponents/CompetenceList";
+import CompetenceCard from "./components/Admin/GlobalComponents/CompetenceCard";
+import CompetenceLineEdit from "./components/Admin/GlobalComponents/CompetenceLineEdit";
 
 // import Landing from './pages/Landing'
 
@@ -240,10 +252,14 @@ const Markup = () => {
     { url: "Contract", component:NewContract, usr: "HR" },
     { url: "contract-list", component:ContractList, usr: "HR" },
     { url: "contract-card", component:ContractCard, usr: "HR" },
+    { url: "bucketed-contracts", component:BucketContractList, usr: "HR" },
+    { url: "bucket-contact-card", component:BucketContractCard, usr: "HR" },
 
     { url: "new-probation", component:NewProbation, usr: "HR" },
     { url: "probation-list", component:ProbationList, usr: "HR" },
     { url: "probation-card", component:ProbationCard, usr: "HR" },
+    { url: "bucketed-probations", component:BucketProbationList, usr: "HR" },
+    { url: "bucket-probation-card", component:BucketProbationHODCard, usr: "HR" },
 
   ];
 
@@ -338,6 +354,11 @@ const Markup = () => {
     { url: "new-probation", component:NewProbation, usr: "HEAD-HR" },
     { url: "probation-list", component:ProbationList, usr: "HEAD-HR" },
     { url: "probation-card", component:ProbationCard, usr: "HEAD-HR" },
+
+    { url: "bucketed-contracts-head", component:BucketContractListHEAD, usr: "HEAD-HR" },
+    { url: "bucket-contact-card", component:BucketContractCard, usr: "HEAD-HR" },
+    { url: "bucketed-probations-head", component:BucketProbationListHEAD, usr: "HEAD-HR" },
+    { url: "bucket-probation-card", component:BucketProbationHODCard, usr: "HEAD-HR" },
   ];
   //Job Seeker
   const routes2=[
@@ -423,6 +444,11 @@ const Markup = () => {
     { url: "contract-approval-card-hod", component:ImmediateHODEOCCard, usr: "HOD" },
     { url: "probation-approval-hod", component:ImmediateHODPROB, usr: "HOD" },
     { url: "probation-approval-card-hod", component:ImmediateHODPROBCard, usr: "HOD" },
+    
+    { url: "bucketed-contracts", component:BucketContractListHOD, usr: "HOD" },
+    { url: "bucket-contact-card", component:BucketContractCard, usr: "HOD" },
+    { url: "bucketed-probations", component:BucketProbationListHOD, usr: "HOD" },
+    { url: "bucket-probation-card", component:BucketProbationHODCard, usr: "HOD" },
 
   ];
   //HOD-ADMIN
@@ -504,6 +530,10 @@ const Markup = () => {
     { url: "probation-approval-hod", component:ImmediateHODPROB, usr: "HOD-ADMIN" },
     { url: "probation-approval-card-hod", component:ImmediateHODPROBCard, usr: "HOD-ADMIN" },
 
+    { url: "bucketed-contracts", component:BucketContractListHOD, usr: "HOD-ADMIN" },
+    { url: "bucketed-probations", component:BucketProbationListHOD, usr: "HOD-ADMIN" },
+    { url: "bucket-contact-card", component:BucketContractCard, usr: "HOD-ADMIN" },
+    { url: "bucket-probation-card", component:BucketProbationHODCard, usr: "HOD-ADMIN" },
   ];
   //HOD-ICT
   const routes7 = [
@@ -582,6 +612,11 @@ const Markup = () => {
     { url: "contract-approval-card-hod", component:ImmediateHODEOCCard, usr: "HOD-ICT" },
     { url: "probation-approval-hod", component:ImmediateHODPROB, usr: "HOD-ICT" },
     { url: "probation-approval-card-hod", component:ImmediateHODPROBCard, usr: "HOD-ICT" },
+
+    { url: "bucketed-contracts", component:BucketContractListHOD, usr: "HOD-ICT" },
+    { url: "bucketed-probations", component:BucketProbationListHOD, usr: "HOD-ICT" },
+    { url: "bucket-contact-card", component:BucketContractCard, usr: "HOD-ICT" },
+    { url: "bucket-probation-card", component:BucketProbationHODCard, usr: "HOD-ICT" },
 
   ];
   //HOD-HR
@@ -664,6 +699,16 @@ const Markup = () => {
     { url: "probation-approval-hod", component:ImmediateHODPROB, usr: "HOD-HR" },
     { url: "probation-approval-card-hod", component:ImmediateHODPROBCard, usr: "HOD-HR" },
 
+    { url: "bucketed-contracts", component:BucketContractListHOD, usr: "HOD-HR" },
+    { url: "bucketed-probations", component:BucketProbationListHOD, usr: "HOD-HR" },
+    { url: "bucket-contact-card", component:BucketContractCard, usr: "HOD-HR" },
+    { url: "bucket-probation-card", component:BucketProbationHODCard, usr: "HOD-HR" },
+
+    //Settings routes
+    { url: "HR-users", component:HRUserList ,usr:"HOD-HR" },
+    { url: "HR-user-card", component:HRUserCard ,usr:"HOD-HR" },
+    { url: "HR-document", component:HRDocumentSettings ,usr:"HOD-HR" },
+
   ];
   //HOD-FIN
   const routes9 = [
@@ -745,6 +790,10 @@ const Markup = () => {
     { url: "probation-approval-hod", component:ImmediateHODPROB, usr: "HOD-FIN" },
     { url: "probation-approval-card-hod", component:ImmediateHODPROBCard, usr: "HOD-FIN" },
 
+    { url: "bucketed-contracts", component:BucketContractListHOD, usr: "HOD-FIN" },
+    { url: "bucketed-probations", component:BucketProbationListHOD, usr: "HOD-FIN" },
+    { url: "bucket-contact-card", component:BucketContractCard, usr: "HOD-FIN" },
+    { url: "bucket-probation-card", component:BucketProbationHODCard, usr: "HOD-FIN" },
   ];
   //FD
   const routes10 = [
@@ -1016,6 +1065,13 @@ const Markup = () => {
     { url: "contractprobation-list", component:ContProbDocumentList, usr: "NORMAL" },
     { url: "contract-probation-display", component:ContProbDocumentCard, usr: "NORMAL" },
     { url: "probation-card", component:ProbationCard, usr: "NORMAL" },
+
+    //from 11/05/23
+    { url: "competency-list", component:CompetenceList, usr: "NORMAL" },
+    { url: "competency-card", component:CompetenceCard, usr: "NORMAL" },
+    { url: "edit-competence-line", component:CompetenceLineEdit, usr: "NORMAL" },
+
+    { url: "approve-competency", component:ProbationCard, usr: "NORMAL" },
   ];
 
 
