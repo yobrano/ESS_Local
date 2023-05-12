@@ -197,6 +197,8 @@ const NewContract = () => {
                       <option value="3 Months">3 Months</option>
                       <option value="6 Months">6 Months</option>
                       <option value="12 Months">12 Months</option>
+                      <option value="24 Months">24 Months</option>
+                      <option value="36 Months">36 Months</option>
                     </select>
                 </div>
               </div>
