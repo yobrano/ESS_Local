@@ -702,7 +702,7 @@ const EditLeaveCard = (props) => {
             onClick={uploadLeaveApp}
             disabled={viewAttachmentState}
           >
-            Upload the Leave <i className="fa fa-sitemap"></i>
+            Submit Leave Application <i className="fa fa-sitemap"></i>
           </button>
         </div>
       </>
