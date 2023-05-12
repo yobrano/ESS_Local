@@ -8,6 +8,7 @@ const DashboardUI = () => {
   const [leaveCollapse, setLeaveCollapse] = useState(false);
   const [kpiCollapse, setKPICollapse] = useState(false);
   const [docCollapse, setDocsCollapse] = useState(false);
+  const [compentenceCollapse, setCompentenceCollapse] = useState(false);
 
   let path = window.location.pathname;
   path = path.split("/");
@@ -20,15 +21,25 @@ const DashboardUI = () => {
         setLeaveCollapse(false);
         setKPICollapse(false);
         setDocsCollapse(false);
+        setCompentenceCollapse(false);
         break;
       case "leave":
         setLeaveCollapse(!leaveCollapse);
         setPayrollCollapse(false);
         setKPICollapse(false);
         setDocsCollapse(false);
+        setCompentenceCollapse(false);
         break;
       case "kpi":
         setKPICollapse(!kpiCollapse);
+        setPayrollCollapse(false);
+        setLeaveCollapse(false);
+        setDocsCollapse(false);
+        setCompentenceCollapse(false);
+        break;
+      case "compentence":
+        setCompentenceCollapse(!compentenceCollapse);
+        setKPICollapse(false);
         setPayrollCollapse(false);
         setLeaveCollapse(false);
         setDocsCollapse(false);
@@ -38,6 +49,7 @@ const DashboardUI = () => {
         setKPICollapse(false);
         setPayrollCollapse(false);
         setLeaveCollapse(false);
+        setCompentenceCollapse(false);
         break;
     }
   };
@@ -265,6 +277,41 @@ const DashboardUI = () => {
           </Collapse>
         </div>
       </div>
+
+      <div className="dashboard-item" onClick={() => toggleCollapse("compentence")}>
+        <div className="card orange-bg">
+          <div className="card-header">
+            <h4>Competency Framework </h4>
+            <i className="flaticon-381-app ml-3"></i>
+          </div>
+          <Collapse in={compentenceCollapse}>
+            <div className="card-body">
+              <ul className="shortcut-menu">
+                <li>
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to="/competency-list"
+                    className="dui-a"
+                  >
+                    <span className="nav-text-drop">Competency List</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to="/approve-competency"
+                    className="dui-a"
+                  >
+                    <span className="nav-text-drop">Approve Competence</span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </Collapse>
+        </div>
+      </div>
+
+
     </>
   );
 };

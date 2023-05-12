@@ -35,8 +35,24 @@
 
 .dui-a {
   color: #585858;
+  display: inline-block;
+  width: 100%;
+
 }
+.dashboard-item .card .card-body ul.shortcut-menu li:hover{
+  background-color: #d5d5d554;
+  border-radius: 1rem;
+}
+
 
 .shortcut-menu{
   padding-left:0rem !important;
+}
+
+.orange-bg {
+  background-color: #db740d !important;
+  /* background-color: #ffebcf !important; */
+}
+.orange-bg div h4,.orange-bg div ul li a,.orange-bg div i{
+  color: white
 }
