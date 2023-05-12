@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "./ExitForm.css";
 import axios from "axios";
 import swal from "sweetalert";
+import Select from "react-select";
 
 const HRContractCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -147,6 +148,24 @@ const HRContractCard = (props) => {
   const [employmentYear, setEmploymentYear] = useState("");
   const [yearsOfService, setYearsOfService] = useState("");
 
+  const [extensionF, setExtensionF] = useState(false);
+  const [stage, setStage] = useState("");
+  const [stageMessage, setStageMessage] = useState("");
+
+  const [selectedNo, setSelectedNo] = useState("");
+  const [selectedDuration, setSelectedDuration] = useState("");
+
+  const numberList=[
+    {value:"1",label:"1"},{value:"2",label:"2"},{value:"3",label:"3"},{value:"4",label:"4"},{value:"5",label:"5"},{value:"6",label:"6"},{value:"7",label:"7"},{value:"8",label:"9"},{value:"10",label:"10"},
+    {value:"11",label:"11"},{value:"12",label:"12"},{value:"13",label:"13"},{value:"14",label:"14"},{value:"15",label:"15"},{value:"16",label:"16"},{value:"17",label:"17"},{value:"18",label:"19"},{value:"20",label:"20"},
+    {value:"21",label:"21"},{value:"22",label:"22"},{value:"23",label:"23"},{value:"24",label:"24"},{value:"25",label:"25"},{value:"26",label:"26"},{value:"27",label:"27"},{value:"28",label:"29"},{value:"30",label:"30"},
+    {value:"31",label:"31"},{value:"32",label:"32"},{value:"33",label:"33"},{value:"34",label:"34"},{value:"35",label:"35"},{value:"36",label:"36"},{value:"37",label:"37"},{value:"38",label:"39"},{value:"40",label:"40"},
+
+  ]
+  const durationList=[
+    {value:"D",label:"Day(s)"},{value:"M",label:"Month(s)"},{value:"Y",label:"Year(s)"}
+  ]
+
   const toggleCollapse = (from) => {
     switch (from) {
       case "renewal":
@@ -156,6 +175,9 @@ const HRContractCard = (props) => {
       case "nonrenewal":
         setRenewalF(false);
         setnonRenewalF(true);
+        break;
+      case "reversal":
+        setExtensionF(!extensionF);
         break;
       default:
         setRenewalF(true);
@@ -431,6 +453,62 @@ const HRContractCard = (props) => {
       });
   }, []);
 
+  
+  //Revesal
+  const ReversalAction = (e) => {
+    e.preventDefault();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+
+    let data = {
+      ContractStatus: parseInt(stage),
+      BackTrackingReason: stageMessage,
+      ContractNo:props.location.state[0].datum[0].contractNo,
+    };
+
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Reverse the Record?",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        if (willCreate) {
+          setDisableBtn(true);
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/contractreversalfromhr`,
+            data,
+            config
+          );
+        }
+      })
+
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          setDisableBtn(false);
+          swal("Success!", "Contract Record Reversed.", "success");
+        }
+        if (response.status === 404) {
+          alert(response.data.message);
+        }
+      })
+      .catch((err) => {
+        setDisableBtn(false);
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+        console.log({ err: err });
+      });
+  };
+
   const pushToMDFD = (e) => {
     e.preventDefault();
     const config = {
@@ -447,7 +525,7 @@ const HRContractCard = (props) => {
 
     swal({
       title: "Are you sure?",
-      text: "Are you sure that you want to Update Contract Form and Push",
+      text: "Are you sure that you want to Push to MD/FD",
       icon: "warning",
       dangerMode: true,
     })
@@ -482,6 +560,104 @@ const HRContractCard = (props) => {
       });
   };
 
+  const pushToHeadHR = (e) => {
+    e.preventDefault();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+
+    let data = {
+      HRcomment: hrRemark,
+    };
+
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Push to Head HR.",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        if (willCreate) {
+          setDisableBtn(true);
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/hrpushcontracttoheadhr/${props.location.state[0].datum[0].contractNo}`,
+            data,
+            config
+          );
+        }
+      })
+
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          setDisableBtn(false);
+          swal("Success!", "Contract Form Updated/Pushed", "success");
+        }
+        if (response.status === 404) {
+          alert(response.data.message);
+        }
+      })
+      .catch((err) => {
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+        console.log({ err: err });
+      });
+  };
+
+  const pushToBucketHR =(e)=>{
+    e.preventDefault();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Push to Bucket.",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        if (willCreate) {
+          setDisableBtn(true);
+          return axios.get(
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/movecontracttobuckethr/${props.location.state[0].datum[0].contractNo}`,
+            // data,
+            config
+          );
+        }
+      })
+
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          setDisableBtn(false);
+          swal("Success!", "Contract Pushed", "success");
+        }
+        if (response.status === 404) {
+          alert(response.data.message);
+        }
+      })
+      .catch((err) => {
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+        console.log({ err: err });
+      });
+  }
+ 
   //Push first segment
   const uploadRecomSection = (e) => {
     e.preventDefault();
@@ -726,7 +902,8 @@ const HRContractCard = (props) => {
     let Data = {
       StaffNo: datax.employeeno,
       EocID: datax.probationno,
-      RenewalTime: renewalTime,
+      RenewalTime: selectedNo.label+" "+selectedDuration.label,
+      DateFormulae: selectedNo.value+selectedDuration.value,
       ContractedDate: contractedDate,
       StartDate: startDate,
       EndDate: endDate,
@@ -796,6 +973,14 @@ const HRContractCard = (props) => {
         // </button>
         <>
           <Button
+            className="btn btn-info rounded-0 w-100"
+            onClick={pushToBucketHR}
+            disabled={disableBtn}
+          >
+            Move To Bucket
+          </Button>
+
+          <Button
             className="btn btn-success rounded-0 w-100"
             onClick={() => toggleCollapse("renewal")}
             aria-controls="example-collapse-text"
@@ -815,13 +1000,30 @@ const HRContractCard = (props) => {
       );
     } else {
       btnUP = (
+        <>
+          <button
+          className="btn btn-primary rounded-0 w-100"
+          onClick={pushToHeadHR}
+          disabled={disableBtn}
+        >
+          Push to Head HR
+        </button>
         <button
-          className="btn btn-success"
+          className="btn btn-success rounded-0 w-100"
           onClick={pushToMDFD}
           disabled={disableBtn}
         >
           Push to MD/FD
         </button>
+        <button
+          className="btn btn-info rounded-0 w-100"
+          onClick={pushToBucketHR}
+          disabled={disableBtn}
+        >
+          Move To Bucket
+        </button>
+        </>
+      
       );
     }
 
@@ -832,7 +1034,7 @@ const HRContractCard = (props) => {
     // );
   } else if (props.location.state[0].datum[0].status === "Approved") {
     btnUP = (
-      <button className="btn btn-secondary">Form Approved Already</button>
+      <button className="btn btn-secondary rounded-0 w-100">Form Approved Already</button>
     );
   }
 
@@ -943,18 +1145,75 @@ const HRContractCard = (props) => {
                   </div>
                 </div>
 
-                  <div className="col-xl-6 col-sm-6">
-                    <div className="form-group">
-                      <label htmlFor="">Immediate Supervisor</label>
+                <div className="col-xl-4 col-sm-4">
+                  <div className="form-group">
+                    <label htmlFor="">Immediate Supervisor</label>
 
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={selectedMgr}
+                      disabled
+                    />
+                  </div>
+                </div>
+
+                <div className="col-xl-3 col-sm-3">
+                    <div className="form-group">
+                      <label htmlFor="">Do we renew the contract?</label>
+                      <select
+                          name="qualifiedForPromo"
+                          id=""
+                          className="form-control"
+                          disabled={true}
+                        >
+                          <option>{props.location.state[0].datum[0].doRenew}</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div className="col-xl-3 col-sm-3">
+                    <div className="form-group">
+                      <label htmlFor="">If yes, for how long?</label>
+                      <select
+                          name="qualifiedForPromo"
+                          id=""
+                          className="form-control"
+                          disabled={true}
+                        >
+                          <option>{props.location.state[0].datum[0].howlong}</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div className="col-xl-12 col-sm-12">
+                    <div className="form-group">
+                      <label htmlFor="">Reason for renewal</label>
                       <input
                         type="text"
                         className="form-control"
-                        value={selectedMgr}
-                        disabled
+                        name="probationTime"
+                        placeholder="Reason(s) for renewal/non-renewal"
+                        value={props.location.state[0].datum[0].renewReason}
+                        disabled={true}
                       />
                     </div>
+
                   </div>
+                  <div className="col-xl-12 col-sm-6">
+                    <div className="form-group">
+                      <label htmlFor=""> How long have you supervised</label>
+                      <textarea
+                        className="form-control"
+                        cols="30"
+                        rows="1"
+                        name="Howlongs"
+                        placeholder="How long have you been supervising this employee? (max 240 characters)"
+                        value={props.location.state[0].datum[0].supervisionTime}
+                        disabled={true}
+                      ></textarea>
+                    </div>
+                  </div>
+
+
                 </div>
               </div>
 
@@ -1533,11 +1792,28 @@ const HRContractCard = (props) => {
         </Accordion>
         <div className="card-footer">
           <div className="row">
-            <div className="col-md-3"></div>
-            <div className="col-md-9">
+            {/* <div className="col-md-3"></div> */}
+            <div className="col-md-12">
               <div className="d-flex">
 
               {btnUP}
+              <button
+              // className="btn btn-danger mx-2"
+              // onClick={() => toggleCollapse("reversal")}
+              // aria-controls="example-collapse-text"
+              // aria-expanded={extensionF}
+              // disabled={disableBtn}
+              className="btn btn-warning rounded-0 w-100"
+              onClick={() => toggleCollapse("reversal")}
+              aria-controls="example-collapse-text"
+              aria-expanded={extensionF}
+              disabled={disableBtn}
+
+            >
+              <i className="fa fa-repeat px-1"></i>
+              Re-verse
+            </button>
+
               </div>
             </div>
             <div className="col-md-12 mt-3">
@@ -1572,14 +1848,31 @@ const HRContractCard = (props) => {
                   <div className="row">
                     <div className="col-md-6">
                       <label htmlFor="">Renewal Time</label>
-                      <input
+                      {/* Duration Representative */}
+                      <div className="d-flex">
+                      <Select
+                        defaultValue={selectedNo}
+                        onChange={setSelectedNo}
+                        options={numberList}
+                      />
+                       <Select
+                        defaultValue={selectedDuration}
+                        onChange={setSelectedDuration}
+                        options={durationList}
+                      />
+                    
+                      </div>
+                    
+                      {/*End  Duration Representative */}
+
+                      {/* <input
                         type="text"
                         className="form-control"
                         name="renewalTime"
                         value={renewalTime}
                         onChange={(e) => setRenewalTime(e.target.value)}
                         placeholder="1 Year"
-                      />
+                      /> */}
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
@@ -1604,7 +1897,7 @@ const HRContractCard = (props) => {
                       </div>
                     </div>
 
-                    <div className="col-md-6">
+                    {/* <div className="col-md-6">
                       <div className="form-group">
                         <label htmlFor="">End Date</label>
                         <DatePicker
@@ -1613,10 +1906,10 @@ const HRContractCard = (props) => {
                           onChange={(date) => setEndDate(date)}
                         />
                       </div>
-                    </div>
+                    </div> */}
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label htmlFor="">New Salary</label>
+                        <label htmlFor="">New Salary <span className="text-danger">!! Incase of a Pay Raise !!</span> </label>
                         <input
                         type="number"
                         className="form-control"
@@ -1639,6 +1932,43 @@ const HRContractCard = (props) => {
                   </div>
                 </div>
               </Collapse>
+              <Collapse in={extensionF}>
+              <div id="example-collapse-text">
+                <div className="row">
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label htmlFor="">Select Reversal Stage</label>
+                      <select name="stage" id=""  onChange={(e) => setStage(e.target.value)} className="form-control">
+                        <option value="">Choose Level</option>
+                        <option value="0">Immediate Supervisor</option>
+                        <option value="1">HOD</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-md-8">
+                  <label foo="">Reversal Reason</label>
+                    <textarea
+                      className="w-100 form-control"
+                      name="stageMessage"
+                      rows="2"
+                      placeholder="Summary 240 characters"
+                      value={stageMessage}
+                      onChange={(e) => setStageMessage(e.target.value)}
+                      disabled={false}
+                    ></textarea>
+                  </div>
+
+                  <div className="col-12">
+                    <button
+                      className="btn btn-danger rounded-0 w-100 mt-2"
+                      onClick={ReversalAction}
+                    >
+                      Re-verse <i className="fa fa-repeat"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Collapse>
             </div>
           </div>
         </div>
