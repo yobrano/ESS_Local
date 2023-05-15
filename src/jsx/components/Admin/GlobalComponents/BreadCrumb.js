@@ -22,6 +22,8 @@ const BreadCrumb = (props) => {
   const Back = () => {
     if (props.backlink === "") {
       return props.history.go(-1);
+    } else if (props.backlink === "home") {
+      Home();
     } else {
       return props.history.push(props.backlink);
     }

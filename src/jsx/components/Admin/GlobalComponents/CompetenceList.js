@@ -300,7 +300,7 @@ const DataTable = ({ columns, data, setSelection }) => {
     <>
       <div className="row">
         <div className="col-md-12 mb-4">
-        <BreadCrumb  backlink={""} />
+        <BreadCrumb  backlink={"home"} />
         </div>
         <div className="col-md-6">
           <GlobalFilter
