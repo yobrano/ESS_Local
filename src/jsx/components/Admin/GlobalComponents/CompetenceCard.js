@@ -7,8 +7,10 @@ import BreadCrumb from "./BreadCrumb";
 const CompetenceCard = (props) => {
   const [loading, setLoading] = useState(true);
   const [generalDisabled, setGeneralDisabled] = useState(true);
+  const [getReportDisabled, setGetReportDisabled] = useState(true);
   const [genData,setGenData] = useState({})
   const [compLines,setCompLines] = useState([])
+
 
   useEffect(() => {
     //let docCode = props.location.state[0].datum[0].documentCode;
@@ -29,6 +31,9 @@ const CompetenceCard = (props) => {
         if (response.status === 200) {
             setGenData(response.data.competenceGeneral[0])
             getCompentenceLines()
+            if(response.data.competenceGeneral[0].status == "Completed"){
+              setGetReportDisabled(false)
+            }
           
         }
       })
@@ -87,6 +92,138 @@ const CompetenceCard = (props) => {
       ]);
   }
 
+  //Push to supervisor
+  const PushToSupervisor = () =>{
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Push",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        // setPostBtnState(true)
+        if (willCreate) {
+          return axios.get(
+            `${process.env.REACT_APP_API_S_LINK}/competence/staffpushtosupervisor/${props.location.state[0].datum[0].cno}`,
+            // udata,
+            config
+          );
+        }
+      })
+      .then(function (response) {
+        if (response.status === 200) {
+          swal("Success", "Record Pushed.", "success");
+        }
+      })
+      .catch((err) => {
+        if (err !== undefined) {
+          swal("Ops!", "Record not Pushed", "error");
+        }
+        if (err.response !== undefined) {
+          swal("Ooh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+      });
+  }
+
+  //Calc
+  const CalcComp = ()=>{
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Calculate",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        // setPostBtnState(true)
+        if (willCreate) {
+          return axios.get(
+            `${process.env.REACT_APP_API_S_LINK}/competence/staffcalculatescore/${props.location.state[0].datum[0].cno}`,
+            // udata,
+            config
+          );
+        }
+      })
+      .then(function (response) {
+        if (response.status === 200) {
+          swal("Success", "Record Calculated.", "success");
+        }
+      })
+      .catch((err) => {
+        if (err !== undefined) {
+          swal("Ops!", "Record not Calculated", "error");
+        }
+        if (err.response !== undefined) {
+          swal("Ooh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+      });
+  }
+
+  const GetReport = () =>{
+    const config = {
+      responseType: "blob",
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to View",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        // setPostBtnState(true)
+        if (willCreate) {
+          return axios.get(
+            `${process.env.REACT_APP_API_S_LINK}/competence/getcompentencyreport/${props.location.state[0].datum[0].cno}`,
+            config
+          );
+        }
+      })
+      .then(function (response) {
+        if (response.status === 200) {
+          const file = new Blob([response.data], { type: "application/pdf" });
+          //Build a URL from the file
+          const fileURL = URL.createObjectURL(file);
+          //Open the URL on new Window
+          const pdfWindow = window.open();
+          pdfWindow.location.href = fileURL;
+        }
+      })
+      .catch((err) => {
+        // console.log("catch err:"+err);
+        if (err !== undefined) {
+          swal("Ooh!", "Error File not Found", "error");
+        }
+        if (err.response !== undefined) {
+          swal("Ooh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+      });
+  }
+
   if (loading) {
     return (
       <>
@@ -111,7 +248,13 @@ const CompetenceCard = (props) => {
 
   return (
     <>
+       
+        <div className="d-md-flex">
         <BreadCrumb props={props} backlink={"competency-list"}/>
+          <button className="btn btn-success ml-auto" onClick={CalcComp} disabled={!getReportDisabled}>Calculate Score</button>
+          <button className="btn btn-info ml-md-1" onClick={GetReport} disabled={getReportDisabled}>Get Report</button>
+          <button className="btn btn-warning ml-md-1" onClick={PushToSupervisor} disabled={!getReportDisabled}>Push to Supervisor</button>
+        </div>
         {/* Disabled fields */}
         <div className="card mt-3">
             <div className="card-body">
@@ -168,7 +311,7 @@ const CompetenceCard = (props) => {
                     <input
                     type="text"
                     className="form-control"
-                    value={genData.behavescoreemp}
+                    value={parseFloat(genData.behavescoreemp).toFixed(2) }
                     disabled={generalDisabled}
                     />
                 </div>
@@ -179,7 +322,7 @@ const CompetenceCard = (props) => {
                     <input
                     type="text"
                     className="form-control"
-                    value={genData.behavescoresup}
+                    value={parseFloat(genData.behavescoresup).toFixed(2) }
                     disabled={generalDisabled}
                     />
                 </div>
@@ -190,7 +333,7 @@ const CompetenceCard = (props) => {
                     <input
                     type="text"
                     className="form-control"
-                    value={genData.behavescoreavg}
+                    value={parseFloat(genData.behavescoreavg).toFixed(2) }
                     disabled={generalDisabled}
                     />
                 </div>
@@ -201,7 +344,7 @@ const CompetenceCard = (props) => {
                     <input
                     type="text"
                     className="form-control"
-                    value={genData.techscoreemp}
+                    value={parseFloat(genData.techscoreemp).toFixed(2) }
                     disabled={generalDisabled}
                     />
                 </div>
@@ -212,7 +355,7 @@ const CompetenceCard = (props) => {
                     <input
                     type="text"
                     className="form-control"
-                    value={genData.techscoresup}
+                    value={parseFloat(genData.techscoresup).toFixed(2) }
                     disabled={generalDisabled}
                     />
                 </div>
@@ -223,7 +366,7 @@ const CompetenceCard = (props) => {
                     <input
                     type="text"
                     className="form-control"
-                    value={genData.techscoreavg}
+                    value={ parseFloat(genData.techscoreavg).toFixed(2)}
                     disabled={generalDisabled}
                     />
                 </div>
@@ -235,7 +378,7 @@ const CompetenceCard = (props) => {
                     <input
                     type="text"
                     className="form-control"
-                    value={genData.averagescore}
+                    value={parseFloat(genData.averagescore).toFixed(2) }
                     disabled={generalDisabled}
                     />
                 </div>
@@ -246,7 +389,7 @@ const CompetenceCard = (props) => {
                     <input
                     type="text"
                     className="form-control"
-                    value={genData.percentagescore}
+                    value={parseFloat(genData.percentagescore).toFixed(2)}
                     disabled={generalDisabled}
                     />
                 </div>
@@ -300,7 +443,7 @@ const CompetenceCard = (props) => {
                                   d.lineno
                                 )
                               }
-                            //   disabled={isActive}
+                              disabled={!getReportDisabled}
                             >
                             Edit <i className="fa fa-edit"></i>
                             </button>
