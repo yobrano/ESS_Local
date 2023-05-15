@@ -1,16 +1,22 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import BreadCrumb from "./BreadCrumb";
  
 const CompetenceLineEdit = (props) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [employeeassesment, setEmployeeAssesment] = useState("");
   const [empcomm, setEmpcomm] = useState("");
   let errorsObj = { empcomm: "", assesment: "" };
   const [errors, setErrors] = useState(errorsObj);
 
+  useEffect(()=>{
+    setEmployeeAssesment(props.location.state[0].assesment)
+    setEmpcomm(props.location.state[0].comment)
+    setLoading(false)
+  },[])
+  
   function uploadD(e) {
     e.preventDefault();
     let error = false;
@@ -39,7 +45,7 @@ const CompetenceLineEdit = (props) => {
     };
 
     let udata = {
-        Lineno: parseInt(props.location.state[0].line),
+        Lineno:props.location.state[0].line.toString(),
         Employeeassesment: employeeassesment,
         Employeecomment: empcomm,
         
@@ -137,7 +143,7 @@ const CompetenceLineEdit = (props) => {
           <div className="col-md-6">
             <div className="form-group">
               <label htmlFor="">Employee Assesment</label>
-              <select  className="form-control" id="assesment"  onChange={(e) => setEmployeeAssesment(e.target.value)} value={props.location.state[0].assesment}>
+              <select  className="form-control" id="assesment"  onChange={(e) => setEmployeeAssesment(e.target.value)} value={employeeassesment}>
                 <option value="">Choose</option>
                 <option value="Never">Never</option>
                 <option value="Some of the time">Some of the time</option>
