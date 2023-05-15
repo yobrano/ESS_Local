@@ -154,6 +154,9 @@ import BucketContractCard from "./components/Admin/Staff/BucketContractCard";
 import CompetenceList from "./components/Admin/GlobalComponents/CompetenceList";
 import CompetenceCard from "./components/Admin/GlobalComponents/CompetenceCard";
 import CompetenceLineEdit from "./components/Admin/GlobalComponents/CompetenceLineEdit";
+import CompetenceListApprove from "./components/Admin/GlobalComponents/CompetenceListApprove";
+import CompetenceCardApprove from "./components/Admin/GlobalComponents/CompetenceCardApprove";
+import CompetenceLineEditSuper from "./components/Admin/GlobalComponents/CompetenceLineEditSuper";
 
 // import Landing from './pages/Landing'
 
@@ -260,7 +263,14 @@ const Markup = () => {
     { url: "probation-card", component:ProbationCard, usr: "HR" },
     { url: "bucketed-probations", component:BucketProbationList, usr: "HR" },
     { url: "bucket-probation-card", component:BucketProbationHODCard, usr: "HR" },
+    //from 11/05/23
+    { url: "competency-list", component:CompetenceList, usr: "HR" },
+    { url: "competency-card", component:CompetenceCard, usr: "HR" },
+    { url: "edit-competence-line", component:CompetenceLineEdit, usr: "HR" },
 
+    { url: "approve-competency", component:CompetenceListApprove, usr: "HR" },
+    { url: "approve-competency-card", component:CompetenceCardApprove, usr: "HR" },
+    { url: "edit-competence-line-super", component:CompetenceLineEditSuper, usr: "HR" },
   ];
 
   //HEAD-HR
@@ -359,6 +369,15 @@ const Markup = () => {
     { url: "bucket-contact-card", component:BucketContractCard, usr: "HEAD-HR" },
     { url: "bucketed-probations-head", component:BucketProbationListHEAD, usr: "HEAD-HR" },
     { url: "bucket-probation-card", component:BucketProbationHODCard, usr: "HEAD-HR" },
+
+    //from 11/05/23
+    { url: "competency-list", component:CompetenceList, usr: "HEAD-HR" },
+    { url: "competency-card", component:CompetenceCard, usr: "HEAD-HR" },
+    { url: "edit-competence-line", component:CompetenceLineEdit, usr: "HEAD-HR" },
+
+    { url: "approve-competency", component:CompetenceListApprove, usr: "HEAD-HR" },
+    { url: "approve-competency-card", component:CompetenceCardApprove, usr: "HEAD-HR" },
+    { url: "edit-competence-line-super", component:CompetenceLineEditSuper, usr: "HEAD-HR" },
   ];
   //Job Seeker
   const routes2=[
@@ -450,6 +469,15 @@ const Markup = () => {
     { url: "bucketed-probations", component:BucketProbationListHOD, usr: "HOD" },
     { url: "bucket-probation-card", component:BucketProbationHODCard, usr: "HOD" },
 
+    //10/05/2023
+    { url: "competency-list", component:CompetenceList, usr: "HOD" },
+    { url: "competency-card", component:CompetenceCard, usr: "HOD" },
+    { url: "edit-competence-line", component:CompetenceLineEdit, usr: "HOD" },
+
+    { url: "approve-competency", component:CompetenceListApprove, usr: "HOD" },
+    { url: "approve-competency-card", component:CompetenceCardApprove, usr: "HOD" },
+    { url: "edit-competence-line-super", component:CompetenceLineEditSuper, usr: "HOD" },
+
   ];
   //HOD-ADMIN
   const routes6 = [
@@ -534,6 +562,14 @@ const Markup = () => {
     { url: "bucketed-probations", component:BucketProbationListHOD, usr: "HOD-ADMIN" },
     { url: "bucket-contact-card", component:BucketContractCard, usr: "HOD-ADMIN" },
     { url: "bucket-probation-card", component:BucketProbationHODCard, usr: "HOD-ADMIN" },
+    //10/05/2023
+    { url: "competency-list", component:CompetenceList, usr: "HOD-ADMIN" },
+    { url: "competency-card", component:CompetenceCard, usr: "HOD-ADMIN" },
+    { url: "edit-competence-line", component:CompetenceLineEdit, usr: "HOD-ADMIN" },
+
+    { url: "approve-competency", component:CompetenceListApprove, usr: "HOD-ADMIN" },
+    { url: "approve-competency-card", component:CompetenceCardApprove, usr: "HOD-ADMIN" },
+    { url: "edit-competence-line-super", component:CompetenceLineEditSuper, usr: "HOD-ADMIN" },
   ];
   //HOD-ICT
   const routes7 = [
@@ -617,6 +653,15 @@ const Markup = () => {
     { url: "bucketed-probations", component:BucketProbationListHOD, usr: "HOD-ICT" },
     { url: "bucket-contact-card", component:BucketContractCard, usr: "HOD-ICT" },
     { url: "bucket-probation-card", component:BucketProbationHODCard, usr: "HOD-ICT" },
+
+    //10/05/2023
+    { url: "competency-list", component:CompetenceList, usr: "HOD-ICT" },
+    { url: "competency-card", component:CompetenceCard, usr: "HOD-ICT" },
+    { url: "edit-competence-line", component:CompetenceLineEdit, usr: "HOD-ICT" },
+
+    { url: "approve-competency", component:CompetenceListApprove, usr: "HOD-ICT" },
+    { url: "approve-competency-card", component:CompetenceCardApprove, usr: "HOD-ICT" },
+    { url: "edit-competence-line-super", component:CompetenceLineEditSuper, usr: "HOD-ICT" },
 
   ];
   //HOD-HR
@@ -708,7 +753,14 @@ const Markup = () => {
     { url: "HR-users", component:HRUserList ,usr:"HOD-HR" },
     { url: "HR-user-card", component:HRUserCard ,usr:"HOD-HR" },
     { url: "HR-document", component:HRDocumentSettings ,usr:"HOD-HR" },
+    //10/05/2023
+    { url: "competency-list", component:CompetenceList, usr: "HOD-HR" },
+    { url: "competency-card", component:CompetenceCard, usr: "HOD-HR" },
+    { url: "edit-competence-line", component:CompetenceLineEdit, usr: "HOD-HR" },
 
+    { url: "approve-competency", component:CompetenceListApprove, usr: "HOD-HR" },
+    { url: "approve-competency-card", component:CompetenceCardApprove, usr: "HOD-HR" },
+    { url: "edit-competence-line-super", component:CompetenceLineEditSuper, usr: "HOD-HR" },
   ];
   //HOD-FIN
   const routes9 = [
@@ -794,6 +846,16 @@ const Markup = () => {
     { url: "bucketed-probations", component:BucketProbationListHOD, usr: "HOD-FIN" },
     { url: "bucket-contact-card", component:BucketContractCard, usr: "HOD-FIN" },
     { url: "bucket-probation-card", component:BucketProbationHODCard, usr: "HOD-FIN" },
+
+    //from 11/05/23
+    { url: "competency-list", component:CompetenceList, usr: "HOD-FIN" },
+    { url: "competency-card", component:CompetenceCard, usr: "HOD-FIN" },
+    { url: "edit-competence-line", component:CompetenceLineEdit, usr: "HOD-FIN" },
+
+    { url: "approve-competency", component:CompetenceListApprove, usr: "HOD-FIN" },
+    { url: "approve-competency-card", component:CompetenceCardApprove, usr: "HOD-FIN" },
+    { url: "edit-competence-line-super", component:CompetenceLineEditSuper, usr: "HOD-FIN" },
+
   ];
   //FD
   const routes10 = [
@@ -865,6 +927,16 @@ const Markup = () => {
     //from 01/02/23
     { url: "contractprobation-list", component:ContProbDocumentList, usr: "FD" },
     { url: "contract-probation-display", component:ContProbDocumentCard, usr: "FD" },
+
+    //from 11/05/23
+    { url: "competency-list", component:CompetenceList, usr: "FD" },
+    { url: "competency-card", component:CompetenceCard, usr: "FD" },
+    { url: "edit-competence-line", component:CompetenceLineEdit, usr: "FD" },
+
+    { url: "approve-competency", component:CompetenceListApprove, usr: "FD" },
+    { url: "approve-competency-card", component:CompetenceCardApprove, usr: "FD" },
+    { url: "edit-competence-line-super", component:CompetenceLineEditSuper, usr: "FD" },
+
   ];
   //NOS
   const routes11 = [
@@ -929,6 +1001,15 @@ const Markup = () => {
     //from 01/02/23
     { url: "contractprobation-list", component:ContProbDocumentList, usr: "HOS" },
     { url: "contract-probation-display", component:ContProbDocumentCard, usr: "HOS" },
+
+    //from 11/05/23
+    { url: "competency-list", component:CompetenceList, usr: "NOS" },
+    { url: "competency-card", component:CompetenceCard, usr: "NOS" },
+    { url: "edit-competence-line", component:CompetenceLineEdit, usr: "NOS" },
+
+    { url: "approve-competency", component:CompetenceListApprove, usr: "NOS" },
+    { url: "approve-competency-card", component:CompetenceCardApprove, usr: "NOS" },
+    { url: "edit-competence-line-super", component:CompetenceLineEditSuper, usr: "NOS" },
   ];
   //MD
   const routes4 = [
@@ -1001,6 +1082,15 @@ const Markup = () => {
     //from 01/02/23
     { url: "contractprobation-list", component:ContProbDocumentList, usr: "MD" },
     { url: "contract-probation-display", component:ContProbDocumentCard, usr: "MD" },
+
+    //from 11/05/23
+    { url: "competency-list", component:CompetenceList, usr: "MD" },
+    { url: "competency-card", component:CompetenceCard, usr: "MD" },
+    { url: "edit-competence-line", component:CompetenceLineEdit, usr: "MD" },
+
+    { url: "approve-competency", component:CompetenceListApprove, usr: "MD" },
+    { url: "approve-competency-card", component:CompetenceCardApprove, usr: "MD" },
+    { url: "edit-competence-line-super", component:CompetenceLineEditSuper, usr: "MD" },
   ];
 
   //Normal - Staff
@@ -1071,7 +1161,9 @@ const Markup = () => {
     { url: "competency-card", component:CompetenceCard, usr: "NORMAL" },
     { url: "edit-competence-line", component:CompetenceLineEdit, usr: "NORMAL" },
 
-    { url: "approve-competency", component:ProbationCard, usr: "NORMAL" },
+    { url: "approve-competency", component:CompetenceListApprove, usr: "NORMAL" },
+    { url: "approve-competency-card", component:CompetenceCardApprove, usr: "NORMAL" },
+    { url: "edit-competence-line-super", component:CompetenceLineEditSuper, usr: "NORMAL" },
   ];
 
 
