@@ -131,7 +131,7 @@ const HRHome = () => {
       </div>
       <div className="row">
         <div className="col-md-9">
-          <div className="d-md-flex align-items-start gap-1"><DashboardUI/></div>
+          <div className="d-md-flex align-items-start flex-wrap gap-1"><DashboardUI/></div>
         </div>
         <div className="col-md-3"><LeaveStatistic/></div>
         
