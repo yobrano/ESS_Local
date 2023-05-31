@@ -45,6 +45,7 @@ const CompetenceLineEdit = (props) => {
     };
 
     let udata = {
+        Cno:props.location.state[0].cno,
         Lineno:props.location.state[0].line.toString(),
         Employeeassesment: employeeassesment,
         Employeecomment: empcomm,

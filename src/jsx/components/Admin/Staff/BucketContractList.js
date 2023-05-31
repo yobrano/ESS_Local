@@ -500,7 +500,7 @@ function BucketContractList(props) {
   if (selection.length === 1) {
     // console.log(selection[0].contractNo );
     if(selection[0].contractNo !== undefined){
-      props.history.push("/bucket-contact-card", [{ datum: selection }]);
+      props.history.push("/bucket-contract-card", [{ datum: selection }]);
     }
   }
 

@@ -81,7 +81,7 @@ const CompetenceCardApprove = (props) => {
   }
 
   //Redirect to a line
-  const EditCompetenceRec = (type,description,assesment,comment,line,supervisorassesment,supervisorcomment) =>{
+  const EditCompetenceRec = (type,description,assesment,comment,line,supervisorassesment,supervisorcomment,cno) =>{
     props.history.push("/edit-competence-line-super", [
         {
           type: type,
@@ -90,7 +90,8 @@ const CompetenceCardApprove = (props) => {
           comment:comment,
           line:line,
           superassesment:supervisorassesment,
-          supercomment:supervisorcomment
+          supercomment:supervisorcomment,
+          cno:cno,
         },
       ]);
   }
@@ -450,9 +451,10 @@ const CompetenceCardApprove = (props) => {
                                   d.lineno,
                                   d.supervisorassesment,
                                   d.supervisorcomment,
+                                  d.cno,
                                 )
                               }
-                            //   disabled={isActive}
+                              disabled={!getReportDisabled}
                             >
                             Edit <i className="fa fa-edit"></i>
                             </button>

@@ -157,6 +157,12 @@ import CompetenceLineEdit from "./components/Admin/GlobalComponents/CompetenceLi
 import CompetenceListApprove from "./components/Admin/GlobalComponents/CompetenceListApprove";
 import CompetenceCardApprove from "./components/Admin/GlobalComponents/CompetenceCardApprove";
 import CompetenceLineEditSuper from "./components/Admin/GlobalComponents/CompetenceLineEditSuper";
+import GrievanceApprovalList from "./components/Admin/GlobalComponents/GrievanceApprovalList";
+import GrievanceApprovalCard from "./components/Admin/GlobalComponents/GrievanceApprovalCard";
+import GrievanceEscalatedList from "./components/Admin/GlobalComponents/GrievanceEscalatedList";
+import GrievanceEscalatedCard from "./components/Admin/GlobalComponents/GrievanceEscalatedCard";
+import GrievanceAppealList from "./components/Admin/GlobalComponents/GrievanceAppealList";
+import GrievanceAppealCard from "./components/Admin/GlobalComponents/GrievanceAppealCard";
 
 // import Landing from './pages/Landing'
 
@@ -200,9 +206,17 @@ const Markup = () => {
 
     { url: "HR-contract", component:HRContractList ,usr:"HR" },
     { url: "HR-contract-card", component:HRContractCard ,usr:"HR" },
+
     { url: "grievance", component:NewGrievance, usr: "HR" },
     { url: "grievance-list", component:HRGrievanceList, usr: "HR" },
     { url: "grievance-card", component:HRGrievanceCard, usr: "HR" },
+    { url: "grievance-approval-list", component:GrievanceApprovalList, usr: "HR" },
+    { url: "grievance-approval-card", component:GrievanceApprovalCard, usr: "HR" },
+    { url: "grievance-escalated-list", component:GrievanceEscalatedList, usr: "HR" },
+    { url: "grievance-escalated-card", component:GrievanceEscalatedCard, usr: "HR" },
+    { url: "grievance-appeal-list", component:GrievanceAppealList, usr: "HR" },
+    { url: "grievance-appeal-card", component:GrievanceAppealCard, usr: "HR" },
+
     { url: "document-list", component:DocumentList, usr: "HR" },
     { url: "document-display", component:DocumentCard, usr: "HR" },
     { url: "leave-lists", component:LeaveApplicationList, usr: "HR" },
@@ -256,7 +270,7 @@ const Markup = () => {
     { url: "contract-list", component:ContractList, usr: "HR" },
     { url: "contract-card", component:ContractCard, usr: "HR" },
     { url: "bucketed-contracts", component:BucketContractList, usr: "HR" },
-    { url: "bucket-contact-card", component:BucketContractCard, usr: "HR" },
+    { url: "bucket-contract-card", component:BucketContractCard, usr: "HR" },
 
     { url: "new-probation", component:NewProbation, usr: "HR" },
     { url: "probation-list", component:ProbationList, usr: "HR" },
@@ -366,7 +380,7 @@ const Markup = () => {
     { url: "probation-card", component:ProbationCard, usr: "HEAD-HR" },
 
     { url: "bucketed-contracts-head", component:BucketContractListHEAD, usr: "HEAD-HR" },
-    { url: "bucket-contact-card", component:BucketContractCard, usr: "HEAD-HR" },
+    { url: "bucket-contract-card", component:BucketContractCard, usr: "HEAD-HR" },
     { url: "bucketed-probations-head", component:BucketProbationListHEAD, usr: "HEAD-HR" },
     { url: "bucket-probation-card", component:BucketProbationHODCard, usr: "HEAD-HR" },
 
@@ -465,7 +479,7 @@ const Markup = () => {
     { url: "probation-approval-card-hod", component:ImmediateHODPROBCard, usr: "HOD" },
     
     { url: "bucketed-contracts", component:BucketContractListHOD, usr: "HOD" },
-    { url: "bucket-contact-card", component:BucketContractCard, usr: "HOD" },
+    { url: "bucket-contract-card", component:BucketContractCard, usr: "HOD" },
     { url: "bucketed-probations", component:BucketProbationListHOD, usr: "HOD" },
     { url: "bucket-probation-card", component:BucketProbationHODCard, usr: "HOD" },
 
@@ -560,7 +574,7 @@ const Markup = () => {
 
     { url: "bucketed-contracts", component:BucketContractListHOD, usr: "HOD-ADMIN" },
     { url: "bucketed-probations", component:BucketProbationListHOD, usr: "HOD-ADMIN" },
-    { url: "bucket-contact-card", component:BucketContractCard, usr: "HOD-ADMIN" },
+    { url: "bucket-contract-card", component:BucketContractCard, usr: "HOD-ADMIN" },
     { url: "bucket-probation-card", component:BucketProbationHODCard, usr: "HOD-ADMIN" },
     //10/05/2023
     { url: "competency-list", component:CompetenceList, usr: "HOD-ADMIN" },
@@ -651,7 +665,7 @@ const Markup = () => {
 
     { url: "bucketed-contracts", component:BucketContractListHOD, usr: "HOD-ICT" },
     { url: "bucketed-probations", component:BucketProbationListHOD, usr: "HOD-ICT" },
-    { url: "bucket-contact-card", component:BucketContractCard, usr: "HOD-ICT" },
+    { url: "bucket-contract-card", component:BucketContractCard, usr: "HOD-ICT" },
     { url: "bucket-probation-card", component:BucketProbationHODCard, usr: "HOD-ICT" },
 
     //10/05/2023
@@ -746,7 +760,7 @@ const Markup = () => {
 
     { url: "bucketed-contracts", component:BucketContractListHOD, usr: "HOD-HR" },
     { url: "bucketed-probations", component:BucketProbationListHOD, usr: "HOD-HR" },
-    { url: "bucket-contact-card", component:BucketContractCard, usr: "HOD-HR" },
+    { url: "bucket-contract-card", component:BucketContractCard, usr: "HOD-HR" },
     { url: "bucket-probation-card", component:BucketProbationHODCard, usr: "HOD-HR" },
 
     //Settings routes
@@ -844,7 +858,7 @@ const Markup = () => {
 
     { url: "bucketed-contracts", component:BucketContractListHOD, usr: "HOD-FIN" },
     { url: "bucketed-probations", component:BucketProbationListHOD, usr: "HOD-FIN" },
-    { url: "bucket-contact-card", component:BucketContractCard, usr: "HOD-FIN" },
+    { url: "bucket-contract-card", component:BucketContractCard, usr: "HOD-FIN" },
     { url: "bucket-probation-card", component:BucketProbationHODCard, usr: "HOD-FIN" },
 
     //from 11/05/23
@@ -1107,9 +1121,6 @@ const Markup = () => {
     { url: "Contract", component:NewContract, usr: "NORMAL" },
     { url: "contract-list", component:ContractList, usr: "NORMAL" },
     { url: "contract-card", component:ContractCard, usr: "NORMAL" },
-    { url: "Grievance", component:NewGrievance, usr: "NORMAL" },
-    { url: "GrievanceList", component:GrievanceList, usr: "NORMAL" },
-    { url: "GrievanceCard", component:GrievanceCard, usr: "NORMAL" },
     { url: "document-list", component:DocumentList, usr: "NORMAL" },
     { url: "document-display", component:DocumentCard, usr: "NORMAL" },
     { url: "leave-lists", component:LeaveApplicationList, usr: "NORMAL" },
@@ -1121,6 +1132,16 @@ const Markup = () => {
     { url: "supervisees", component:LeaveSupervisee, usr: "NORMAL" },
     { url: "Payslip", component:PayslipCard, usr: "NORMAL" },
     { url: "P-nine", component:PnineCard, usr: "NORMAL" },
+
+    { url: "Grievance", component:NewGrievance, usr: "NORMAL" },
+    { url: "GrievanceList", component:GrievanceList, usr: "NORMAL" },
+    { url: "GrievanceCard", component:GrievanceCard, usr: "NORMAL" },
+    { url: "grievance-approval-list", component:GrievanceApprovalList, usr: "NORMAL" },
+    { url: "grievance-approval-card", component:GrievanceApprovalCard, usr: "NORMAL" },
+    { url: "grievance-escalated-list", component:GrievanceEscalatedList, usr: "NORMAL" },
+    { url: "grievance-escalated-card", component:GrievanceEscalatedCard, usr: "NORMAL" },
+    // { url: "grievance-employee-escalated-card", component:GrievanceEscalatedCard, usr: "NORMAL" },
+    
     //from 27/06/22- 30/06/22
     { url: "KPIs", component:JobKPIs, usr: "NORMAL" },
     { url: "KPI-card", component:JobKPICard, usr: "NORMAL" },

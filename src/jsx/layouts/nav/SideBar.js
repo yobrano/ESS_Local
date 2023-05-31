@@ -75,7 +75,7 @@ class SideBar extends Component {
       "bucketed-contracts",
       "bucketed-contracts-head",
     ];
-    let Grievance = ["Grievance", "GrievanceList"];
+    let Grievance = ["Grievance", "GrievanceList","grievance-list","grievance-approval-list","grievance-escalated-list","grievance-appeal-list"];
     let Documents = ["document-list"];
     let ContProbDocuments = ["contractprobation-list"];
     let Payroll = ["Payslip", "P9"];
@@ -1342,22 +1342,43 @@ class SideBar extends Component {
           </ul>
         </li>
 
-        {/* <li className={`${Grievance.includes(path) ? "mm-active" : ""}`}>
+        <li className={`${Grievance.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-id-card"></i>
             <span className="nav-text">Grievance</span>
           </Link>
           <ul>
-            <li>
+          <li>
               <Link
-                className={`${path === "grievance-list" ? "mm-active" : ""}`}
-                to="/grievance-list"
+                className={`${path === "grievance-appeal-list" ? "mm-active" : ""}`}
+                to="/grievance-appeal-list"
                 onClick={() => this.props.onClick3()}
               >
                 <i className="flaticon-381-album-1  mr-3"></i>
-                <span className="nav-text-drop">Lists</span>
+                <span className="nav-text-drop">Appeal List</span>
               </Link>
             </li>
+          <li>
+              <Link
+                className={`${path === "grievance-escalated-list" ? "mm-active" : ""}`}
+                to="/grievance-escalated-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-repeat-1  mr-3"></i>
+                <span className="nav-text-drop">Escalated List</span>
+              </Link>
+            </li>
+          <li>
+              <Link
+                className={`${path === "grievance-approval-list" ? "mm-active" : ""}`}
+                to="/grievance-approval-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-layer-1  mr-3"></i>
+                <span className="nav-text-drop">Approval List</span>
+              </Link>
+            </li>
+           
             <li>
               <Link
                 className={`${path === "grievance" ? "mm-active" : ""}`}
@@ -1368,8 +1389,18 @@ class SideBar extends Component {
                 <span className="nav-text-drop">New</span>
               </Link>
             </li>
+            <li>
+              <Link
+                className={`${path === "grievance-list" ? "mm-active" : ""}`}
+                to="/grievance-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-box-2  mr-3"></i>
+                <span className="nav-text-drop">Your Records</span>
+              </Link>
+            </li>
           </ul>
-        </li> */}
+        </li>
 
         {/* <li className={`${TrainingNeeds.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
@@ -5396,34 +5427,7 @@ class SideBar extends Component {
           </ul>
         </li> */}
 
-        {/* <li className={`${Grievance.includes(path) ? "mm-active" : ""}`}>
-          <Link className="has-arrow ai-icon" to="#">
-            <i className="flaticon-381-id-card"></i>
-            <span className="nav-text">Grievances</span>
-          </Link>
-          <ul>
-            <li>
-              <Link
-                className={`${path === "GrievanceList" ? "mm-active" : ""}`}
-                to="/GrievanceList"
-                onClick={() => this.props.onClick3()}
-              >
-                <i className="flaticon-381-album-1  mr-3"></i>
-                <span className="nav-text-drop">Lists</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                className={`${path === "Grievance" ? "mm-active" : ""}`}
-                onClick={() => this.props.onClick()}
-                to="/Grievance"
-              >
-                <i className="flaticon-381-add-1 mr-3"></i>
-                <span className="nav-text-drop">New</span>
-              </Link>
-            </li>
-          </ul>
-        </li> */}
+     
 
         {/* className={`${Leaves.includes(path) ? "mm-active" : ""}`} */}
         <li>
@@ -5789,6 +5793,54 @@ class SideBar extends Component {
                 <span className="nav-text-drop">New</span>
               </Link>
             </li> */}
+          </ul>
+        </li>
+        <li className={`${Grievance.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-id-card"></i>
+            <span className="nav-text">Grievances</span>
+          </Link>
+          <ul>
+          <li>
+              <Link
+                className={`${path === "grievance-escalated-list" ? "mm-active" : ""}`}
+                to="/grievance-escalated-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-repeat-1  mr-3"></i>
+                <span className="nav-text-drop">Escalated List</span>
+              </Link>
+            </li>
+          <li>
+              <Link
+                className={`${path === "grievance-approval-list" ? "mm-active" : ""}`}
+                to="/grievance-approval-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-layer-1  mr-3"></i>
+                <span className="nav-text-drop">Approval List</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${path === "GrievanceList" ? "mm-active" : ""}`}
+                to="/GrievanceList"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Grievance Lists</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${path === "Grievance" ? "mm-active" : ""}`}
+                onClick={() => this.props.onClick()}
+                to="/Grievance"
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text-drop">New</span>
+              </Link>
+            </li>
           </ul>
         </li>
         <li className={`${path === "job-vacancy" ? "mm-active" : ""}`}>

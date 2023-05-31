@@ -424,7 +424,7 @@ const DataTable = ({ columns, data, setSelection }) => {
   );
 };
 
-function BucketContractListHOD(props) {
+function GrievanceApprovalList(props) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const config = {
@@ -439,12 +439,12 @@ function BucketContractListHOD(props) {
     setLoading(true);
     axios
       .get(
-        `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/gethodspecializedbucketlist`,
+        `${process.env.REACT_APP_API_S_LINK}/grievance/getapprovalgrievancelist`,
         config
       )
       .then((result) => {
         console.log(result.data);
-        setData(result.data.employeeContracts);
+        setData(result.data.grievancelist);
       })
       .catch((err) => {
         console.log(err);
@@ -456,40 +456,44 @@ function BucketContractListHOD(props) {
 
   const columns = useMemo(
     () => [
-
       {
-        Header: "Contract",
-        accessor: "contractNo",
+        Header: "Grievance",
+        accessor: "gid",
       },
       {
         Header: "Employee",
-        accessor: "empName",
+        accessor: "employeeno",
       },
       {
-        Header: "Emp ID",
-        accessor: "empID",
-      },
-      // {
-      //   Header: "Department",
-      //   accessor: "department",
-      // },
-      // {
-      //   Header: "Position",
-      //   accessor: "position",
-      // },
-      {
-        Header: "Creation Date",
-        accessor: "creationDate",
-        Cell: ({ value }) => {
-          return format(new Date(value), "MM/dd/yyyy");
-        },
+        Header: "Supervisor",
+        accessor: "supervisor",
       },
       {
-        Header: "Status",
-        accessor: "status",
+        Header: "Current",
+        accessor: "currentstage",
         Filter: SelectColumnFilter,
         filter: "includes",
       },
+      {
+        Header: "Next",
+        accessor: "nextstage",
+        Filter: SelectColumnFilter,
+        filter: "includes",
+      },
+    //   {
+    //     Header: "Resolved",
+    //     accessor: "resolved",
+    //     Filter: SelectColumnFilter,
+    //     filter: "includes",
+    //   },
+      //   {
+      //     Header: "Creation Date",
+      //     accessor: "creationDate",
+      //     Cell: ({ value }) => {
+      //       return format(new Date(value), "MM/dd/yyyy");
+      //     },
+      //   },
+
     ],
     []
   );
@@ -498,9 +502,9 @@ function BucketContractListHOD(props) {
   //     setSelection,
   //   ]);
   if (selection.length === 1) {
-    // console.log(selection[0].contractNo );
-    if(selection[0].contractNo !== undefined){
-      props.history.push("/bucket-contract-card", [{ datum: selection }]);
+    console.log(selection[0].gid);
+    if (selection[0].gid !== undefined) {
+      props.history.push("/grievance-approval-card", [{ datum: selection }]);
     }
   }
 
@@ -508,9 +512,7 @@ function BucketContractListHOD(props) {
     return (
       <>
         <Container>
-          <div className="headerDiv">
-         
-          </div>
+          <div className="headerDiv"></div>
           {/* List */}
           <Row className="jobRow">
             <div id="preloader-home">
@@ -532,4 +534,4 @@ function BucketContractListHOD(props) {
     </>
   );
 }
-export default withRouter(BucketContractListHOD);
+export default withRouter(GrievanceApprovalList);

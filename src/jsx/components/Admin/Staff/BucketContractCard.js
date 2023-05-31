@@ -959,14 +959,74 @@ const BucketContractCard = (props) => {
       });
   };
 
+  //Reverse Bucketed
+  const BucketReversal = (e)=>{
+    e.preventDefault();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+
+    // let data={
+    //   MDcomment:MDFDRemark
+    // }
+
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Reverse Bucketing",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        if (willCreate) {
+          setDisableBtn(true);
+          return axios.get(
+            `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/movecontractfrombucket/${props.location.state[0].datum[0].contractNo}/${routeq}`,
+            // data,
+            config
+          );
+        }
+      })
+
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          setDisableBtn(false);
+          swal("Success!", "Contract  Re-enstated", "success");
+        }
+        if (response.status === 404) {
+          alert(response.data.message);
+        }
+      })
+      .catch((err) => {
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+        console.log({ err: err });
+      });
+  }
+
+
   let btnUP = "";
   let sectionOne = "";
   let reversePath="";
   let authUser= "";
+  let routeq = "1"
   if (JSON.parse(localStorage.getItem("userDetails")).user.length > 0) {
     authUser = JSON.parse(localStorage.getItem("userDetails")).user[0];
   }
-
+  if(authUser =="HEAD-HR"){
+    routeq="4";
+  }else if(authUser =="HR"){
+    routeq="2";
+  }else{
+    routeq="1";
+  }
   if (props.location.state[0].datum[0].status === "Open"  && props.location.state[0].datum[0].contractStatus !== 10 ) {
     btnUP = (
       <button className="btn btn-success" >
@@ -981,10 +1041,19 @@ const BucketContractCard = (props) => {
 
     reversePath="contract-list";
   } else if (props.location.state[0].datum[0].status === "Approved") {
-    btnUP = <button className="btn btn-secondary">Form Pushed Already</button>;
+    btnUP = (
+      <>
+        <button className="btn btn-secondary">Form Pushed Already</button>
+       
+      </>
+      );
     reversePath="contract-list";
   }else if(props.location.state[0].datum[0].contractStatus === 10){
-    btnUP = <button className="btn btn-secondary">Bucketed Already</button>;
+    btnUP = (
+    <>
+        <button className="btn btn-secondary">Bucketed Already</button>
+        <button className="btn btn-warning ml-1" onClick={BucketReversal}>Re-enstate Record</button>
+    </>)
     if(authUser !=="HEAD-HR"){
       reversePath="bucketed-contracts";
     }else{

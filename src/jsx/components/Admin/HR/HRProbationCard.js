@@ -564,7 +564,7 @@ const HRProbationCard = (props) => {
               swal("Success!", "Non Confirmation Success", "success");
           };
       }());
-      let fileName = Data.StaffID+"_NonConfirmation.doc";
+      let fileName = selectedEmp.replace(" "," ")+"_NonConfirmation.doc";
       saveData(json, fileName);
 
       })
@@ -631,7 +631,7 @@ const HRProbationCard = (props) => {
               swal("Success!", "Confirmation Success", "success");
           };
       }());
-      let fileName = Data.StaffID+"_Confirmation.doc";
+      let fileName =selectedEmp.replace(" "," ")+"_Confirmation.doc";
       saveData(json, fileName);
 
       })
@@ -692,7 +692,7 @@ const HRProbationCard = (props) => {
               swal("Success!", "Extension Success", "success");
           };
       }());
-      let fileName = Data.StaffID+"_Extension.doc";
+      let fileName = selectedEmp.replace(" "," ")+"_Extension.doc";
       saveData(json, fileName);
 
       })
@@ -991,7 +991,7 @@ const HRProbationCard = (props) => {
     //  </button>
     // );
   } else if (props.location.state[0].datum[0].status === 'Approved') {
-    btnUP = <button className="btn btn-secondary">Form Approved Already</button>;
+    btnUP = <button className="btn btn-secondary rounded-0 w-100">Form Approved Already</button>;
   }
 
 

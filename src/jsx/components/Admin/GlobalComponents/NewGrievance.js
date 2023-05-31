@@ -51,6 +51,10 @@ const NewGrievance = (props) => {
   const [postBtnState ,setPostBtnState] = useState(false)
   const [grievanceNo,setGrievanceNo] = useState("")
 
+  const [selectedRecipient, setSelectedRecipient] = useState({});
+  const [disableField,setDisabledField] = useState(true)
+
+
   useEffect(() => {
     const config = {
       headers: {
@@ -110,7 +114,7 @@ const NewGrievance = (props) => {
       Station:selectedStation.value,
       Section:selectedSection.value,
       Dept:selectedDepartment.value,
-      Supervisor:selectedSupervisor.value,
+      NextStageStaff:selectedRecipient.value,
       CurrentStage:currentStage,
       NextStage:nextStage,
       GrievanceDate:grievanceDate,
@@ -218,12 +222,12 @@ const NewGrievance = (props) => {
 
   let pushForward = (
     <div className="text-right my-4">
-    <button
+    {/* <button
       className="btn btn-warning"
       onClick={forwardNext}
     >
       Forward to Next Stage <i className="fa fa-arrow-up"></i>
-    </button>
+    </button> */}
   </div>
   )
 
@@ -311,7 +315,7 @@ const NewGrievance = (props) => {
                       </div>
                     </div>
 
-                    <div className="col-xl-3 col-sm-6">
+                    {/* <div className="col-xl-3 col-sm-6">
                       <div className="form-control1">
                         <label htmlFor="">Supervisor</label>
                         <Select
@@ -320,7 +324,7 @@ const NewGrievance = (props) => {
                           options={employeeList}
                         />
                       </div>
-                    </div>
+                    </div> */}
                     <div className="col-xl-3 col-sm-3">
                       <div className="form-group">
                         <label htmlFor="">Current Stage</label>
@@ -337,7 +341,7 @@ const NewGrievance = (props) => {
                     </div>
                     <div className="col-xl-3 col-sm-3">
                       <div className="form-group">
-                        <label htmlFor="">Next Stage</label>
+                        <label htmlFor="">Next Stage Rank</label>
                         <select
                           name="qualifiedForPromo"
                           id=""
@@ -345,12 +349,23 @@ const NewGrievance = (props) => {
                           onChange={(e) => setNextStage(e.target.value)}
                         >
                           <option>Choose</option>
-                          <option value="Employee">Employee</option>
-                          <option value="HOS">HOS</option>
+                          {/* <option value="Employee">Employee</option> */}
+                          <option value="Supervisor">Supervisor</option>
                           <option value="HOD">HOD</option>
                           <option value="HR">HR</option>
+                          <option value="HEAD-HR">HEAD HR</option>
                           <option value="MD">MD</option>
                         </select>
+                      </div>
+                    </div>
+                    <div className="col-xl-3 col-sm-3">
+                      <div className="form-group">
+                        <label htmlFor="">Next Stage Staff</label>
+                        <Select
+                          defaultValue={selectedRecipient}
+                          onChange={setSelectedRecipient}
+                          options={employeeList}
+                        />
                       </div>
                     </div>
                   </div>
@@ -469,7 +484,7 @@ const NewGrievance = (props) => {
                   </div>
                 </div>
 
-                <div className="col-xl-6 col-sm-6">
+                <div className="col-xl-12 col-sm-12">
                   <div className="form-group">
                     <label htmlFor="">Grievance Description</label>
                     <textarea
@@ -495,6 +510,7 @@ const NewGrievance = (props) => {
                       placeholder="max 240 characters"
                       value={stepTaken}
                       onChange={(e) => setStepTaken(e.target.value)}
+                      disabled={disableField}
                     ></textarea>
                   </div>
                 </div>
@@ -510,11 +526,12 @@ const NewGrievance = (props) => {
                       placeholder="max 240 characters"
                       value={outCome}
                       onChange={(e) => setOutCome(e.target.value)}
+                      disabled={disableField}
                     ></textarea>
                   </div>
                 </div>
 
-                <div className="col-xl-6 col-sm-6">
+                <div className="col-xl-12 col-sm-12">
                   <div className="form-group">
                     <label htmlFor="">Comment</label>
                     <textarea
@@ -525,6 +542,7 @@ const NewGrievance = (props) => {
                       placeholder="max 240 characters"
                       value={commEnt}
                       onChange={(e) => setCommEnt(e.target.value)}
+                      disabled={disableField}
                     ></textarea>
                   </div>
                 </div>
@@ -540,6 +558,7 @@ const NewGrievance = (props) => {
                       placeholder="max 240 characters"
                       value={recommendAtion}
                       onChange={(e) => setRecommendAtion(e.target.value)}
+                      disabled={disableField}
                     ></textarea>
                   </div>
                 </div>
@@ -554,7 +573,7 @@ const NewGrievance = (props) => {
                       onClick={uploadGrievance}
                       disabled={postBtnState}
                     >
-                      Grievance Card <i className="fa fa-arrow-up"></i>
+                      Post Grievance <i className="fa fa-arrow-up"></i>
                     </button>
                   </div>
 

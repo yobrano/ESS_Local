@@ -80,14 +80,15 @@ const CompetenceCard = (props) => {
   }
 
   //Redirect to a line
-  const EditCompetenceRec = (type,description,assesment,comment,line) =>{
+  const EditCompetenceRec = (type,description,assesment,comment,line,cno) =>{
     props.history.push("/edit-competence-line", [
         {
           type: type,
           description: description,
           assesment:assesment,
           comment:comment,
-          line:line
+          line:line,
+          cno:cno
         },
       ]);
   }
@@ -440,7 +441,8 @@ const CompetenceCard = (props) => {
                                   d.description,
                                   d.employeeassesment,
                                   d.employeecomment,
-                                  d.lineno
+                                  d.lineno,
+                                  d.cno
                                 )
                               }
                               disabled={!getReportDisabled}

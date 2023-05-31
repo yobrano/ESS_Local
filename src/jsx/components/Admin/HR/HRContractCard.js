@@ -6,6 +6,7 @@ import "./ExitForm.css";
 import axios from "axios";
 import swal from "sweetalert";
 import Select from "react-select";
+import { format } from "date-fns";
 
 const HRContractCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -154,6 +155,7 @@ const HRContractCard = (props) => {
 
   const [selectedNo, setSelectedNo] = useState("");
   const [selectedDuration, setSelectedDuration] = useState("");
+  const [contractXpiry,setContractXpiry] = useState("")
 
   const numberList=[
     {value:"1",label:"1"},{value:"2",label:"2"},{value:"3",label:"3"},{value:"4",label:"4"},{value:"5",label:"5"},{value:"6",label:"6"},{value:"7",label:"7"},{value:"8",label:"9"},{value:"10",label:"10"},
@@ -203,12 +205,18 @@ const HRContractCard = (props) => {
       .then(function (response) {
         if (response.status === 200) {
           console.log(response.data.probationFirstList[0]);
+          let cDArr = response.data.probationFirstList[0].contractstart.split('/');
+          console.log(response.data.probationFirstList[0].contractstart);
 
           setJobTitle(response.data.probationFirstList[0].jobtitle)
           setBranch(response.data.probationFirstList[0].branch)
           setProduct(response.data.probationFirstList[0].product)
           setEmploymentYear(response.data.probationFirstList[0].employmentyear)
           setYearsOfService(response.data.probationFirstList[0].tenureofservice)
+          setContractXpiry(response.data.probationFirstList[0].contractexpiry)
+          if(response.data.probationFirstList[0].contractstart!==""){
+            setContractedDate(new Date(response.data.probationFirstList[0].contractstart))
+          }
           
           setDatax(response.data.probationFirstList[0]);
           setSelectedEmp(response.data.probationFirstList[0].employeename);
@@ -868,7 +876,7 @@ const HRContractCard = (props) => {
              swal("Success!", "The record has been Non Renewed!", "success");
           };
       }());
-      let fileName = Data.StaffNo+"_NonRenewal.doc";
+      let fileName = selectedEmp.replace(" ","")+"_NonRenewal.doc";
       saveData(response, fileName);
 
 
@@ -904,7 +912,7 @@ const HRContractCard = (props) => {
       EocID: datax.probationno,
       RenewalTime: selectedNo.label+" "+selectedDuration.label,
       DateFormulae: selectedNo.value+selectedDuration.value,
-      ContractedDate: contractedDate,
+      ContractedDate:  format(contractedDate, "yyyy'-'MM'-'dd'T'HH':'mm':'ss"),
       StartDate: startDate,
       EndDate: endDate,
       NewSalary:  newSalary.toString(),
@@ -940,7 +948,7 @@ const HRContractCard = (props) => {
              swal("Success!", "The record has been Renewed!", "success");
           };
       }());
-      let fileName = Data.StaffNo+"_Renewal.doc";
+      let fileName = selectedEmp.replace(" ","")+"_Renewal.doc";
       saveData(response, fileName);
 
         // swal("Success!", json.data.message, "success");
@@ -1107,6 +1115,17 @@ const HRContractCard = (props) => {
                       type="text"
                       className="form-control"
                       value={branch}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Contract Expiry Date</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={contractXpiry}
                       disabled
                     />
                   </div>
@@ -1878,6 +1897,13 @@ const HRContractCard = (props) => {
                       <div className="form-group">
                         <label htmlFor="">Commencement Date</label>
                         {/* <label htmlFor="">Contracted Date</label> */}
+                        {/* <input
+                        type="text"
+                        className="form-control"
+                        name="contractedDate" 
+                        value={contractedDate}
+                        disabled={true}
+                        />  */}
                         <DatePicker
                           name="contractedDate"
                           selected={contractedDate}

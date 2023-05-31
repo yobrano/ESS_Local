@@ -54,6 +54,10 @@ const DashboardUI = () => {
     }
   };
 
+  let competenceVisibility = "dashboard-item"
+  if(process.env.REACT_APP_COMPETENCE_VISIBLE === "false"){
+    competenceVisibility = "dashboard-item d-none"
+  }
   return (
     <>
       <div className="dashboard-item" onClick={() => toggleCollapse("leave")}>
@@ -278,7 +282,7 @@ const DashboardUI = () => {
         </div>
       </div>
 
-      <div className="dashboard-item" onClick={() => toggleCollapse("compentence")}>
+      <div className={competenceVisibility} onClick={() => toggleCollapse("compentence")} >
         <div className="card orange-bg">
           <div className="card-header">
             <h4>Competency Framework </h4>
