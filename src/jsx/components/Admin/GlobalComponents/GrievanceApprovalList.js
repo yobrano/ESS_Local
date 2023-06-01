@@ -469,7 +469,7 @@ function GrievanceApprovalList(props) {
         accessor: "supervisor",
       },
       {
-        Header: "Current",
+        Header: "Previous",
         accessor: "currentstage",
         Filter: SelectColumnFilter,
         filter: "includes",

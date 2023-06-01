@@ -5,10 +5,10 @@ import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
-import { Accordion } from "react-bootstrap";
+import { Accordion, Collapse } from "react-bootstrap";
 import "./NewGrievance.css";
 
-const GrievanceApprovalCard = (props) => {
+const GrievanceCompletedCard = (props) => {
   const [loading, setLoading] = useState(true);
   const [selectedEmp, setSelectedEmp] = useState({});
   const [selectedSupervisor, setSelectedSupervisor] = useState({});
@@ -59,6 +59,23 @@ const GrievanceApprovalCard = (props) => {
   const [selectedRecipientRank, setSelectedRecipientRank] = useState("");
   const [cycleTwoComment, setCycleTwoComment] = useState("");
 
+  const [cycletwosteps, setCycletwosteps] = useState("");
+  const [cycletwooutcome, setCycletwooutcome] = useState("");
+  const [cycletworecommendation, setCycletworecommendation] = useState("");
+  const [cycletwogenremark, setCycletwogenremark] = useState("");
+
+  const [cycletwooutcomev, setCycletwooutcomev] = useState("");
+  const [cycletworecommendationv, setCycletworecommendationv] = useState("");
+  const [cycletwostepsv, setCycletwostepsv] = useState("");
+
+  const [selectedAppealStaff, setSelectedAppealStaff] = useState("");
+  const [appealStaffRank, setAppealStaffRank] = useState("");
+
+  const [alternativeF, setAlternativeF] = useState(false);
+  const [outcomeF, setOutcomeF] = useState(false);
+
+  const [appealAlternativeRec, setAppealAlternativeRec] = useState("");
+  const [appealRecomm, setAppealRecomm] = useState("");
 
 
   useEffect(() => {
@@ -92,6 +109,14 @@ const GrievanceApprovalCard = (props) => {
           setRecommendAtion(response.data.grievancesingle.recommendation);
           setGenRemarkList(response.data.grievanceRanksRemarks[0]);
           setEmployeeList(response.data.employeeList);
+          setCycleTwoComment(response.data.grievancesingle.cycletwoInitreason);
+          setCycletwooutcomev(response.data.grievancesingle.cycletwooutcome);
+          setCycletworecommendationv(
+            response.data.grievancesingle.cycletworecommendation
+          );
+          setCycletwostepsv(response.data.grievancesingle.cycletwosteps);
+          setAppealAlternativeRec(response.data.grievancesingle.appealAlternativeRemark)
+          setAppealRecomm(response.data.grievancesingle.appealOutcomeRemark)
 
           var stageVar = JSON.parse(localStorage.getItem("userDetails"));
           if (JSON.parse(localStorage.getItem("userDetails")).user.length > 0) {
@@ -130,11 +155,10 @@ const GrievanceApprovalCard = (props) => {
     let data = {
       GID: props.location.state[0].datum[0].gid,
       NextStageStaff: props.location.state[0].datum[0].employeeno,
-      StepTaken: stepTaken,
-      Outcome: outCome,
-      Comment: commEnt,
-      Recommendation: recommendAtion,
-      GeneralRemark: generalRemark,
+      Cycletwosteps: cycletwosteps,
+      Cycletwooutcome: cycletwooutcome,
+      Cycletworecommendation: cycletworecommendation,
+      GeneralRemark: cycletwogenremark,
     };
     swal({
       title: "Are you sure?",
@@ -146,7 +170,7 @@ const GrievanceApprovalCard = (props) => {
         // setPostBtnState(true)
         if (willCreate) {
           return axios.post(
-            `${process.env.REACT_APP_API_S_LINK}/grievance/uploadprogressonecycleone`,
+            `${process.env.REACT_APP_API_S_LINK}/grievance/uploadprogressfourcycletwo`,
             data,
             config
           );
@@ -249,7 +273,7 @@ const GrievanceApprovalCard = (props) => {
         // setPostBtnState(true)
         if (willCreate) {
           return axios.get(
-            `${process.env.REACT_APP_API_S_LINK}/grievance/resolvegrievance/${props.location.state[0].datum[0].gid}`,
+            `${process.env.REACT_APP_API_S_LINK}/grievance/resolvegrievance/${grievanceNo}`,
             // data,
             config
           );
@@ -280,7 +304,11 @@ const GrievanceApprovalCard = (props) => {
 
   const UnresolvedFn = (e) => {
     e.preventDefault();
-    if(cycleTwoComment === "" || nextStage === "" || selectedRecipient.value === undefined){
+    if (
+      cycleTwoComment === "" ||
+      nextStage === "" ||
+      selectedRecipient.value === undefined
+    ) {
       return;
     }
 
@@ -292,12 +320,12 @@ const GrievanceApprovalCard = (props) => {
       },
     };
 
-    let data ={
-      GID:props.location.state[0].datum[0].gid,
+    let data = {
+      GID: props.location.state[0].datum[0].gid,
       CycletwoInitreason: cycleTwoComment,
-      NextStage:selectedRecipientRank,
-      NextStageStaff: selectedRecipient.value
-    }
+      NextStage: selectedRecipientRank,
+      NextStageStaff: selectedRecipient.value,
+    };
     swal({
       title: "Are you sure?",
       text: "Are you sure that you want to Submit",
@@ -337,41 +365,228 @@ const GrievanceApprovalCard = (props) => {
       });
   };
 
+  const MakeAnAppealFn = (e) => {    
+    e.preventDefault();
+    if (
+      appealStaffRank === "" ||
+      selectedAppealStaff.value === undefined
+    ) {
+      return;
+    }
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+
+    let data = {
+      GID: props.location.state[0].datum[0].gid,
+      NextStage: appealStaffRank,
+      NextStageStaff: selectedAppealStaff.value,
+    };
+
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Submit",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        // setPostBtnState(true)
+        if (willCreate) {
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/grievance/uploadprogressfivecyclethree/`,
+            data,
+            config
+          );
+        }
+      })
+
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          // setPush(true)
+          setGrievanceNo(response.data.return_value);
+          swal("Success!", "Grievance Card Submited", "success");
+        }
+        if (response.status === 404) {
+          alert(response.data.message);
+        }
+      })
+      .catch((err) => {
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+        console.log({ err: err });
+        // setPostBtnState(false)
+      });
+  
+  
+  };
+
+  const DismissAppealFn = (e)=>{
+    e.preventDefault();
+   
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+
+    let data = {
+      GID: props.location.state[0].datum[0].gid,
+      AppealAlternativeRemark: appealAlternativeRec,
+      NextStageStaff:props.location.state[0].datum[0].employeeno,
+      NextStage:"Employee",
+    };
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Dismiss",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        // setPostBtnState(true)
+        if (willCreate) {
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/grievance/dismissappeal/`,
+            data,
+            config
+          );
+        }
+      })
+
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          // setPush(true)
+          setGrievanceNo(response.data.return_value);
+          swal("Success!", "Grievance Card Dismissed", "success");
+        }
+        if (response.status === 404) {
+          alert(response.data.message);
+        }
+      })
+      .catch((err) => {
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+        console.log({ err: err });
+        // setPostBtnState(false)
+      });
+  }
+  const UpholdAppealFn = (e)=>{
+    e.preventDefault();
+   
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+
+    let data = {
+      GID: props.location.state[0].datum[0].gid,
+      AppealOutcomeRemark: appealRecomm,
+      NextStageStaff:props.location.state[0].datum[0].employeeno,
+      NextStage:"Employee",
+    };
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Uphold",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        // setPostBtnState(true)
+        if (willCreate) {
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/grievance/upholdappeal/`,
+            data,
+            config
+          );
+        }
+      })
+
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          // setPush(true)
+          setGrievanceNo(response.data.return_value);
+          swal("Success!", "Grievance Appeal Upheld", "success");
+        }
+        if (response.status === 404) {
+          alert(response.data.message);
+        }
+      })
+      .catch((err) => {
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+        console.log({ err: err });
+        // setPostBtnState(false)
+      });
+  }
+  const toggleCollapse = (from) => {
+    switch (from) {
+      case "alternative":
+        setAlternativeF(true);
+        setOutcomeF(false);
+        break;
+      case "outcome":
+        setAlternativeF(false);
+        setOutcomeF(true);
+        break;
+     
+      default:
+        setAlternativeF(true);
+        setOutcomeF(false);
+        break;
+    }
+  };
+
+
+
   let Approve = "";
   let Reject = "";
   let CycleTwoEntries = false;
   let CompleteProcessBtn = "";
   let GeneralRemarkTextAreaField = "col-xl-12 col-sm-12";
   let GeneralRemarListDisp = "col-xl-12 col-sm-12 d-none";
-  let IncaseOfUnresolved = "card-body incase-of-unresolve"
-  if (props.location.state[0].datum[0].progressNo === 2) {
+  let DisplayCycleTwoValue = "d-none";
+  let DisplayCycleTwoFields = "card-body escalated";
+  let AppealTextsection = "d-none";
+  let DisplayAppealValue = "card-body d-none";
+
+   if (props.location.state[0].datum[0].resolved === true ) {
     CycleTwoEntries = true;
     GeneralRemarkTextAreaField = "col-xl-12 col-sm-12 d-none";
     GeneralRemarListDisp = "col-xl-12 col-sm-12";
+    DisplayCycleTwoValue = "card-body";
+    DisplayCycleTwoFields = "card-body escalated d-none";
+    AppealTextsection = "card-body appeal d-none";
+    DisplayAppealValue = "card-body";
     Approve = (
       <>
-        <button className="btn btn-warning" onClick={ApproveFn}>
-          Mark as Resolved <i className="fa fa-arrow-up"></i>
+        <button className="btn btn-secondary">
+        Grivance Process is Done<i className="fa fa-check"></i>
         </button>
-        <button className="btn btn-danger ml-1" onClick={UnresolvedFn}>
-          Mark as Un-Resolved <i className="fa fa-arrow-right"></i>
-        </button>
+       
       </>
     );
-  } else if (props.location.state[0].datum[0].progressNo === 1) {
-    IncaseOfUnresolved = "d-none"
-    CompleteProcessBtn = (
-      <>
-        <button
-          className="btn btn-success"
-          onClick={PushRecommendations}
-          disabled={uploadBtnActuator}
-        >
-          Complete the Process <i className="fa fa-arrow-up"></i>
-        </button>
-      </>
-    );
-  }
+  } 
 
   let Resolving = (
     <div className="text-right my-4">
@@ -537,6 +752,7 @@ const GrievanceApprovalCard = (props) => {
                           placeholder="max 240 characters"
                           value={stepTaken}
                           onChange={(e) => setStepTaken(e.target.value)}
+                          disabled={true}
                         ></textarea>
                       </div>
                     </div>
@@ -552,6 +768,7 @@ const GrievanceApprovalCard = (props) => {
                           placeholder="max 240 characters"
                           value={outCome}
                           onChange={(e) => setOutCome(e.target.value)}
+                          disabled={true}
                         ></textarea>
                       </div>
                     </div>
@@ -567,6 +784,7 @@ const GrievanceApprovalCard = (props) => {
                           placeholder="max 240 characters"
                           value={commEnt}
                           onChange={(e) => setCommEnt(e.target.value)}
+                          disabled={true}
                         ></textarea>
                       </div>
                     </div>
@@ -582,6 +800,7 @@ const GrievanceApprovalCard = (props) => {
                           placeholder="max 240 characters"
                           value={recommendAtion}
                           onChange={(e) => setRecommendAtion(e.target.value)}
+                          disabled={true}
                         ></textarea>
                       </div>
                     </div>
@@ -596,7 +815,7 @@ const GrievanceApprovalCard = (props) => {
                           placeholder="max 240 characters"
                           value={generalRemark}
                           onChange={(e) => setGeneralRemark(e.target.value)}
-                          
+                          disabled={true}
                         ></textarea>
                       </div>
                     </div>
@@ -636,13 +855,12 @@ const GrievanceApprovalCard = (props) => {
                         </table>
                       </div>
                     </div>
-
                   </div>
                 </div>
-                <div className={IncaseOfUnresolved}>
+                <div className="card-body">
                   <h6>Incase of Unresolved Case</h6>
                   <div className="row">
-                  <div className="col-xl-6 col-sm-6">
+                    {/* <div className="col-xl-6 col-sm-6">
                       <div className="form-group">
                         <label htmlFor="">Next Stage Rank</label>
                         <select
@@ -652,7 +870,6 @@ const GrievanceApprovalCard = (props) => {
                           onChange={(e) => setSelectedRecipientRank(e.target.value)}
                         >
                           <option value="">Choose</option>
-                          {/* <option value="Employee">Employee</option> */}
                           <option value="Supervisor">Supervisor</option>
                           <option value="HOD">HOD</option>
                           <option value="HR">HR</option>
@@ -670,7 +887,7 @@ const GrievanceApprovalCard = (props) => {
                           options={employeeList}
                         />
                       </div>
-                    </div>
+                    </div> */}
                     <div className="col-xl-12 col-sm-12">
                       <div className="form-group">
                         <label htmlFor="">Reason For Rejection</label>
@@ -682,16 +899,268 @@ const GrievanceApprovalCard = (props) => {
                           placeholder="max 240 characters"
                           value={cycleTwoComment}
                           onChange={(e) => setCycleTwoComment(e.target.value)}
+                          disabled={true}
                         ></textarea>
                       </div>
                     </div>
                   </div>
                 </div>
 
+                <div className={DisplayCycleTwoFields}>
+                  <h6>Escalated level Entries</h6>
+                  <div className="row">
+                    <div className="col-xl-6 col-sm-6">
+                      <div className="form-group">
+                        <label htmlFor="">Steps Taken</label>
+                        <textarea
+                          className="form-control"
+                          cols="30"
+                          rows="3"
+                          name="Cycletwosteps"
+                          placeholder="max 240 characters"
+                          value={cycletwosteps}
+                          onChange={(e) => setCycletwosteps(e.target.value)}
+                          // disabled={true}
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div className="col-xl-6 col-sm-6">
+                      <div className="form-group">
+                        <label htmlFor="">Outcome</label>
+                        <textarea
+                          className="form-control"
+                          cols="30"
+                          rows="3"
+                          name="cycletwooutcome"
+                          placeholder="max 240 characters"
+                          value={cycletwooutcome}
+                          onChange={(e) => setCycletwooutcome(e.target.value)}
+                          // disabled={true}
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div className="col-xl-12 col-sm-12">
+                      <div className="form-group">
+                        <label htmlFor="">Recommendation</label>
+                        <textarea
+                          className="form-control"
+                          cols="30"
+                          rows="3"
+                          name="cycletworecommendation"
+                          placeholder="max 240 characters"
+                          value={cycletworecommendation}
+                          onChange={(e) =>
+                            setCycletworecommendation(e.target.value)
+                          }
+                          // disabled={true}
+                        ></textarea>
+                      </div>
+                    </div>
+
+                    <div className="col-xl-12 col-sm-12">
+                      <div className="form-group">
+                        <label htmlFor="">General Remark</label>
+                        <textarea
+                          className="form-control"
+                          cols="30"
+                          rows="3"
+                          name="cycletwogenremark"
+                          placeholder="max 240 characters"
+                          value={cycletwogenremark}
+                          onChange={(e) => setCycletwogenremark(e.target.value)}
+                          // disabled={true}
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={DisplayCycleTwoValue}>
+                  <h6>Escalated level Entries</h6>
+                  <div className="row">
+                    <div className="col-xl-6 col-sm-6">
+                      <div className="form-group">
+                        <label htmlFor="">Steps Taken</label>
+                        <textarea
+                          className="form-control"
+                          cols="30"
+                          rows="3"
+                          name="cycletwostepsv"
+                          placeholder="max 240 characters"
+                          value={cycletwostepsv}
+                          disabled={true}
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div className="col-xl-6 col-sm-6">
+                      <div className="form-group">
+                        <label htmlFor="">Outcome</label>
+                        <textarea
+                          className="form-control"
+                          cols="30"
+                          rows="3"
+                          name="cycletwooutcomev"
+                          placeholder="max 240 characters"
+                          value={cycletwooutcomev}
+                          disabled={true}
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div className="col-xl-12 col-sm-12">
+                      <div className="form-group">
+                        <label htmlFor="">Recommendation</label>
+                        <textarea
+                          className="form-control"
+                          cols="30"
+                          rows="3"
+                          name="cycletworecommendationv"
+                          placeholder="max 240 characters"
+                          value={cycletworecommendationv}
+                          disabled={true}
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={DisplayAppealValue}>
+                  <h6>Appeal level Remarks</h6>
+                  <div className="row">
+                    <div className="col-xl-6 col-sm-6">
+                      <div className="form-group">
+                        <label htmlFor="">Appeal Alternative Recommendation</label>
+                        <textarea
+                          className="form-control"
+                          cols="30"
+                          rows="3"
+                          name="appealAlternativeRec"
+                          placeholder="max 240 characters"
+                          value={appealAlternativeRec}
+                          disabled={true}
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div className="col-xl-6 col-sm-6">
+                      <div className="form-group">
+                        <label htmlFor="">Appeal Outcome Recommendation</label>
+                        <textarea
+                          className="form-control"
+                          cols="30"
+                          rows="3"
+                          name="appealRecomm"
+                          placeholder="max 240 characters"
+                          value={appealRecomm}
+                          disabled={true}
+                        ></textarea>
+                      </div>
+                    </div>
+                  
+                  </div>
+                </div>
+
+                <div className={AppealTextsection}>
+                  <h6>Incase of An Appeal</h6>
+                  <div className="row">
+                    <div className="col-xl-6 col-sm-6">
+                      <div className="form-group">
+                        <label htmlFor="">Superior's Rank</label>
+                        <select
+                          name="appealStaffRank"
+                          id=""
+                          className="form-control"
+                          onChange={(e) => setAppealStaffRank(e.target.value)}
+                        >
+                          <option value="">Choose</option>
+                          {/* <option value="Supervisor">Supervisor</option> */}
+                          <option value="HOD">HOD</option>
+                          <option value="HR">HR</option>
+                          <option value="HEAD-HR">HEAD HR</option>
+                          <option value="MD">MD</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="col-xl-6 col-sm-6">
+                      <div className="form-group">
+                        <label htmlFor="">Superior's Staff Number</label>
+                        <Select
+                          defaultValue={selectedAppealStaff}
+                          onChange={setSelectedAppealStaff}
+                          options={employeeList}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="card-footer">
-                  <div className="text-right">
+                  <div className="row">
+                    <div className="col-md-12">
+                    <div className="text-right">
                     {CompleteProcessBtn} {Approve}
                   </div>
+                    </div>
+                    <div className="col-md-12">
+                    <Collapse in={alternativeF}>
+                      <div id="example-collapse-text">
+                        <div className="row">
+                          <div className="col-md-12">
+                            <div className="form-group">
+                               <label htmlFor="">Alternative Recommendation (Optional)</label>
+                              <textarea
+                                className="form-control"
+                                cols="30"
+                                rows="3"
+                                name="appealAlternativeRec"
+                                placeholder="max 240 characters"
+                                value={appealAlternativeRec}
+                                onChange={(e)=>setAppealAlternativeRec(e.target.value)}
+                                // disabled={true}
+                              ></textarea>
+                            </div>
+                          </div>
+
+                          <div className="col-12">
+                            <button
+                              className="btn btn-warning rounded-0 w-100"
+                              onClick={DismissAppealFn}
+                            >
+                              Dismiss Appeal <i className="fa fa-arrow-up"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </Collapse>
+                    <Collapse in={outcomeF}>
+                      <div id="example-collapse-text">
+                        <div className="row">
+                          <div className="col-md-12">
+                            <div className="form-group">
+                               <label htmlFor="">Uphold Appeal Recommendation</label>
+                              <textarea
+                                className="form-control"
+                                cols="30"
+                                rows="3"
+                                name="appealRecomm"
+                                placeholder="max 240 characters"
+                                value={appealRecomm}
+                                onChange={(e)=>setAppealRecomm(e.target.value)}
+                                // disabled={true}
+                              ></textarea>
+                            </div>
+                          </div>
+
+                          <div className="col-12">
+                            <button
+                              className="btn btn-info rounded-0 w-100"
+                              onClick={UpholdAppealFn}
+                            >
+                              Uphold Appeal <i className="fa fa-arrow-right"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </Collapse>
+                    </div>
+                  </div>
+                
 
                   {/* {approveBtnActuator ? Resolving : ""} */}
                 </div>
@@ -704,4 +1173,4 @@ const GrievanceApprovalCard = (props) => {
   );
 };
 
-export default withRouter(GrievanceApprovalCard);
+export default withRouter(GrievanceCompletedCard);

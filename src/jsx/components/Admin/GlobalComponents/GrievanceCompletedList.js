@@ -424,7 +424,7 @@ const DataTable = ({ columns, data, setSelection }) => {
   );
 };
 
-function GrievanceEscalatedList(props) {
+function GrievanceCompletedList(props) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const config = {
@@ -439,7 +439,7 @@ function GrievanceEscalatedList(props) {
     setLoading(true);
     axios
       .get(
-        `${process.env.REACT_APP_API_S_LINK}/grievance/getctwosthreegrievancelist`,
+        `${process.env.REACT_APP_API_S_LINK}/grievance/getresolvedgrievancelist`,
         config
       )
       .then((result) => {
@@ -464,10 +464,10 @@ function GrievanceEscalatedList(props) {
         Header: "Employee",
         accessor: "employeeno",
       },
-      {
-        Header: "Supervisor",
-        accessor: "supervisor",
-      },
+      // {
+      //   Header: "Supervisor",
+      //   accessor: "supervisorname",
+      // },
       {
         Header: "Previous",
         accessor: "currentstage",
@@ -475,7 +475,7 @@ function GrievanceEscalatedList(props) {
         filter: "includes",
       },
       {
-        Header: "Next",
+        Header: "Current",
         accessor: "nextstage",
         Filter: SelectColumnFilter,
         filter: "includes",
@@ -504,7 +504,7 @@ function GrievanceEscalatedList(props) {
   if (selection.length === 1) {
     console.log(selection[0].gid);
     if (selection[0].gid !== undefined) {
-      props.history.push("/grievance-escalated-card", [{ datum: selection }]);
+      props.history.push("/completed-grievance-card", [{ datum: selection }]);
     }
   }
 
@@ -534,4 +534,4 @@ function GrievanceEscalatedList(props) {
     </>
   );
 }
-export default withRouter(GrievanceEscalatedList);
+export default withRouter(GrievanceCompletedList);
