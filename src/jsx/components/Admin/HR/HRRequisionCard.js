@@ -88,7 +88,7 @@ const HRRequisionCard = (props) => {
   const [statusProgress, setStatusProgress] = useState(1);
 
   const [HRComment,setHRComment] = useState("")
-
+ const [disablePustoMD,setDisablePustoMD] = useState(false);
   //{ id: "", description: "",rqmentcode:"",mandatory:"",lineno:"",jobno:"" },
   // console.log(requirementlist);
 
@@ -848,6 +848,7 @@ const HRRequisionCard = (props) => {
     //   Closingdate: closinDate,
     //   RequestedEmployees: requestedEmployees,
     // };
+    setDisablePustoMD(true)
 
     const config = {
       headers: {
@@ -877,6 +878,7 @@ const HRRequisionCard = (props) => {
         }
       })
       .catch((err) => {
+        // setDisablePustoMD()
         if(err.response!==undefined){
           swal("Oh!", err.response.data.message, "error");
         }else{
@@ -940,6 +942,7 @@ const HRRequisionCard = (props) => {
         type="button"
         className="btn btn-warning rounded-0"
         onClick={pushToMD}
+        disabled={disablePustoMD}
       >
         Push to MD <i className="fa fa-user-o"></i>
       </button>

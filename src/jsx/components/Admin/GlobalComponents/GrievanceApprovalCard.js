@@ -673,7 +673,7 @@ const GrievanceApprovalCard = (props) => {
                     </div>
                     <div className="col-xl-12 col-sm-12">
                       <div className="form-group">
-                        <label htmlFor="">Reason For Rejection</label>
+                        <label htmlFor="">Reason For Rejection Informal Process Resolution</label>
                         <textarea
                           className="form-control"
                           cols="30"

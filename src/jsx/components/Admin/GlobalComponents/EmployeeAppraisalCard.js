@@ -281,7 +281,8 @@ const EmployeeAppraisalCard = (props) => {
     headerno,
     tscore,
     stdesc,
-    kpi
+    kpi,
+    kpiactivity,
   ) => {
     props.history.push("/edit-appraisal", [
       {
@@ -291,7 +292,8 @@ const EmployeeAppraisalCard = (props) => {
         headerno: headerno,
         targetscore: tscore,
         standarddesc: stdesc,
-        kpiindicator: kpi
+        kpiindicator: kpi,
+        activity:kpiactivity
       },
     ]);
   };
@@ -1230,7 +1232,8 @@ const EmployeeAppraisalCard = (props) => {
                               d.headerNo,
                               d.targetedScore,
                               d.standardDescription,
-                              d.kpiDescription
+                              d.kpiDescription,
+                              d.activityDescription
                             )
                           }
                           disabled={isActive}

@@ -281,7 +281,8 @@ const SupervisorAppraisalCard = (props) => {
     kpicode,
     headerno,
     tscore,
-    stdesc
+    stdesc,
+    activity,
   ) => {
     props.history.push("/edit-supervisor-appraisal", [
       {
@@ -291,6 +292,7 @@ const SupervisorAppraisalCard = (props) => {
         headerno: headerno,
         targetscore: tscore,
         standarddesc: stdesc,
+        stdactivity: activity,
       },
     ]);
   };
@@ -1011,7 +1013,7 @@ const SupervisorAppraisalCard = (props) => {
                   <tr>
                     <th>KPI Description</th>
                     <th>Activity Description</th>
-                    <th>Performance Standard</th>
+                    {/* <th>Performance Standard</th> */}
                     {/* <th>Time-lines</th> */}
                     <th>Std Weight</th>
                     <th>Target Score</th>
@@ -1025,7 +1027,7 @@ const SupervisorAppraisalCard = (props) => {
                     <tr key={i}>
                       <td>{d.kpiDescription}</td>
                       <td>{d.activityDescription}</td>
-                      <td>{d.standardDescription}</td>
+                      {/* <td>{d.standardDescription}</td> */}
                       {/* <td>{d.timelines}</td> */}
                       <td>{d.standardWeighting}</td>
                       <td>{d.targetedScore}</td>
@@ -1041,7 +1043,8 @@ const SupervisorAppraisalCard = (props) => {
                               d.criteriaCode,
                               d.headerNo,
                               d.targetedScore,
-                              d.standardDescription
+                              d.standardDescription,
+                              d.activityDescription
                             )
                           }
                           disabled={isActive}

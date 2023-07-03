@@ -12,6 +12,8 @@ const ExitForm = (props) => {
   const [workingCondition, setWorkingCondition] = useState("");
   const [pay, setPay] = useState("");
   const [manager, setManager] = useState("");
+  const [otherReason, setOtherReason] = useState("");
+  const [otherReasonDetail, setOtherReasonDetial] = useState("");
   const [fairnerssOfWorkload, setFairnerssOfWorkload] = useState(1);
   const [salary, setSalary] = useState(1);
   const [workingCondition1, setWorkingCondition1] = useState(1);
@@ -34,7 +36,8 @@ const ExitForm = (props) => {
   const [perfomanceDevPlanning, setPerfomanceDevPlanning] = useState(1);
   const [interestInvEmp, setInterestInvEmp] = useState(1);
   const [commitmentCustServ, setCommitmentCustServ] = useState(1);
-  const [concernedQualityExcellence, setConcernedQualityExcellence] = useState(1);
+  const [concernedQualityExcellence, setConcernedQualityExcellence] =
+    useState(1);
   const [adminPolicy, setAdminPolicy] = useState(1);
   const [recognitionAccomp, setRecognitionAccomp] = useState(1);
   const [clearlyCommExpectation, setclearlyCommExpectation] = useState(1);
@@ -46,7 +49,10 @@ const ExitForm = (props) => {
   const [listeningToSuggetions, setlisteningToSuggetions] = useState(1);
   const [keptTeamInfo, setKeptTeamInfo] = useState(1);
   const [supportedWorkLifeBal, setSupportedWorkLifeBal] = useState(1);
-  const [appropriateChallengingAssignments, setAppropriateChallengingAssignments] = useState(1);
+  const [
+    appropriateChallengingAssignments,
+    setAppropriateChallengingAssignments,
+  ] = useState(1);
   const [whatulldosummarydous, setWhatulldosummarydous] = useState("");
   const [theJobLeaving, setTheJobLeaving] = useState("");
   const [theOrgoverla, setTheOrgoverla] = useState("");
@@ -54,11 +60,14 @@ const ExitForm = (props) => {
   const [anyOtherSuggetionQ, setAnyOtherSuggetionQ] = useState("");
   const [nowDate, setNowDate] = useState(new Date());
 
-  const [exitModel,setExitModel] = useState({})
-  const [formfilled,setFormfilled] = useState(0);
+  const [exitModel, setExitModel] = useState({});
+  const [formfilled, setFormfilled] = useState(0);
+
+  let errorsObj = { ReasonDetail: "" };
+  const [errors, setErrors] = useState(errorsObj);
 
 
-  useEffect(()=>{
+  useEffect(() => {
     const config = {
       headers: {
         Authorization: `Bearer ${
@@ -75,10 +84,9 @@ const ExitForm = (props) => {
       .then(function (response) {
         if (response.status === 200) {
           console.log(response.data);
-          setExitModel(response.data.exitModel)
+          setExitModel(response.data.exitModel);
           setLoading(false);
-          setFormfilled(response.data.exitModel.formUploaded)
-          
+          setFormfilled(response.data.exitModel.formUploaded);
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
@@ -89,10 +97,25 @@ const ExitForm = (props) => {
         console.log({ err: err });
         swal("Oh!", err.data.message, "error");
       });
-  },[]);
+  }, []);
 
   const uploadCard = (e) => {
-   e.preventDefault();
+    e.preventDefault();
+
+    if (otherReason === "YES") {
+      let error = false;
+      const errorObj = { ...errorsObj };
+      if (otherReasonDetail === "") {
+        errorObj.ReasonDetail = "Comment Required";
+        error = true;
+        handleClickScroll()
+      }
+      setErrors(errorObj);
+      if (error) {
+        return;
+      }
+    }
+    
     const config = {
       headers: {
         Authorization: `Bearer ${
@@ -101,56 +124,59 @@ const ExitForm = (props) => {
       },
     };
 
-    let data ={
-      Typeofwork:typeOfWork,
-      Workingcondition:workingCondition,
-      Payment:pay,
-      Manager:manager,
+    let data = {
+      Typeofwork: typeOfWork,
+      Workingcondition: workingCondition,
+      Payment: pay,
+      Manager: manager,
 
-      Fairnessofworkload:fairnerssOfWorkload.toString(),
-      Salary:salary.toString(),
-      WorkingconditionOne:workingCondition1.toString(),
-      Toolsprovided:toolsProvided.toString(),
-      Trainingreceived:trainingReceived.toString(),
-      Rxtioncoworker :rxtionCoworkers.toString(),
-      Typeworkperformed :typeWorkPerformed.toString(),
-      Supervisonreceived :supervisionReceived.toString(),
-      Decisionaffected :decisionAffected.toString(),
-      Recruitmentprocess :recruitmentProcess.toString(),
-      Employeeorientation :employeeOrientation.toString(),
-      Trainingopportunity :trainingOpportunity.toString(),
-      Careerdevops :careerDevOps.toString(),
-      Employeemorale :employeeMorale.toString(),
-      Fairtreatment :fairTreatment.toString(),
-      Recognitionofwelldone :recognitionOfWelldoneJob.toString(),
-      Suportofworklifebal :supportOfworklifebal.toString(),
-      Cooperationinoffice :cooperationWithinOffice.toString(),
-      Communicationmgtemp :communicationMgtEmp.toString(),
-      Performancedevplan :perfomanceDevPlanning.toString(),
-      Interestinvemp :interestInvEmp.toString(),
-      CommitmentCustServ :commitmentCustServ.toString(),
-      ConcernedQualityExcellence :concernedQualityExcellence.toString(),
-      AdminPolicy :adminPolicy.toString(),
-      RecognitionAccomp :recognitionAccomp.toString(),
-      ClearlyCommExpectation :clearlyCommExpectation.toString(),
-      TreatedFairly :treatedFairly.toString(),
-      CoarchedTrainedDev :coarchedTrainedDev.toString(),
-      ProvidedLeadership :providedLeadership.toString(),
-      EncouragedTeamworkCoop :encouragedTeamworkCoop.toString(),
-      ResolvedConcerns :resolvedConcerns.toString(),
-      ListeningToSuggetions :listeningToSuggetions.toString(),
-      KeptTeamInfo :keptTeamInfo.toString(),
-      SupportedWorkLifeBal :supportedWorkLifeBal.toString(),
-      AppropriateChallengingAssignments :appropriateChallengingAssignments.toString(),
+      Fairnessofworkload: fairnerssOfWorkload.toString(),
+      Salary: salary.toString(),
+      WorkingconditionOne: workingCondition1.toString(),
+      Toolsprovided: toolsProvided.toString(),
+      Trainingreceived: trainingReceived.toString(),
+      Rxtioncoworker: rxtionCoworkers.toString(),
+      Typeworkperformed: typeWorkPerformed.toString(),
+      Supervisonreceived: supervisionReceived.toString(),
+      Decisionaffected: decisionAffected.toString(),
+      Recruitmentprocess: recruitmentProcess.toString(),
+      Employeeorientation: employeeOrientation.toString(),
+      Trainingopportunity: trainingOpportunity.toString(),
+      Careerdevops: careerDevOps.toString(),
+      Employeemorale: employeeMorale.toString(),
+      Fairtreatment: fairTreatment.toString(),
+      Recognitionofwelldone: recognitionOfWelldoneJob.toString(),
+      Suportofworklifebal: supportOfworklifebal.toString(),
+      Cooperationinoffice: cooperationWithinOffice.toString(),
+      Communicationmgtemp: communicationMgtEmp.toString(),
+      Performancedevplan: perfomanceDevPlanning.toString(),
+      Interestinvemp: interestInvEmp.toString(),
+      CommitmentCustServ: commitmentCustServ.toString(),
+      ConcernedQualityExcellence: concernedQualityExcellence.toString(),
+      AdminPolicy: adminPolicy.toString(),
+      RecognitionAccomp: recognitionAccomp.toString(),
+      ClearlyCommExpectation: clearlyCommExpectation.toString(),
+      TreatedFairly: treatedFairly.toString(),
+      CoarchedTrainedDev: coarchedTrainedDev.toString(),
+      ProvidedLeadership: providedLeadership.toString(),
+      EncouragedTeamworkCoop: encouragedTeamworkCoop.toString(),
+      ResolvedConcerns: resolvedConcerns.toString(),
+      ListeningToSuggetions: listeningToSuggetions.toString(),
+      KeptTeamInfo: keptTeamInfo.toString(),
+      SupportedWorkLifeBal: supportedWorkLifeBal.toString(),
+      AppropriateChallengingAssignments:
+        appropriateChallengingAssignments.toString(),
 
-      Whatulldosummarydous :whatulldosummarydous,
-      TheJobLeaving :theJobLeaving,
-      TheOrgoverla :theOrgoverla,
-      YourSupervisorMgr :yourSupervisorMgr,
-      AnyOtherSuggetionQ :anyOtherSuggetionQ,
-      NowDate :nowDate,
-      ExitCardRef :exitModel.id,
-     
+      Whatulldosummarydous: whatulldosummarydous,
+      TheJobLeaving: theJobLeaving,
+      TheOrgoverla: theOrgoverla,
+      YourSupervisorMgr: yourSupervisorMgr,
+      AnyOtherSuggetionQ: anyOtherSuggetionQ,
+      NowDate: nowDate,
+      ExitCardRef: exitModel.id,
+
+      OtherReasonComment:otherReasonDetail,
+      OtherReason:otherReason,
     };
 
     swal({
@@ -179,15 +205,33 @@ const ExitForm = (props) => {
         }
       })
       .catch((err) => {
-        if(err.response!==undefined){
+        if (err.response !== undefined) {
           swal("Oh!", err.response.data.message, "error");
-        }else{
+        } else {
           swal("Oh!", err.message, "error");
         }
         console.log({ err: err });
       });
   };
 
+  let otherReasoFlactuator = "form-control";
+  const fluctuator = () => {
+    // console.log("fluc");
+    // //Fluctuation
+    // if (otherReason === "YES") {
+    //   otherReasoFlactuator = "form-control border-danger";
+    // } else {
+    //   otherReasoFlactuator = "form-control";
+    // }
+  };
+
+  const handleClickScroll = () => {
+    const element = document.getElementById('RezonDet');
+    if (element) {
+      // 👇 Will scroll smoothly to the top of the next section
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   if (loading) {
     return (
@@ -250,7 +294,7 @@ const ExitForm = (props) => {
               </div>
             </Accordion.Header>
             <Accordion.Body>
-              <div className="row">
+              <div className="row"  id="RezonDet">
                 <div className="col-md-8">
                   <p className="typeOfWork">Type of work</p>
                 </div>
@@ -371,7 +415,9 @@ const ExitForm = (props) => {
                       name="Manager"
                       id="Manager1"
                       value="YES"
-                      onChange={(e) => setManager(e.target.value)}
+                      onChange={(e) => {
+                        setManager(e.target.value);
+                      }}
                     />
                     <label className="form-check-label" htmlFor="Manager1">
                       YES
@@ -384,11 +430,69 @@ const ExitForm = (props) => {
                       name="Manager"
                       id="Manager2"
                       value="NO"
-                      onChange={(e) => setManager(e.target.value)}
+                      onChange={(e) => {
+                        setManager(e.target.value);
+                      }}
                     />
                     <label className="form-check-label" htmlFor="Manager2">
                       NO
                     </label>
+                  </div>
+                </div>
+              </div>
+              <div className="row mt-3" >
+                <div className="col-md-8">
+                  <p className="OtherReason">Other Reason</p>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="OtherReason"
+                      id="OtherReason1"
+                      value="YES"
+                      onChange={(e) => {
+                        setOtherReason(e.target.value);
+                        fluctuator();
+                      }}
+                    />
+                    <label className="form-check-label" htmlFor="OtherReason1">
+                      YES
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="OtherReason"
+                      id="OtherReason2"
+                      value="NO"
+                      onChange={(e) => {
+                        setOtherReason(e.target.value);
+                        fluctuator();
+                      }}
+                    />
+                    <label className="form-check-label" htmlFor="OtherReason2">
+                      NO
+                    </label>
+                  </div>
+                </div>
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <textarea
+                      className={otherReasoFlactuator}
+                     
+                      name="OtherReasonDetail"
+                      onChange={(e) => setOtherReasonDetial(e.target.value)}
+                      cols={1}
+                      placeholder="Other Reason Comment"
+                    ></textarea>
+                    {errors.ReasonDetail && (
+                      <div className="text-danger fs-12">
+                        {errors.ReasonDetail}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -567,7 +671,9 @@ const ExitForm = (props) => {
 
               <div className="row mt-3">
                 <div className="col-md-4">
-                  <p className="">Level of input in decisions that affected you</p>
+                  <p className="">
+                    Level of input in decisions that affected you
+                  </p>
                 </div>
                 <div className="col-md-8">
                   <div className="form-group">
@@ -584,9 +690,6 @@ const ExitForm = (props) => {
                   </div>
                 </div>
               </div>
-
-
-
             </Accordion.Body>
           </Accordion.Item>
 
@@ -594,8 +697,9 @@ const ExitForm = (props) => {
             <Accordion.Header>
               <div className="title mb-4">
                 <span className="fs-18 text-black font-w600">
-                Please rate the following aspects of the organization overall. Use the 1 – 5 scale below.
-                [1- Poor, 2, 3 - Average, 4, 5 - Excellent]
+                  Please rate the following aspects of the organization overall.
+                  Use the 1 – 5 scale below. [1- Poor, 2, 3 - Average, 4, 5 -
+                  Excellent]
                 </span>
               </div>
             </Accordion.Header>
@@ -733,7 +837,9 @@ const ExitForm = (props) => {
                       max="5"
                       value={recognitionOfWelldoneJob}
                       id="myRange"
-                      onChange={(e) => setRecognitionOfWelldoneJob(e.target.value)}
+                      onChange={(e) =>
+                        setRecognitionOfWelldoneJob(e.target.value)
+                      }
                     />
                     <p>Value: {recognitionOfWelldoneJob}</p>
                   </div>
@@ -773,7 +879,9 @@ const ExitForm = (props) => {
                       max="5"
                       value={cooperationWithinOffice}
                       id="myRange"
-                      onChange={(e) => setCooperationWithinOffice(e.target.value)}
+                      onChange={(e) =>
+                        setCooperationWithinOffice(e.target.value)
+                      }
                     />
                     <p>Value: {cooperationWithinOffice}</p>
                   </div>
@@ -782,7 +890,9 @@ const ExitForm = (props) => {
 
               <div className="row mt-3">
                 <div className="col-md-4">
-                  <p className="fair">Communication between management and employees</p>
+                  <p className="fair">
+                    Communication between management and employees
+                  </p>
                 </div>
                 <div className="col-md-8">
                   <div className="form-group">
@@ -802,7 +912,9 @@ const ExitForm = (props) => {
 
               <div className="row mt-3">
                 <div className="col-md-4">
-                  <p className="fair">Performance and development planning and evaluation</p>
+                  <p className="fair">
+                    Performance and development planning and evaluation
+                  </p>
                 </div>
                 <div className="col-md-8">
                   <div className="form-group">
@@ -873,7 +985,9 @@ const ExitForm = (props) => {
                       max="5"
                       value={concernedQualityExcellence}
                       id="myRange"
-                      onChange={(e) => setConcernedQualityExcellence(e.target.value)}
+                      onChange={(e) =>
+                        setConcernedQualityExcellence(e.target.value)
+                      }
                     />
                     <p>Value: {concernedQualityExcellence}</p>
                   </div>
@@ -899,11 +1013,6 @@ const ExitForm = (props) => {
                   </div>
                 </div>
               </div>
-
-             
-
-
-
             </Accordion.Body>
           </Accordion.Item>
 
@@ -911,8 +1020,9 @@ const ExitForm = (props) => {
             <Accordion.Header>
               <div className="title mb-4">
                 <span className="fs-18 text-black font-w600">
-                Please rate your supervisor on the following factors. Use the 1 – 5 scale below
-                [1 - Never, 2 - seldom, 3 - Often, 4 - Usually, 5 - Always]
+                  Please rate your supervisor on the following factors. Use the
+                  1 – 5 scale below [1 - Never, 2 - seldom, 3 - Often, 4 -
+                  Usually, 5 - Always]
                 </span>
               </div>
             </Accordion.Header>
@@ -950,7 +1060,9 @@ const ExitForm = (props) => {
                       max="5"
                       value={clearlyCommExpectation}
                       id="myRange"
-                      onChange={(e) => setclearlyCommExpectation(e.target.value)}
+                      onChange={(e) =>
+                        setclearlyCommExpectation(e.target.value)
+                      }
                     />
                     <p>Value: {clearlyCommExpectation}</p>
                   </div>
@@ -1030,7 +1142,9 @@ const ExitForm = (props) => {
                       max="5"
                       value={encouragedTeamworkCoop}
                       id="myRange"
-                      onChange={(e) => setEncouragedTeamworkCoop(e.target.value)}
+                      onChange={(e) =>
+                        setEncouragedTeamworkCoop(e.target.value)
+                      }
                     />
                     <p>Value: {encouragedTeamworkCoop}</p>
                   </div>
@@ -1119,7 +1233,9 @@ const ExitForm = (props) => {
 
               <div className="row mt-3">
                 <div className="col-md-4">
-                  <p className="fair">Provided appropriate &amp; challenging assignments</p>
+                  <p className="fair">
+                    Provided appropriate &amp; challenging assignments
+                  </p>
                 </div>
                 <div className="col-md-8">
                   <div className="form-group">
@@ -1130,42 +1246,43 @@ const ExitForm = (props) => {
                       max="5"
                       value={appropriateChallengingAssignments}
                       id="myRange"
-                      onChange={(e) => setAppropriateChallengingAssignments(e.target.value)}
+                      onChange={(e) =>
+                        setAppropriateChallengingAssignments(e.target.value)
+                      }
                     />
                     <p>Value: {appropriateChallengingAssignments}</p>
                   </div>
                 </div>
               </div>
-            
-              
-
-
-
             </Accordion.Body>
           </Accordion.Item>
-
 
           <Accordion.Item eventKey="4">
             <Accordion.Header>
               <div className="title mb-4">
                 <span className="fs-18 text-black font-w600">
-                If you accepted another job, please complete the following
+                  If you accepted another job, please complete the following
                 </span>
               </div>
             </Accordion.Header>
             <Accordion.Body>
               <div className="row">
                 <div className="col-md-4">
-                  <p className="fair">What the new position is and what the new  organization offers in addition to what we do.</p>
+                  <p className="fair">
+                    What the new position is and what the new organization
+                    offers in addition to what we do.
+                  </p>
                 </div>
                 <div className="col-md-8">
                   <div className="form-group">
-                    <textarea className="w-100 form-control" name="whatulldosummarydous"  rows="10" placeholder="Summary Text"
-                    value={whatulldosummarydous}
-                    onChange={(e) => setWhatulldosummarydous(e.target.value)}
-
+                    <textarea
+                      className="w-100 form-control"
+                      name="whatulldosummarydous"
+                      rows="10"
+                      placeholder="Summary Text"
+                      value={whatulldosummarydous}
+                      onChange={(e) => setWhatulldosummarydous(e.target.value)}
                     ></textarea>
-                   
                   </div>
                 </div>
               </div>
@@ -1176,71 +1293,82 @@ const ExitForm = (props) => {
             <Accordion.Header>
               <div className="title mb-4">
                 <span className="fs-18 text-black font-w600">
-                Please give your suggestions on improving the following:-
+                  Please give your suggestions on improving the following:-
                 </span>
               </div>
             </Accordion.Header>
             <Accordion.Body>
               <div className="row">
                 <div className="col-md-4">
-                  <p className="fair">1.	The job you are leaving</p>
+                  <p className="fair">1. The job you are leaving</p>
                 </div>
                 <div className="col-md-8">
                   <div className="form-group">
-                    <textarea className="w-100 form-control" name="theJobLeaving"  rows="1" placeholder="Summary Text"
-                    value={theJobLeaving}
-                    onChange={(e) => setTheJobLeaving(e.target.value)}
-
+                    <textarea
+                      className="w-100 form-control"
+                      name="theJobLeaving"
+                      rows="1"
+                      placeholder="Summary Text"
+                      value={theJobLeaving}
+                      onChange={(e) => setTheJobLeaving(e.target.value)}
                     ></textarea>
-                   
                   </div>
                 </div>
               </div>
 
               <div className="row mt-3">
                 <div className="col-md-4">
-                  <p className="fair">2.	The Organization overall</p>
+                  <p className="fair">2. The Organization overall</p>
                 </div>
                 <div className="col-md-8">
                   <div className="form-group">
-                    <textarea className="w-100 form-control" name="theOrgoverla"  rows="1" placeholder="Summary Text"
-                    value={theOrgoverla}
-                    onChange={(e) => setTheOrgoverla(e.target.value)}
-
+                    <textarea
+                      className="w-100 form-control"
+                      name="theOrgoverla"
+                      rows="1"
+                      placeholder="Summary Text"
+                      value={theOrgoverla}
+                      onChange={(e) => setTheOrgoverla(e.target.value)}
                     ></textarea>
-                   
                   </div>
                 </div>
               </div>
 
               <div className="row mt-3">
                 <div className="col-md-4">
-                  <p className="fair">3.	Your Supervisor/Manager</p>
+                  <p className="fair">3. Your Supervisor/Manager</p>
                 </div>
                 <div className="col-md-8">
                   <div className="form-group">
-                    <textarea className="w-100 form-control" name="yourSupervisorMgr"  rows="1" placeholder="Summary Text"
-                    value={yourSupervisorMgr}
-                    onChange={(e) => setYourSupervisorMgr(e.target.value)}
-
+                    <textarea
+                      className="w-100 form-control"
+                      name="yourSupervisorMgr"
+                      rows="1"
+                      placeholder="Summary Text"
+                      value={yourSupervisorMgr}
+                      onChange={(e) => setYourSupervisorMgr(e.target.value)}
                     ></textarea>
-                   
                   </div>
                 </div>
               </div>
 
               <div className="row mt-3">
                 <div className="col-md-4">
-                  <p className="fair">4.	Any other comment/suggestion that has not been addressed in the previous questions</p>
+                  <p className="fair">
+                    4. Any other comment/suggestion that has not been addressed
+                    in the previous questions
+                  </p>
                 </div>
                 <div className="col-md-8">
                   <div className="form-group">
-                    <textarea className="w-100 form-control" name="anyOtherSuggetionQ"  rows="1" placeholder="Summary Text"
-                    value={anyOtherSuggetionQ}
-                    onChange={(e) => setAnyOtherSuggetionQ(e.target.value)}
-
+                    <textarea
+                      className="w-100 form-control"
+                      name="anyOtherSuggetionQ"
+                      rows="1"
+                      placeholder="Summary Text"
+                      value={anyOtherSuggetionQ}
+                      onChange={(e) => setAnyOtherSuggetionQ(e.target.value)}
                     ></textarea>
-                   
                   </div>
                 </div>
               </div>
@@ -1251,20 +1379,15 @@ const ExitForm = (props) => {
                 </div>
                 <div className="col-md-8">
                   <div className="form-group">
-                  <DatePicker
-                                        selected={nowDate}
-                                        onChange={(date) => setNowDate(date)}
-                                      />
-
-                 
-                   
+                    <DatePicker
+                      selected={nowDate}
+                      onChange={(date) => setNowDate(date)}
+                    />
                   </div>
                 </div>
               </div>
-
             </Accordion.Body>
           </Accordion.Item>
-
         </Accordion>
         <div className="card-footer">
           <div className="text-right">

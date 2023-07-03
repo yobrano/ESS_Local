@@ -111,6 +111,36 @@ const EditAppraisal = (props) => {
     <>
       <div className="container">
         <div className="row">
+        <div className="col-md-12">
+            <div className="form-group">
+              <label htmlFor="regDesc" className="label">
+                Performance Activity
+              </label>
+              <textarea
+                disabled
+                value={props.location.state[0].stdactivity}
+                //   onChange={(e) => setReqDescription(e.target.value)}
+                rows="2"
+                className="form-control"
+                placeholder="Content max size 240 character"
+              ></textarea>
+            </div>
+          </div>
+        <div className="col-md-12">
+            <div className="form-group">
+              <label htmlFor="regDesc" className="label">
+                Standard Description
+              </label>
+              <textarea
+                disabled
+                value={props.location.state[0].standarddesc}
+                //   onChange={(e) => setReqDescription(e.target.value)}
+                rows="2"
+                className="form-control"
+                placeholder="Content max size 240 character"
+              ></textarea>
+            </div>
+          </div>
           <div className="col-md-6">
             <div className="form-group">
               <label htmlFor="">Target Score</label>
@@ -138,21 +168,7 @@ const EditAppraisal = (props) => {
             </div>
           </div>
 
-          <div className="col-md-12">
-            <div className="form-group">
-              <label htmlFor="regDesc" className="label">
-                Standard Description
-              </label>
-              <textarea
-                disabled
-                value={props.location.state[0].standarddesc}
-                //   onChange={(e) => setReqDescription(e.target.value)}
-                rows="2"
-                className="form-control"
-                placeholder="Content max size 240 character"
-              ></textarea>
-            </div>
-          </div>
+      
 
           <div className="col-md-12">
             <div className="form-group">
@@ -173,7 +189,7 @@ const EditAppraisal = (props) => {
           </div>
         </div>
         <button className="btn btn-warning" onClick={uploadD}>
-          Upload
+          Save
         </button>
       </div>
     </>

@@ -30,7 +30,7 @@ const EmployeeRequisitionCard = (props) => {
   const [reqReason, setReqReason] = useState("");
   const [reqComment, setReqComment] = useState("");
 
-  const [requestedEmployees,setRequestedEmployees]= useState(0)
+  const [requestedEmployees, setRequestedEmployees] = useState(0);
 
   // const [requirementListPush, setRequirementListPush] = useState([]);
   const [requirementlist, setRequirementlist] = useState([
@@ -78,12 +78,14 @@ const EmployeeRequisitionCard = (props) => {
     },
   ]);
 
-  const [initCheckCode,setInitCheckCode] = useState('')
+  const [initCheckCode, setInitCheckCode] = useState("");
 
   const [reqfile, setReqfile] = useState("");
-  const [HODComment,setHODComment] = useState("");
+  const [HODComment, setHODComment] = useState("");
   //{ id: "", description: "",rqmentcode:"",mandatory:"",lineno:"",jobno:"" },
   // console.log(requirementlist);
+
+  const [disablePushToHR, setDisablePushToHR] = useState(false);
 
   // handle input change
   const handleInputRequireChange = (e, index) => {
@@ -137,15 +139,15 @@ const EmployeeRequisitionCard = (props) => {
           }
         })
         .then((json) => {
-          if(list.length !==1){
+          if (list.length !== 1) {
             list.splice(index, 1);
             setRequirementlist(list);
-          }else{
-            list[index].lineno = ''
-            list[index].description = ''
+          } else {
+            list[index].lineno = "";
+            list[index].description = "";
             setRequirementlist(list);
           }
-        
+
           swal("Success!", "Your record has been Deleted!", "success");
         })
         .catch((err) => {
@@ -153,11 +155,10 @@ const EmployeeRequisitionCard = (props) => {
           swal("Oops!", "Seems like we couldn't delete the record", "error");
         });
     } else {
-      if(list.length !==1){
+      if (list.length !== 1) {
         list.splice(index, 1);
         setRequirementlist(list);
       }
-   
     }
   };
   //handle cick event of the Add button
@@ -284,13 +285,13 @@ const EmployeeRequisitionCard = (props) => {
         })
         .then((json) => {
           // console.log(json.data);
-          if(list1.length !==1){
+          if (list1.length !== 1) {
             list1.splice(index, 1);
             setQualificationList(list1);
-          }else{
-            list1[index].lineno = '';
-            list1[index].description = '';
-            setQualificationList(list1)
+          } else {
+            list1[index].lineno = "";
+            list1[index].description = "";
+            setQualificationList(list1);
           }
           swal("Success!", "Your record has been Deleted!", "success");
         })
@@ -299,7 +300,7 @@ const EmployeeRequisitionCard = (props) => {
           swal("Oops!", "Seems like we couldn't delete the record", "error");
         });
     } else {
-      if(list1.length !==1){
+      if (list1.length !== 1) {
         list1.splice(index, 1);
         setQualificationList(list1);
       }
@@ -330,17 +331,17 @@ const EmployeeRequisitionCard = (props) => {
     const list = [...qualificationList];
     let record = list[index];
     // console.log(record);
-    if(list[0] !== undefined){
+    if (list[0] !== undefined) {
       let jobno = list[0]["jobno"];
-      
+
       let data = {
         Description: record.description,
         Jobno: jobno.value,
         Mandantory: record.mandantory,
         Qficationcode: record.qficationcode,
-        Lineno:  record.lineno.toString(),
+        Lineno: record.lineno.toString(),
       };
-  
+
       const config = {
         headers: {
           Authorization: `Bearer ${
@@ -348,7 +349,7 @@ const EmployeeRequisitionCard = (props) => {
           }`,
         },
       };
-  
+
       swal({
         title: "Are you sure?",
         text: "Are you sure that you want to upload",
@@ -378,7 +379,6 @@ const EmployeeRequisitionCard = (props) => {
     } else {
       swal("Oh", "Define Qualification Code in D365", "error");
     }
-
   };
 
   // handle input change
@@ -418,15 +418,15 @@ const EmployeeRequisitionCard = (props) => {
         })
         .then((json) => {
           // console.log(json.data);
-          if(list1.length !== 1){
+          if (list1.length !== 1) {
             list1.splice(index, 1);
             setResponsibilityList(list1);
-          }else{
-            list1[index].lineno = '';
-            list1[index].description = '';
-            setResponsibilityList(list1)
+          } else {
+            list1[index].lineno = "";
+            list1[index].description = "";
+            setResponsibilityList(list1);
           }
-         
+
           swal("Success!", "Your record has been Deleted!", "success");
         })
         .catch((err) => {
@@ -434,7 +434,7 @@ const EmployeeRequisitionCard = (props) => {
           swal("Oops!", "Seems like we couldn't delete the record", "error");
         });
     } else {
-      if(list1.length !== 1){
+      if (list1.length !== 1) {
         list1.splice(index, 1);
         setResponsibilityList(list1);
       }
@@ -465,7 +465,10 @@ const EmployeeRequisitionCard = (props) => {
     const list = [...responsibiltyList];
     let record = list[index];
     // console.log(record);
-    let jobno = list[0]["jobno"]===""?props.location.state[0].jobNo:list[0]["jobno"];
+    let jobno =
+      list[0]["jobno"] === ""
+        ? props.location.state[0].jobNo
+        : list[0]["jobno"];
     let data = {
       Description: record.description,
       Jobno: jobno.value,
@@ -548,15 +551,15 @@ const EmployeeRequisitionCard = (props) => {
         })
         .then((json) => {
           // console.log(json.data);
-          if(list1.length !==1){
+          if (list1.length !== 1) {
             list1.splice(index, 1);
             setCheckList(list1);
-          }else{
-            list1[index].lineno = '';
-            list1[index].description = '';
+          } else {
+            list1[index].lineno = "";
+            list1[index].description = "";
             setCheckList(list1);
           }
-         
+
           swal("Success!", "Your record has been Deleted!", "success");
         })
         .catch((err) => {
@@ -564,7 +567,7 @@ const EmployeeRequisitionCard = (props) => {
           swal("Oops!", "Seems like we couldn't delete the record", "error");
         });
     } else {
-      if(list1.length !==1){
+      if (list1.length !== 1) {
         list1.splice(index, 1);
         setCheckList(list1);
       }
@@ -596,10 +599,10 @@ const EmployeeRequisitionCard = (props) => {
     const list = [...checkList];
     let record = list[index];
     let _code = list[0]["code"];
-    if (list[0]["code"] === undefined || list[0]["code"]==='N/A') {
+    if (list[0]["code"] === undefined || list[0]["code"] === "N/A") {
       //means its the first row
       let data = {
-        Lineno: '',
+        Lineno: "",
         Reqno: props.location.state[0].empReqNo,
         Code: initCheckCode,
         Description: record.description,
@@ -640,8 +643,6 @@ const EmployeeRequisitionCard = (props) => {
           console.log(err);
           swal("Oops!", "Seems like we couldn't upload the record", "error");
         });
-
-   
     } else {
       let data = {
         Lineno: record.lineno.toString(),
@@ -753,11 +754,9 @@ const EmployeeRequisitionCard = (props) => {
           //Responsibility
           setResponsibilityList(response.data.responsibilityModels);
           //Get Mandatory initial code
-          setInitCheckCode(response.data.checklistInitCodeAux)
+          setInitCheckCode(response.data.checklistInitCodeAux);
           // Check list
           setCheckList(response.data.checklistModels);
-
-
 
           console.log(response.data);
         }
@@ -772,7 +771,7 @@ const EmployeeRequisitionCard = (props) => {
       });
   };
 
-  const handleApproveChecklist = ()=>{
+  const handleApproveChecklist = () => {
     const config = {
       headers: {
         Authorization: `Bearer ${
@@ -804,24 +803,24 @@ const EmployeeRequisitionCard = (props) => {
         console.log(err);
         swal("Oops!", "Seems like we couldn't approve the record", "error");
       });
-  }
+  };
 
-  const uploadGenData = ()=>{
-    let data={
-      Requisiontype:requisitionType,
-      Startdate:desiredStartDate,
-      Enddate:closinDate,
-      Contracttype:selectedContract.value,
-      Department:selectedDept.value,
-      Employeereplaced:replaceEmp.value,
-      HOD:HODEmp.value,
-      HRManager:HREmp.value,
-      MD:MDEmp.value,
-      Description:reqDescription,
-      Reason:reqReason,
-      Comment:reqComment,
-      RequestedNo:requestedEmployees,
-    }
+  const uploadGenData = () => {
+    let data = {
+      Requisiontype: requisitionType,
+      Startdate: desiredStartDate,
+      Enddate: closinDate,
+      Contracttype: selectedContract.value,
+      Department: selectedDept.value,
+      Employeereplaced: replaceEmp.value,
+      HOD: HODEmp.value,
+      HRManager: HREmp.value,
+      MD: MDEmp.value,
+      Description: reqDescription,
+      Reason: reqReason,
+      Comment: reqComment,
+      RequestedNo: requestedEmployees,
+    };
 
     const config = {
       headers: {
@@ -854,57 +853,61 @@ const EmployeeRequisitionCard = (props) => {
       })
       .catch((err) => {
         console.log(err);
-        swal("Oops!", "Seems like we couldn't upload the record; ensure all field are keyed", "error");
+        swal(
+          "Oops!",
+          "Seems like we couldn't upload the record; ensure all field are keyed",
+          "error"
+        );
       });
+  };
 
-    
-  }
+  const pushToHR = () => {
+    setDisablePushToHR(true);
 
-  const pushToHR = ()=>{
     let data = {
       Reqno: props.location.state[0].empReqNo,
       Jobno: props.location.state[0].jobNo.value,
       Closingdate: closinDate,
-      RequestedEmployees:requestedEmployees,
-      HODcomment:HODComment
+      RequestedEmployees: requestedEmployees,
+      HODcomment: HODComment,
     };
 
-        const config = {
-          headers: {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("userDetails")).idToken
-            }`,
-          },
-        };
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
 
-    
-        axios
-          .post(
-            `${process.env.REACT_APP_API_S_LINK}/staffrequision/pushtohr`,
-            data,
-            config
-          )
-          .then(function (response) {
-            if (response.status === 200) {
-              swal("Success", response.data.message, "success");
-              console.log(response.data);
-            }
-            if (response.status === 404) {
-              swal("Oh!", response.data.message, "error");
-              console.log(response.data.message);
-            }
-          })
-          .catch((err) => {
-            if(err.response!==undefined){
-              swal("Oh!", err.response.data.message, "error");
-            }else{
-              swal("Oh!", err.message, "error");
-            }
-            console.log(err);
-            // swal("Oh!", err.data.message, "error");
-          });
-  }
-  const handleApprovePublish =()=>{
+    axios
+      .post(
+        `${process.env.REACT_APP_API_S_LINK}/staffrequision/pushtohr`,
+        data,
+        config
+      )
+      .then(function (response) {
+        if (response.status === 200) {
+          swal("Success", response.data.message, "success");
+          console.log(response.data);
+        }
+        if (response.status === 404) {
+          swal("Oh!", response.data.message, "error");
+          console.log(response.data.message);
+        }
+      })
+      .catch((err) => {
+        // setDisablePushToHR();
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+        console.log(err);
+        // swal("Oh!", err.data.message, "error");
+      });
+  };
+  const handleApprovePublish = () => {
     const config = {
       headers: {
         Authorization: `Bearer ${
@@ -930,17 +933,21 @@ const EmployeeRequisitionCard = (props) => {
       })
       .then((json) => {
         console.log(json.data);
-        swal("Success!", "Your record has been Approved and Publish", "success");
+        swal(
+          "Success!",
+          "Your record has been Approved and Publish",
+          "success"
+        );
       })
       .catch((err) => {
         console.log(err);
         swal("Oops!", "Seems like we couldn't approve the record", "error");
       });
-  }
+  };
 
-  const changeFile = (e)=>{
+  const changeFile = (e) => {
     setReqfile(e.target.files[0]);
-  }
+  };
 
   const uploadFile = (e) => {
     e.preventDefault();
@@ -984,8 +991,7 @@ const EmployeeRequisitionCard = (props) => {
           console.log({ err: err });
         });
     }
-  }; 
-
+  };
 
   if (loading) {
     return (
@@ -1031,7 +1037,7 @@ const EmployeeRequisitionCard = (props) => {
                       onChange={(e) => setRequisitionType(e.target.value)}
                     >
                       <option value={""}></option>
-                      {/* <option value="Internal">Internal</option> */}
+                      <option value="Internal">Internal</option>
                       <option value="Internal/External">
                         Internal/External
                       </option>
@@ -1133,7 +1139,6 @@ const EmployeeRequisitionCard = (props) => {
                       // cols="30"
                       value={requestedEmployees}
                       onChange={(e) => setRequestedEmployees(e.target.value)}
-                     
                       className="form-control"
                       placeholder="Content max size 250 character"
                     />
@@ -1202,17 +1207,16 @@ const EmployeeRequisitionCard = (props) => {
                     ></textarea>
                   </div>
                 </div>
-
               </div>
               <div className="upload-gen-data-div">
                 [Step 1]
-              <button
-                                    type="button"
-                                    className="btn btn-success rounded-0 mx-1 my-1"
-                                    onClick={() => uploadGenData()}
-                                  >
-                                    Upload <i className="fa fa-arrow-up"></i>
-                                  </button>
+                <button
+                  type="button"
+                  className="btn btn-success rounded-0 mx-1 my-1"
+                  onClick={() => uploadGenData()}
+                >
+                  Upload <i className="fa fa-arrow-up"></i>
+                </button>
               </div>
             </form>
             <div className="card-header">
@@ -1255,35 +1259,35 @@ const EmployeeRequisitionCard = (props) => {
                           </div>
                           <div className="col-md-4">
                             <div className="button-div">
-                            <>
-                                  <button
-                                    type="button"
-                                    className="btn btn-danger rounded-0"
-                                    onClick={() => handleRemoveRequireClick(i)}
-                                  >
-                                    Del <i className="fa fa-trash"></i>
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn btn-success rounded-0"
-                                    onClick={() => handlePushRequireClick(i)}
-                                  >
-                                    Push <i className="fa fa-arrow-up"></i>
-                                  </button>
+                              <>
+                                <button
+                                  type="button"
+                                  className="btn btn-danger rounded-0"
+                                  onClick={() => handleRemoveRequireClick(i)}
+                                >
+                                  Del <i className="fa fa-trash"></i>
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btn btn-success rounded-0"
+                                  onClick={() => handlePushRequireClick(i)}
+                                >
+                                  Push <i className="fa fa-arrow-up"></i>
+                                </button>
 
-                              {requirementlist.length - 1 === i && (
-                                <>
-                                  <button
-                                    type="button"
-                                    className="btn btn-info rounded-0"
-                                    onClick={handleAddRequireClick}
-                                  >
-                                    Add Line<i className="fa fa-arrow-down"></i>
-                                  </button>
-                                </>
-                              )}
-
-                                </>
+                                {requirementlist.length - 1 === i && (
+                                  <>
+                                    <button
+                                      type="button"
+                                      className="btn btn-info rounded-0"
+                                      onClick={handleAddRequireClick}
+                                    >
+                                      Add Line
+                                      <i className="fa fa-arrow-down"></i>
+                                    </button>
+                                  </>
+                                )}
+                              </>
 
                               {/* {requirementlist.length !== 1 && (
                                 <>
@@ -1354,37 +1358,36 @@ const EmployeeRequisitionCard = (props) => {
                           </div>
                           <div className="col-md-4">
                             <div className="button-div">
-                            <>
-                       
-                                  <button
-                                    type="button"
-                                    className="btn btn-danger rounded-0"
-                                    onClick={() => handleRemoveQualifClick(i1)}
-                                  >
-                                    Del <i className="fa fa-trash"></i>
-                                  </button>
-                          
-                                  <button
-                                    type="button"
-                                    className="btn btn-success rounded-0"
-                                    onClick={() => handlePushQualifClick(i1)}
-                                  >
-                                    Push <i className="fa fa-arrow-up"></i>
-                                  </button>
+                              <>
+                                <button
+                                  type="button"
+                                  className="btn btn-danger rounded-0"
+                                  onClick={() => handleRemoveQualifClick(i1)}
+                                >
+                                  Del <i className="fa fa-trash"></i>
+                                </button>
 
-                                  {qualificationList.length - 1 === i1 && (
-                                <>
-                                  <button
-                                    type="button"
-                                    className="btn btn-info rounded-0"
-                                    onClick={handleAddQualifClick}
-                                  >
-                                    Add Line<i className="fa fa-arrow-down"></i>
-                                  </button>
-                                </>
-                              )}
+                                <button
+                                  type="button"
+                                  className="btn btn-success rounded-0"
+                                  onClick={() => handlePushQualifClick(i1)}
+                                >
+                                  Push <i className="fa fa-arrow-up"></i>
+                                </button>
 
-                                </>
+                                {qualificationList.length - 1 === i1 && (
+                                  <>
+                                    <button
+                                      type="button"
+                                      className="btn btn-info rounded-0"
+                                      onClick={handleAddQualifClick}
+                                    >
+                                      Add Line
+                                      <i className="fa fa-arrow-down"></i>
+                                    </button>
+                                  </>
+                                )}
+                              </>
                               {/* {qualificationList.length !== 1 && (
                                 <>
                                   <button
@@ -1454,34 +1457,34 @@ const EmployeeRequisitionCard = (props) => {
                           </div> */}
                           <div className="col-md-4">
                             <div className="button-div">
-                            <>
-                                  <button
-                                    type="button"
-                                    className="btn btn-danger rounded-0"
-                                    onClick={() => handleRemoveResponClick(i2)}
-                                  >
-                                    Del <i className="fa fa-trash"></i>
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn btn-success rounded-0"
-                                    onClick={() => handlePushResponClick(i2)}
-                                  >
-                                    Push <i className="fa fa-arrow-up"></i>
-                                  </button>
-                                  {responsibiltyList.length - 1 === i2 && (
-                                <>
-                                  <button
-                                    type="button"
-                                    className="btn btn-info rounded-0"
-                                    onClick={handleAddResponClick}
-                                  >
-                                    Add Line<i className="fa fa-arrow-down"></i>
-                                  </button>
-                                </>
-                              )}
-
-                                </>
+                              <>
+                                <button
+                                  type="button"
+                                  className="btn btn-danger rounded-0"
+                                  onClick={() => handleRemoveResponClick(i2)}
+                                >
+                                  Del <i className="fa fa-trash"></i>
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btn btn-success rounded-0"
+                                  onClick={() => handlePushResponClick(i2)}
+                                >
+                                  Push <i className="fa fa-arrow-up"></i>
+                                </button>
+                                {responsibiltyList.length - 1 === i2 && (
+                                  <>
+                                    <button
+                                      type="button"
+                                      className="btn btn-info rounded-0"
+                                      onClick={handleAddResponClick}
+                                    >
+                                      Add Line
+                                      <i className="fa fa-arrow-down"></i>
+                                    </button>
+                                  </>
+                                )}
+                              </>
 
                               {/* {responsibiltyList.length !== 1 && (
                                 <>
@@ -1543,36 +1546,34 @@ const EmployeeRequisitionCard = (props) => {
 
                           <div className="col-md-4">
                             <div className="button-div">
-                            <>
-                                  <button
-                                    type="button"
-                                    className="btn btn-danger rounded-0"
-                                    onClick={() =>
-                                      handleRemoveCheckistClick(i3)
-                                    }
-                                  >
-                                    Del <i className="fa fa-trash"></i>
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn btn-success rounded-0"
-                                    onClick={() => handlePushChecklistClick(i3)}
-                                  >
-                                    Push <i className="fa fa-arrow-up"></i>
-                                  </button>
-                                  {checkList.length - 1 === i3 && (
-                                <>
-                                  <button
-                                    type="button"
-                                    className="btn btn-info rounded-0"
-                                    onClick={handleAddChecklistClick}
-                                  >
-                                    Add Line<i className="fa fa-arrow-down"></i>
-                                  </button>
-                                </>
-                              )}
-                                  
-                                </>
+                              <>
+                                <button
+                                  type="button"
+                                  className="btn btn-danger rounded-0"
+                                  onClick={() => handleRemoveCheckistClick(i3)}
+                                >
+                                  Del <i className="fa fa-trash"></i>
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btn btn-success rounded-0"
+                                  onClick={() => handlePushChecklistClick(i3)}
+                                >
+                                  Push <i className="fa fa-arrow-up"></i>
+                                </button>
+                                {checkList.length - 1 === i3 && (
+                                  <>
+                                    <button
+                                      type="button"
+                                      className="btn btn-info rounded-0"
+                                      onClick={handleAddChecklistClick}
+                                    >
+                                      Add Line
+                                      <i className="fa fa-arrow-down"></i>
+                                    </button>
+                                  </>
+                                )}
+                              </>
 
                               {/* {checkList.length !== 1 && (
                                 <>
@@ -1621,29 +1622,37 @@ const EmployeeRequisitionCard = (props) => {
                                   </button> */}
                         </div>
                         <div className="col-md-12 text-right d-flex">
-                                <div className="form-group w-75">
-                                  {/* <label htmlFor="">Supporting Documents</label> */}
-                                  <input type="file" onChange={changeFile} className="form-control" />
-                                </div>
-                                <div className="form-group w-25">
-                                <button
-                                  className="btn btn-outline-primary ml-2"
-                                  onClick={uploadFile}
-                                >Upload Supporting PDF</button></div>
-                               
+                          <div className="form-group w-75">
+                            {/* <label htmlFor="">Supporting Documents</label> */}
+                            <input
+                              type="file"
+                              onChange={changeFile}
+                              className="form-control"
+                            />
+                          </div>
+                          <div className="form-group w-25">
+                            <button
+                              className="btn btn-outline-primary ml-2"
+                              onClick={uploadFile}
+                            >
+                              Upload Supporting PDF
+                            </button>
+                          </div>
                         </div>
                       </div>
                       <div className="row mx-1 my-1">
                         <div className="col-md-6"></div>
                         <div className="col-md-6 text-right">
                           [Step 3]
-                        <button
-                                    type="button"
-                                    className="btn btn-warning rounded-0"
-                                    onClick={pushToHR}
-                                  >
-                                    Push to Human Resource <i className="fa fa-user-o"></i>
-                                  </button>
+                          <button
+                            type="button"
+                            className="btn btn-warning rounded-0"
+                            onClick={pushToHR}
+                            disabled={disablePushToHR}
+                          >
+                            Push to Human Resource{" "}
+                            <i className="fa fa-user-o"></i>
+                          </button>
                         </div>
                       </div>
                     </div>

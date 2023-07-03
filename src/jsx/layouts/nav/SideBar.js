@@ -51,7 +51,7 @@ class SideBar extends Component {
       "leave-dashboard",
     ];
     let Exits = ["HRExitInterview", "HRExitInterviewList"];
-    let Settings = ["HRUsers", "HRDocument"];
+    let Settings = ["HR-Users", "HR-Document","HR-jobseekers"];
     let EmpClearance = ["HRClearance", "HRClearanceList"];
     let EmpUpdateDetail = [
       "new-probation",
@@ -1599,7 +1599,17 @@ class SideBar extends Component {
                 onClick={() => this.props.onClick3()}
               >
                 <i className="flaticon-381-user-8 mr-3"></i>
-                <span className="nav-text">Users</span>
+                <span className="nav-text">Staff</span>
+              </Link>
+            </li>
+            <li className={`${path === "HR-jobseekers" ? "mm-active" : ""}`}>
+              <Link
+                className=""
+                to="/HR-jobseekers"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-user-1 mr-3"></i>
+                <span className="nav-text">Job Seekers</span>
               </Link>
             </li>
             <li className={`${path === "HR-document" ? "mm-active" : ""}`}>
@@ -2256,7 +2266,7 @@ class SideBar extends Component {
             <span className="nav-text">Your Exit Form</span>
           </Link>
         </li>
-        <li className={`${path === "job-vacancy" ? "mm-active" : ""}`}>
+        {/* <li className={`${path === "job-vacancy" ? "mm-active" : ""}`}>
           <Link
             className=""
             to="/job-vacancy"
@@ -2265,7 +2275,7 @@ class SideBar extends Component {
             <i className="flaticon-381-target"></i>
             <span className="nav-text">Job Vacancy</span>
           </Link>
-        </li>
+        </li> */}
 
         <li className={`${Settings.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
@@ -2280,7 +2290,17 @@ class SideBar extends Component {
                 onClick={() => this.props.onClick3()}
               >
                 <i className="flaticon-381-user-8 mr-3"></i>
-                <span className="nav-text">Users</span>
+                <span className="nav-text">Staff</span>
+              </Link>
+            </li>
+            <li className={`${path === "HR-jobseekers" ? "mm-active" : ""}`}>
+              <Link
+                className=""
+                to="/HR-jobseekers"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-user-1 mr-3"></i>
+                <span className="nav-text">Job Seekers</span>
               </Link>
             </li>
             <li className={`${path === "HR-document" ? "mm-active" : ""}`}>
@@ -4576,7 +4596,17 @@ class SideBar extends Component {
                 onClick={() => this.props.onClick3()}
               >
                 <i className="flaticon-381-user-8 mr-3"></i>
-                <span className="nav-text">Users</span>
+                <span className="nav-text">Staff</span>
+              </Link>
+            </li>
+            <li className={`${path === "HR-jobseekers" ? "mm-active" : ""}`}>
+              <Link
+                className=""
+                to="/HR-jobseekers"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-user-1 mr-3"></i>
+                <span className="nav-text">Job Seekers</span>
               </Link>
             </li>
             <li className={`${path === "HR-document" ? "mm-active" : ""}`}>

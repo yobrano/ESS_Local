@@ -139,3 +139,10 @@ padding-top: 220px;
 .required-job-ast{
 	color:red;
 }
+
+
+/* MOMENTUM */
+
+.login-aside-right .momentum{
+	background: #d2ab5f !important;
+}

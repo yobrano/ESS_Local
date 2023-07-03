@@ -73,10 +73,16 @@ const GrievanceAppealCard = (props) => {
 
   const [alternativeF, setAlternativeF] = useState(false);
   const [outcomeF, setOutcomeF] = useState(false);
+  const [reversalF, setReversalF] = useState(false);
 
   const [appealAlternativeRec, setAppealAlternativeRec] = useState("");
   const [appealRecomm, setAppealRecomm] = useState("");
 
+  const [firstModerator, setFirstModerator] = useState({});
+  const [secondModerator, setSecondModerator] = useState({});
+  const [selectedModerator, setSelectedModerator] = useState("");
+  const [selectedModeratorStage, setSelectedModeratorStage] = useState("");
+  const [reversalRemark, setReversalRemark] = useState("");
 
   useEffect(() => {
     const config = {
@@ -115,7 +121,14 @@ const GrievanceAppealCard = (props) => {
             response.data.grievancesingle.cycletworecommendation
           );
           setCycletwostepsv(response.data.grievancesingle.cycletwosteps);
-
+          setSecondModerator({
+            stage: "4",
+            user: props.location.state[0].datum[0].stepFourEmp,
+          });
+          setFirstModerator({
+            stage: "2",
+            user: props.location.state[0].datum[0].stepTwoEmp,
+          });
           var stageVar = JSON.parse(localStorage.getItem("userDetails"));
           if (JSON.parse(localStorage.getItem("userDetails")).user.length > 0) {
             if (stageVar.user[0] === "NORMAL" && currentStage === "Employee") {
@@ -124,6 +137,7 @@ const GrievanceAppealCard = (props) => {
             }
           }
         }
+
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
           console.log(response.data.message);
@@ -363,12 +377,9 @@ const GrievanceAppealCard = (props) => {
       });
   };
 
-  const MakeAnAppealFn = (e) => {    
+  const MakeAnAppealFn = (e) => {
     e.preventDefault();
-    if (
-      appealStaffRank === "" ||
-      selectedAppealStaff.value === undefined
-    ) {
+    if (appealStaffRank === "" || selectedAppealStaff.value === undefined) {
       return;
     }
 
@@ -423,13 +434,11 @@ const GrievanceAppealCard = (props) => {
         console.log({ err: err });
         // setPostBtnState(false)
       });
-  
-  
   };
 
-  const DismissAppealFn = (e)=>{
+  const DismissAppealFn = (e) => {
     e.preventDefault();
-   
+
     const config = {
       headers: {
         Authorization: `Bearer ${
@@ -441,8 +450,8 @@ const GrievanceAppealCard = (props) => {
     let data = {
       GID: props.location.state[0].datum[0].gid,
       AppealAlternativeRemark: appealAlternativeRec,
-      NextStageStaff:props.location.state[0].datum[0].employeeno,
-      NextStage:"Employee",
+      NextStageStaff: props.location.state[0].datum[0].employeeno,
+      NextStage: "Employee",
     };
     swal({
       title: "Are you sure?",
@@ -481,10 +490,11 @@ const GrievanceAppealCard = (props) => {
         console.log({ err: err });
         // setPostBtnState(false)
       });
-  }
-  const UpholdAppealFn = (e)=>{
+  };
+
+  const UpholdAppealFn = (e) => {
     e.preventDefault();
-   
+
     const config = {
       headers: {
         Authorization: `Bearer ${
@@ -496,8 +506,8 @@ const GrievanceAppealCard = (props) => {
     let data = {
       GID: props.location.state[0].datum[0].gid,
       AppealOutcomeRemark: appealRecomm,
-      NextStageStaff:props.location.state[0].datum[0].employeeno,
-      NextStage:"Employee",
+      NextStageStaff: props.location.state[0].datum[0].employeeno,
+      NextStage: "Employee",
     };
     swal({
       title: "Are you sure?",
@@ -536,26 +546,89 @@ const GrievanceAppealCard = (props) => {
         console.log({ err: err });
         // setPostBtnState(false)
       });
-  }
+  };
+
+  const ReversalGrievance = (e) => {
+    e.preventDefault();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+
+    let data = {
+      GID: props.location.state[0].datum[0].gid,
+      ReverseReason: reversalRemark,
+      StageStaff: selectedModerator,
+      Stage: selectedModeratorStage,
+    };
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Reverse",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        // setPostBtnState(true)
+        if (willCreate) {
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/grievance/reversegrievance`,
+            data,
+            config
+          );
+        }
+      })
+
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          // setPush(true)
+          setGrievanceNo(response.data.return_value);
+          swal("Success!", "Grievance Reversed", "success");
+        }
+        if (response.status === 404) {
+          alert(response.data.message);
+        }
+      })
+      .catch((err) => {
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+        console.log({ err: err });
+        // setPostBtnState(false)
+      });
+  };
+
   const toggleCollapse = (from) => {
     switch (from) {
       case "alternative":
         setAlternativeF(true);
         setOutcomeF(false);
+        setReversalF(false);
         break;
       case "outcome":
-        setAlternativeF(false);
         setOutcomeF(true);
+        setAlternativeF(false);
+        setReversalF(false);
         break;
-     
+      case "reversal":
+        setReversalF(true);
+        setOutcomeF(false);
+        setAlternativeF(false);
+        break;
+
       default:
         setAlternativeF(true);
         setOutcomeF(false);
+        setReversalF(false);
         break;
     }
   };
-
-
 
   let Approve = "";
   let Reject = "";
@@ -623,7 +696,6 @@ const GrievanceAppealCard = (props) => {
         </button>
       </>
     );
-
   } else if (props.location.state[0].datum[0].progressNo === 5) {
     CycleTwoEntries = true;
     GeneralRemarkTextAreaField = "col-xl-12 col-sm-12 d-none";
@@ -633,11 +705,23 @@ const GrievanceAppealCard = (props) => {
     AppealTextsection = "card-body appeal d-none";
     Approve = (
       <>
-        <button className="btn btn-warning" onClick={() => toggleCollapse("alternative")}>
-        Dismiss appeal<i className="fa fa-arrow-up"></i>
+        <button
+          className="btn btn-danger mr-1"
+          onClick={() => toggleCollapse("reversal")}
+        >
+          Reversal<i className="fa fa-arrow-left"></i>
         </button>
-        <button className="btn btn-info ml-1" onClick={() => toggleCollapse("outcome")}>
-        Uphold Appeal <i className="fa fa-arrow-right"></i>
+        <button
+          className="btn btn-warning mr-1"
+          onClick={() => toggleCollapse("alternative")}
+        >
+          Dismiss appeal<i className="fa fa-arrow-up"></i>
+        </button>
+        <button
+          className="btn btn-info ml-1"
+          onClick={() => toggleCollapse("outcome")}
+        >
+          Uphold Appeal <i className="fa fa-arrow-right"></i>
         </button>
       </>
     );
@@ -1126,74 +1210,148 @@ const GrievanceAppealCard = (props) => {
                 <div className="card-footer">
                   <div className="row">
                     <div className="col-md-12">
-                    <div className="text-right">
-                    {CompleteProcessBtn} {Approve}
-                  </div>
+                      <div className="text-right">
+                        {CompleteProcessBtn} {Approve}
+                      </div>
                     </div>
                     <div className="col-md-12">
-                    <Collapse in={alternativeF}>
-                      <div id="example-collapse-text">
-                        <div className="row">
-                          <div className="col-md-12">
-                            <div className="form-group">
-                               <label htmlFor="">Alternative Recommendation (Optional)</label>
-                              <textarea
-                                className="form-control"
-                                cols="30"
-                                rows="3"
-                                name="appealAlternativeRec"
-                                placeholder="max 240 characters"
-                                value={appealAlternativeRec}
-                                onChange={(e)=>setAppealAlternativeRec(e.target.value)}
-                                // disabled={true}
-                              ></textarea>
+                      <Collapse in={alternativeF}>
+                        <div id="example-collapse-text">
+                          <div className="row">
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label htmlFor="">
+                                  Alternative Recommendation (Optional)
+                                </label>
+                                <textarea
+                                  className="form-control"
+                                  cols="30"
+                                  rows="3"
+                                  name="appealAlternativeRec"
+                                  placeholder="max 240 characters"
+                                  value={appealAlternativeRec}
+                                  onChange={(e) =>
+                                    setAppealAlternativeRec(e.target.value)
+                                  }
+                                  // disabled={true}
+                                ></textarea>
+                              </div>
+                            </div>
+
+                            <div className="col-12">
+                              <button
+                                className="btn btn-warning rounded-0 w-100"
+                                onClick={DismissAppealFn}
+                              >
+                                Dismiss Appeal{" "}
+                                <i className="fa fa-arrow-up"></i>
+                              </button>
                             </div>
                           </div>
-
-                          <div className="col-12">
-                            <button
-                              className="btn btn-warning rounded-0 w-100"
-                              onClick={DismissAppealFn}
-                            >
-                              Dismiss Appeal <i className="fa fa-arrow-up"></i>
-                            </button>
-                          </div>
                         </div>
-                      </div>
-                    </Collapse>
-                    <Collapse in={outcomeF}>
-                      <div id="example-collapse-text">
-                        <div className="row">
-                          <div className="col-md-12">
-                            <div className="form-group">
-                               <label htmlFor="">Uphold Appeal Recommendation</label>
-                              <textarea
-                                className="form-control"
-                                cols="30"
-                                rows="3"
-                                name="appealRecomm"
-                                placeholder="max 240 characters"
-                                value={appealRecomm}
-                                onChange={(e)=>setAppealRecomm(e.target.value)}
-                                // disabled={true}
-                              ></textarea>
+                      </Collapse>
+                      <Collapse in={outcomeF}>
+                        <div id="example-collapse-text">
+                          <div className="row">
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label htmlFor="">
+                                  Uphold Appeal Recommendation
+                                </label>
+                                <textarea
+                                  className="form-control"
+                                  cols="30"
+                                  rows="3"
+                                  name="appealRecomm"
+                                  placeholder="max 240 characters"
+                                  value={appealRecomm}
+                                  onChange={(e) =>
+                                    setAppealRecomm(e.target.value)
+                                  }
+                                  // disabled={true}
+                                ></textarea>
+                              </div>
+                            </div>
+
+                            <div className="col-12">
+                              <button
+                                className="btn btn-info rounded-0 w-100"
+                                onClick={UpholdAppealFn}
+                              >
+                                Uphold Appeal{" "}
+                                <i className="fa fa-arrow-right"></i>
+                              </button>
                             </div>
                           </div>
+                        </div>
+                      </Collapse>
+                      <Collapse in={reversalF}>
+                        <div id="example-collapse-text">
+                          <div className="row">
+                            <div className="col-md-12 my-2">
+                              <div className="form-group">
+                                <label htmlFor="">Select the Moderator</label>
+                                <select
+                                  className="form-control"
+                                  onChange={(e) => {
+                                    setSelectedModerator(e.target.value);
+                                    if (
+                                      e.target.value === firstModerator.user
+                                    ) {
+                                      setSelectedModeratorStage(
+                                        firstModerator.stage
+                                      );
+                                    } else {
+                                      setSelectedModeratorStage(
+                                        secondModerator.stage
+                                      );
+                                    }
+                                  }}
+                                >
+                                   <option>
+                                    Choose
+                                  </option>
+                                  <option value={firstModerator.user}>
+                                    First Moderator - {firstModerator.user}
+                                  </option>
+                                  <option value={secondModerator.user}>
+                                    Second Moderator - {secondModerator.user}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
 
-                          <div className="col-12">
-                            <button
-                              className="btn btn-info rounded-0 w-100"
-                              onClick={UpholdAppealFn}
-                            >
-                              Uphold Appeal <i className="fa fa-arrow-right"></i>
-                            </button>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label htmlFor="">Reversal Remarks</label>
+                                <textarea
+                                  className="form-control"
+                                  cols="30"
+                                  rows="3"
+                                  name="reversalRemark"
+                                  placeholder="max 240 characters"
+                                  value={reversalRemark}
+                                  onChange={(e) =>
+                                    setReversalRemark(e.target.value)
+                                  }
+                                  // disabled={true}
+                                ></textarea>
+                              </div>
+                            </div>
+
+                            <div className="col-12">
+                              <button
+                                className="btn btn-danger rounded-0 w-100"
+                                onClick={ReversalGrievance}
+                              >
+                                Reverse <i className="fa fa-arrow-left"></i>
+                              </button>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </Collapse>
+                      </Collapse>
                     </div>
                   </div>
-                
 
                   {/* {approveBtnActuator ? Resolving : ""} */}
                 </div>

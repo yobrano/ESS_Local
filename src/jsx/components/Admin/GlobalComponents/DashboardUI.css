@@ -56,3 +56,54 @@
 .orange-bg div h4,.orange-bg div ul li a,.orange-bg div i{
   color: white
 }
+
+
+
+.prussian-bg {
+  background-color: #13334d  !important;
+  /* background-color: #fff599 !important; */
+}
+
+.mango-bg {
+  background-color: #ecb834  !important;
+  /* background-color: #fff599 !important; */
+}
+
+.windsor-bg {
+  background-color: #ad5726  !important;
+  /* background-color: #fff599 !important; */
+}
+
+.spotblack-bg {
+  background-color: #000000  !important;
+  /* background-color: #fff599 !important; */
+}
+
+.umberburnt-bg {
+  background-color: #8e281d  !important;
+  /* background-color: #fff599 !important; */
+}
+
+.dui-am {
+  color: #ffffff;
+  display: inline-block;
+  width: 100%;
+
+
+}
+.moment{
+  border: 4px solid #938787 !important;
+}
+.moment .card-header h4{
+  color: #ffffff;
+}
+.dashui .card-header i{
+  color: #ffffff;
+}
+.moment .card-body ul.shortcut-menu li:hover{
+  background-color: #d5d5d5 !important;
+  border-radius: 1rem;
+}
+.moment .card-body ul.shortcut-menu li:hover a .nav-text-drop{
+  color: black;
+}

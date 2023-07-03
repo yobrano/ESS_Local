@@ -87,7 +87,7 @@ const MDRequisionCard = (props) => {
   const [HOD, setHOD] = useState("");
   const [MD, setMD] = useState("");
   const [statusProgress, setStatusProgress] = useState(1);
-  const [MDComment,setMDComment] = useState("")
+  const [MDComment, setMDComment] = useState("");
 
   //{ id: "", description: "",rqmentcode:"",mandatory:"",lineno:"",jobno:"" },
   // console.log(requirementlist);
@@ -687,7 +687,7 @@ const MDRequisionCard = (props) => {
       });
   };
 
-  const cancelRequision = ()=>{
+  const cancelRequision = () => {
     const config = {
       headers: {
         Authorization: `Bearer ${
@@ -696,14 +696,15 @@ const MDRequisionCard = (props) => {
       },
     };
     const data = {
-      MDcomment:MDComment
-    }
+      MDcomment: MDComment,
+    };
 
     swal({
       title: "Are you sure?",
       text: "Are you sure that you want to Reject ",
       icon: "warning",
       dangerMode: true,
+      buttons: ["No, cancel it", "Yes, I am sure"],
     })
       .then((willUpload) => {
         if (willUpload) {
@@ -716,18 +717,13 @@ const MDRequisionCard = (props) => {
       })
       .then((json) => {
         console.log(json.data);
-        swal(
-          "Success!",
-          "Your record has been Rejected",
-          "success"
-        );
+        swal("Success!", "Your record has been Rejected", "success");
       })
       .catch((err) => {
         console.log(err);
         swal("Oops!", "Seems like we couldn't Reject the record", "error");
       });
-
-  }
+  };
 
   useEffect(() => {
     setEmpreqCode(props.location.state[0].empReqNo);
@@ -788,9 +784,9 @@ const MDRequisionCard = (props) => {
         }
       })
       .catch((err) => {
-        if(err.response!==undefined){
+        if (err.response !== undefined) {
           swal("Oh!", err.response.data.message, "error");
-        }else{
+        } else {
           swal("Oh!", err.message, "error");
         }
         console.log({ err: err });
@@ -888,7 +884,8 @@ const MDRequisionCard = (props) => {
       });
   };
 
-  const pushToHR = () => {
+  const pushToHR = (e) => {
+    e.preventDefault();
     // let data = {
     //   Reqno: props.location.state[0].empReqNo,
     //   Jobno: props.location.state[0].jobNo,
@@ -905,34 +902,63 @@ const MDRequisionCard = (props) => {
     };
 
     const data = {
-      MDcomment:MDComment
-    }
-
-    axios
-      .post(
-        `${process.env.REACT_APP_API_S_LINK}/staffrequision/mdsendhr/${props.location.state[0].datum[0].reqID}`,
-        data,
-        config
-      )
-      .then(function (response) {
-        if (response.status === 200) {
-          swal("Success", response.data.message, "success");
-          console.log(response.data);
-        }
-        if (response.status === 404) {
-          swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+      MDcomment: MDComment,
+    };
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Approve",
+      icon: "warning",
+      dangerMode: true,
+      buttons: ["No, cancel it", "Yes, I am sure"],
+    })
+      .then((willUpload) => {
+        if (willUpload) {
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/staffrequision/mdsendhr/${props.location.state[0].datum[0].reqID}`,
+            data,
+            config
+            // method: 'post',
+          );
         }
       })
+      .then(function (response) {
+        swal("Success", response.data.message, "success");
+      })
       .catch((err) => {
-        if(err.response!==undefined){
+        if (err.response !== undefined) {
           swal("Oh!", err.response.data.message, "error");
-        }else{
-          swal("Oh!", err.message, "error");
+        } else {
+          swal("Oh!", "The record is NOT approved", "error");
         }
         console.log({ err: err });
         // swal("Oh!", err.data.message, "error");
       });
+
+    // axios
+    //   .post(
+    //     `${process.env.REACT_APP_API_S_LINK}/staffrequision/mdsendhr/${props.location.state[0].datum[0].reqID}`,
+    //     data,
+    //     config
+    //   )
+    //   .then(function (response) {
+    //     if (response.status === 200) {
+    //       swal("Success", response.data.message, "success");
+    //       console.log(response.data);
+    //     }
+    //     if (response.status === 404) {
+    //       swal("Oh!", response.data.message, "error");
+    //       console.log(response.data.message);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     if(err.response!==undefined){
+    //       swal("Oh!", err.response.data.message, "error");
+    //     }else{
+    //       swal("Oh!", err.message, "error");
+    //     }
+    //     console.log({ err: err });
+    //     // swal("Oh!", err.data.message, "error");
+    //   });
   };
 
   const publish = () => {};
@@ -975,6 +1001,7 @@ const MDRequisionCard = (props) => {
   };
 
   let actionButtn = "";
+  let rejectButton = "";
   if (statusProgress === 2) {
     actionButtn = (
       <button
@@ -985,7 +1012,16 @@ const MDRequisionCard = (props) => {
         Approve and Push to HR <i className="fa fa-user-o"></i>
       </button>
     );
-  }else if (statusProgress === 5){
+    rejectButton = (
+      <button
+        className="btn btn-danger rounded-0 mb-2"
+        type="button"
+        onClick={cancelRequision}
+      >
+        Reject the Requisition <i className="fa fa-user-times"></i>
+      </button>
+    );
+  } else if (statusProgress === 5) {
     actionButtn = (
       <button
         disabled
@@ -1023,7 +1059,7 @@ const MDRequisionCard = (props) => {
   return (
     <>
       <div className="container0">
-      <BreadCrumb props={props} backlink={"MD-employee-requisition"}/>
+        <BreadCrumb props={props} backlink={"MD-employee-requisition"} />
         <div className="reqCard mt-2">
           <div className="card rounded-0">
             <div className="card-header">
@@ -1453,7 +1489,7 @@ const MDRequisionCard = (props) => {
                       ))}
 
                       <div className="row mx-1 my-1">
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                           <h4>Supporting Documents</h4>
                           <button
                             className="btn btn-info rounded-0 mb-2"
@@ -1464,15 +1500,13 @@ const MDRequisionCard = (props) => {
                           </button>
                         </div>
 
-                        <div className="col-md-3 text-right">{actionButtn}</div>
-                        <div className="col-md-3 text-right">
-                          <button
-                            className="btn btn-danger rounded-0 mb-2"
-                            type="button"
-                            onClick={cancelRequision}
-                          >
-                            Reject the Requisition <i className="fa fa-user-times"></i>
-                          </button>
+                        <div className="col-md-4 text-right">
+                          <h4>Action</h4>
+                          {actionButtn}
+                        </div>
+                        <div className="col-md-4 text-right">
+                          <h4>&nbsp;</h4>
+                          {rejectButton}
                         </div>
                       </div>
                     </div>
@@ -1480,58 +1514,54 @@ const MDRequisionCard = (props) => {
                 </div>
 
                 {/* <div className="row"> */}
-                        <div className="col-md-12">
-                          <div className="form-group mx-2">
-                            <label htmlFor="Commen" className="label">
-                              MD Comment
-                            </label>
-                            <textarea
-                              id="Commen"
-                              value={MDComment}
-                              onChange={(e) => setMDComment(e.target.value)}
-                              rows="3"
-                              className="form-control"
-                              placeholder="Content max size 250 character"
-                            ></textarea>
-                          </div>
-                        </div>
+                <div className="col-md-12">
+                  <div className="form-group mx-2">
+                    <label htmlFor="Commen" className="label">
+                      MD Comment
+                    </label>
+                    <textarea
+                      id="Commen"
+                      value={MDComment}
+                      onChange={(e) => setMDComment(e.target.value)}
+                      rows="3"
+                      className="form-control"
+                      placeholder="Content max size 250 character"
+                    ></textarea>
+                  </div>
+                </div>
 
-                        <div className="col-md-6">
-                          <div className="form-group ml-2">
-                            <label htmlFor="Commen" className="label">
-                              HOD Comment
-                            </label>
-                            <textarea
-                              id="Commen"
-                              disabled
-                              value={props.location.state[0].datum[0].uidComment}
-                             
-                              rows="3"
-                              className="form-control"
-                              placeholder="HOD Comment"
-                            ></textarea>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-group mr-2">
-                            <label htmlFor="Commen" className="label">
-                              HR Comment
-                            </label>
-                            <textarea
-                              id="Commen"
-                              disabled
-                              value={props.location.state[0].datum[0].uidTwoComment}
-                             
-                              rows="3"
-                              className="form-control"
-                              placeholder="HR Comment"
-                            ></textarea>
-                          </div>
-                        </div>
+                <div className="col-md-6">
+                  <div className="form-group ml-2">
+                    <label htmlFor="Commen" className="label">
+                      HOD Comment
+                    </label>
+                    <textarea
+                      id="Commen"
+                      disabled
+                      value={props.location.state[0].datum[0].uidComment}
+                      rows="3"
+                      className="form-control"
+                      placeholder="HOD Comment"
+                    ></textarea>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group mr-2">
+                    <label htmlFor="Commen" className="label">
+                      HR Comment
+                    </label>
+                    <textarea
+                      id="Commen"
+                      disabled
+                      value={props.location.state[0].datum[0].uidTwoComment}
+                      rows="3"
+                      className="form-control"
+                      placeholder="HR Comment"
+                    ></textarea>
+                  </div>
+                </div>
 
-
-                      {/* </div> */}
-
+                {/* </div> */}
               </div>
             </form>
           </div>

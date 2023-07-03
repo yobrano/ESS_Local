@@ -165,6 +165,7 @@ import GrievanceAppealList from "./components/Admin/GlobalComponents/GrievanceAp
 import GrievanceAppealCard from "./components/Admin/GlobalComponents/GrievanceAppealCard";
 import GrievanceCompletedList from "./components/Admin/GlobalComponents/GrievanceCompletedList";
 import GrievanceCompletedCard from "./components/Admin/GlobalComponents/GrievanceCompletedCard";
+import HRJobseekerList from "./components/Admin/HR/HRJobseekerList";
 
 // import Landing from './pages/Landing'
 
@@ -197,6 +198,8 @@ const Markup = () => {
     { url: "HR-exit-form", component:HRExitForm ,usr:"HR" },
     { url: "HR-users", component:HRUserList ,usr:"HR" },
     { url: "HR-user-card", component:HRUserCard ,usr:"HR" },
+    { url: "HR-jobseekers", component:HRJobseekerList ,usr:"HR" },
+    { url: "HR-jobseekers-card", component:HRUserCard ,usr:"HR" },
     { url: "HR-document", component:HRDocumentSettings ,usr:"HR" },
     { url: "HR-clearance", component:HRClearanceCard ,usr:"HR" },
     { url: "HR-clearance-list", component:HRClearanceList ,usr:"HR" },
@@ -406,6 +409,9 @@ const Markup = () => {
     { url: "approve-competency", component:CompetenceListApprove, usr: "HEAD-HR" },
     { url: "approve-competency-card", component:CompetenceCardApprove, usr: "HEAD-HR" },
     { url: "edit-competence-line-super", component:CompetenceLineEditSuper, usr: "HEAD-HR" },
+
+    { url: "HR-jobseekers", component:HRJobseekerList ,usr:"HEAD-HR" },
+    { url: "HR-jobseekers-card", component:HRUserCard ,usr:"HEAD-HR" },
   ];
   //Job Seeker
   const routes2=[
@@ -829,6 +835,9 @@ const Markup = () => {
     { url: "approve-competency", component:CompetenceListApprove, usr: "HOD-HR" },
     { url: "approve-competency-card", component:CompetenceCardApprove, usr: "HOD-HR" },
     { url: "edit-competence-line-super", component:CompetenceLineEditSuper, usr: "HOD-HR" },
+
+    { url: "HR-jobseekers", component:HRJobseekerList ,usr:"HOD-HR" },
+    { url: "HR-jobseekers-card", component:HRUserCard ,usr:"HOD-HR" },
   ];
   //HOD-FIN
   const routes9 = [

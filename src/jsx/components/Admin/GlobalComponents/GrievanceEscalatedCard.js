@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
-import { Accordion } from "react-bootstrap";
+import { Accordion, Collapse } from "react-bootstrap";
 import "./NewGrievance.css";
 
 const GrievanceEscalatedCard = (props) => {
@@ -71,6 +71,19 @@ const GrievanceEscalatedCard = (props) => {
   const [selectedAppealStaff, setSelectedAppealStaff] = useState("");
   const [appealStaffRank, setAppealStaffRank] = useState("");
 
+  const [alternativeF, setAlternativeF] = useState(false);
+  const [outcomeF, setOutcomeF] = useState(false);
+  const [reversalF, setReversalF] = useState(false);
+
+  const [appealAlternativeRec, setAppealAlternativeRec] = useState("");
+  const [appealRecomm, setAppealRecomm] = useState("");
+
+  const [firstModerator, setFirstModerator] = useState({});
+  const [secondModerator, setSecondModerator] = useState({});
+  const [selectedModerator, setSelectedModerator] = useState("");
+  const [selectedModeratorStage, setSelectedModeratorStage] = useState("");
+  const [reversalRemark, setReversalRemark] = useState("");
+
   useEffect(() => {
     const config = {
       headers: {
@@ -108,6 +121,15 @@ const GrievanceEscalatedCard = (props) => {
             response.data.grievancesingle.cycletworecommendation
           );
           setCycletwostepsv(response.data.grievancesingle.cycletwosteps);
+
+          setSecondModerator({
+            stage: "4",
+            user: props.location.state[0].datum[0].stepFourEmp,
+          });
+          setFirstModerator({
+            stage: "2",
+            user: props.location.state[0].datum[0].stepTwoEmp,
+          });
 
           var stageVar = JSON.parse(localStorage.getItem("userDetails"));
           if (JSON.parse(localStorage.getItem("userDetails")).user.length > 0) {
@@ -420,6 +442,88 @@ const GrievanceEscalatedCard = (props) => {
   
   };
 
+  const ReversalGrievance = (e) => {
+    e.preventDefault();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+
+    let data = {
+      GID: props.location.state[0].datum[0].gid,
+      ReverseReason: reversalRemark,
+      StageStaff: selectedModerator,
+      Stage: selectedModeratorStage,
+    };
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Reverse",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        // setPostBtnState(true)
+        if (willCreate) {
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/grievance/reversegrievance`,
+            data,
+            config
+          );
+        }
+      })
+
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+          // setPush(true)
+          setGrievanceNo(response.data.return_value);
+          swal("Success!", "Grievance Reversed", "success");
+        }
+        if (response.status === 404) {
+          alert(response.data.message);
+        }
+      })
+      .catch((err) => {
+        if (err.response !== undefined) {
+          swal("Oh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+        console.log({ err: err });
+        // setPostBtnState(false)
+      });
+  };
+
+  const toggleCollapse = (from) => {
+    switch (from) {
+      case "alternative":
+        setAlternativeF(true);
+        setOutcomeF(false);
+        setReversalF(false);
+        break;
+      case "outcome":
+        setOutcomeF(true);
+        setAlternativeF(false);
+        setReversalF(false);
+        break;
+      case "reversal":
+        setReversalF(!reversalF);
+        setOutcomeF(false);
+        setAlternativeF(false);
+        break;
+
+      default:
+        setAlternativeF(true);
+        setOutcomeF(false);
+        setReversalF(false);
+        break;
+    }
+  };
+
   let Approve = "";
   let Reject = "";
   let CycleTwoEntries = false;
@@ -446,6 +550,12 @@ const GrievanceEscalatedCard = (props) => {
     // );
     CompleteProcessBtn = (
       <>
+         <button
+          className="btn btn-danger mr-1"
+          onClick={() => toggleCollapse("reversal")}
+        >
+          Reversal<i className="fa fa-arrow-left"></i>
+        </button>
         <button
           className="btn btn-success"
           onClick={PushRecommendations}
@@ -969,9 +1079,79 @@ const GrievanceEscalatedCard = (props) => {
                 </div>
 
                 <div className="card-footer">
-                  <div className="text-right">
+                  <div className="row">
+                    <div className="col-md-12">  <div className="text-right">
                     {CompleteProcessBtn} {Approve}
+                  </div></div>
+                    <div className="col-md-12">
+                    <Collapse in={reversalF}>
+                        <div id="example-collapse-text">
+                          <div className="row">
+                            <div className="col-md-12 my-2">
+                              <div className="form-group">
+                                <label htmlFor="">Select the Moderator</label>
+                                <select
+                                  className="form-control"
+                                  onChange={(e) => {
+                                    setSelectedModerator(e.target.value);
+                                    if (
+                                      e.target.value === firstModerator.user
+                                    ) {
+                                      setSelectedModeratorStage(
+                                        firstModerator.stage
+                                      );
+                                    } else {
+                                      setSelectedModeratorStage(
+                                        secondModerator.stage
+                                      );
+                                    }
+                                  }}
+                                >
+                                   <option>
+                                    Choose
+                                  </option>
+                                  <option value={firstModerator.user}>
+                                    First Moderator - {firstModerator.user}
+                                  </option>
+                                  {/* <option value={secondModerator.user}>
+                                    Second Moderator - {secondModerator.user}
+                                  </option> */}
+                                </select>
+                              </div>
+                            </div>
+
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label htmlFor="">Reversal Remarks</label>
+                                <textarea
+                                  className="form-control"
+                                  cols="30"
+                                  rows="3"
+                                  name="reversalRemark"
+                                  placeholder="max 240 characters"
+                                  value={reversalRemark}
+                                  onChange={(e) =>
+                                    setReversalRemark(e.target.value)
+                                  }
+                                  // disabled={true}
+                                ></textarea>
+                              </div>
+                            </div>
+
+                            <div className="col-12">
+                              <button
+                                className="btn btn-danger rounded-0 w-100"
+                                onClick={ReversalGrievance}
+                              >
+                                Reverse <i className="fa fa-arrow-left"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </Collapse>
+                    </div>
                   </div>
+                
 
                   {/* {approveBtnActuator ? Resolving : ""} */}
                 </div>
