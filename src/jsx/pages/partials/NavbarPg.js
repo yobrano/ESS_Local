@@ -113,7 +113,7 @@ function NavbarPg(props) {
                           onClick={signup}
                           id="registerBtn"
                         >
-                          Register
+                          NON Staff Registration
                         </button>
                       {/* </NavItem> */}
                     </Nav>

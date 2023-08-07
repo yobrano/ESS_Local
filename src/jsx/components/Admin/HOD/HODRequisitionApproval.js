@@ -181,31 +181,31 @@ const DataTable = ({ columns, data, setSelection }) => {
 
     usePagination,
     useRowSelect,
-    // (hooks) => {
-    //   hooks.visibleColumns.push((columns) => [
-    //     // Let's make a column for selection
-    //     ...columns,
-    //     {
-    //       id: "selection",
-    //       // The header can use the table's getToggleAllRowsSelectedProps method
-    //       // to render a checkbox
-    //       Header: ({ getToggleAllPageRowsSelectedProps }) => (
-    //         <div>
-    //           Action
-    //           {/* <IndeterminateCheckbox {...getToggleAllPageRowsSelectedProps()} /> */}
-    //         </div>
-    //       ),
-    //       // The cell can use the individual row's getToggleRowSelectedProps method
-    //       // to the render a checkbox
-    //       Cell: ({ row }) => (
-    //         <div>
-    //           <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-    //           {/* <label className="ml-3">View</label> */}
-    //         </div>
-    //       ),
-    //     },
-    //   ]);
-    // }
+    (hooks) => {
+      hooks.visibleColumns.push((columns) => [
+        // Let's make a column for selection
+        ...columns,
+        {
+          id: "selection",
+          // The header can use the table's getToggleAllRowsSelectedProps method
+          // to render a checkbox
+          Header: ({ getToggleAllPageRowsSelectedProps }) => (
+            <div>
+              Action
+              {/* <IndeterminateCheckbox {...getToggleAllPageRowsSelectedProps()} /> */}
+            </div>
+          ),
+          // The cell can use the individual row's getToggleRowSelectedProps method
+          // to the render a checkbox
+          Cell: ({ row }) => (
+            <div>
+              <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+              {/* <label className="ml-3">View</label> */}
+            </div>
+          ),
+        },
+      ]);
+    }
   );
 
   useEffect(() => {
@@ -465,10 +465,10 @@ function HODRequisitionApproval(props) {
         Header: "Req ID",
         accessor: "reqID",
       },
-      {
-        Header: "Job Grade",
-        accessor: "jobGrade",
-      },
+      // {
+      //   Header: "Job Grade",
+      //   accessor: "jobGrade",
+      // },
       {
         Header: "Closing Date",
         accessor: "closingDate",
@@ -482,13 +482,34 @@ function HODRequisitionApproval(props) {
         Cell: ({ value }) => {
           let buttvar = [];
 
-          if (value <= 3) {
+          if (value === 0) {
             buttvar[0] = `
             <button disabled class="btn btn-warning">
-              <span class="action-btn">Pending Approval</span>
+              <span class="action-btn">HOD Level</span>
             </button>
           `; 
-          } else if(value ===4 ){
+          }
+          else if (value === 1) {
+            buttvar[0] = `
+            <button disabled class="btn btn-warning">
+              <span class="action-btn">HR Level</span>
+            </button>
+          `; 
+          }
+          else if (value === 2) {
+            buttvar[0] = `
+            <button disabled class="btn btn-warning">
+              <span class="action-btn">MD Level</span>
+            </button>
+          `; 
+          }
+          else if (value === 3) {
+            buttvar[0] = `
+            <button disabled class="btn btn-warning">
+              <span class="action-btn">HR Level</span>
+            </button>
+          `; 
+          }else if(value ===4 ){
             buttvar[0] = `
             <button disabled class="btn btn-success">
               <span class="action-btn">Approved</span>
@@ -517,8 +538,10 @@ function HODRequisitionApproval(props) {
   //     setSelection,
   //   ]);
   if (selection.length === 1) {
-    // console.log(selection);
-    props.history.push("/MD-requisition-card", [{ datum: selection }]);
+    console.log(selection[0].reqID); 
+    props.history.push("/employee-requisition-modify", [
+      { empReqNo: selection[0].reqID ,datum:selection , jobNo: {label: selection[0].jobTitle, value: selection[0].jobNo} },
+    ]);
   }
 
   if (loading) {

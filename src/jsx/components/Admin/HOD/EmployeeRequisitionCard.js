@@ -1026,6 +1026,21 @@ const EmployeeRequisitionCard = (props) => {
             </div>
             <form>
               <div className="row p-1">
+
+              <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="reqEmp" className="label">
+                      Job Title
+                    </label>
+                    <input
+                      type="text"
+                      value={props.location.state[0].jobNo.label}
+                      className="form-control"
+                      disabled={true}
+                    />
+                  </div>
+                </div>
+
                 <div className="col-md-4">
                   <div className="form-group">
                     <label className="label">Requision Type</label>
@@ -1192,7 +1207,7 @@ const EmployeeRequisitionCard = (props) => {
                   </div>
                 </div>
 
-                <div className="col-md-4">
+                <div className="col-md-12">
                   <div className="form-group">
                     <label htmlFor="Commen" className="label">
                       HOD Comment
@@ -1201,7 +1216,7 @@ const EmployeeRequisitionCard = (props) => {
                       id="Commen"
                       value={HODComment}
                       onChange={(e) => setHODComment(e.target.value)}
-                      rows="1"
+                      rows="2"
                       className="form-control"
                       placeholder="Content max size 250 character"
                     ></textarea>
@@ -1613,7 +1628,7 @@ const EmployeeRequisitionCard = (props) => {
                       <div className="row  mx-1 my-1">
                         <div className="col-md-0">
                           {/* [Step 3]
-                        <button
+                        <button 
                                     type="button"
                                     className="btn btn-success rounded-0"
                                     onClick={handleApproveChecklist}

@@ -4,10 +4,8 @@ import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
-import BreadCrumb from "../GlobalComponents/BreadCrumb";
-import { Collapse } from "react-bootstrap";
 
-const MDRequisionCard = (props) => {
+const EmployeeRequisitionCardModify = (props) => {
   const [loading, setLoading] = useState(true);
   const [empreqCode, setEmpreqCode] = useState("");
 
@@ -82,20 +80,12 @@ const MDRequisionCard = (props) => {
 
   const [initCheckCode, setInitCheckCode] = useState("");
 
-  const [reqCard, setReqCard] = useState({});
-  const [employeeReplaced, setEmployeeReplaced] = useState("");
-  const [HR, setHR] = useState("");
-  const [HOD, setHOD] = useState("");
-  const [MD, setMD] = useState("");
-  const [statusProgress, setStatusProgress] = useState(1);
-  const [MDComment, setMDComment] = useState("");
-
+  const [reqfile, setReqfile] = useState("");
+  const [HODComment, setHODComment] = useState("");
   //{ id: "", description: "",rqmentcode:"",mandatory:"",lineno:"",jobno:"" },
   // console.log(requirementlist);
 
-  const [reversalF, setReversalF] = useState(false);
-  const [reversalRemark, setReversalRemark] = useState("");
-  const [reversalLevel, setReversalLevel] = useState("");
+  const [disablePushToHR, setDisablePushToHR] = useState(false);
 
   // handle input change
   const handleInputRequireChange = (e, index) => {
@@ -149,8 +139,15 @@ const MDRequisionCard = (props) => {
           }
         })
         .then((json) => {
-          list.splice(index, 1);
-          setRequirementlist(list);
+          if (list.length !== 1) {
+            list.splice(index, 1);
+            setRequirementlist(list);
+          } else {
+            list[index].lineno = "";
+            list[index].description = "";
+            setRequirementlist(list);
+          }
+
           swal("Success!", "Your record has been Deleted!", "success");
         })
         .catch((err) => {
@@ -158,8 +155,10 @@ const MDRequisionCard = (props) => {
           swal("Oops!", "Seems like we couldn't delete the record", "error");
         });
     } else {
-      list.splice(index, 1);
-      setRequirementlist(list);
+      if (list.length !== 1) {
+        list.splice(index, 1);
+        setRequirementlist(list);
+      }
     }
   };
   //handle cick event of the Add button
@@ -190,10 +189,10 @@ const MDRequisionCard = (props) => {
     let jobno = list[0]["jobno"];
     let data = {
       Description: record.description,
-      Jobno: jobno,
+      Jobno: jobno.value,
       Mandatory: record.mandatory,
       Rqmentcode: record.rqmentcode,
-      Lineno: record.lineno,
+      Lineno: record.lineno.toString(),
     };
 
     const config = {
@@ -213,7 +212,7 @@ const MDRequisionCard = (props) => {
       .then((willUpload) => {
         if (willUpload) {
           return axios.post(
-            `${process.env.REACT_APP_API_S_LINK}/staffrequision/addrequirement/${props.location.state[0].jobNo}`,
+            `${process.env.REACT_APP_API_S_LINK}/staffrequision/addrequirement/${props.location.state[0].jobNo.value}`,
             data,
             config
             // method: 'post',
@@ -223,6 +222,8 @@ const MDRequisionCard = (props) => {
       // .then(result => result.json())
       .then((json) => {
         console.log(json.data);
+        list[index].lineno = json.data;
+        setRequirementlist(list);
         swal("Success!", "Your record has been uploaded!", "success");
       })
       .catch((err) => {
@@ -230,6 +231,7 @@ const MDRequisionCard = (props) => {
         swal("Oops!", "Seems like we couldn't upload the record", "error");
       });
   };
+
   // handle input change
   const handleInputQualifChange = (e, index) => {
     const { name, value } = e.target;
@@ -283,8 +285,14 @@ const MDRequisionCard = (props) => {
         })
         .then((json) => {
           // console.log(json.data);
-          list1.splice(index, 1);
-          setQualificationList(list1);
+          if (list1.length !== 1) {
+            list1.splice(index, 1);
+            setQualificationList(list1);
+          } else {
+            list1[index].lineno = "";
+            list1[index].description = "";
+            setQualificationList(list1);
+          }
           swal("Success!", "Your record has been Deleted!", "success");
         })
         .catch((err) => {
@@ -292,8 +300,10 @@ const MDRequisionCard = (props) => {
           swal("Oops!", "Seems like we couldn't delete the record", "error");
         });
     } else {
-      list1.splice(index, 1);
-      setQualificationList(list1);
+      if (list1.length !== 1) {
+        list1.splice(index, 1);
+        setQualificationList(list1);
+      }
     }
   };
   //handle cick event of the Add button
@@ -326,10 +336,10 @@ const MDRequisionCard = (props) => {
 
       let data = {
         Description: record.description,
-        Jobno: jobno,
+        Jobno: jobno.value,
         Mandantory: record.mandantory,
         Qficationcode: record.qficationcode,
-        Lineno: record.lineno,
+        Lineno: record.lineno.toString(),
       };
 
       const config = {
@@ -349,7 +359,7 @@ const MDRequisionCard = (props) => {
         .then((willUpload) => {
           if (willUpload) {
             return axios.post(
-              `${process.env.REACT_APP_API_S_LINK}/staffrequision/addqualification/${props.location.state[0].jobNo}`,
+              `${process.env.REACT_APP_API_S_LINK}/staffrequision/addqualification/${props.location.state[0].jobNo.value}`,
               data,
               config
             );
@@ -357,6 +367,9 @@ const MDRequisionCard = (props) => {
         })
         .then((json) => {
           console.log(json.data);
+          list[index].lineno = json.data;
+          setQualificationList(list);
+
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -405,8 +418,15 @@ const MDRequisionCard = (props) => {
         })
         .then((json) => {
           // console.log(json.data);
-          list1.splice(index, 1);
-          setResponsibilityList(list1);
+          if (list1.length !== 1) {
+            list1.splice(index, 1);
+            setResponsibilityList(list1);
+          } else {
+            list1[index].lineno = "";
+            list1[index].description = "";
+            setResponsibilityList(list1);
+          }
+
           swal("Success!", "Your record has been Deleted!", "success");
         })
         .catch((err) => {
@@ -414,8 +434,10 @@ const MDRequisionCard = (props) => {
           swal("Oops!", "Seems like we couldn't delete the record", "error");
         });
     } else {
-      list1.splice(index, 1);
-      setResponsibilityList(list1);
+      if (list1.length !== 1) {
+        list1.splice(index, 1);
+        setResponsibilityList(list1);
+      }
     }
   };
   //handle cick event of the Add button
@@ -428,7 +450,7 @@ const MDRequisionCard = (props) => {
         {
           id: "",
           description: "",
-          Responsibilitycode: responsibilitycode,
+          responsibilitycode: responsibilitycode,
           // mandatory: "No",
           lineno: "",
           jobno: "",
@@ -449,10 +471,10 @@ const MDRequisionCard = (props) => {
         : list[0]["jobno"];
     let data = {
       Description: record.description,
-      Jobno: jobno,
+      Jobno: jobno.value,
       // Mandatory:record.mandatory,
       Responsibilitycode: record.responsibilitycode,
-      Lineno: record.lineno,
+      Lineno: record.lineno.toString(),
     };
 
     const config = {
@@ -480,6 +502,10 @@ const MDRequisionCard = (props) => {
       })
       .then((json) => {
         console.log(json.data);
+
+        list[index].lineno = json.data;
+        setResponsibilityList(list);
+
         swal("Success!", "Your record has been uploaded!", "success");
       })
       .catch((err) => {
@@ -525,8 +551,15 @@ const MDRequisionCard = (props) => {
         })
         .then((json) => {
           // console.log(json.data);
-          list1.splice(index, 1);
-          setCheckList(list1);
+          if (list1.length !== 1) {
+            list1.splice(index, 1);
+            setCheckList(list1);
+          } else {
+            list1[index].lineno = "";
+            list1[index].description = "";
+            setCheckList(list1);
+          }
+
           swal("Success!", "Your record has been Deleted!", "success");
         })
         .catch((err) => {
@@ -534,12 +567,15 @@ const MDRequisionCard = (props) => {
           swal("Oops!", "Seems like we couldn't delete the record", "error");
         });
     } else {
-      list1.splice(index, 1);
-      setCheckList(list1);
+      if (list1.length !== 1) {
+        list1.splice(index, 1);
+        setCheckList(list1);
+      }
     }
   };
   //handle cick event of the Add button
   const handleAddChecklistClick = () => {
+    //console.log(props.location.state[0].empReqNo);
     const list = [...checkList];
     if (list[0] !== undefined) {
       let auxcode = list[0]["code"];
@@ -550,7 +586,7 @@ const MDRequisionCard = (props) => {
           description: "",
           code: auxcode,
           lineno: "",
-          reqno: "",
+          reqno: empreqCode,
         },
       ]);
     } else {
@@ -597,6 +633,10 @@ const MDRequisionCard = (props) => {
         })
         .then((json) => {
           console.log(json.data);
+
+          list[index].lineno = json.data;
+          setCheckList(list);
+
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -605,7 +645,7 @@ const MDRequisionCard = (props) => {
         });
     } else {
       let data = {
-        Lineno: record.lineno,
+        Lineno: record.lineno.toString(),
         Reqno: record.reqno,
         Code: _code,
         Description: record.description,
@@ -636,6 +676,8 @@ const MDRequisionCard = (props) => {
         })
         .then((json) => {
           console.log(json.data);
+          list[index].lineno = json.data;
+          setCheckList(list);
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -643,90 +685,6 @@ const MDRequisionCard = (props) => {
           swal("Oops!", "Seems like we couldn't upload the record", "error");
         });
     }
-  };
-
-  const viewSupport = () => {
-    const config = {
-      responseType: "blob",
-      headers: {
-        Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
-        }`,
-      },
-    };
-
-    axios
-      .get(
-        `${process.env.REACT_APP_API_S_LINK}/home/justificationfile/${props.location.state[0].datum[0].reqID}`,
-        config
-      )
-
-      .then(function (response) {
-        // const url = window.URL.createObjectURL(new Blob([response.data]));
-        // const link = document.createElement('a');
-        // link.href = url;
-        // link.setAttribute('download', 'file.pdf'); //or any other extension
-        // document.body.appendChild(link);
-        // link.click();
-
-        if (response.status === 200) {
-          const file = new Blob([response.data], { type: "application/pdf" });
-          //Build a URL from the file
-          const fileURL = URL.createObjectURL(file);
-          //Open the URL on new Window
-          const pdfWindow = window.open();
-          pdfWindow.location.href = fileURL;
-
-          // console.log(response.data);
-          // window.open(response.data, '_blank', 'fullscreen=yes');
-          // FileDownload(response.data, 'current_cv.pdf');
-        }
-        // if(response.status === 404){
-        //   alert(response.data.message);
-        // }
-      })
-      .catch((err) => {
-        swal("Oops", "File not Found", "error");
-        console.log({ err: err });
-      });
-  };
-
-  const cancelRequision = () => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
-        }`,
-      },
-    };
-    const data = {
-      MDcomment: MDComment,
-    };
-
-    swal({
-      title: "Are you sure?",
-      text: "Are you sure that you want to Reject ",
-      icon: "warning",
-      dangerMode: true,
-      buttons: ["No, cancel it", "Yes, I am sure"],
-    })
-      .then((willUpload) => {
-        if (willUpload) {
-          return axios.post(
-            `${process.env.REACT_APP_API_S_LINK}/staffrequision/rejectreq/${props.location.state[0].datum[0].reqID}`,
-            data,
-            config
-          );
-        }
-      })
-      .then((json) => {
-        console.log(json.data);
-        swal("Success!", "Your record has been Rejected", "success");
-      })
-      .catch((err) => {
-        console.log(err);
-        swal("Oops!", "Seems like we couldn't Reject the record", "error");
-      });
   };
 
   useEffect(() => {
@@ -742,28 +700,64 @@ const MDRequisionCard = (props) => {
 
     axios
       .get(
-        `${process.env.REACT_APP_API_S_LINK}/staffrequision/hrgetreqsingle/${props.location.state[0].datum[0].reqID}/${props.location.state[0].datum[0].jobNo}/`,
+        `${process.env.REACT_APP_API_S_LINK}/staffrequision/getempreqsourcedata/${props.location.state[0].empReqNo}`,
         config
       )
       .then(function (response) {
         if (response.status === 200) {
           //populate emp list
           setEmployeeList(response.data.employeeListModels);
-          //   //pop dept
+          //pop dept
           setDepartmentList(response.data.departmentListModels);
-          //   //pop contract
+          //pop contract
           setContractList(response.data.contractListModels);
-          //Set reqCard
-          setReqCard(response.data.requsitionCard);
-          //set replace employee
-          setEmployeeReplaced(response.data.employeeReplaced);
-          //set HR
-          setHR(response.data.hr);
-          //HOD
-          setHOD(response.data.hod);
-          //MD
-          setMD(response.data.md);
 
+          console.log(response.data);
+          //  if (employeeList.length > 0) {
+          categoryFive();
+          // }
+
+          //General Lv
+          setRequisitionType(response.data.requsitionGeneral.requisitiontype)
+          setClosingDate(new Date(response.data.requsitionGeneral.closingdate))
+          setRequestedEmployees(response.data.requsitionGeneral.requestedemployees)
+          setReqDescription(response.data.requsitionGeneral.description)
+          setReqReason(response.data.requsitionGeneral.reason)
+          setReqComment(response.data.requsitionGeneral.comments)
+          setHODComment(props.location.state[0].datum[0].uidComment)
+
+          setLoading(false);
+        }
+        if (response.status === 404) {
+          swal("Oh!", response.data.message, "error");
+          console.log(response.data.message);
+        }
+      })
+      .catch((err) => {
+        console.log({ err: err });
+        swal("Oh!", err.data.message, "error");
+      });
+  }, [props.location.state]);
+
+  // Get category 5 data
+  const categoryFive = () => {
+    //Get Job Cat 5 data
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+
+    axios
+      .get(
+        `${process.env.REACT_APP_API_S_LINK}/staffrequision/getcategoryfive/${props.location.state[0].jobNo.value}/${props.location.state[0].empReqNo}`,
+        config
+      )
+      .then(function (response) {
+        if (response.status === 200) {
+          //populate requirements
           setRequirementlist(response.data.requirementModels);
           //Qualifications
           setQualificationList(response.data.qualificationModels);
@@ -774,13 +768,7 @@ const MDRequisionCard = (props) => {
           // Check list
           setCheckList(response.data.checklistModels);
 
-          setStatusProgress(response.data.statusProgress);
-
           console.log(response.data);
-          //  if (employeeList.length > 0) {
-
-          // }
-          setLoading(false);
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
@@ -788,15 +776,10 @@ const MDRequisionCard = (props) => {
         }
       })
       .catch((err) => {
-        if (err.response !== undefined) {
-          swal("Oh!", err.response.data.message, "error");
-        } else {
-          swal("Oh!", err.message, "error");
-        }
         console.log({ err: err });
-        // swal("Oh!", err.data.message, "error");
+        swal("Oh!", err.data.message, "error");
       });
-  }, [props.location.state]);
+  };
 
   const handleApproveChecklist = () => {
     const config = {
@@ -888,14 +871,16 @@ const MDRequisionCard = (props) => {
       });
   };
 
-  const pushToHR = (e) => {
-    e.preventDefault();
-    // let data = {
-    //   Reqno: props.location.state[0].empReqNo,
-    //   Jobno: props.location.state[0].jobNo,
-    //   Closingdate: closinDate,
-    //   RequestedEmployees: requestedEmployees,
-    // };
+  const pushToHR = () => {
+    setDisablePushToHR(true);
+
+    let data = {
+      Reqno: props.location.state[0].empReqNo,
+      Jobno: props.location.state[0].jobNo.value,
+      Closingdate: closinDate,
+      RequestedEmployees: requestedEmployees,
+      HODcomment: HODComment,
+    };
 
     const config = {
       headers: {
@@ -905,67 +890,33 @@ const MDRequisionCard = (props) => {
       },
     };
 
-    const data = {
-      MDcomment: MDComment,
-    };
-    swal({
-      title: "Are you sure?",
-      text: "Are you sure that you want to Approve",
-      icon: "warning",
-      dangerMode: true,
-      buttons: ["No, cancel it", "Yes, I am sure"],
-    })
-      .then((willUpload) => {
-        if (willUpload) {
-          return axios.post(
-            `${process.env.REACT_APP_API_S_LINK}/staffrequision/mdsendhr/${props.location.state[0].datum[0].reqID}`,
-            data,
-            config
-            // method: 'post',
-          );
+    axios
+      .post(
+        `${process.env.REACT_APP_API_S_LINK}/staffrequision/pushtohr`,
+        data,
+        config
+      )
+      .then(function (response) {
+        if (response.status === 200) {
+          swal("Success", response.data.message, "success");
+          console.log(response.data);
+        }
+        if (response.status === 404) {
+          swal("Oh!", response.data.message, "error");
+          console.log(response.data.message);
         }
       })
-      .then(function (response) {
-        swal("Success", response.data.message, "success");
-      })
       .catch((err) => {
+        // setDisablePushToHR();
         if (err.response !== undefined) {
           swal("Oh!", err.response.data.message, "error");
         } else {
-          swal("Oh!", "The record is NOT approved", "error");
+          swal("Oh!", err.message, "error");
         }
-        console.log({ err: err });
+        console.log(err);
         // swal("Oh!", err.data.message, "error");
       });
-
-    // axios
-    //   .post(
-    //     `${process.env.REACT_APP_API_S_LINK}/staffrequision/mdsendhr/${props.location.state[0].datum[0].reqID}`,
-    //     data,
-    //     config
-    //   )
-    //   .then(function (response) {
-    //     if (response.status === 200) {
-    //       swal("Success", response.data.message, "success");
-    //       console.log(response.data);
-    //     }
-    //     if (response.status === 404) {
-    //       swal("Oh!", response.data.message, "error");
-    //       console.log(response.data.message);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     if(err.response!==undefined){
-    //       swal("Oh!", err.response.data.message, "error");
-    //     }else{
-    //       swal("Oh!", err.message, "error");
-    //     }
-    //     console.log({ err: err });
-    //     // swal("Oh!", err.data.message, "error");
-    //   });
   };
-
-  const publish = () => {};
   const handleApprovePublish = () => {
     const config = {
       headers: {
@@ -1004,97 +955,77 @@ const MDRequisionCard = (props) => {
       });
   };
 
-  const toggleCollapse = (from) => {
-    switch (from) {
-      case "reversal":
-        setReversalF(!reversalF);
-        break;
-      default:
-        setReversalF(!reversalF);
-        break;
+  const changeFile = (e) => {
+    setReqfile(e.target.files[0]);
+  };
+
+  const uploadFile = (e) => {
+    e.preventDefault();
+
+    if (reqfile !== "") {
+      if (reqfile.size / 1024 > 6024) {
+        alert("Size above 6MB");
+        return;
+      }
+      if (reqfile.type !== "application/pdf") {
+        alert("File not pdf.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append(`formFile`, reqfile);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("userDetails")).idToken
+          }`,
+        },
+      };
+
+      axios
+        .post(
+          `${process.env.REACT_APP_API_S_LINK}/home/justificationupload/${empreqCode}`,
+          formData,
+          config
+        )
+        .then(function (response) {
+          if (response.status === 200) {
+            alert(response.data.message);
+            //console.log(response.data);
+          }
+          if (response.status === 404) {
+            alert(response.data.message);
+          }
+        })
+        .catch((err) => {
+          console.log({ err: err });
+        });
     }
   };
 
-  const ReversalRequisition = (e) => {
-    e.preventDefault();
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
-        }`,
-      },
-    };
-
-    let data = {
-      Reqno: props.location.state[0].datum[0].reqID,
-      HRcomment: reversalRemark,
-      Stage: reversalLevel,
-    };
-    swal({
-      title: "Are you sure?",
-      text: "Are you sure that you want to Reverse",
-      icon: "warning",
-      buttons: ["No, cancel it", "Yes, I am sure"],
-      dangerMode: true,
-    })
-      .then((willCreate) => {
-        if (willCreate) {
-          return axios.post(
-            `${process.env.REACT_APP_API_S_LINK}/staffrequision/reverserequisition`,
-            data,
-            config
-          );
-        }
-      })
-
-      .then(function (response) {
-        if (response.status === 200) {
-          swal("Success!", "Requisition Reversed", "success");
-        }
-      })
-      .catch((err) => {
-        if (err.response !== undefined) {
-          console.log(err.response.data.message);
-          swal("Oh!", "Requisition Reversed Failed", "error");
-        } else {
-          console.log(err.message);
-          swal("Oh!","Requisition Reversed Failed", "error");
-        }
-      });
-  };
-
-
   let actionButtn = "";
-  let rejectButton = "";
-  if (statusProgress === 2) {
+  let progressLevel = props.location.state[0].datum[0].progressStatus;
+  console.log();
+  if (progressLevel === 0) {
     actionButtn = (
       <button
         type="button"
-        className="btn btn-warning rounded-0 mb-2"
+        className="btn btn-warning rounded-0"
         onClick={pushToHR}
+        disabled={disablePushToHR}
       >
-        Approve and Push to HR <i className="fa fa-user-o"></i>
+        Push to Human Resource <i className="fa fa-user-o"></i>
       </button>
     );
-    rejectButton = (
-      <button
-        className="btn btn-danger rounded-0 mb-2"
-        type="button"
-        onClick={cancelRequision}
-      >
-        Reject the Requisition <i className="fa fa-user-times"></i>
-      </button>
-    );
-  } else if (statusProgress === 5) {
+  }else if(progressLevel >= 1){
     actionButtn = (
       <button
-        disabled
         type="button"
-        className="btn btn-danger rounded-0 mb-2"
+        className="btn btn-secondary rounded-0"
         // onClick={pushToHR}
+        disabled={true}
       >
-        Rejected Requisition <i className="fa fa-user-o"></i>
+        Requisition Under Approval <i className="fa fa-user-o"></i>
       </button>
     );
   }
@@ -1123,9 +1054,8 @@ const MDRequisionCard = (props) => {
   // categoryFive();
   return (
     <>
-      <div className="container0">
-        <BreadCrumb props={props} backlink={"MD-employee-requisition"} />
-        <div className="reqCard mt-2">
+      <div className="container">
+        <div className="reqCard">
           <div className="card rounded-0">
             <div className="card-header">
               <h4>General Data</h4>
@@ -1135,108 +1065,14 @@ const MDRequisionCard = (props) => {
               <div className="row p-1">
                 <div className="col-md-4">
                   <div className="form-group">
-                    <label>Requisition No</label>
+                    <label htmlFor="reqEmp" className="label">
+                      Job Title
+                    </label>
                     <input
                       type="text"
-                      disabled
+                      value={props.location.state[0].jobNo.label}
                       className="form-control"
-                      value={reqCard.no}
-                    />
-                  </div>
-                </div>
-
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>Job No</label>
-                    <input
-                      type="text"
-                      disabled
-                      className="form-control"
-                      value={reqCard.jobno}
-                    />
-                  </div>
-                </div>
-
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>Job Title</label>
-                    <input
-                      type="text"
-                      disabled
-                      className="form-control"
-                      value={reqCard.jobtitle}
-                    />
-                  </div>
-                </div>
-
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>Job Grade</label>
-                    <input
-                      type="text"
-                      disabled
-                      className="form-control"
-                      value={reqCard.jobgrade}
-                    />
-                  </div>
-                </div>
-
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>Job Maximum Position</label>
-                    <input
-                      type="text"
-                      disabled
-                      className="form-control"
-                      value={reqCard.maxposition}
-                    />
-                  </div>
-                </div>
-
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>Job Occupied Position</label>
-                    <input
-                      type="text"
-                      disabled
-                      className="form-control"
-                      value={reqCard.occupiedposition}
-                    />
-                  </div>
-                </div>
-
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>Job Vacant Position</label>
-                    <input
-                      type="text"
-                      disabled
-                      className="form-control"
-                      value={reqCard.vacantposition}
-                    />
-                  </div>
-                </div>
-
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>Branch code</label>
-                    <input
-                      type="text"
-                      disabled
-                      className="form-control"
-                      value={reqCard.branchcode}
-                    />
-                  </div>
-                </div>
-
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>Document Date</label>
-                    <input
-                      type="text"
-                      disabled
-                      className="form-control"
-                      value={reqCard.documentdate}
+                      disabled={true}
                     />
                   </div>
                 </div>
@@ -1245,12 +1081,11 @@ const MDRequisionCard = (props) => {
                   <div className="form-group">
                     <label className="label">Requision Type</label>
                     <select
-                      disabled
                       name=""
                       id=""
                       className="form-control"
-                      value={reqCard.requisitiontype}
-                      //   onChange={(e) => setRequisitionType(e.target.value)}
+                      value={requisitionType}
+                      onChange={(e) => setRequisitionType(e.target.value)}
                     >
                       <option value={""}></option>
                       <option value="Internal">Internal</option>
@@ -1260,27 +1095,23 @@ const MDRequisionCard = (props) => {
                     </select>
                   </div>
                 </div>
-                {/* <div className="col-md-4">
+                <div className="col-md-4 d-none">
                   <div className="form-group">
                     <label>Desired Start Date</label>
-
-                    <input
-                      type="text"
-                      disabled
+                    <DatePicker
                       className="form-control"
-                      value={reqCard.desiredstartdate}
+                      selected={desiredStartDate}
+                      onChange={(date) => setDesiredStartDate(date)}
                     />
                   </div>
-                </div> */}
+                </div>
                 <div className="col-md-4">
                   <div className="form-group">
-                    <label>End Date</label>
-
-                    <input
-                      type="text"
-                      disabled
+                    <label>Requision Deadline</label>
+                    <DatePicker
                       className="form-control"
-                      value={reqCard.closingdate}
+                      selected={closinDate}
+                      onChange={(date) => setClosingDate(date)}
                     />
                   </div>
                 </div>
@@ -1288,84 +1119,82 @@ const MDRequisionCard = (props) => {
                 <div className="col-md-4">
                   <label htmlFor="redType" className="label">
                     Contract Type
+                    {/* <span className="ml-auto text-primary">
+                      {selectedContract}
+                    </span> */}
                   </label>
-
-                  <input
-                    type="text"
-                    disabled
-                    className="form-control"
-                    value={reqCard.contractcode}
+                  <Select
+                    defaultValue={selectedContract}
+                    onChange={setSelectedContract}
+                    options={contractList}
                   />
                 </div>
 
-                {/* <div className="col-md-4">
+                <div className="col-md-4 d-none">
                   <label htmlFor="redType" className="label">
-                    Employee to Replace ID
+                    Department
                   </label>
-
-                  <input
-                    type="text"
-                    disabled
-                    className="form-control"
-                    value={employeeReplaced.value}
+                  <Select
+                    defaultValue={selectedDept}
+                    onChange={setSelectedDept}
+                    options={departmentList}
                   />
                 </div>
-                <div className="col-md-4">
+
+                <div className="col-md-4 d-none">
                   <label htmlFor="redType" className="label">
                     Employee to Replace
                   </label>
-
-                  <input
-                    type="text"
-                    disabled
-                    className="form-control"
-                    value={employeeReplaced.label}
+                  <Select
+                    defaultValue={replaceEmp}
+                    onChange={setReplaceEmp}
+                    options={employeeList}
                   />
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-4 d-none">
                   <label htmlFor="redType" className="label">
                     HOD
                   </label>
-                  <input
-                    type="text"
-                    disabled
-                    className="form-control"
-                    value={HOD.label}
+                  <Select
+                    defaultValue={HODEmp}
+                    onChange={setHODEmp}
+                    options={employeeList}
                   />
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-4 d-none">
                   <label htmlFor="redType" className="label">
                     HR Manager
                   </label>
-                  <input
-                    type="text"
-                    disabled
-                    className="form-control"
-                    value={HR.label}
+                  <Select
+                    defaultValue={HREmp}
+                    onChange={setHREmp}
+                    options={employeeList}
                   />
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-4 d-none">
                   <label htmlFor="redType" className="label">
                     MD/FD/GM
                   </label>
-                  <input
-                    type="text"
-                    disabled
-                    className="form-control"
-                    value={MD.label}
+                  <Select
+                    defaultValue={MDEmp}
+                    onChange={setMDEmp}
+                    options={employeeList}
                   />
-                </div> */}
+                </div>
 
                 <div className="col-md-4">
                   <div className="form-group">
                     <label htmlFor="reqEmp" className="label">
-                      Requested Employee
+                      Requested Number of Employee
                     </label>
                     <input
-                      type="text"
-                      disabled
+                      id="reqEmp"
+                      type="number"
+                      // cols="30"
+                      value={requestedEmployees}
+                      onChange={(e) => setRequestedEmployees(e.target.value)}
                       className="form-control"
-                      value={reqCard.requestedemployees}
+                      placeholder="Content max size 250 character"
                     />
                   </div>
                 </div>
@@ -1377,10 +1206,9 @@ const MDRequisionCard = (props) => {
                     </label>
                     <textarea
                       id="regDesc"
-                      disabled
                       // cols="30"
-                      value={reqCard.description}
-                      //   onChange={(e) => setReqDescription(e.target.value)}
+                      value={reqDescription}
+                      onChange={(e) => setReqDescription(e.target.value)}
                       rows="1"
                       className="form-control"
                       placeholder="Content max size 250 character"
@@ -1394,9 +1222,8 @@ const MDRequisionCard = (props) => {
                     </label>
                     <textarea
                       id="rReq"
-                      disabled
-                      value={reqCard.reason}
-                      //   onChange={(e) => setReqReason(e.target.value)}
+                      value={reqReason}
+                      onChange={(e) => setReqReason(e.target.value)}
                       rows="1"
                       className="form-control"
                       placeholder="Content max size 250 character"
@@ -1409,18 +1236,42 @@ const MDRequisionCard = (props) => {
                       Comment
                     </label>
                     <textarea
-                      disabled
                       id="Commen"
-                      value={reqCard.comments}
-                      //   onChange={(e) => setReqComment(e.target.value)}
+                      value={reqComment}
+                      onChange={(e) => setReqComment(e.target.value)}
                       rows="1"
                       className="form-control"
                       placeholder="Content max size 250 character"
                     ></textarea>
                   </div>
                 </div>
+
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <label htmlFor="Commen" className="label">
+                      HOD Comment
+                    </label>
+                    <textarea
+                      id="Commen"
+                      value={HODComment}
+                      onChange={(e) => setHODComment(e.target.value)}
+                      rows="2"
+                      className="form-control"
+                      placeholder="Content max size 250 character"
+                    ></textarea>
+                  </div>
+                </div>
               </div>
-              <div className="upload-gen-data-div"></div>
+              <div className="upload-gen-data-div">
+                [Step 1]
+                <button
+                  type="button"
+                  className="btn btn-success rounded-0 mx-1 my-1"
+                  onClick={() => uploadGenData()}
+                >
+                  Upload <i className="fa fa-arrow-up"></i>
+                </button>
+              </div>
             </form>
             <div className="card-header">
               <h4>Category 5</h4>
@@ -1437,7 +1288,6 @@ const MDRequisionCard = (props) => {
                           <div className="col-md-6">
                             <div className="form-group">
                               <input
-                                disabled
                                 type="text"
                                 className="form-control rounded-0"
                                 placeholder="Enter..."
@@ -1461,6 +1311,69 @@ const MDRequisionCard = (props) => {
                               onChange={(e) => handleInputRequireChange(e, i)}
                             />
                           </div>
+                          <div className="col-md-4">
+                            <div className="button-div">
+                              <>
+                                <button
+                                  type="button"
+                                  className="btn btn-danger rounded-0"
+                                  onClick={() => handleRemoveRequireClick(i)}
+                                >
+                                  Del <i className="fa fa-trash"></i>
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btn btn-success rounded-0"
+                                  onClick={() => handlePushRequireClick(i)}
+                                >
+                                  Push <i className="fa fa-arrow-up"></i>
+                                </button>
+
+                                {requirementlist.length - 1 === i && (
+                                  <>
+                                    <button
+                                      type="button"
+                                      className="btn btn-info rounded-0"
+                                      onClick={handleAddRequireClick}
+                                    >
+                                      Add Line
+                                      <i className="fa fa-arrow-down"></i>
+                                    </button>
+                                  </>
+                                )}
+                              </>
+
+                              {/* {requirementlist.length !== 1 && (
+                                <>
+                                  <button
+                                    type="button"
+                                    className="btn btn-danger rounded-0"
+                                    onClick={() => handleRemoveRequireClick(i)}
+                                  >
+                                    Del <i className="fa fa-trash"></i>
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="btn btn-success rounded-0"
+                                    onClick={() => handlePushRequireClick(i)}
+                                  >
+                                    Push <i className="fa fa-arrow-up"></i>
+                                  </button>
+                                </>
+                              )}
+                              {requirementlist.length - 1 === i && (
+                                <>
+                                  <button
+                                    type="button"
+                                    className="btn btn-info rounded-0"
+                                    onClick={handleAddRequireClick}
+                                  >
+                                    Add Line<i className="fa fa-arrow-down"></i>
+                                  </button>
+                                </>
+                              )} */}
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -1476,7 +1389,6 @@ const MDRequisionCard = (props) => {
                           <div className="col-md-6">
                             <div className="form-group">
                               <input
-                                disabled
                                 type="text"
                                 className="form-control rounded-0"
                                 placeholder="Enter..."
@@ -1498,6 +1410,69 @@ const MDRequisionCard = (props) => {
                               onChange={(e) => handleInputQualifChange(e, i1)}
                             />
                           </div>
+                          <div className="col-md-4">
+                            <div className="button-div">
+                              <>
+                                <button
+                                  type="button"
+                                  className="btn btn-danger rounded-0"
+                                  onClick={() => handleRemoveQualifClick(i1)}
+                                >
+                                  Del <i className="fa fa-trash"></i>
+                                </button>
+
+                                <button
+                                  type="button"
+                                  className="btn btn-success rounded-0"
+                                  onClick={() => handlePushQualifClick(i1)}
+                                >
+                                  Push <i className="fa fa-arrow-up"></i>
+                                </button>
+
+                                {qualificationList.length - 1 === i1 && (
+                                  <>
+                                    <button
+                                      type="button"
+                                      className="btn btn-info rounded-0"
+                                      onClick={handleAddQualifClick}
+                                    >
+                                      Add Line
+                                      <i className="fa fa-arrow-down"></i>
+                                    </button>
+                                  </>
+                                )}
+                              </>
+                              {/* {qualificationList.length !== 1 && (
+                                <>
+                                  <button
+                                    type="button"
+                                    className="btn btn-danger rounded-0"
+                                    onClick={() => handleRemoveQualifClick(i1)}
+                                  >
+                                    Del <i className="fa fa-trash"></i>
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="btn btn-success rounded-0"
+                                    onClick={() => handlePushQualifClick(i1)}
+                                  >
+                                    Push <i className="fa fa-arrow-up"></i>
+                                  </button>
+                                </>
+                              )}
+                              {qualificationList.length - 1 === i1 && (
+                                <>
+                                  <button
+                                    type="button"
+                                    className="btn btn-info rounded-0"
+                                    onClick={handleAddQualifClick}
+                                  >
+                                    Add Line<i className="fa fa-arrow-down"></i>
+                                  </button>
+                                </>
+                              )} */}
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -1513,7 +1488,6 @@ const MDRequisionCard = (props) => {
                           <div className="col-md-8">
                             <div className="form-group">
                               <input
-                                disabled
                                 type="text"
                                 className="form-control rounded-0"
                                 placeholder="Enter..."
@@ -1523,62 +1497,86 @@ const MDRequisionCard = (props) => {
                               />
                             </div>
                           </div>
+                          {/* <div className="col-md-2">
+                            <label htmlFor="" className="mr-2">
+                              required
+                            </label>
+                            <input
+                              name="mandatory"
+                              type="checkbox"
+                              checked={x2.mandantory === "No" ? false : true}
+                              value={x2.mandantory}
+                              onChange={(e) => handleInputResponChange(e, i2)}
+                            />
+                          </div> */}
+                          <div className="col-md-4">
+                            <div className="button-div">
+                              <>
+                                <button
+                                  type="button"
+                                  className="btn btn-danger rounded-0"
+                                  onClick={() => handleRemoveResponClick(i2)}
+                                >
+                                  Del <i className="fa fa-trash"></i>
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btn btn-success rounded-0"
+                                  onClick={() => handlePushResponClick(i2)}
+                                >
+                                  Push <i className="fa fa-arrow-up"></i>
+                                </button>
+                                {responsibiltyList.length - 1 === i2 && (
+                                  <>
+                                    <button
+                                      type="button"
+                                      className="btn btn-info rounded-0"
+                                      onClick={handleAddResponClick}
+                                    >
+                                      Add Line
+                                      <i className="fa fa-arrow-down"></i>
+                                    </button>
+                                  </>
+                                )}
+                              </>
+
+                              {/* {responsibiltyList.length !== 1 && (
+                                <>
+                                  <button
+                                    type="button"
+                                    className="btn btn-danger rounded-0"
+                                    onClick={() => handleRemoveResponClick(i2)}
+                                  >
+                                    Del <i className="fa fa-trash"></i>
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="btn btn-success rounded-0"
+                                    onClick={() => handlePushResponClick(i2)}
+                                  >
+                                    Push <i className="fa fa-arrow-up"></i>
+                                  </button>
+                                </>
+                              )}
+                              {responsibiltyList.length - 1 === i2 && (
+                                <>
+                                  <button
+                                    type="button"
+                                    className="btn btn-info rounded-0"
+                                    onClick={handleAddResponClick}
+                                  >
+                                    Add Line<i className="fa fa-arrow-down"></i>
+                                  </button>
+                                </>
+                              )} */}
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>
                   </div>
                 </div>
 
-                {/* <div className="row"> */}
-              
-
-                <div className="col-md-6">
-                  <div className="form-group ml-2">
-                    <label htmlFor="Commen" className="label">
-                      HOD Comment
-                    </label>
-                    <textarea
-                      id="Commen"
-                      disabled
-                      value={props.location.state[0].datum[0].uidComment}
-                      rows="3"
-                      className="form-control"
-                      placeholder="HOD Comment"
-                    ></textarea>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group mr-2">
-                    <label htmlFor="Commen" className="label">
-                      HR Comment
-                    </label>
-                    <textarea
-                      id="Commen"
-                      disabled
-                      value={props.location.state[0].datum[0].uidTwoComment}
-                      rows="3"
-                      className="form-control"
-                      placeholder="HR Comment"
-                    ></textarea>
-                  </div>
-                </div>
-                <div className="col-md-12">
-                  <div className="form-group mx-2">
-                    <label htmlFor="Commen" className="label">
-                      MD Comment
-                    </label>
-                    <textarea
-                      id="Commen"
-                      value={MDComment}
-                      onChange={(e) => setMDComment(e.target.value)}
-                      rows="3"
-                      className="form-control"
-                      placeholder="Content max size 250 character"
-                    ></textarea>
-                  </div>
-                </div>
-
-                {/* </div> */}
                 <div className="col-md-12">
                   <h5 className="my-3 ml-3">HR Mandatory Documents</h5>
                   <div className="reqcontentDataDiv">
@@ -1588,7 +1586,6 @@ const MDRequisionCard = (props) => {
                           <div className="col-md-8">
                             <div className="form-group">
                               <input
-                                disabled
                                 type="text"
                                 className="form-control rounded-0"
                                 placeholder="Enter..."
@@ -1600,89 +1597,110 @@ const MDRequisionCard = (props) => {
                               />
                             </div>
                           </div>
+
+                          <div className="col-md-4">
+                            <div className="button-div">
+                              <>
+                                <button
+                                  type="button"
+                                  className="btn btn-danger rounded-0"
+                                  onClick={() => handleRemoveCheckistClick(i3)}
+                                >
+                                  Del <i className="fa fa-trash"></i>
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btn btn-success rounded-0"
+                                  onClick={() => handlePushChecklistClick(i3)}
+                                >
+                                  Push <i className="fa fa-arrow-up"></i>
+                                </button>
+                                {checkList.length - 1 === i3 && (
+                                  <>
+                                    <button
+                                      type="button"
+                                      className="btn btn-info rounded-0"
+                                      onClick={handleAddChecklistClick}
+                                    >
+                                      Add Line
+                                      <i className="fa fa-arrow-down"></i>
+                                    </button>
+                                  </>
+                                )}
+                              </>
+
+                              {/* {checkList.length !== 1 && (
+                                <>
+                                  <button
+                                    type="button"
+                                    className="btn btn-danger rounded-0"
+                                    onClick={() =>
+                                      handleRemoveCheckistClick(i3)
+                                    }
+                                  >
+                                    Del <i className="fa fa-trash"></i>
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="btn btn-success rounded-0"
+                                    onClick={() => handlePushChecklistClick(i3)}
+                                  >
+                                    Push <i className="fa fa-arrow-up"></i>
+                                  </button>
+                                </>
+                              )}
+                              {checkList.length - 1 === i3 && (
+                                <>
+                                  <button
+                                    type="button"
+                                    className="btn btn-info rounded-0"
+                                    onClick={handleAddChecklistClick}
+                                  >
+                                    Add Line<i className="fa fa-arrow-down"></i>
+                                  </button>
+                                </>
+                              )} */}
+                            </div>
+                          </div>
                         </div>
                       ))}
-
-                      <div className="row mx-1 my-1">
-                        <div className="col-md-4">
-                          <h4>Supporting Documents</h4>
-                          <button
-                            className="btn btn-info rounded-0 mb-2"
-                            type="button"
-                            onClick={viewSupport}
-                          >
-                            View Document
-                          </button>
-                        </div>
-
-                        {/* <div className="col-md-4 text-right">
-                          <h4>Action</h4>
-                      
-                        </div> */}
-                        <div className="col-md-8 text-right">
-                          <h4>Action</h4>
-                          {actionButtn} {rejectButton}
-                          <button
-                            className="btn btn-success rounded-0 mb-2"
-                            type="button"
-                            onClick={() => toggleCollapse("reversal")}
-                          >
-                            Reversal
-                            <i className="fa fa-long-arrow-left ml-1"></i>
-                          </button>
-                        </div>
-                        <div className="col-md-12">
-                          <Collapse in={reversalF}>
-                            <div id="example-collapse-text">
-                              <div className="row">
-                                <div className="col-md-12 my-2">
-                                  <div className="form-group">
-                                    <label htmlFor="">Select the Level</label>
-                                    <select
-                                      className="form-control"
-                                      onChange={(e) =>
-                                        setReversalLevel(e.target.value)
-                                      }
-                                    >
-                                      <option>Choose</option>
-                                      <option value="0">HOD</option>
-                                      <option value="1">HR</option>
-                                    </select>
-                                  </div>
-                                </div>
-
-                                <div className="col-md-12">
-                                  <div className="form-group">
-                                    <label htmlFor="">Reversal Remarks</label>
-                                    <textarea
-                                      className="form-control"
-                                      cols="30"
-                                      rows="3"
-                                      name="reversalRemark"
-                                      placeholder="max 240 characters"
-                                      value={reversalRemark}
-                                      onChange={(e) =>
-                                        setReversalRemark(e.target.value)
-                                      }
-                                      // disabled={true}
-                                    ></textarea>
-                                  </div>
-                                </div>
-
-                                <div className="col-12">
-                                  <button
-                                    className="btn btn-success rounded-0 w-100"
-                                    onClick={ReversalRequisition}
+                      <div className="row  mx-1 my-1">
+                        <div className="col-md-0">
+                          {/* [Step 3]
+                        <button 
+                                    type="button"
+                                    className="btn btn-success rounded-0"
+                                    onClick={handleApproveChecklist}
                                   >
-                                    Reverse <i className="fa fa-arrow-left"></i>
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </Collapse>
+                                    Approve Checklist <i className="fa fa-arrow-left"></i>
+                                  </button> */}
+                        </div>
+                        <div className="col-md-12 text-right d-flex">
+                          <div className="form-group w-75">
+                            {/* <label htmlFor="">Supporting Documents</label> */}
+                            <input
+                              type="file"
+                              onChange={changeFile}
+                              className="form-control"
+                            />
+                          </div>
+                          <div className="form-group w-25">
+                            <button
+                              className="btn btn-outline-primary ml-2"
+                              onClick={uploadFile}
+                            >
+                              Upload Supporting PDF
+                            </button>
+                          </div>
                         </div>
                       </div>
-
+                      <div className="row mx-1 my-1">
+                        <div className="col-md-6"></div>
+                        <div className="col-md-6 text-right">
+                          [Step 3]
+                          {actionButtn}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1695,4 +1713,4 @@ const MDRequisionCard = (props) => {
   );
 };
 
-export default withRouter(MDRequisionCard);
+export default withRouter(EmployeeRequisitionCardModify);

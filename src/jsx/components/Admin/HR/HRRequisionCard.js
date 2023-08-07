@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
+import { Collapse } from "react-bootstrap";
 
 const HRRequisionCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -87,8 +88,13 @@ const HRRequisionCard = (props) => {
   const [MD, setMD] = useState("");
   const [statusProgress, setStatusProgress] = useState(1);
 
-  const [HRComment,setHRComment] = useState("")
- const [disablePustoMD,setDisablePustoMD] = useState(false);
+  const [HRComment, setHRComment] = useState("");
+  const [disablePustoMD, setDisablePustoMD] = useState(false);
+
+  const [reversalF, setReversalF] = useState(false);
+  const [reversalRemark, setReversalRemark] = useState("");
+  const [reversalLevel, setReversalLevel] = useState("");
+
   //{ id: "", description: "",rqmentcode:"",mandatory:"",lineno:"",jobno:"" },
   // console.log(requirementlist);
 
@@ -848,7 +854,7 @@ const HRRequisionCard = (props) => {
     //   Closingdate: closinDate,
     //   RequestedEmployees: requestedEmployees,
     // };
-    setDisablePustoMD(true)
+    setDisablePustoMD(true);
 
     const config = {
       headers: {
@@ -858,14 +864,14 @@ const HRRequisionCard = (props) => {
       },
     };
     const data = {
-      HRcomment:HRComment
-    }
- 
+      HRcomment: HRComment,
+    };
+
     axios
       .post(
         `${process.env.REACT_APP_API_S_LINK}/staffrequision/hrsendmd/${props.location.state[0].datum[0].reqID}`,
         data,
-        config,
+        config
       )
       .then(function (response) {
         if (response.status === 200) {
@@ -879,14 +885,13 @@ const HRRequisionCard = (props) => {
       })
       .catch((err) => {
         // setDisablePustoMD()
-        if(err.response!==undefined){
+        if (err.response !== undefined) {
           swal("Oh!", err.response.data.message, "error");
-        }else{
+        } else {
           swal("Oh!", err.message, "error");
         }
         console.log({ err: err });
         // swal("Oh!", err.data.message, "error");
-
       });
   };
 
@@ -899,8 +904,8 @@ const HRRequisionCard = (props) => {
       },
     };
     const data = {
-      HRcomment:HRComment
-    }
+      HRcomment: HRComment,
+    };
     swal({
       title: "Are you sure?",
       text: "Are you sure that you want to Approve and Publish",
@@ -932,6 +937,66 @@ const HRRequisionCard = (props) => {
           swal("Oh!", err.message, "error");
         }
         // swal("Oops!", "Seems like we couldn't approve the record", "error");
+      });
+  };
+
+  const toggleCollapse = (from) => {
+    switch (from) {
+      case "reversal":
+        setReversalF(!reversalF);
+        break;
+      default:
+        setReversalF(!reversalF);
+        break;
+    }
+  };
+
+  const ReversalRequisition = (e) => {
+    e.preventDefault();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+
+    let data = {
+      Reqno: props.location.state[0].datum[0].reqID,
+      HRcomment: reversalRemark,
+      Stage: reversalLevel,
+    };
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Reverse",
+      icon: "warning",
+      buttons: ["No, cancel it", "Yes, I am sure"],
+      dangerMode: true,
+    })
+      .then((willCreate) => {
+        if (willCreate) {
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/staffrequision/reverserequisition`,
+            data,
+            config
+          );
+        }
+      })
+
+      .then(function (response) {
+        if (response.status === 200) {
+          swal("Success!", "Requisition Reversed", "success");
+        }
+      })
+      .catch((err) => {
+        if (err.response !== undefined) {
+          console.log(err.response.data.message);
+          swal("Oh!", "Requisition Reversed Failed", "error");
+        } else {
+          console.log(err.message);
+          swal("Oh!","Requisition Reversed Failed", "error");
+        }
       });
   };
 
@@ -1468,8 +1533,9 @@ const HRRequisionCard = (props) => {
                             <textarea
                               id="Commen"
                               disabled
-                              value={props.location.state[0].datum[0].uidComment}
-                             
+                              value={
+                                props.location.state[0].datum[0].uidComment
+                              }
                               rows="3"
                               className="form-control"
                               placeholder="HOD Comment"
@@ -1484,16 +1550,15 @@ const HRRequisionCard = (props) => {
                             <textarea
                               id="Commen"
                               disabled
-                              value={props.location.state[0].datum[0].uidThreeComment}
-                             
+                              value={
+                                props.location.state[0].datum[0].uidThreeComment
+                              }
                               rows="3"
                               className="form-control"
                               placeholder="MD Comment"
                             ></textarea>
                           </div>
                         </div>
-
-
                       </div>
                       <div className="row mx-1 my-1">
                         <div className="col-md-6">
@@ -1506,7 +1571,67 @@ const HRRequisionCard = (props) => {
                             View Document
                           </button>
                         </div>
-                        <div className="col-md-6 text-right">{actionButtn}</div>
+                        <div className="col-md-6 text-right">
+                          <h4>&nbsp;</h4>
+                          <button
+                            className="btn btn-danger rounded-0"
+                            type="button"
+                            onClick={() => toggleCollapse("reversal")}
+                          >
+                            Reversal
+                            <i className="fa fa-long-arrow-left ml-1"></i>
+                          </button>
+                          {actionButtn}
+                        </div>
+                        <div className="col-md-12">
+                          <Collapse in={reversalF}>
+                            <div id="example-collapse-text">
+                              <div className="row">
+                                <div className="col-md-12 my-2">
+                                  <div className="form-group">
+                                    <label htmlFor="">Select the Level</label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setReversalLevel(e.target.value)
+                                      }
+                                    >
+                                      <option>Choose</option>
+                                      <option value="0">HOD</option>
+                                    </select>
+                                  </div>
+                                </div>
+
+                                <div className="col-md-12">
+                                  <div className="form-group">
+                                    <label htmlFor="">Reversal Remarks</label>
+                                    <textarea
+                                      className="form-control"
+                                      cols="30"
+                                      rows="3"
+                                      name="reversalRemark"
+                                      placeholder="max 240 characters"
+                                      value={reversalRemark}
+                                      onChange={(e) =>
+                                        setReversalRemark(e.target.value)
+                                      }
+                                      // disabled={true}
+                                    ></textarea>
+                                  </div>
+                                </div>
+
+                                <div className="col-12">
+                                  <button
+                                    className="btn btn-danger rounded-0 w-100"
+                                    onClick={ReversalRequisition}
+                                  >
+                                    Reverse <i className="fa fa-arrow-left"></i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </Collapse>
+                        </div>
                       </div>
                     </div>
                   </div>
