@@ -167,6 +167,7 @@ import GrievanceCompletedList from "./components/Admin/GlobalComponents/Grievanc
 import GrievanceCompletedCard from "./components/Admin/GlobalComponents/GrievanceCompletedCard";
 import HRJobseekerList from "./components/Admin/HR/HRJobseekerList";
 import EmployeeRequisitionCardModify from "./components/Admin/HOD/EmployeeRequisitionCardModify";
+import RequisitionApprovalHead from "./components/Admin/HR/RequisitionApprovalHead";
 
 // import Landing from './pages/Landing'
 
@@ -304,7 +305,7 @@ const Markup = () => {
     { url: "jobsapplied", component: HRAppliedJob, usr: "HEAD-HR" },
     { url: "HR-dashboard", component: HRHome, usr: "HEAD-HR" },
     { url: "HR-profile", component: HRProfile,usr:"HEAD-HR" },
-    { url: "requisition-approval", component: RequisitionApproval,usr:"HEAD-HR" },
+    { url: "requisition-approval", component: RequisitionApprovalHead,usr:"HEAD-HR" },
     { url: "HR-requisition-card", component:HRRequisionCard ,usr:"HEAD-HR" },
     { url: "HR-monitoring", component:HRPerformanceList ,usr:"HEAD-HR" },
     { url: "HR-monitoring-card", component:HRMonitoringCard ,usr:"HEAD-HR" },

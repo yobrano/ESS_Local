@@ -15,6 +15,15 @@ const NewContract = () => {
   const [renewReason, setRenewReason] = useState("");
   const [superVisionTime, setSuperVisionTime] = useState("");
 
+  let errorsObj = {
+    staff: "",
+    supervisiontime: "",
+    dorenew: "",
+    howlong: "",
+    renewreason: "",
+  };
+  const [errors, setErrors] = useState(errorsObj);
+
   useEffect(() => {
     const config = {
       headers: {
@@ -50,7 +59,36 @@ const NewContract = () => {
       });
   }, []);
 
-  const uploadCard = () => {
+  const uploadCard = (e) => {
+    e.preventDefault();
+    let error = false;
+    const errorObj = { ...errorsObj };
+    if (Object.keys(selectedEmp).length === 0) {
+      errorObj.staff = "Staff is Required";
+      error = true;
+    }
+    if (superVisionTime === "") {
+      errorObj.supervisiontime = "Supervision time is Required";
+      error = true;
+    }
+    if (doRenew === "") {
+      errorObj.dorenew = "Do Renew is Required";
+      error = true;
+    }
+    if (howLong === "") {
+      errorObj.howlong = "Renew Duration is Required";
+      error = true;
+    }
+    if (renewReason === "") {
+      errorObj.renewreason = "Renew Reason is Required";
+      error = true;
+    }
+
+    setErrors(errorObj);
+    if (error) {
+      return;
+    }
+
     const config = {
       headers: {
         Authorization: `Bearer ${
@@ -63,9 +101,9 @@ const NewContract = () => {
       EmpID: selectedEmp.value,
       // MgrID: selectedMgr.value,
       SupervisionTime: superVisionTime,
-      DoRenew:doRenew,
-      Howlong:howLong,
-      RenewReason:renewReason,
+      DoRenew: doRenew,
+      Howlong: howLong,
+      RenewReason: renewReason,
     };
 
     swal({
@@ -140,6 +178,9 @@ const NewContract = () => {
                     onChange={setSelectedEmp}
                     options={employeeList}
                   />
+                  {errors.staff && (
+                    <div className="text-danger fs-12">{errors.staff}</div>
+                  )}
                 </div>
               </div>
 
@@ -165,21 +206,27 @@ const NewContract = () => {
                     value={superVisionTime}
                     onChange={(e) => setSuperVisionTime(e.target.value)}
                   ></textarea>
+                  {errors.supervisiontime && (
+                    <div className="text-danger fs-12">{errors.supervisiontime}</div>
+                  )}
                 </div>
               </div>
               <div className="col-xl-3 col-sm-3">
                 <div className="form-group">
                   <label htmlFor="">Do we renew the contract?</label>
                   <select
-                      name="qualifiedForPromo"
-                      id=""
-                      className="form-control"
-                      onChange={(e) => setDoRenew(e.target.value)}
-                    >
-                      <option>Choose</option>
-                      <option value="YES">YES</option>
-                      <option value="NO">NO</option>
-                    </select>
+                    name="qualifiedForPromo"
+                    id=""
+                    className="form-control"
+                    onChange={(e) => setDoRenew(e.target.value)}
+                  >
+                    <option>Choose</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                  </select>
+                  {errors.dorenew && (
+                    <div className="text-danger fs-12">{errors.dorenew}</div>
+                  )}
                 </div>
               </div>
 
@@ -187,22 +234,24 @@ const NewContract = () => {
                 <div className="form-group">
                   <label htmlFor="">If yes, for how long?</label>
                   <select
-                      name="qualifiedForPromo"
-                      id=""
-                      className="form-control"
-                      onChange={(e) => setHowlong(e.target.value)}
-                    >
-                      <option>Choose</option>
-                      <option value="1 Month">1 Months</option>
-                      <option value="3 Months">3 Months</option>
-                      <option value="6 Months">6 Months</option>
-                      <option value="12 Months">12 Months</option>
-                      <option value="24 Months">24 Months</option>
-                      <option value="36 Months">36 Months</option>
-                    </select>
+                    name="qualifiedForPromo"
+                    id=""
+                    className="form-control"
+                    onChange={(e) => setHowlong(e.target.value)}
+                  >
+                    <option>Choose</option>
+                    <option value="1 Month">1 Months</option>
+                    <option value="3 Months">3 Months</option>
+                    <option value="6 Months">6 Months</option>
+                    <option value="12 Months">12 Months</option>
+                    <option value="24 Months">24 Months</option>
+                    <option value="36 Months">36 Months</option>
+                  </select>
+                  {errors.howlong && (
+                    <div className="text-danger fs-12">{errors.howlong}</div>
+                  )}
                 </div>
               </div>
-
 
               <div className="col-xl-6 col-sm-6">
                 <div className="form-group">
@@ -215,9 +264,13 @@ const NewContract = () => {
                     value={renewReason}
                     onChange={(e) => setRenewReason(e.target.value)}
                   />
+                  {errors.renewreason && (
+                    <div className="text-danger fs-12">
+                      {errors.renewreason}
+                    </div>
+                  )}
                 </div>
               </div>
-
             </div>
           </div>
           <div className="card-footer">

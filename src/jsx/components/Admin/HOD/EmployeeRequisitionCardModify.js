@@ -54,9 +54,7 @@ const EmployeeRequisitionCardModify = (props) => {
       jobno: "",
     },
   ]);
-
   //Responsibility
-
   const [responsibiltyList, setResponsibilityList] = useState([
     {
       id: "",
@@ -86,6 +84,14 @@ const EmployeeRequisitionCardModify = (props) => {
   // console.log(requirementlist);
 
   const [disablePushToHR, setDisablePushToHR] = useState(false);
+
+  let errorsObj = {
+    closinDate: "",
+    requestedEmployees: "",
+    HODComment: "",
+    ContractType: "",
+  };
+  const [errors, setErrors] = useState(errorsObj);
 
   // handle input change
   const handleInputRequireChange = (e, index) => {
@@ -718,13 +724,15 @@ const EmployeeRequisitionCardModify = (props) => {
           // }
 
           //General Lv
-          setRequisitionType(response.data.requsitionGeneral.requisitiontype)
-          setClosingDate(new Date(response.data.requsitionGeneral.closingdate))
-          setRequestedEmployees(response.data.requsitionGeneral.requestedemployees)
-          setReqDescription(response.data.requsitionGeneral.description)
-          setReqReason(response.data.requsitionGeneral.reason)
-          setReqComment(response.data.requsitionGeneral.comments)
-          setHODComment(props.location.state[0].datum[0].uidComment)
+          setRequisitionType(response.data.requsitionGeneral.requisitiontype);
+          setClosingDate(new Date(response.data.requsitionGeneral.closingdate));
+          setRequestedEmployees(
+            response.data.requsitionGeneral.requestedemployees
+          );
+          setReqDescription(response.data.requsitionGeneral.description);
+          setReqReason(response.data.requsitionGeneral.reason);
+          setReqComment(response.data.requsitionGeneral.comments);
+          setHODComment(props.location.state[0].datum[0].uidComment);
 
           setLoading(false);
         }
@@ -871,8 +879,40 @@ const EmployeeRequisitionCardModify = (props) => {
       });
   };
 
-  const pushToHR = () => {
-    setDisablePushToHR(true);
+  const pushToHR = (e) => {
+    e.preventDefault();
+    let error = false;
+    const errorObj = { ...errorsObj };
+    if (closinDate === null) {
+      errorObj.closinDate = "Closing Date is Required";
+      error = true;
+    }
+    if (requestedEmployees === "") {
+      errorObj.requestedEmployees = "Requested Employee Number is Required";
+      error = true;
+    }
+    if (HODComment === "") {
+      errorObj.HODComment = "HOD Comment is Required";
+      error = true;
+    }
+    if (selectedContract === "") {
+      errorObj.ContractType = "Contract Type is Required";
+      error = true;
+    }
+
+    setErrors(errorObj);
+    if (error) {
+      return;
+    }
+    if (requirementlist[0].description === "") {
+      swal("Ops", "Category 5 section missing Requirement", "error");
+    } else if (qualificationList[0].description === "") {
+      swal("Ops", "Category 5 section missing Qualification", "error");
+    } else if (responsibiltyList[0].description === "") {
+      swal("Ops", "Category 5 section missing Responsibility", "error");
+    }
+
+    // setDisablePushToHR(true);
 
     let data = {
       Reqno: props.location.state[0].empReqNo,
@@ -890,21 +930,27 @@ const EmployeeRequisitionCardModify = (props) => {
       },
     };
 
-    axios
-      .post(
-        `${process.env.REACT_APP_API_S_LINK}/staffrequision/pushtohr`,
-        data,
-        config
-      )
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Push to HEAD-HR",
+      icon: "warning",
+      dangerMode: true,
+      buttons: ["No, cancel it", "Yes, I am sure"],
+    })
+      .then((willUpload) => {
+        if (willUpload) {
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/staffrequision/mdpushtohr`,
+            data,
+            config
+          );
+        }
+      })
       .then(function (response) {
-        if (response.status === 200) {
-          swal("Success", response.data.message, "success");
-          console.log(response.data);
-        }
-        if (response.status === 404) {
-          swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
-        }
+        swal("Success", response.data.message, "success");
+        console.log(response.data);
+
+        setDisablePushToHR(true);
       })
       .catch((err) => {
         // setDisablePushToHR();
@@ -1017,7 +1063,7 @@ const EmployeeRequisitionCardModify = (props) => {
         Push to Human Resource <i className="fa fa-user-o"></i>
       </button>
     );
-  }else if(progressLevel >= 1){
+  } else if (progressLevel >= 1) {
     actionButtn = (
       <button
         type="button"
@@ -1113,6 +1159,11 @@ const EmployeeRequisitionCardModify = (props) => {
                       selected={closinDate}
                       onChange={(date) => setClosingDate(date)}
                     />
+                    {errors.closinDate && (
+                      <div className="text-danger fs-12">
+                        {errors.closinDate}
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -1128,6 +1179,11 @@ const EmployeeRequisitionCardModify = (props) => {
                     onChange={setSelectedContract}
                     options={contractList}
                   />
+                  {errors.ContractType && (
+                    <div className="text-danger fs-12">
+                      {errors.ContractType}
+                    </div>
+                  )}
                 </div>
 
                 <div className="col-md-4 d-none">
@@ -1196,6 +1252,11 @@ const EmployeeRequisitionCardModify = (props) => {
                       className="form-control"
                       placeholder="Content max size 250 character"
                     />
+                    {errors.requestedEmployees && (
+                      <div className="text-danger fs-12">
+                        {errors.requestedEmployees}
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -1259,6 +1320,11 @@ const EmployeeRequisitionCardModify = (props) => {
                       className="form-control"
                       placeholder="Content max size 250 character"
                     ></textarea>
+                    {errors.HODComment && (
+                      <div className="text-danger fs-12">
+                        {errors.HODComment}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

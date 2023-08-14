@@ -12,6 +12,9 @@ const NewProbation = () => {
   const [probationTime, setProbationTime] = useState("");
   const [skills, setSkills] = useState("");
 
+  let errorsObj = { employee: "", probationTime: "", skills: "" };
+  const [errors, setErrors] = useState(errorsObj);
+
   useEffect(() => {
     const config = {
       headers: {
@@ -47,7 +50,27 @@ const NewProbation = () => {
       });
   }, []);
 
-  const uploadCard = () => {
+  const uploadCard = (e) => {
+    e.preventDefault();
+    let error = false;
+    const errorObj = { ...errorsObj };
+    if (Object.keys(selectedEmp).length === 0) {
+      errorObj.employee = "Employee is Required";
+      error = true;
+    }
+    if (probationTime === "") {
+      errorObj.probationTime = "Probation Time is Required";
+      error = true;
+    }
+    if (skills === "") {
+      errorObj.skills = "Skills is Required";
+      error = true;
+    }
+    setErrors(errorObj);
+    if (error) {
+      return;
+    }
+
     const config = {
       headers: {
         Authorization: `Bearer ${
@@ -67,6 +90,7 @@ const NewProbation = () => {
       title: "Are you sure?",
       text: "Are you sure that you want to create Probation",
       icon: "warning",
+      buttons: ["No, cancel it", "Yes, I am sure"],
       dangerMode: true,
     })
       .then((willCreate) => {
@@ -78,7 +102,6 @@ const NewProbation = () => {
           );
         }
       })
-
       .then(function (response) {
         if (response.status === 200) {
           console.log(response.data);
@@ -135,6 +158,9 @@ const NewProbation = () => {
                     onChange={setSelectedEmp}
                     options={employeeList}
                   />
+                  {errors.employee && (
+                    <div className="text-danger fs-12">{errors.employee}</div>
+                  )}
                 </div>
               </div>
 
@@ -159,6 +185,11 @@ const NewProbation = () => {
                     value={probationTime}
                     onChange={(e) => setProbationTime(e.target.value)}
                   />
+                  {errors.probationTime && (
+                    <div className="text-danger fs-12">
+                      {errors.probationTime}
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -174,6 +205,9 @@ const NewProbation = () => {
                     value={skills}
                     onChange={(e) => setSkills(e.target.value)}
                   ></textarea>
+                  {errors.skills && (
+                    <div className="text-danger fs-12">{errors.skills}</div>
+                  )}
                 </div>
               </div>
             </div>

@@ -196,7 +196,7 @@ const ProbationCard = (props) => {
     e.preventDefault();
 
     let error;
-    if (recommendationSectionComment === "") {
+    if (recommendationSectionComment === "" || pressureComment === "") {
       setAlrteightteen('alrt-border-4 border border-danger p-3 m-2 rounded')
       error = true;
     }else{
@@ -206,7 +206,7 @@ const ProbationCard = (props) => {
 
 
     if (error) {
-      swal("Oops!", "Immediate Supervisor Comment is missing", "error");
+      swal("Oops!", "Section 2 or Recommendation Section Comment is missing", "error");
       return;
     }
     const config = {
@@ -259,122 +259,128 @@ const ProbationCard = (props) => {
     let error=false;
     if ((outstanding === false && aboveAverage === false && satisfactory === false && marginal === false && unsatisfactory === false ) ) {
       setAlrtone('alrt-border-1 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrtone('alrt-border-1 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
     }
 
     if ((excellentAttendance === false || occasionalAbsence === false || repeatedAbsence === false || unjustifiedAbsence === false) && (attendanceComment === "") ) {
       setAlrttwo('alrt-border-2 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrttwo('alrt-border-2 border-0 border-danger p-3 m-2 rounded')
   
-      error = false;
+      // error = false;
     }
 
     if ((alwaysInterested === false || reasonablyDevoted === false || passiveAttitude === false || activeDislikeofWork === false) && (attitudeComment === "") ) {
       setAlrtthree('alrt-border-3 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrtthree('alrt-border-3 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
     }
 
     if ((alwaysNeat === false ||  generallyNeat === false ||  sometimesCareles === false ||  attirenotSuitable === false) &&  (appearanceComment === "" )) {
       setAlrtfour('alrt-border-4 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrtfour('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
     }
     if ((selfStarter === false ||  needsStimilus === false ||  needsCSupervision === false ||  showNoInitiative === false) &&  (initiativeComment === "" )) {
       setAlrtfive('alrt-border-4 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrtfive('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
     }
 
     if ((alwayOnTime === false ||  occasionallyLate === false ||  repeatedLate === false ||  rarelyOnTime === false) &&  (dependabilityComment === "" )) {
       setAlrtsix('alrt-border-4 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrtsix('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
     }
 
     if ((decisionLogical === false ||  genSoundJudgment === false ||  reqFreqCorrection === false ||  judgmentOftenFaulty === false) &&  (judmentComment === "" )) {
       setAlrtseven('alrt-border-4 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrtseven('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
     }
 
     if ((rarelyMakesErrs === false ||  fewErrThanMost === false ||  avgAccuracy === false ||  unacceptablyErratic === false) &&  (attentionToDetailComment === "" )) {
       setAlrteight('alrt-border-4 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrteight('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
     }
 
     if ((friendlyOutgoing === false ||  somewhatBusinesslike === false ||  gregariousToPoint === false ||  sullenAndWithdrawn === false) &&  (interpersonalComment === "" )) {
       setAlrtnine('alrt-border-4 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrtnine('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
     }
 
     if ((alwayscourteousTactful === false ||  genCourteous === false ||  sometimesIncosiderate === false ||  arouseAntagonism === false) &&  (mannersComment === "" )) {
       setAlrtten('alrt-border-4 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrtten('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
     }
 
     if ((seeksAddResponsibility === false ||  willinglyAcceptResp === false ||  assumesWhenUnavoidable === false ||  alwaysAvoidResponsibility === false) &&  (responsiblityComment === "" )) {
       setAlrteleven('alrt-border-4 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrteleven('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
     }
 
     if ((graspImmediately === false ||  quickerThanAvg === false ||  avgLearning === false ||  slowLearner === false ||  unableToGraspNew === false) &&  (learningCampacityComment === "" )) {
       setAlrttwelve('alrt-border-4 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrttwelve('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
     }
 
     if ((excepHighProductivity === false ||  completeMoreThanAvg === false ||  adequatePerHr === false ||  inadequateOutput === false) &&  (outputComment === "" )) {
       setAlrtthirteen('alrt-border-4 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrtthirteen('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
     }
 
     if ((assumesLeadershipInit === false ||  willLeadEncouraged === false ||  canLeadifNecessary === false ||  refusesLeadership === false ||  attemptbutInefficient === false) &&  (leadershipComment === "" )) {
       setAlrtfourteen('alrt-border-4 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrtfourteen('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
     }
 
     if ((neverFalter === false ||  maintainPoise === false ||  dependableExcUnderPress === false ||  cantTakePressure === false) &&  (pressureComment === "" )) {
       setAlrtfifteen('alrt-border-4 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrtfifteen('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
+    }
+
+    if(pressureComment === "" ||leadershipComment === ""||outputComment === ""||learningCampacityComment === ""||responsiblityComment === ""||mannersComment === ""||interpersonalComment === ""||attentionToDetailComment === ""||judmentComment === ""||dependabilityComment === ""||initiativeComment === ""||appearanceComment === ""||attitudeComment === ""||attendanceComment === ""){
+      error = true;
+    }else{
+        error = false;
     }
 
 
@@ -528,27 +534,35 @@ const ProbationCard = (props) => {
     let error;
     if (empStrongestpt === "" ) {
       setAlrtsixteen('alrt-border-4 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrtsixteen('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
     }
 
     if (empWeakestPt === "" ) {
       setAlrtseventeen('alrt-border-4 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrtseventeen('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
     }
 
     if (recommendationSectionComment === "") {
       setAlrteightteen('alrt-border-4 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrteightteen('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
+      // error = false;
+    }
+    if(recommendationSectionComment === "" ||empWeakestPt === ""||empStrongestpt === ""){
+      error = true;
+    }else{
       error = false;
     }
+
+
+   
 
 
     if (error) {

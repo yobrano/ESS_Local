@@ -147,6 +147,9 @@ const ContractCard = (props) => {
   const [alrtsix, setAlrtsix] = useState('alrt-border-2 border-0 border-danger p-3 rounded');
   const [alrtseven, setAlrtseven] = useState('alrt-border-3 border-0 border-danger p-3 rounded');
   const [alrteight, setAlrteight] = useState('alrt-border-4 border-0 border-danger p-3 rounded');
+  const [alrtnine, setAlrtnine] = useState('alrt-border-4 border-0 border-danger p-3 rounded');
+  const [alrtten, setAlrtten] = useState('alrt-border-4 border-0 border-danger p-3 rounded');
+  const [alrteleven, setAlrtelevem] = useState('alrt-border-4 border-0 border-danger p-3 rounded');
 
   const [errors, setErrors] = useState(errorsObj);
 
@@ -196,7 +199,7 @@ const ContractCard = (props) => {
 
   const updateCard = (e) => {
     let error;
-    if ((recommendationSectionComment === '')) {
+    if (recommendationSectionComment === '' || appearanceComment === "") {
       setAlrtseven('alrt-border-4 border border-danger p-3 m-2 rounded')
       error = true;
     }else{
@@ -204,7 +207,7 @@ const ContractCard = (props) => {
       error = false;
     }
     if (error) {
-      swal("Oops!", "Immediate Supervisor Comment is missing", "error");
+      swal("Oops!", "Immediate Supervisor Comment or Section 2 Data is missing", "error");
       return;
     }
 
@@ -317,36 +320,43 @@ const ContractCard = (props) => {
     let error=false;
     if ((outstanding === false && aboveAverage === false && satisfactory === false && marginal === false && unsatisfactory === false ) ) {
       setAlrtone('alrt-border-1 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrtone('alrt-border-1 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
     }
 
     if ((excellentAttendance === false || occasionalAbsence === false || repeatedAbsence === false || unjustifiedAbsence === false) && (attendanceComment === "") ) {
       setAlrttwo('alrt-border-2 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrttwo('alrt-border-2 border-0 border-danger p-3 m-2 rounded')
   
-      error = false;
+      // error = false;
     }
 
     if ((alwaysInterested === false || reasonablyDevoted === false || passiveAttitude === false || activeDislikeofWork === false) && (attitudeComment === "") ) {
       setAlrtthree('alrt-border-3 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrtthree('alrt-border-3 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
     }
 
     if ((alwaysNeat === false ||  generallyNeat === false ||  sometimesCareles === false ||  attirenotSuitable === false) &&  (appearanceComment === "" )) {
       setAlrtfour('alrt-border-4 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrtfour('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
+      // error = false;
+    }
+
+    if (appearanceComment === ""|| attitudeComment === ""||attendanceComment === "") {
+      error = true;
+    }else{
       error = false;
     }
+
 
     if (error) {
       swal("Oops!", "Comment(s) field empty", "error");
@@ -460,6 +470,7 @@ const ContractCard = (props) => {
       title: "Are you sure?",
       text: "Are you sure that you want to Upload",
       icon: "warning",
+      buttons: ["No, cancel it", "Yes, I am sure"],
       dangerMode: true,
     })
       .then((willCreate) => {
@@ -549,23 +560,47 @@ const ContractCard = (props) => {
     let error;
     if ((empStrongestpt === '')) {
       setAlrtfive('alrt-border-4 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrtfive('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
     }
     if ((areaofImprovement === '')) {
       setAlrtsix('alrt-border-4 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrtsix('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
-      error = false;
+      // error = false;
     }
     if ((recommendationSectionComment === '')) {
       setAlrtseven('alrt-border-4 border border-danger p-3 m-2 rounded')
-      error = true;
+      // error = true;
     }else{
       setAlrtseven('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
+      // error = false;
+    }
+
+    if(qualifiedPromo ===""){
+      setAlrteight('alrt-border-4 border border-danger p-3 m-2 rounded')
+    }else{
+      setAlrteight('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
+    }
+
+    if(promotable ===""){
+      setAlrtnine('alrt-border-4 border border-danger p-3 m-2 rounded')
+    }else{
+      setAlrtnine('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
+    }
+
+    if(effectiveWithDifferent ===""){
+      setAlrtten('alrt-border-4 border border-danger p-3 m-2 rounded')
+    }else{
+      setAlrtten('alrt-border-4 border-0 border-danger p-3 m-2 rounded')
+    }
+
+    if (areaofImprovement === '' || areaofImprovement === '' ||recommendationSectionComment === ''||qualifiedPromo ===""||promotable ===""||effectiveWithDifferent ==="") {
+      error = true;
+    }else{
       error = false;
     }
 
@@ -1241,22 +1276,25 @@ const ContractCard = (props) => {
                     </div>
                   </div>
                 </div>
+
                 <div className="col-md-6">
-                  <div className="form-group">
-                    <label foo="">
-                      Do you consider the employee to be qualified for promotion
-                      at the present time?{" "}
-                    </label>
-                    <select
-                      name="qualifiedForPromo"
-                      id=""
-                      className="form-control"
-                      onChange={(e) => setQualifiedPromo(e.target.value)}
-                    >
-                      <option>Choose</option>
-                      <option value="YES">YES</option>
-                      <option value="NO">NO</option>
-                    </select>
+                  <div className={alrteight}>
+                    <div className="form-group">
+                      <label foo="">
+                        Do you consider the employee to be qualified for promotion
+                        at the present time?{" "}
+                      </label>
+                      <select
+                        name="qualifiedForPromo"
+                        id=""
+                        className="form-control"
+                        onChange={(e) => setQualifiedPromo(e.target.value)}
+                      >
+                        <option>Choose</option>
+                        <option value="YES">YES</option>
+                        <option value="NO">NO</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -1273,43 +1311,49 @@ const ContractCard = (props) => {
                 </div>
 
                 <div className="col-md-3">
-                  <div className="form-group">
-                    <label foo="">
-                      If no, do you think the employee may be promotable at a
-                      future date?
-                    </label>
-                    <select
-                      name="promotable"
-                      id=""
-                      className="form-control"
-                      onChange={(e) => setPromotable(e.target.value)}
-                    >
-                      <option>Choose</option>
-                      <option value="YES">YES</option>
-                      <option value="NO">NO</option>
-                    </select>
+                  <div className={alrtnine}>
+                    <div className="form-group">
+                      <label foo="">
+                        If no, do you think the employee may be promotable at a
+                        future date?
+                      </label>
+                      <select
+                        name="promotable"
+                        id=""
+                        className="form-control"
+                        onChange={(e) => setPromotable(e.target.value)}
+                      >
+                        <option>Choose</option>
+                        <option value="YES">YES</option>
+                        <option value="NO">NO</option>
+                      </select>
+                    </div>
                   </div>
+                 
                 </div>
 
                 <div className="col-md-3">
-                  <div className="form-group">
-                    <label foo="">
-                      Do you think the employee would be more effective with a
-                      different assignment than the present one?
-                    </label>
-                    <select
-                      name="promotable"
-                      id=""
-                      className="form-control"
-                      onChange={(e) =>
-                        setEffectiveWithDifferent(e.target.value)
-                      }
-                    >
-                      <option>Choose</option>
-                      <option value="YES">YES</option>
-                      <option value="NO">NO</option>
-                    </select>
+                  <div className={alrtten}>
+                    <div className="form-group">
+                      <label foo="">
+                        Do you think the employee would be more effective with a
+                        different assignment than the present one?
+                      </label>
+                      <select
+                        name="promotable"
+                        id=""
+                        className="form-control"
+                        onChange={(e) =>
+                          setEffectiveWithDifferent(e.target.value)
+                        }
+                      >
+                        <option>Choose</option>
+                        <option value="YES">YES</option>
+                        <option value="NO">NO</option>
+                      </select>
+                    </div>
                   </div>
+              
                 </div>
 
                 <div className="col-md-3">

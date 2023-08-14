@@ -910,6 +910,7 @@ const HRRequisionCard = (props) => {
       title: "Are you sure?",
       text: "Are you sure that you want to Approve and Publish",
       icon: "warning",
+      buttons: ["No, cancel it", "Yes, I am sure"],
       dangerMode: true,
     })
       .then((willUpload) => {

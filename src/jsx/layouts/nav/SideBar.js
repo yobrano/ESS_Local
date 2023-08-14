@@ -473,7 +473,7 @@ class SideBar extends Component {
             </li>
           </ul>
         </li>
-        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+        {/* <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-7"></i>
             <span className="nav-text">Contract/Probation</span>
@@ -490,7 +490,7 @@ class SideBar extends Component {
               </Link>
             </li>
           </ul>
-        </li>
+        </li> */}
 
         <li className={`${path === "exit-interview" ? "mm-active" : ""}`}>
           <Link
@@ -934,7 +934,8 @@ class SideBar extends Component {
             </li>
           </ul>
         </li>
-        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+
+        {/* <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-7"></i>
             <span className="nav-text">Contract/Probation</span>
@@ -951,7 +952,7 @@ class SideBar extends Component {
               </Link>
             </li>
           </ul>
-        </li>
+        </li> */}
 
 
         <li className={`${path === "exit-interview" ? "mm-active" : ""}`}>
@@ -1146,7 +1147,7 @@ class SideBar extends Component {
             <span className="nav-text">Staff End of Contract</span>
           </Link>
         </li> */}
-        <li className={`${path === "HR-probation-contract" ? "mm-active" : ""}`}>
+        {/* <li className={`${path === "HR-probation-contract" ? "mm-active" : ""}`}>
           <Link
             className=""
             to="/HR-probation-contract"
@@ -1155,7 +1156,7 @@ class SideBar extends Component {
             <i className="flaticon-381-list-1"></i>
             <span className="nav-text">Probation Contact Docs</span>
           </Link>
-        </li>
+        </li> */}
 
         {/* className={`${Leaves.includes(path) ? "mm-active" : ""}`} */}
         <li>
@@ -1513,7 +1514,7 @@ class SideBar extends Component {
           </ul>
         </li>
 
-        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+        {/* <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-7"></i>
             <span className="nav-text">Contract/Probation</span>
@@ -1530,7 +1531,7 @@ class SideBar extends Component {
               </Link>
             </li>
           </ul>
-        </li>
+        </li> */}
 
         <li className={`${Exits.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
@@ -1829,7 +1830,7 @@ class SideBar extends Component {
 
       
 
-        <li className={`${path === "HR-probation-contract" ? "mm-active" : ""}`}>
+        {/* <li className={`${path === "HR-probation-contract" ? "mm-active" : ""}`}>
           <Link
             className=""
             to="/HR-probation-contract"
@@ -1838,7 +1839,7 @@ class SideBar extends Component {
             <i className="flaticon-381-list-1"></i>
             <span className="nav-text">Probation Contact Docs</span>
           </Link>
-        </li>
+        </li> */}
 
         <li className={`${Leaves.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
@@ -2204,7 +2205,7 @@ class SideBar extends Component {
           </ul>
         </li>
 
-        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+        {/* <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-7"></i>
             <span className="nav-text">Contract/Probation</span>
@@ -2221,7 +2222,7 @@ class SideBar extends Component {
               </Link>
             </li>
           </ul>
-        </li>
+        </li> */}
 
         <li className={`${Exits.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
@@ -2799,7 +2800,7 @@ class SideBar extends Component {
             </li>
           </ul>
         </li>
-        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+        {/* <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-7"></i>
             <span className="nav-text">Contract/Probation</span>
@@ -2816,7 +2817,7 @@ class SideBar extends Component {
               </Link>
             </li>
           </ul>
-        </li>
+        </li> */}
 
         <li className={`${path === "exit-interview" ? "mm-active" : ""}`}>
           <Link
@@ -3384,7 +3385,7 @@ class SideBar extends Component {
             </li>
           </ul>
         </li>
-        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+        {/* <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-7"></i>
             <span className="nav-text">Contract/Probation</span>
@@ -3401,7 +3402,7 @@ class SideBar extends Component {
               </Link>
             </li>
           </ul>
-        </li>
+        </li> */}
 
         <li className={`${path === "exit-interview" ? "mm-active" : ""}`}>
           <Link
@@ -3968,7 +3969,7 @@ class SideBar extends Component {
             </li>
           </ul>
         </li>
-        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+        {/* <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-7"></i>
             <span className="nav-text">Contract/Probation</span>
@@ -3985,7 +3986,7 @@ class SideBar extends Component {
               </Link>
             </li>
           </ul>
-        </li>
+        </li> */}
 
         <li className={`${path === "exit-interview" ? "mm-active" : ""}`}>
           <Link
@@ -4553,7 +4554,7 @@ class SideBar extends Component {
             </li>
           </ul>
         </li>
-        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+        {/* <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-7"></i>
             <span className="nav-text">Contract/Probation</span>
@@ -4570,7 +4571,7 @@ class SideBar extends Component {
               </Link>
             </li>
           </ul>
-        </li>
+        </li> */}
 
 
         <li className={`${path === "exit-interview" ? "mm-active" : ""}`}>
@@ -5180,7 +5181,7 @@ class SideBar extends Component {
             </li>
           </ul>
         </li>
-        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+        {/* <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-7"></i>
             <span className="nav-text">Contract/Probation</span>
@@ -5197,7 +5198,7 @@ class SideBar extends Component {
               </Link>
             </li>
           </ul>
-        </li>
+        </li> */}
 
         <li className={`${path === "exit-interview" ? "mm-active" : ""}`}>
           <Link
@@ -5760,7 +5761,7 @@ class SideBar extends Component {
             </li> */}
           </ul>
         </li>
-        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+        {/* <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-7"></i>
             <span className="nav-text">Contract/Probation</span>
@@ -5777,7 +5778,7 @@ class SideBar extends Component {
               </Link>
             </li>
           </ul>
-        </li>
+        </li> */}
 
 
         <li className={`${path === "exit-interview" ? "mm-active" : ""}`}>
@@ -6223,7 +6224,7 @@ class SideBar extends Component {
           </ul>
         </li>
 
-        <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
+        {/* <li className={`${ContProbDocuments.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-folder-7"></i>
             <span className="nav-text">Contract/Probation</span>
@@ -6240,7 +6241,7 @@ class SideBar extends Component {
               </Link>
             </li>
           </ul>
-        </li>
+        </li> */}
 
         {/* className={`${Documents.includes(path) ? "mm-active" : ""}`} */}
         <li>
