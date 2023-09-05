@@ -438,7 +438,7 @@ function MDRequisitionApproval(props) {
     setLoading(true);
     axios
       .get(
-        `${process.env.REACT_APP_API_S_LINK}/staffrequision/mdgetreqlist`,
+        `${process.env.REACT_APP_API_S_LINK}/staffrequision/v1/mdgetrequisition`,
         config
       )
       .then((result) => {
@@ -482,7 +482,7 @@ function MDRequisitionApproval(props) {
         Cell: ({ value }) => {
           let buttvar = [];
 
-          if (value === 2) {
+          if (value === 3) {
             buttvar[0] = `
             <button disabled class="btn btn-warning">
               <span class="action-btn">Pending Your Approval</span>

@@ -438,7 +438,7 @@ function RequisitionApprovalHead(props) {
     setLoading(true);
     axios
       .get(
-        `${process.env.REACT_APP_API_S_LINK}/staffrequision/headhrgetreqlist`,
+        `${process.env.REACT_APP_API_S_LINK}/staffrequision/headhrgetrequisitionlist`,
         config
       )
       .then((result) => {
@@ -482,32 +482,46 @@ function RequisitionApprovalHead(props) {
         Cell: ({ value }) => {
           let buttvar = [];
 
-          if (value === 1) {
+          if (value === 0) {
             buttvar[0] = `
             <button disabled class="btn btn-warning">
-              <span class="action-btn">Pending Your Approval</span>
+              <span class="action-btn">Staff Level</span>
+            </button>
+          `;
+          } else if (value === 1) {
+            buttvar[0] = `
+            <button disabled class="btn btn-warning">
+              <span class="action-btn">HOD Level</span>
             </button>
           `;
           } else if (value === 2) {
             buttvar[0] = `
             <button disabled class="btn btn-warning">
-              <span class="action-btn">Pending MD Approval</span>
-            </button>
+            <span class="action-btn">Pending Your Approval</span>
+          </button>
           `;
           } else if (value === 3) {
             buttvar[0] = `
-            <button disabled class="btn btn-primary">
-              <span class="action-btn">Pending Your Publish</span>
+            <button disabled class="btn btn-warning">
+              <span class="action-btn">MD Level</span>
             </button>
           `;
-          } else if (value === 4) {
+          }
+          else if (value === 4) {
             buttvar[0] = `
-            <button disabled class="btn btn-success">
-              <span class="action-btn">Published</span>
+            <button disabled class="btn btn-warning">
+              <span class="action-btn">HR Level</span>
             </button>
           `;
           }
           else if (value === 5) {
+            buttvar[0] = `
+            <button disabled class="btn btn-success">
+              <span class="action-btn">Approved</span>
+            </button>
+          `;
+          }
+          else if (value === 6) {
             buttvar[0] = `
             <button disabled class="btn btn-danger">
               <span class="action-btn">Rejected</span>

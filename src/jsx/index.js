@@ -168,6 +168,10 @@ import GrievanceCompletedCard from "./components/Admin/GlobalComponents/Grievanc
 import HRJobseekerList from "./components/Admin/HR/HRJobseekerList";
 import EmployeeRequisitionCardModify from "./components/Admin/HOD/EmployeeRequisitionCardModify";
 import RequisitionApprovalHead from "./components/Admin/HR/RequisitionApprovalHead";
+import StaffRequisitionRecs from "./components/Admin/HOD/StaffRequisitionRecs";
+import StaffEmployeeRequisitionCardModify from "./components/Admin/HOD/StaffEmployeeRequisitionCardModify";
+import HODRequisitionCardModify from "./components/Admin/HOD/HODRequisitionCardModify";
+import HODRequisionCard from "./components/Admin/HOD/HODRequisionCard";
 
 // import Landing from './pages/Landing'
 
@@ -190,8 +194,15 @@ const Markup = () => {
     { url: "jobsapplied", component: HRAppliedJob, usr: "HR" },
     { url: "HR-dashboard", component: HRHome, usr: "HR" },
     { url: "HR-profile", component: HRProfile,usr:"HR" },
-    { url: "requisition-approval", component: RequisitionApproval,usr:"HR" },
+
+    { url: "approval-requisition", component: RequisitionApproval,usr:"HR" },
     { url: "HR-requisition-card", component:HRRequisionCard ,usr:"HR" },
+    { url: "new-requisition", component: EmployeeRequision,usr:"HR" },
+    { url: "employee-requisition-card", component: EmployeeRequisitionCard,usr:"HR" },
+    { url: "employee-requisition-modify", component: StaffEmployeeRequisitionCardModify,usr:"HR" },
+    { url: "requisition-list", component: StaffRequisitionRecs,usr:"HR" },
+
+
     { url: "HR-monitoring", component:HRPerformanceList ,usr:"HR" },
     { url: "HR-monitoring-card", component:HRMonitoringCard ,usr:"HR" },
     { url: "HR-exit-interview", component:HRExitInterviewCard ,usr:"HR" },
@@ -305,8 +316,14 @@ const Markup = () => {
     { url: "jobsapplied", component: HRAppliedJob, usr: "HEAD-HR" },
     { url: "HR-dashboard", component: HRHome, usr: "HEAD-HR" },
     { url: "HR-profile", component: HRProfile,usr:"HEAD-HR" },
-    { url: "requisition-approval", component: RequisitionApprovalHead,usr:"HEAD-HR" },
+
+    { url: "approval-requisition", component: RequisitionApprovalHead,usr:"HEAD-HR" },
     { url: "HR-requisition-card", component:HRRequisionCard ,usr:"HEAD-HR" },
+    { url: "new-requisition", component: EmployeeRequision,usr:"HEAD-HR" },
+    { url: "employee-requisition-card", component: EmployeeRequisitionCard,usr:"HEAD-HR" },
+    { url: "employee-requisition-modify", component: StaffEmployeeRequisitionCardModify,usr:"HEAD-HR" },
+    { url: "requisition-list", component: StaffRequisitionRecs,usr:"HEAD-HR" },
+    
     { url: "HR-monitoring", component:HRPerformanceList ,usr:"HEAD-HR" },
     { url: "HR-monitoring-card", component:HRMonitoringCard ,usr:"HEAD-HR" },
     { url: "HR-exit-interview", component:HRExitInterviewCard ,usr:"HEAD-HR" },
@@ -427,10 +444,13 @@ const Markup = () => {
   const routes3 = [
     /// Dashboard
     { url: "HOD-dashboard", component:HODDashboard, usr: "HOD" },
-    { url: "employee-requisition", component: EmployeeRequision,usr:"HOD" },
+
+    { url: "new-requisition", component: EmployeeRequision,usr:"HOD" },
     { url: "employee-requisition-card", component: EmployeeRequisitionCard,usr:"HOD" },
-    { url: "employee-requisition-modify", component: EmployeeRequisitionCardModify,usr:"HOD" },
-    { url: "HOD-requisition-list", component: HODRequisitionApproval,usr:"HOD" },
+    { url: "hod-requisition-card", component: HODRequisionCard,usr:"HOD" },
+    { url: "approval-requisition", component: HODRequisitionApproval,usr:"HOD" },
+    { url: "requisition-list", component: StaffRequisitionRecs,usr:"HOD" },
+
     { url: "Monitoring", component: Performancemonitoring,usr:"HOD" },
     { url: "monitoring-list", component: PerformanceList,usr:"HOD" },
     { url: "monitoring-card", component: MonitoringCard,usr:"HOD" },
@@ -530,10 +550,10 @@ const Markup = () => {
   const routes6 = [
     /// Dashboard
     { url: "HOD-dashboard", component:HODDashboard, usr: "HOD-ADMIN" },
-    { url: "employee-requisition", component: EmployeeRequision,usr:"HOD-ADMIN" },
+    { url: "new-requisition", component: EmployeeRequision,usr:"HOD-ADMIN" },
     { url: "employee-requisition-card", component: EmployeeRequisitionCard,usr:"HOD-ADMIN" },
     { url: "employee-requisition-modify", component: EmployeeRequisitionCardModify,usr:"HOD-ADMIN" },
-    { url: "HOD-requisition-list", component: HODRequisitionApproval,usr:"HOD-ADMIN" },
+    { url: "requisition-list", component: HODRequisitionApproval,usr:"HOD-ADMIN" },
     { url: "Monitoring", component: Performancemonitoring,usr:"HOD-ADMIN" },
     { url: "monitoring-list", component: PerformanceList,usr:"HOD-ADMIN" },
     { url: "monitoring-card", component: MonitoringCard,usr:"HOD-ADMIN" },
@@ -633,10 +653,10 @@ const Markup = () => {
   const routes7 = [
     /// Dashboard
     { url: "HOD-dashboard", component:HODDashboard, usr: "HOD-ICT" },
-    { url: "employee-requisition", component: EmployeeRequision,usr:"HOD-ICT" },
+    { url: "new-requisition", component: EmployeeRequision,usr:"HOD-ICT" },
     { url: "employee-requisition-card", component: EmployeeRequisitionCard,usr:"HOD-ICT" },
     { url: "employee-requisition-modify", component: EmployeeRequisitionCardModify,usr:"HOD-ICT" },
-    { url: "HOD-requisition-list", component: HODRequisitionApproval,usr:"HOD-ICT" },
+    { url: "requisition-list", component: HODRequisitionApproval,usr:"HOD-ICT" },
     { url: "Monitoring", component: Performancemonitoring,usr:"HOD-ICT" },
     { url: "monitoring-list", component: PerformanceList,usr:"HOD-ICT" },
     { url: "monitoring-card", component: MonitoringCard,usr:"HOD-ICT" },
@@ -737,10 +757,10 @@ const Markup = () => {
   const routes8 = [
     /// Dashboard
     { url: "HOD-dashboard", component:HODDashboard, usr: "HOD-HR" },
-    { url: "employee-requisition", component: EmployeeRequision,usr:"HOD-HR" },
+    { url: "new-requisition", component: EmployeeRequision,usr:"HOD-HR" },
     { url: "employee-requisition-card", component: EmployeeRequisitionCard,usr:"HOD-HR" },
     { url: "employee-requisition-modify", component: EmployeeRequisitionCardModify,usr:"HOD-HR" },
-    { url: "HOD-requisition-list", component: HODRequisitionApproval,usr:"HOD-HR" },
+    { url: "requisition-list", component: HODRequisitionApproval,usr:"HOD-HR" },
     { url: "Monitoring", component: Performancemonitoring,usr:"HOD-HR" },
     { url: "monitoring-list", component: PerformanceList,usr:"HOD-HR" },
     { url: "monitoring-card", component: MonitoringCard,usr:"HOD-HR" },
@@ -849,10 +869,10 @@ const Markup = () => {
   const routes9 = [
     /// Dashboard
     { url: "HOD-dashboard", component:HODDashboard, usr: "HOD-FIN" },
-    { url: "employee-requisition", component: EmployeeRequision,usr:"HOD-FIN" },
+    { url: "new-requisition", component: EmployeeRequision,usr:"HOD-FIN" },
     { url: "employee-requisition-card", component: EmployeeRequisitionCard,usr:"HOD-FIN" },
     { url: "employee-requisition-modify", component: EmployeeRequisitionCardModify,usr:"HOD-FIN" },
-    { url: "HOD-requisition-list", component: HODRequisitionApproval,usr:"HOD-FIN" },
+    { url: "requisition-list", component: HODRequisitionApproval,usr:"HOD-FIN" },
     { url: "Monitoring", component: Performancemonitoring,usr:"HOD-FIN" },
     { url: "monitoring-list", component: PerformanceList,usr:"HOD-FIN" },
     { url: "monitoring-card", component: MonitoringCard,usr:"HOD-FIN" },
@@ -1119,8 +1139,17 @@ const Markup = () => {
   const routes4 = [
     /// Dashboard
     { url: "MD-dashboard", component:MDDashboard, usr: "MD" },
+
     { url: "MD-employee-requisition", component: MDRequisitionApproval,usr:"MD" },
     { url: "MD-requisition-card", component: MDRequisionCard,usr:"MD" },
+
+    // { url: "approval-requisition", component: RequisitionApproval,usr:"MD" },
+    // { url: "HR-requisition-card", component:HRRequisionCard ,usr:"MD" },
+    { url: "new-requisition", component: EmployeeRequision,usr:"MD" },
+    { url: "employee-requisition-card", component: EmployeeRequisitionCard,usr:"MD" },
+    { url: "employee-requisition-modify", component: StaffEmployeeRequisitionCardModify,usr:"MD" },
+    { url: "requisition-list", component: StaffRequisitionRecs,usr:"MD" },
+
     { url: "MD-probation", component: MDProbationList,usr:"MD" },
     { url: "MD-probation-card", component: MDProbationCard,usr:"MD" },
     { url: "MD-contract-card", component: MDContractCard,usr:"MD" },
@@ -1287,6 +1316,13 @@ const Markup = () => {
     { url: "approve-competency", component:CompetenceListApprove, usr: "NORMAL" },
     { url: "approve-competency-card", component:CompetenceCardApprove, usr: "NORMAL" },
     { url: "edit-competence-line-super", component:CompetenceLineEditSuper, usr: "NORMAL" },
+
+    // from 04/09/23
+    { url: "new-requisition", component: EmployeeRequision,usr:"NORMAL" },
+    { url: "employee-requisition-card", component: EmployeeRequisitionCard,usr:"NORMAL" },
+    { url: "employee-requisition-modify", component: StaffEmployeeRequisitionCardModify,usr:"NORMAL" },
+    { url: "approval-requisition", component: HODRequisitionApproval,usr:"NORMAL" },
+    { url: "requisition-list", component: StaffRequisitionRecs,usr:"NORMAL" },
   ];
 
 

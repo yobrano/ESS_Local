@@ -744,6 +744,7 @@ const HRRequisionCard = (props) => {
           //  if (employeeList.length > 0) {
 
           // }
+          setHRComment(props.location.state[0].datum[0].uidTwoComment)
           setLoading(false);
         }
         if (response.status === 404) {
@@ -869,7 +870,7 @@ const HRRequisionCard = (props) => {
 
     axios
       .post(
-        `${process.env.REACT_APP_API_S_LINK}/staffrequision/hrsendmd/${props.location.state[0].datum[0].reqID}`,
+        `${process.env.REACT_APP_API_S_LINK}/staffrequision/v2/headhrsendmd/${props.location.state[0].datum[0].reqID}`,
         data,
         config
       )
@@ -916,7 +917,7 @@ const HRRequisionCard = (props) => {
       .then((willUpload) => {
         if (willUpload) {
           return axios.post(
-            `${process.env.REACT_APP_API_S_LINK}/staffrequision/approveandpublish/${props.location.state[0].datum[0].reqID}`,
+            `${process.env.REACT_APP_API_S_LINK}/staffrequision/v1/hrapproveandpublish/${props.location.state[0].datum[0].reqID}`,
             data,
             config
           );
@@ -996,13 +997,33 @@ const HRRequisionCard = (props) => {
           swal("Oh!", "Requisition Reversed Failed", "error");
         } else {
           console.log(err.message);
-          swal("Oh!","Requisition Reversed Failed", "error");
+          swal("Oh!", "Requisition Reversed Failed", "error");
         }
       });
   };
 
   let actionButtn = "";
-  if (statusProgress === 1) {
+  if (statusProgress === 0) {
+    actionButtn = (
+      <button
+        type="button"
+        className="btn btn-primary rounded-0"
+        // onClick={publish}
+      >
+        Pending Approval by Staff <i className="fa fa-user-o"></i>
+      </button>
+    );
+  } else if (statusProgress === 1) {
+    actionButtn = (
+      <button
+        type="button"
+        className="btn btn-primary rounded-0"
+        // onClick={publish}
+      >
+        Pending Approval by HOD <i className="fa fa-user-o"></i>
+      </button>
+    );
+  } else if (statusProgress === 2) {
     actionButtn = (
       <button
         type="button"
@@ -1013,7 +1034,7 @@ const HRRequisionCard = (props) => {
         Push to MD <i className="fa fa-user-o"></i>
       </button>
     );
-  } else if (statusProgress === 2) {
+  } else if (statusProgress === 3) {
     actionButtn = (
       <button
         type="button"
@@ -1023,7 +1044,7 @@ const HRRequisionCard = (props) => {
         Pending Approval by MD <i className="fa fa-user-o"></i>
       </button>
     );
-  } else if (statusProgress === 3) {
+  } else if (statusProgress === 4) {
     actionButtn = (
       <button
         type="button"
@@ -1033,7 +1054,7 @@ const HRRequisionCard = (props) => {
         Publish <i className="fa fa-globe"></i>
       </button>
     );
-  } else if (statusProgress === 5) {
+  } else if (statusProgress === 6) {
     actionButtn = (
       <button
         disabled
@@ -1535,7 +1556,7 @@ const HRRequisionCard = (props) => {
                               id="Commen"
                               disabled
                               value={
-                                props.location.state[0].datum[0].uidComment
+                                props.location.state[0].datum[0].uidFourComment
                               }
                               rows="3"
                               className="form-control"
@@ -1598,7 +1619,8 @@ const HRRequisionCard = (props) => {
                                       }
                                     >
                                       <option>Choose</option>
-                                      <option value="0">HOD</option>
+                                      <option value="0">Staff</option>
+                                      <option value="1">HOD</option>
                                     </select>
                                   </div>
                                 </div>

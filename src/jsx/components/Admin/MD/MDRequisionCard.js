@@ -713,7 +713,7 @@ const MDRequisionCard = (props) => {
       .then((willUpload) => {
         if (willUpload) {
           return axios.post(
-            `${process.env.REACT_APP_API_S_LINK}/staffrequision/rejectreq/${props.location.state[0].datum[0].reqID}`,
+            `${process.env.REACT_APP_API_S_LINK}/staffrequision/v1/mdrejectreq/${props.location.state[0].datum[0].reqID}`,
             data,
             config
           );
@@ -918,7 +918,7 @@ const MDRequisionCard = (props) => {
       .then((willUpload) => {
         if (willUpload) {
           return axios.post(
-            `${process.env.REACT_APP_API_S_LINK}/staffrequision/mdsendhr/${props.location.state[0].datum[0].reqID}`,
+            `${process.env.REACT_APP_API_S_LINK}/staffrequision/v1/mdapprovesendhr/${props.location.state[0].datum[0].reqID}`,
             data,
             config
             // method: 'post',
@@ -1067,7 +1067,7 @@ const MDRequisionCard = (props) => {
 
   let actionButtn = "";
   let rejectButton = "";
-  if (statusProgress === 2) {
+  if (statusProgress === 3) {
     actionButtn = (
       <button
         type="button"
@@ -1645,8 +1645,9 @@ const MDRequisionCard = (props) => {
                                       }
                                     >
                                       <option>Choose</option>
-                                      <option value="0">HOD</option>
-                                      <option value="1">HR</option>
+                                      <option value="0">Staff</option>
+                                      <option value="1">HOD</option>
+                                      <option value="2">HEAD HR</option>
                                     </select>
                                   </div>
                                 </div>

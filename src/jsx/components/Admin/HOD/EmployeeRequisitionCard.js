@@ -464,14 +464,15 @@ const EmployeeRequisitionCard = (props) => {
     //Add record to d365
     const list = [...responsibiltyList];
     let record = list[index];
-    // console.log(record);
+    console.log(list[0]);
+    console.log(props.location.state[0].jobNo);
     let jobno =
       list[0]["jobno"] === ""
-        ? props.location.state[0].jobNo
+        ? props.location.state[0].jobNo.value
         : list[0]["jobno"];
     let data = {
       Description: record.description,
-      Jobno: jobno.value,
+      Jobno: jobno,
       // Mandatory:record.mandatory,
       Responsibilitycode: record.responsibilitycode,
       Lineno: record.lineno.toString(),
@@ -861,15 +862,25 @@ const EmployeeRequisitionCard = (props) => {
       });
   };
 
-  const pushToHR = () => {
-    setDisablePushToHR(true);
+  const pushToYourHOD = () => {
+    // setDisablePushToHR(true);
+
+    if (requestedEmployees === 0) {
+      swal("Oh!", "Requested Number of Employee MUST not be zero", "error");
+      return;
+    }
+
+    if (reqComment === "") {
+      swal("Oh!", "Staff Comment MUST not be blank", "error");
+      return;
+    }
 
     let data = {
       Reqno: props.location.state[0].empReqNo,
       Jobno: props.location.state[0].jobNo.value,
       Closingdate: closinDate,
       RequestedEmployees: requestedEmployees,
-      HODcomment: HODComment,
+      UIDcomment: reqComment,
     };
 
     const config = {
@@ -880,15 +891,25 @@ const EmployeeRequisitionCard = (props) => {
       },
     };
 
-    axios
-      .post(
-        `${process.env.REACT_APP_API_S_LINK}/staffrequision/pushtohr`,
-        data,
-        config
-      )
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Push?",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willUpload) => {
+        if (willUpload) {
+          return axios.post(
+            `${process.env.REACT_APP_API_S_LINK}/staffrequision/stafftohod`,
+            data,
+            config
+          );
+        }
+      })
       .then(function (response) {
         if (response.status === 200) {
           swal("Success", response.data.message, "success");
+          // setDisablePushToHR(true);
           console.log(response.data);
         }
         if (response.status === 404) {
@@ -1026,8 +1047,7 @@ const EmployeeRequisitionCard = (props) => {
             </div>
             <form>
               <div className="row p-1">
-
-              <div className="col-md-4">
+                <div className="col-md-4">
                   <div className="form-group">
                     <label htmlFor="reqEmp" className="label">
                       Job Title
@@ -1207,10 +1227,10 @@ const EmployeeRequisitionCard = (props) => {
                   </div>
                 </div>
 
-                <div className="col-md-12">
+                {/* <div className="col-md-12">
                   <div className="form-group">
                     <label htmlFor="Commen" className="label">
-                      HOD Comment
+                      Additional Comment
                     </label>
                     <textarea
                       id="Commen"
@@ -1221,7 +1241,7 @@ const EmployeeRequisitionCard = (props) => {
                       placeholder="Content max size 250 character"
                     ></textarea>
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className="upload-gen-data-div">
                 [Step 1]
@@ -1662,10 +1682,10 @@ const EmployeeRequisitionCard = (props) => {
                           <button
                             type="button"
                             className="btn btn-warning rounded-0"
-                            onClick={pushToHR}
+                            onClick={pushToYourHOD}
                             disabled={disablePushToHR}
                           >
-                            Push to Human Resource{" "}
+                            Push to HOD{" "}
                             <i className="fa fa-user-o"></i>
                           </button>
                         </div>

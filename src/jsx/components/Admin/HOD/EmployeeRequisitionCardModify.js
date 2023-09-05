@@ -93,6 +93,13 @@ const EmployeeRequisitionCardModify = (props) => {
   };
   const [errors, setErrors] = useState(errorsObj);
 
+  const [HRComment, setHRComment] = useState("");
+  const [disablePustoMD, setDisablePustoMD] = useState(false);
+
+  const [reversalF, setReversalF] = useState(false);
+  const [reversalRemark, setReversalRemark] = useState("");
+  const [reversalLevel, setReversalLevel] = useState("");
+
   // handle input change
   const handleInputRequireChange = (e, index) => {
     const { name, value } = e.target;
@@ -1060,10 +1067,10 @@ const EmployeeRequisitionCardModify = (props) => {
         onClick={pushToHR}
         disabled={disablePushToHR}
       >
-        Push to Human Resource <i className="fa fa-user-o"></i>
+        Push to HEAD Human Resource <i className="fa fa-user-o"></i>
       </button>
     );
-  } else if (progressLevel >= 1) {
+  } else if (progressLevel >= 1 ) {
     actionButtn = (
       <button
         type="button"
@@ -1307,26 +1314,7 @@ const EmployeeRequisitionCardModify = (props) => {
                   </div>
                 </div>
 
-                <div className="col-md-12">
-                  <div className="form-group">
-                    <label htmlFor="Commen" className="label">
-                      HOD Comment
-                    </label>
-                    <textarea
-                      id="Commen"
-                      value={HODComment}
-                      onChange={(e) => setHODComment(e.target.value)}
-                      rows="2"
-                      className="form-control"
-                      placeholder="Content max size 250 character"
-                    ></textarea>
-                    {errors.HODComment && (
-                      <div className="text-danger fs-12">
-                        {errors.HODComment}
-                      </div>
-                    )}
-                  </div>
-                </div>
+            
               </div>
               <div className="upload-gen-data-div">
                 [Step 1]
@@ -1766,6 +1754,26 @@ const EmployeeRequisitionCardModify = (props) => {
                           [Step 3]
                           {actionButtn}
                         </div>
+                        {/* <div className="col-md-12">
+                          <div className="form-group">
+                            <label htmlFor="Commen" className="label">
+                              HOD Comment
+                            </label>
+                            <textarea
+                              id="Commen"
+                              value={HODComment}
+                              onChange={(e) => setHODComment(e.target.value)}
+                              rows="2"
+                              className="form-control"
+                              placeholder="Content max size 250 character"
+                            ></textarea>
+                            {errors.HODComment && (
+                              <div className="text-danger fs-12">
+                                {errors.HODComment}
+                              </div>
+                            )}
+                          </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>

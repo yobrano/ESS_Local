@@ -92,6 +92,13 @@ class SideBar extends Component {
       "supervisor-complete",
     ];
 
+    let EmployeeRequsition =[
+      "new-requisition",
+      "requisition-list",
+      "approval-requisition",
+      "MD-employee-requisition"
+    ]
+
     /// Active menu
     // let dashBoard = [
     //     "",
@@ -414,6 +421,49 @@ class SideBar extends Component {
             </li>
           </ul>
         </li>
+        <li className={`${EmployeeRequsition.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-notebook-4"></i>
+            <span className="nav-text">Employee Requisition</span>
+          </Link>
+          <ul>
+            <li className={`${path === "new-requisition" ? "mm-active" : ""}`}>
+              <Link
+                className=""
+                to="/new-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text">New Requisition</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className={`${
+                  path === "requisition-list" ? "mm-active" : ""
+                }`}
+                to="/requisition-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Requisition List</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${
+                  path === "approval-requisition" ? "mm-active" : ""
+                }`}
+                to="/approval-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-background-1  mr-3"></i>
+                <span className="nav-text-drop">Approval Request</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
         {/* <li className={`${TrainingNeeds.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-notebook-4"></i>
@@ -492,6 +542,7 @@ class SideBar extends Component {
           </ul>
         </li> */}
 
+
         <li className={`${path === "exit-interview" ? "mm-active" : ""}`}>
           <Link
             className=""
@@ -517,7 +568,7 @@ class SideBar extends Component {
             <span className="nav-text">Dashboard</span>
           </Link>
         </li>
-        <li className={`${path === "MD-employee-requisition" ? "mm-active" : ""}`}>
+        {/* <li className={`${path === "MD-employee-requisition" ? "mm-active" : ""}`}>
           <Link
             className=""
             to="/MD-employee-requisition"
@@ -526,6 +577,50 @@ class SideBar extends Component {
             <i className="flaticon-381-background-1"></i>
             <span className="nav-text">Requisition Approval</span>
           </Link>
+        </li> */}
+
+        <li className={`${EmployeeRequsition.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-notebook-4"></i>
+            <span className="nav-text">Employee Requisition</span>
+          </Link>
+          <ul>
+            <li className={`${path === "new-requisition" ? "mm-active" : ""}`}>
+              <Link
+                className=""
+                to="/new-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text">New Requisition</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className={`${
+                  path === "requisition-list" ? "mm-active" : ""
+                }`}
+                to="/requisition-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Requisition List</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${
+                  path === "MD-employee-requisition" ? "mm-active" : ""
+                }`}
+                to="/MD-employee-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-background-1  mr-3"></i>
+                <span className="nav-text-drop">Approval Request</span>
+              </Link>
+            </li>
+          </ul>
         </li>
 
         {/* Every Employer Menus */}
@@ -1000,7 +1095,51 @@ class SideBar extends Component {
             <span className="nav-text">Viewed Job Applicants</span>
           </Link>
         </li>
-        <li className={`${path === "requisition-approval" ? "mm-active" : ""}`}>
+        <li className={`${EmployeeRequsition.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-notebook-4"></i>
+            <span className="nav-text">Employee Requisition</span>
+          </Link>
+          <ul>
+            <li className={`${path === "new-requisition" ? "mm-active" : ""}`}>
+              <Link
+                className=""
+                to="/new-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text">New Requisition</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className={`${
+                  path === "requisition-list" ? "mm-active" : ""
+                }`}
+                to="/requisition-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Requisition List</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${
+                  path === "approval-requisition" ? "mm-active" : ""
+                }`}
+                to="/approval-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-background-1  mr-3"></i>
+                <span className="nav-text-drop">Approval Request</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
+        {/* <li className={`${path === "requisition-approval" ? "mm-active" : ""}`}>
           <Link
             className=""
             to="/requisition-approval"
@@ -1009,7 +1148,8 @@ class SideBar extends Component {
             <i className="flaticon-381-background-1"></i>
             <span className="nav-text">Job Requisition Approval</span>
           </Link>
-        </li>
+        </li> */}
+
         <li className={`${path === "HR-monitoring" ? "mm-active" : ""}`}>
           <Link
             className=""
@@ -1660,7 +1800,50 @@ class SideBar extends Component {
             <span className="nav-text">Viewed Job Applicants</span>
           </Link>
         </li>
-        <li className={`${path === "requisition-approval" ? "mm-active" : ""}`}>
+        <li className={`${EmployeeRequsition.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-notebook-4"></i>
+            <span className="nav-text">Employee Requisition</span>
+          </Link>
+          <ul>
+            <li className={`${path === "new-requisition" ? "mm-active" : ""}`}>
+              <Link
+                className=""
+                to="/new-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text">New Requisition</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className={`${
+                  path === "requisition-list" ? "mm-active" : ""
+                }`}
+                to="/requisition-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Requisition List</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${
+                  path === "approval-requisition" ? "mm-active" : ""
+                }`}
+                to="/approval-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-background-1  mr-3"></i>
+                <span className="nav-text-drop">Approval Request</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+        {/* <li className={`${path === "requisition-approval" ? "mm-active" : ""}`}>
           <Link
             className=""
             to="/requisition-approval"
@@ -1669,7 +1852,7 @@ class SideBar extends Component {
             <i className="flaticon-381-background-1"></i>
             <span className="nav-text">Job Requisition Approval</span>
           </Link>
-        </li>
+        </li> */}
         <li className={`${path === "HR-monitoring" ? "mm-active" : ""}`}>
           <Link
             className=""
@@ -2331,7 +2514,52 @@ class SideBar extends Component {
             <span className="nav-text">Dashboard</span>
           </Link>
         </li>
-        <li className={`${path === "employee-requisition" ? "mm-active" : ""}`}>
+       
+        <li className={`${EmployeeRequsition.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-notebook-4"></i>
+            <span className="nav-text">Employee Requisition</span>
+          </Link>
+          <ul>
+            <li className={`${path === "new-requisition" ? "mm-active" : ""}`}>
+              <Link
+                className=""
+                to="/new-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text">New Requisition</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className={`${
+                  path === "requisition-list" ? "mm-active" : ""
+                }`}
+                to="/requisition-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Requisition List</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${
+                  path === "approval-requisition" ? "mm-active" : ""
+                }`}
+                to="/approval-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-background-1  mr-3"></i>
+                <span className="nav-text-drop">Approval Request</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+
+        {/* <li className={`${path === "employee-requisition" ? "mm-active" : ""}`}>
           <Link
             className=""
             to="/employee-requisition"
@@ -2340,8 +2568,8 @@ class SideBar extends Component {
             <i className="flaticon-381-background-1"></i>
             <span className="nav-text">New Job Requisition</span>
           </Link>
-        </li>
-        <li className={`${path === "HOD-requisition-list" ? "mm-active" : ""}`}>
+        </li> */}
+        {/* <li className={`${path === "requisition-list" ? "mm-active" : ""}`}>
           <Link
             className=""
             to="/HOD-requisition-list"
@@ -2350,7 +2578,8 @@ class SideBar extends Component {
             <i className="flaticon-381-layer-1"></i>
             <span className="nav-text">Job Requisition List</span>
           </Link>
-        </li>
+        </li> */}
+        
         <li className={`${path === "Monitoring" ? "mm-active" : ""}`}>
           <Link
             className=""
@@ -5664,6 +5893,49 @@ class SideBar extends Component {
             </li>
           </ul>
         </li> */}
+          <li className={`${EmployeeRequsition.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-notebook-4"></i>
+            <span className="nav-text">Employee Requisition</span>
+          </Link>
+          <ul>
+            <li className={`${path === "new-requisition" ? "mm-active" : ""}`}>
+              <Link
+                className=""
+                to="/new-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text">New Requisition</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className={`${
+                  path === "requisition-list" ? "mm-active" : ""
+                }`}
+                to="/requisition-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Requisition List</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${
+                  path === "approval-requisition" ? "mm-active" : ""
+                }`}
+                to="/approval-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-background-1  mr-3"></i>
+                <span className="nav-text-drop">Approval Request</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
           <li className={`${Grievance.includes(path) ? "mm-active" : ""}`}>
           <Link className="has-arrow ai-icon" to="#">
             <i className="flaticon-381-id-card"></i>
@@ -6330,6 +6602,51 @@ class SideBar extends Component {
             </li>
           </ul>
         </li>
+
+        <li className={`${EmployeeRequsition.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-notebook-4"></i>
+            <span className="nav-text">Employee Requisition</span>
+          </Link>
+          <ul>
+            <li className={`${path === "new-requisition" ? "mm-active" : ""}`}>
+              <Link
+                className=""
+                to="/new-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text">New Requisition</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className={`${
+                  path === "requisition-list" ? "mm-active" : ""
+                }`}
+                to="/requisition-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Requisition List</span>
+              </Link>
+            </li>
+            {/* <li>
+              <Link
+                className={`${
+                  path === "approval-requisition" ? "mm-active" : ""
+                }`}
+                to="/approval-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-background-1  mr-3"></i>
+                <span className="nav-text-drop">Approval Request</span>
+              </Link>
+            </li> */}
+          </ul>
+        </li>
+
         <li className={`${path === "job-vacancy" ? "mm-active" : ""}`}>
           <Link
             className=""

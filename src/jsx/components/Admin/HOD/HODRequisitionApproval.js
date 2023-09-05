@@ -485,38 +485,44 @@ function HODRequisitionApproval(props) {
           if (value === 0) {
             buttvar[0] = `
             <button disabled class="btn btn-warning">
-              <span class="action-btn">HOD Level</span>
+              <span class="action-btn">Staff Level</span>
             </button>
           `; 
           }
           else if (value === 1) {
             buttvar[0] = `
             <button disabled class="btn btn-warning">
-              <span class="action-btn">HR Level</span>
+              <span class="action-btn">HOD Level</span>
             </button>
           `; 
           }
           else if (value === 2) {
             buttvar[0] = `
             <button disabled class="btn btn-warning">
-              <span class="action-btn">MD Level</span>
+              <span class="action-btn">HEAD HR Level</span>
             </button>
           `; 
           }
           else if (value === 3) {
             buttvar[0] = `
             <button disabled class="btn btn-warning">
-              <span class="action-btn">HR Level</span>
+              <span class="action-btn">MD Level</span>
             </button>
           `; 
           }else if(value ===4 ){
             buttvar[0] = `
-            <button disabled class="btn btn-success">
-              <span class="action-btn">Approved</span>
+            <button disabled class="btn btn-warning">
+              <span class="action-btn">HR Level</span>
             </button>
           `; 
           }
          else if(value ===5 ){
+          buttvar[0] = `
+          <button disabled class="btn btn-success">
+            <span class="action-btn">HR Approved</span>
+          </button>
+        `; 
+        }else if(value ===6 ){
           buttvar[0] = `
           <button disabled class="btn btn-danger">
             <span class="action-btn">MD Rejected</span>
@@ -539,7 +545,7 @@ function HODRequisitionApproval(props) {
   //   ]);
   if (selection.length === 1) {
     console.log(selection[0].reqID); 
-    props.history.push("/employee-requisition-modify", [
+    props.history.push("/hod-requisition-card", [
       { empReqNo: selection[0].reqID ,datum:selection , jobNo: {label: selection[0].jobTitle, value: selection[0].jobNo} },
     ]);
   }
