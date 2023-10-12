@@ -131,6 +131,8 @@ const ProbationCard = (props) => {
   const [product, setProduct] = useState("");
   const [employmentYear, setEmploymentYear] = useState("");
   const [yearsOfService, setYearsOfService] = useState("");
+  const [probStartDate, setProbStartDate] = useState("");
+  const [probEndDate, setProbEndDate] = useState("");
 
   //Error alerts
   const [alrtone, setAlrtone] = useState('alrt-border-1 border-0 border-danger p-3 rounded');
@@ -165,7 +167,7 @@ const ProbationCard = (props) => {
 
     axios
       .get(
-        `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/getprobationcard/${props.location.state[0].datum[0].probationNo}`,
+        `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/probationcarddata/${props.location.state[0].datum[0].probationNo}`,
         config
       )
       .then(function (response) {
@@ -173,13 +175,126 @@ const ProbationCard = (props) => {
           setProbationTime(props.location.state[0].datum[0].supervisionTime)
           setSkills(props.location.state[0].datum[0].importantSkills)
 
-          setJobTitle(response.data.employeeEndofForms[0].jobtitle)
-          setBranch(response.data.employeeEndofForms[0].branch)
-          setProduct(response.data.employeeEndofForms[0].product)
-          setEmploymentYear(response.data.employeeEndofForms[0].employmentyear)
-          setYearsOfService(response.data.employeeEndofForms[0].tenureofservice)
+          setJobTitle(response.data.probationFirstList[0].jobtitle)
+          setBranch(response.data.probationFirstList[0].branch)
+          setProduct(response.data.probationFirstList[0].product)
+          setEmploymentYear(response.data.probationFirstList[0].employmentyear)
+          setYearsOfService(response.data.probationFirstList[0].tenureofservice)
+          setProbStartDate(response.data.probationFirstList[0].probationstart)
+          setProbEndDate(response.data.probationFirstList[0].probationexpiry)
+          // Get Extra Date
+          // GetExtraData();
+          setOutstanding(response.data.probationFirstList[0].outstanding)
+          setAboveAverage(response.data.probationFirstList[0].aboveAverage)
+          setSatisfactory(response.data.probationFirstList[0].satisfactory)
+          setMarginal(response.data.probationFirstList[0].marginal)
+          setUnsatisfactory(response.data.probationFirstList[0].unsatisfactory)
+
+          setExcellentAttendance(response.data.probationFirstList[0].excellentAttendance)
+          setOccasionalAbsence(response.data.probationFirstList[0].occasionalAbsence)
+          setRepeatedAbsence(response.data.probationFirstList[0].repeatedAbsence)
+          setUnjustifiedAbsence(response.data.probationFirstList[0].unjustifiedAbsence)
+          setAttendanceComment(response.data.probationFirstList[0].attendanceComment)
+
+          setAlwaysInterested(response.data.probationFirstList[0].alwaysInterested)
+          setReasonablyDevoted(response.data.probationFirstList[0].reasonablyDevoted)
+          setPassiveAttitude(response.data.probationFirstList[0].passiveAttitude)
+          setActiveDislikeofWork(response.data.probationFirstList[0].activeDislikeofWork)
+          setAttitudeComment(response.data.probationFirstList[0].attitudeComment)
+
+          setAlwaysNeat(response.data.probationFirstList[0].alwaysNeat)
+          setGenerallyNeat(response.data.probationFirstList[0].generallyNeat)
+          setSometimesCareles(response.data.probationFirstList[0].sometimesCareles)
+          setAttirenotSuitable(response.data.probationFirstList[0].attirenotSuitable)
+          setAppearanceComment(response.data.probationFirstList[0].appearanceComment)
+
+          setSelfStarter(response.data.probationFirstList[0].selfStarter)
+          setNeedsStimilus(response.data.probationFirstList[0].needsStimilus)
+          setNeedsCSupervision(response.data.probationFirstList[0].needsCSupervision)
+          setShowNoInitiative(response.data.probationFirstList[0].showNoInitiative)
+          setInitiativeComment(response.data.probationFirstList[0].initiativeComment)
+
+          setAlwayOnTime(response.data.probationFirstList[0].alwayOnTime)
+          setOccasionallyLate(response.data.probationFirstList[0].occasionallyLate)
+          setRepeatedLate(response.data.probationFirstList[0].repeatedLate)
+          setRarelyOnTime(response.data.probationFirstList[0].rarelyOnTime)
+          setDependabilityComment(response.data.probationFirstList[0].dependabilityComment)
+
+          setDecisionLogical(response.data.probationFirstList[0].decisionLogical)
+          setGenSoundJudgment(response.data.probationFirstList[0].genSoundJudgment)
+          setReqFreqCorrection(response.data.probationFirstList[0].reqFreqCorrection)
+          setJudgmentOftenFaulty(response.data.probationFirstList[0].judgmentOftenFaulty)
+          setJudmentComment(response.data.probationFirstList[0].judmentComment)
+
+          setRarelyMakesErrs(response.data.probationFirstList[0].rarelyMakesErrs)
+          setFewErrThanMost(response.data.probationFirstList[0].fewErrThanMost)
+          setAvgAccuracy(response.data.probationFirstList[0].avgAccuracy)
+          setUnacceptablyErratic(response.data.probationFirstList[0].unacceptablyErratic)
+          setAttentionToDetailComment(response.data.probationFirstList[0].attentionToDetailComment)
+
+          setFriendlyOutgoing(response.data.probationFirstList[0].friendlyOutgoing)
+          setSomewhatBusinesslike(response.data.probationFirstList[0].somewhatBusinesslike)
+          setGregariousToPoint(response.data.probationFirstList[0].gregariousToPoint)
+          setSullenAndWithdrawn(response.data.probationFirstList[0].sullenAndWithdrawn)
+          setInterpersonalComment(response.data.probationFirstList[0].interpersonalComment)
+
+          setAlwayscourteousTactful(response.data.probationFirstList[0].alwayscourteousTactful)
+          setGenCourteous(response.data.probationFirstList[0].genCourteous)
+          setSometimesIncosiderate(response.data.probationFirstList[0].sometimesIncosiderate)
+          setArouseAntagonism(response.data.probationFirstList[0].arouseAntagonism)
+          setMannersComment(response.data.probationFirstList[0].mannersComment)
+
+          setSeeksAddResponsibility(response.data.probationFirstList[0].seeksAddResponsibility)
+          setWillinglyAcceptResp(response.data.probationFirstList[0].willinglyAcceptResp)
+          setAssumesWhenUnavoidable(response.data.probationFirstList[0].assumesWhenUnavoidable)
+          setAlwaysAvoidResponsibility(response.data.probationFirstList[0].alwaysAvoidResponsibility)
+          setResponsiblityComment(response.data.probationFirstList[0].responsiblityComment)
+
+          setGraspImmediately(response.data.probationFirstList[0].graspImmediately)
+          setQuickerThanAvg(response.data.probationFirstList[0].quickerThanAvg)
+          setAvgLearning(response.data.probationFirstList[0].avgLearning)
+          setSlowLearner(response.data.probationFirstList[0].slowLearner)
+          setUnableToGraspNew(response.data.probationFirstList[0].unableToGraspNew)
+          setLearningCampacityComment(response.data.probationFirstList[0].learningCampacityComment)
+
+          setExcepHighProductivity(response.data.probationFirstList[0].excepHighProductivity)
+          setCompleteMoreThanAvg(response.data.probationFirstList[0].completeMoreThanAvg)
+          setAdequatePerHr(response.data.probationFirstList[0].adequatePerHr)
+          setInadequateOutput(response.data.probationFirstList[0].inadequateOutput)
+          setOutputComment(response.data.probationFirstList[0].outputComment)
+
+          setAssumesLeadershipInit(response.data.probationFirstList[0].assumesLeadershipInit)
+          setWillLeadEncouraged(response.data.probationFirstList[0].willLeadEncouraged)
+          setCanLeadifNecessary(response.data.probationFirstList[0].canLeadifNecessary)
+          setRefusesLeadership(response.data.probationFirstList[0].refusesLeadership)
+          setAttemptbutInefficient(response.data.probationFirstList[0].attemptbutInefficient)
+          setLeadershipComment(response.data.probationFirstList[0].leadershipComment)
+
+          setNeverFalter(response.data.probationFirstList[0].neverFalter)
+          setMaintainPoise(response.data.probationFirstList[0].maintainPoise)
+          setDependableExcUnderPress(response.data.probationFirstList[0].dependableExcUnderPress)
+          setCantTakePressure(response.data.probationFirstList[0].cantTakePressure)
+          setPressureComment(response.data.probationFirstList[0].pressureComment)
+
+          setEmpStrongestpt(response.data.probationFirstList[0].empStrongestpt)
+          setEmpWeakestPt(response.data.probationFirstList[0].empWeakestPt)
+          setQualifiedPromo(response.data.probationFirstList[0].qualifiedPromo)
+          setPromoPstn(response.data.probationFirstList[0].promoPstn)
+          setPromotable(response.data.probationFirstList[0].promotable)
+
+          setEffectiveWithDifferent(response.data.probationFirstList[0].effectiveWithDifferent)
+          setDifferentAssingment(response.data.probationFirstList[0].differentAssingment)
+          setRecommendationSectionComment(response.data.probationFirstList[0].recommendationSectionComment)
+          setEmpRecConfirm(response.data.probationFirstList[0].empRecConfirm==="true"?true:false)
+          setEmpRecExtProb(response.data.probationFirstList[0].empRecExtProb==="true"?true:false)
+          setEmpRecTerminate(response.data.probationFirstList[0].empRecTerminate==="true"?true:false)
+   
+
+
+          
 
           setLoading(false);
+        
 
         }
         if (response.status === 404) {
@@ -191,6 +306,43 @@ const ProbationCard = (props) => {
       });
   }, []);
 
+  const GetExtraData = (PID) =>{
+    const config = {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("userDetails")).idToken
+        }`,
+      },
+    };
+    axios
+    .get(
+      `${process.env.REACT_APP_API_S_LINK}/endofmonitoringandcontract/probationcarddata/${PID}`,
+      config
+    )
+    .then(function (response) {
+      if (response.status === 200) {
+        setProbationTime(props.location.state[0].datum[0].supervisionTime)
+        setSkills(props.location.state[0].datum[0].importantSkills)
+
+        setJobTitle(response.data.employeeEndofForms[0].jobtitle)
+        setBranch(response.data.employeeEndofForms[0].branch)
+        setProduct(response.data.employeeEndofForms[0].product)
+        setEmploymentYear(response.data.employeeEndofForms[0].employmentyear)
+        setYearsOfService(response.data.employeeEndofForms[0].tenureofservice)
+
+        
+
+        setLoading(false);
+
+      }
+      if (response.status === 404) {
+        swal("Oh!", response.data.message, "error");
+      }
+    })
+    .catch((err) => {
+      swal("Oh!", err.data.message, "error");
+    });
+  }
   const updateCard = (e) => {
     
     e.preventDefault();
@@ -864,6 +1016,28 @@ const ProbationCard = (props) => {
                     />
                   </div>
                 </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Probation Start</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={probStartDate}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label htmlFor="">Probation Expiry</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={probEndDate}
+                      disabled
+                    />
+                  </div>
+                </div>
                 <div className="col-xl-12 col-sm-6">
                   <div className="form-group">
                     <label htmlFor=""> How long have you supervised the Employee</label>
@@ -932,8 +1106,9 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="Outstanding"
                           id="outstanding1"
-                          value="true"
-                          onChange={(e) => setOutstanding(!outstanding)}
+                          checked={outstanding}
+                          value={outstanding}
+                          onClick={(e) => setOutstanding(!outstanding)}
                         />
                         <label className="form-check-label" foo="outstanding1">
                           Outstanding
@@ -946,7 +1121,8 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="Above Averange"
                           id="aboveAvg1"
-                          value="true"
+                          checked={aboveAverage}
+                          value={aboveAverage}
                           onChange={(e) => setAboveAverage(!aboveAverage)}
                         />
                         <label className="form-check-label" foo="aboveAvg1">
@@ -960,7 +1136,8 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="Satisfactory"
                           id="satisfactory1"
-                          value="true"
+                          checked={satisfactory}
+                          value={satisfactory}
                           onChange={(e) => setSatisfactory(!satisfactory)}
                         />
                         <label className="form-check-label" foo="satisfactory1">
@@ -974,7 +1151,8 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="Marginal"
                           id="marginal1"
-                          value="true"
+                          checked={marginal}
+                          value={marginal}
                           onChange={() => setMarginal(!marginal)}
                         />
                         <label className="form-check-label" foo="marginal1">
@@ -989,6 +1167,7 @@ const ProbationCard = (props) => {
                           name="Unsatisfactory"
                           id="unsatisfactory"
                           checked={unsatisfactory}
+                          value={unsatisfactory}
                           onChange={() => setUnsatisfactory(!unsatisfactory)}
                         />
                         <label className="form-check-label" foo="unsatisfactory">
@@ -1023,6 +1202,7 @@ const ProbationCard = (props) => {
                           name="excellentAttendance"
                           id="excattance"
                           value={excellentAttendance}
+                          checked={excellentAttendance}
                           onChange={(e) =>
                             setExcellentAttendance(!excellentAttendance)
                           }
@@ -1039,6 +1219,7 @@ const ProbationCard = (props) => {
                           name="attendane"
                           id="abjecjustice"
                           value={occasionalAbsence}
+                          checked={occasionalAbsence}
                           onChange={(e) =>
                             setOccasionalAbsence(!occasionalAbsence)
                           }
@@ -1055,6 +1236,7 @@ const ProbationCard = (props) => {
                           name="attendane"
                           id="absjusticc"
                           value={repeatedAbsence}
+                          checked={repeatedAbsence}
                           onChange={(e) => setRepeatedAbsence(!repeatedAbsence)}
                         />
                         <label className="form-check-label" foo="absjusticc">
@@ -1069,6 +1251,7 @@ const ProbationCard = (props) => {
                           name="attendane"
                           id="unjustabsent"
                           value={unjustifiedAbsence}
+                          checked={unjustifiedAbsence}
                           onChange={(e) =>
                             setUnjustifiedAbsence(!unjustifiedAbsence)
                           }
@@ -1104,6 +1287,7 @@ const ProbationCard = (props) => {
                           name="alwaysInterested"
                           id="intenthusiastic"
                           value={alwaysInterested}
+                          checked={alwaysInterested}
                           onChange={(e) => setAlwaysInterested(!alwaysInterested)}
                         />
                         <label className="form-check-label" foo="intenthusiastic">
@@ -1118,6 +1302,7 @@ const ProbationCard = (props) => {
                           name="reasonablyDevoted"
                           id="deveotedwrk"
                           value={reasonablyDevoted}
+                          checked={reasonablyDevoted}
                           onChange={(e) =>
                             setReasonablyDevoted(!reasonablyDevoted)
                           }
@@ -1134,6 +1319,7 @@ const ProbationCard = (props) => {
                           name="attitude"
                           id="passiveatt"
                           value={passiveAttitude}
+                          checked={passiveAttitude}
                           onChange={(e) => setPassiveAttitude(!passiveAttitude)}
                         />
                         <label className="form-check-label" foo="passiveatt">
@@ -1147,6 +1333,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="attitude"
                           id="dislwork"
+                          checked={activeDislikeofWork}
                           value={activeDislikeofWork}
                           onChange={(e) =>
                             setActiveDislikeofWork(!activeDislikeofWork)
@@ -1182,6 +1369,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="appearance"
                           id="appropdressd"
+                          checked={alwaysNeat}
                           value={alwaysNeat}
                           onChange={(e) => setAlwaysNeat(!alwaysNeat)}
                         />
@@ -1196,6 +1384,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="generallyNeat"
                           id="genapproderss"
+                          checked={generallyNeat}
                           value={generallyNeat}
                           onChange={(e) => setGenerallyNeat(!generallyNeat)}
                         />
@@ -1210,6 +1399,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="sometimesCareles"
                           id="somejtapp"
+                          checked={sometimesCareles}
                           value={sometimesCareles}
                           onChange={(e) => setSometimesCareles(!sometimesCareles)}
                         />
@@ -1224,6 +1414,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="attirenotSuitable"
                           id="ErPosition"
+                          checked={attirenotSuitable}
                           value={attirenotSuitable}
                           onChange={(e) =>
                             setAttirenotSuitable(!attirenotSuitable)
@@ -1260,6 +1451,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="selfStarter"
                           id="appropdressd"
+                          checked={selfStarter}
                           value={selfStarter}
                           onChange={(e) => setSelfStarter(!selfStarter)}
                         />
@@ -1274,6 +1466,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="needsStimilus"
                           id="genapproderss"
+                          checked={needsStimilus}
                           value={needsStimilus}
                           onChange={(e) => setNeedsStimilus(!needsStimilus)}
                         />
@@ -1288,6 +1481,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="needsCSupervision"
                           id="somejtapp"
+                          checked={needsCSupervision}
                           value={needsCSupervision}
                           onChange={(e) =>
                             setNeedsCSupervision(!needsCSupervision)
@@ -1304,6 +1498,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="showNoInitiative"
                           id="ErPosition"
+                          checked={showNoInitiative}
                           value={showNoInitiative}
                           onChange={(e) => setShowNoInitiative(!showNoInitiative)}
                         />
@@ -1338,6 +1533,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="alwayOnTime"
                           id="appropdressd"
+                          checked={alwayOnTime}
                           value={alwayOnTime}
                           onChange={(e) => setAlwayOnTime(!alwayOnTime)}
                         />
@@ -1352,6 +1548,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="occasionallyLate"
                           id="genapproderss"
+                          checked={occasionallyLate}
                           value={occasionallyLate}
                           onChange={(e) => setOccasionallyLate(!occasionallyLate)}
                         />
@@ -1366,6 +1563,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="repeatedLate"
                           id="somejtapp"
+                          checked={repeatedLate}
                           value={repeatedLate}
                           onChange={(e) => setRepeatedLate(!repeatedLate)}
                         />
@@ -1380,6 +1578,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="rarelyOnTime"
                           id="ErPosition"
+                          checked={rarelyOnTime}
                           value={rarelyOnTime}
                           onChange={(e) => setRarelyOnTime(!rarelyOnTime)}
                         />
@@ -1414,6 +1613,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="decisionLogical"
                           id="appropdressd"
+                          checked={decisionLogical}
                           value={decisionLogical}
                           onChange={(e) => setDecisionLogical(!decisionLogical)}
                         />
@@ -1428,6 +1628,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="genSoundJudgment"
                           id="genapproderss"
+                          checked={genSoundJudgment}
                           value={genSoundJudgment}
                           onChange={(e) => setGenSoundJudgment(!genSoundJudgment)}
                         />
@@ -1442,6 +1643,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="reqFreqCorrection"
                           id="somejtapp"
+                          checked={reqFreqCorrection}
                           value={reqFreqCorrection}
                           onChange={(e) =>
                             setReqFreqCorrection(!reqFreqCorrection)
@@ -1458,6 +1660,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="judgmentOftenFaulty"
                           id="ErPosition"
+                          checked={judgmentOftenFaulty}
                           value={judgmentOftenFaulty}
                           onChange={(e) =>
                             setJudgmentOftenFaulty(!judgmentOftenFaulty)
@@ -1493,6 +1696,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="rarelyMakesErrs"
                           id="appropdressd"
+                          checked={rarelyMakesErrs}
                           value={rarelyMakesErrs}
                           onChange={(e) => setRarelyMakesErrs(!rarelyMakesErrs)}
                         />
@@ -1507,6 +1711,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="fewErrThanMost"
                           id="genapproderss"
+                          checked={fewErrThanMost}
                           value={fewErrThanMost}
                           onChange={(e) => setFewErrThanMost(!fewErrThanMost)}
                         />
@@ -1521,6 +1726,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="avgAccuracy"
                           id="somejtapp"
+                          checked={avgAccuracy}
                           value={avgAccuracy}
                           onChange={(e) => setAvgAccuracy(!avgAccuracy)}
                         />
@@ -1535,6 +1741,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="unacceptablyErratic"
                           id="ErPosition"
+                          checked={unacceptablyErratic}
                           value={unacceptablyErratic}
                           onChange={(e) =>
                             setUnacceptablyErratic(!unacceptablyErratic)
@@ -1575,6 +1782,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="friendlyOutgoing"
                           id="appropdressd"
+                          checked={friendlyOutgoing}
                           value={friendlyOutgoing}
                           onChange={(e) => setFriendlyOutgoing(!friendlyOutgoing)}
                         />
@@ -1590,6 +1798,7 @@ const ProbationCard = (props) => {
                           name="somewhatBusinesslike"
                           id="genapproderss"
                           value={somewhatBusinesslike}
+                          checked={somewhatBusinesslike}
                           onChange={(e) =>
                             setSomewhatBusinesslike(!somewhatBusinesslike)
                           }
@@ -1605,6 +1814,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="gregariousToPoint"
                           id="somejtapp"
+                          checked={gregariousToPoint}
                           value={gregariousToPoint}
                           onChange={(e) =>
                             setGregariousToPoint(!gregariousToPoint)
@@ -1621,6 +1831,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="sullenAndWithdrawn"
                           id="ErPosition"
+                          checked={sullenAndWithdrawn}
                           value={sullenAndWithdrawn}
                           onChange={(e) =>
                             setSullenAndWithdrawn(!sullenAndWithdrawn)
@@ -1657,6 +1868,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="alwayscourteousTactful"
                           id="appropdressd"
+                          checked={alwayscourteousTactful}
                           value={alwayscourteousTactful}
                           onChange={(e) =>
                             setAlwayscourteousTactful(!alwayscourteousTactful)
@@ -1673,6 +1885,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="genCourteous"
                           id="genapproderss"
+                          checked={genCourteous}
                           value={genCourteous}
                           onChange={(e) => setGenCourteous(!genCourteous)}
                         />
@@ -1687,6 +1900,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="sometimesIncosiderate"
                           id="somejtapp"
+                          checked={sometimesIncosiderate}
                           value={sometimesIncosiderate}
                           onChange={(e) =>
                             setSometimesIncosiderate(!sometimesIncosiderate)
@@ -1703,6 +1917,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="arouseAntagonism"
                           id="ErPosition"
+                          checked={arouseAntagonism}
                           value={arouseAntagonism}
                           onChange={(e) => setArouseAntagonism(!arouseAntagonism)}
                         />
@@ -1737,6 +1952,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="seeksAddResponsibility"
                           id="appropdressd"
+                          checked={seeksAddResponsibility}
                           value={seeksAddResponsibility}
                           onChange={(e) =>
                             setSeeksAddResponsibility(!seeksAddResponsibility)
@@ -1753,6 +1969,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="willinglyAcceptResp"
                           id="genapproderss"
+                          checked={willinglyAcceptResp}
                           value={willinglyAcceptResp}
                           onChange={(e) =>
                             setWillinglyAcceptResp(!willinglyAcceptResp)
@@ -1769,6 +1986,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="assumesWhenUnavoidable"
                           id="somejtapp"
+                          checked={assumesWhenUnavoidable}
                           value={assumesWhenUnavoidable}
                           onChange={(e) =>
                             setAssumesWhenUnavoidable(!assumesWhenUnavoidable)
@@ -1785,6 +2003,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="alwaysAvoidResponsibility"
                           id="ErPosition"
+                          checked={alwaysAvoidResponsibility}
                           value={alwaysAvoidResponsibility}
                           onChange={(e) =>
                             setAlwaysAvoidResponsibility(
@@ -1823,6 +2042,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="graspImmediately"
                           id="appropdressd"
+                          checked={graspImmediately}
                           value={graspImmediately}
                           onChange={(e) => setGraspImmediately(!graspImmediately)}
                         />
@@ -1837,6 +2057,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="quickerThanAvg"
                           id="genapproderss"
+                          checked={quickerThanAvg}
                           value={quickerThanAvg}
                           onChange={(e) => setQuickerThanAvg(!quickerThanAvg)}
                         />
@@ -1851,6 +2072,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="avgLearning"
                           id="somejtapp"
+                          checked={avgLearning}
                           value={avgLearning}
                           onChange={(e) => setAvgLearning(!avgLearning)}
                         />
@@ -1865,6 +2087,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="slowLearner"
                           id="ErPosition"
+                          checked={slowLearner}
                           value={slowLearner}
                           onChange={(e) => setSlowLearner(!slowLearner)}
                         />
@@ -1878,6 +2101,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="unableToGraspNew"
                           id="ErPosition"
+                          checked={unableToGraspNew}
                           value={unableToGraspNew}
                           onChange={(e) => setUnableToGraspNew(!unableToGraspNew)}
                         />
@@ -1915,6 +2139,7 @@ const ProbationCard = (props) => {
                           name="excepHighProductivity"
                           id="appropdressd"
                           value={excepHighProductivity}
+                          checked={excepHighProductivity}
                           onChange={(e) =>
                             setExcepHighProductivity(!excepHighProductivity)
                           }
@@ -1930,6 +2155,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="completeMoreThanAvg"
                           id="genapproderss"
+                          checked={completeMoreThanAvg}
                           value={completeMoreThanAvg}
                           onChange={(e) =>
                             setCompleteMoreThanAvg(!completeMoreThanAvg)
@@ -1946,6 +2172,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="adequatePerHr"
                           id="somejtapp"
+                          checked={adequatePerHr}
                           value={adequatePerHr}
                           onChange={(e) => setAdequatePerHr(!adequatePerHr)}
                         />
@@ -1960,6 +2187,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="inadequateOutput"
                           id="ErPosition"
+                          checked={inadequateOutput}
                           value={inadequateOutput}
                           onChange={(e) => setInadequateOutput(!inadequateOutput)}
                         />
@@ -1994,6 +2222,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="assumesLeadershipInit"
                           id="appropdressd"
+                          checked={assumesLeadershipInit}
                           value={assumesLeadershipInit}
                           onChange={(e) =>
                             setAssumesLeadershipInit(!assumesLeadershipInit)
@@ -2010,6 +2239,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="willLeadEncouraged"
                           id="genapproderss"
+                          checked={willLeadEncouraged}
                           value={willLeadEncouraged}
                           onChange={(e) =>
                             setWillLeadEncouraged(!willLeadEncouraged)
@@ -2026,6 +2256,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="canLeadifNecessary"
                           id="somejtapp"
+                          checked={canLeadifNecessary}
                           value={canLeadifNecessary}
                           onChange={(e) =>
                             setCanLeadifNecessary(!canLeadifNecessary)
@@ -2042,6 +2273,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="refusesLeadership"
                           id="ErPosition"
+                          checked={refusesLeadership}
                           value={refusesLeadership}
                           onChange={(e) =>
                             setRefusesLeadership(!refusesLeadership)
@@ -2057,6 +2289,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="attemptbutInefficient"
                           id="ErPosition"
+                          checked={attemptbutInefficient}
                           value={attemptbutInefficient}
                           onChange={(e) =>
                             setAttemptbutInefficient(!attemptbutInefficient)
@@ -2093,6 +2326,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="neverFalter"
                           id="appropdressd"
+                          checked={neverFalter}
                           value={neverFalter}
                           onChange={(e) => setNeverFalter(!neverFalter)}
                         />
@@ -2107,6 +2341,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="maintainPoise"
                           id="genapproderss"
+                          checked={maintainPoise}
                           value={maintainPoise}
                           onChange={(e) => setMaintainPoise(!maintainPoise)}
                         />
@@ -2121,6 +2356,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="dependableExcUnderPress"
                           id="somejtapp"
+                          checked={dependableExcUnderPress}
                           value={dependableExcUnderPress}
                           onChange={(e) =>
                             setDependableExcUnderPress(!dependableExcUnderPress)
@@ -2137,6 +2373,7 @@ const ProbationCard = (props) => {
                           type="checkbox"
                           name="cantTakePressure"
                           id="ErPosition"
+                          checked={cantTakePressure}
                           value={cantTakePressure}
                           onChange={(e) => setCantTakePressure(!cantTakePressure)}
                         />
@@ -2228,6 +2465,7 @@ const ProbationCard = (props) => {
                       name="qualifiedForPromo"
                       id=""
                       className="form-control"
+                      value={qualifiedPromo}
                       onChange={(e) => setQualifiedPromo(e.target.value)}
                     >
                       <option>Choose</option>
@@ -2259,6 +2497,7 @@ const ProbationCard = (props) => {
                       name="promotable"
                       id=""
                       className="form-control"
+                      value={promotable}
                       onChange={(e) => setPromotable(e.target.value)}
                     >
                       <option>Choose</option>
@@ -2275,9 +2514,10 @@ const ProbationCard = (props) => {
                       different assignment than the present one?
                     </label>
                     <select
-                      name="promotable"
+                      name="effectiveWithDifferent"
                       id=""
                       className="form-control"
+                      value={effectiveWithDifferent}
                       onChange={(e) =>
                         setEffectiveWithDifferent(e.target.value)
                       }
@@ -2310,7 +2550,8 @@ const ProbationCard = (props) => {
                         type="checkbox"
                         name="empRecConfirm"
                         id="empRecConfirm"
-                        value="true"
+                        value={empRecConfirm}
+                        checked={empRecConfirm}
                         onChange={(e) => setEmpRecConfirm(!empRecConfirm)}
                       />
                       <label className="form-check-label" foo="empRecConfirm">
@@ -2324,7 +2565,8 @@ const ProbationCard = (props) => {
                         type="checkbox"
                         name="empRecExtProb"
                         id="empRecExtProb"
-                        value="true"
+                        value={empRecExtProb}
+                        checked={empRecExtProb}
                         onChange={(e) => setEmpRecExtProb(!empRecExtProb)}
                       />
                       <label className="form-check-label" foo="empRecExtProb">
@@ -2338,7 +2580,8 @@ const ProbationCard = (props) => {
                         type="checkbox"
                         name="empRecTerminate"
                         id="empRecTerminate"
-                        value="true"
+                        value={empRecTerminate}
+                        checked={empRecTerminate}
                         onChange={(e) => setEmpRecTerminate(!empRecTerminate)}
                       />
                       <label className="form-check-label" foo="empRecTerminate">
