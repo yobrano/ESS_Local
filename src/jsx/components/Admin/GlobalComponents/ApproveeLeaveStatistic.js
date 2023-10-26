@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Fragment } from "react";
 import { useState } from "react";
 import { withRouter } from "react-router-dom";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const ApproveeLeaveStatistic = (props) => {
   const [leaveData, setleaveData] = useState([]);
@@ -16,7 +17,7 @@ const ApproveeLeaveStatistic = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -27,7 +28,7 @@ const ApproveeLeaveStatistic = (props) => {
         config
       )
       .then((result) => {
-        console.log(result.data.leaveTypeList);
+        // =>console.log(result.data.leaveTypeList);
         setleaveData(result.data.leaveTypeList);
         setLoadingLeaves(false);
         // setPending(result.data.pendingCount);

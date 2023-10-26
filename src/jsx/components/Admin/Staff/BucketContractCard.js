@@ -6,6 +6,7 @@ import "./ExitForm.css";
 import axios from "axios";
 import swal from "sweetalert";
 import Select from "react-select";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const BucketContractCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -190,7 +191,7 @@ const BucketContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -202,7 +203,7 @@ const BucketContractCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data.probationFirstList[0]);
+          // =>console.log(response.data.probationFirstList[0]);
 
           setJobTitle(response.data.probationFirstList[0].jobtitle)
           setBranch(response.data.probationFirstList[0].branch)
@@ -444,7 +445,7 @@ const BucketContractCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -460,7 +461,7 @@ const BucketContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -490,7 +491,7 @@ const BucketContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Contract Record Reversed.", "success");
         }
@@ -514,7 +515,7 @@ const BucketContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -542,7 +543,7 @@ const BucketContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Contract Form Updated/Pushed", "success");
         }
@@ -565,7 +566,7 @@ const BucketContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -593,7 +594,7 @@ const BucketContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Contract Form Updated/Pushed", "success");
         }
@@ -616,7 +617,7 @@ const BucketContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -640,7 +641,7 @@ const BucketContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Contract Pushed", "success");
         }
@@ -664,7 +665,7 @@ const BucketContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -700,7 +701,7 @@ const BucketContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           swal("Success!", "Probation Card Updated", "success");
         }
         if (response.status === 404) {
@@ -722,7 +723,7 @@ const BucketContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -750,7 +751,7 @@ const BucketContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Contract Form Approved", "success");
         }
@@ -774,7 +775,7 @@ const BucketContractCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -815,7 +816,7 @@ const BucketContractCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
       timeout: 60000,
@@ -873,7 +874,7 @@ const BucketContractCard = (props) => {
 
 
         // swal("Success!", json.data.message, "success");
-        // console.log(json.data);
+        // // =>console.log(json.data);
         // swal("Success!", "Your record has been Non Renewed!", "success");
       })
       .catch((err) => {
@@ -893,7 +894,7 @@ const BucketContractCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
       timeout: 60000,
@@ -944,11 +945,11 @@ const BucketContractCard = (props) => {
       saveData(response, fileName);
 
         // swal("Success!", json.data.message, "success");
-        // console.log(json.data);
+        // // =>console.log(json.data);
         // swal("Success!", "Your record has been Renewed!", "success");
       })
       .catch((err) => {
-        console.log({"i/o err":err.response});
+        // =>console.log({"i/o err":err.response});
         swal("Oh!", err.message, "error");
         // if (err.response !== undefined) {
         //   swal("Oh!", err.response.message, "error");
@@ -965,7 +966,7 @@ const BucketContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -993,7 +994,7 @@ const BucketContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Contract  Re-enstated", "success");
         }
@@ -1017,8 +1018,8 @@ const BucketContractCard = (props) => {
   let reversePath="";
   let authUser= "";
   let routeq = "1"
-  if (JSON.parse(localStorage.getItem("userDetails")).user.length > 0) {
-    authUser = JSON.parse(localStorage.getItem("userDetails")).user[0];
+  if (JSON.parse(secureLocalStorage.getItem("userDetails")).user.length > 0) {
+    authUser = jwt_decode(JSON.parse(decryptToken(secureLocalStorage.getItem("userDetails")))).Role;
   }
   if(authUser =="HEAD-HR"){
     routeq="4";

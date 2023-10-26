@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const NewPerformanceStandard = (props) => {
   const [loading, setLoading] = useState(false);
@@ -43,7 +44,7 @@ const NewPerformanceStandard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -82,7 +83,7 @@ const NewPerformanceStandard = (props) => {
         }
       })
       .catch((err) => {
-        console.log("catch err:"+err);
+        // =>console.log("catch err:"+err);
         if (err !== undefined) {
           swal("Ooh!", "Error", "error");
         }

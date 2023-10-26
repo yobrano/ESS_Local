@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 import "./PayslipCard.css";
 import { format } from "date-fns";
@@ -19,7 +20,7 @@ const LeaveDashboard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -33,7 +34,7 @@ const LeaveDashboard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -60,7 +61,7 @@ const LeaveDashboard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -87,7 +88,7 @@ const LeaveDashboard = (props) => {
       })
       .then(function (response) {
         if (response.status === 200) {
-          // console.log(response.data);
+          // // =>console.log(response.data);
           props.history.push("/dashboard-list", [{ datum: response.data }]);
         }
       })

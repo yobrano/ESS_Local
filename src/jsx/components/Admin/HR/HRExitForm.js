@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "./ExitForm.css";
 import axios from "axios";
 import swal from "sweetalert";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const HRExitForm = (props) => {
   const [loading, setLoading] = useState(true);
@@ -64,7 +65,7 @@ const HRExitForm = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -76,7 +77,7 @@ const HRExitForm = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-            console.log(response.data);
+            // =>console.log(response.data);
             setExitModel(response.data)
             
 
@@ -130,7 +131,7 @@ const HRExitForm = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -144,7 +145,7 @@ const HRExitForm = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -169,7 +170,7 @@ const HRExitForm = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           swal("Success!", "Exit Interview Form Updated", "success");
         }
         if (response.status === 404) {

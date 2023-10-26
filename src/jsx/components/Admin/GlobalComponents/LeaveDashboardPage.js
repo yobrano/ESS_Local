@@ -14,6 +14,7 @@ import {
 } from "react-table";
 import { matchSorter } from "match-sorter";
 import swal from "sweetalert";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 // import { Interweave, Markup } from "interweave";
 
 const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
@@ -240,7 +241,7 @@ const DataTable = ({ columns, data, setSelection }) => {
       responseType: "arraybuffer",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
         // responseType: "blob",
       },
@@ -272,7 +273,7 @@ const DataTable = ({ columns, data, setSelection }) => {
         //   const pdfWindow = window.open();
         //   pdfWindow.location.href = fileURL;
 
-        //   // console.log(response.data);
+        //   // // =>console.log(response.data);
         //   // window.open(response.data, '_blank', 'fullscreen=yes');
         //   // FileDownload(response.data, 'current_cv.pdf');
         // }
@@ -432,19 +433,19 @@ function LeaveDashboardPage(props) {
   const config = {
     headers: {
       Authorization: `Bearer ${
-        JSON.parse(localStorage.getItem("userDetails")).idToken
+        JSON.parse(secureLocalStorage.getItem("userDetails"))
       }`,
     },
   };
 
   useEffect(() => {
-    console.log(props.location.state[0].datum);
+    // =>console.log(props.location.state[0].datum);
     setData(props.location.state[0].datum);
     // setLoading(true);
     // axios
     //   .get(`${process.env.REACT_APP_API_S_LINK}/training/gettrainingneeds`, config)
     //   .then((result) => {
-    //     console.log(result.data);
+    //     // =>console.log(result.data);
     //   })
     //   .catch((err) => {
     //     console.log(err);
@@ -532,7 +533,7 @@ function LeaveDashboardPage(props) {
   //     setSelection,
   //   ]);
   if (selection.length === 1) {
-    console.log(selection[0].needNo);
+    // =>console.log(selection[0].needNo);
     if (selection[0].needNo !== undefined) {
       // <Redirect
       //   push

@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import Select from "react-select";
 import swal from "sweetalert";
 import BreadCrumb from "./BreadCrumb";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const EmployeeCompleteAppraisalCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -34,7 +35,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -46,7 +47,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setJobkpiList(response.data.performanceIndicators);
           setData(props.location.state[0].datum[0]);
           InitialStdLoad();
@@ -61,7 +62,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -79,7 +80,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
   //     const config = {
   //       headers: {
   //         Authorization: `Bearer ${
-  //           JSON.parse(localStorage.getItem("userDetails")).idToken
+  //           JSON.parse(secureLocalStorage.getItem("userDetails"))
   //         }`,
   //       },
   //     };
@@ -91,7 +92,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
   //       )
   //       .then(function (response) {
   //         if (response.status === 200) {
-  //           console.log(response.data);
+  //           // =>console.log(response.data);
   //           // setActivityList(response.data.performanceActivities);
   //           setStandardList(response.data.supervisorAppraisalStandards);
   //           setDisableCreateNewActivity(false);
@@ -99,7 +100,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
   //         }
   //         if (response.status === 404) {
   //           swal("Oh!", response.data.message, "error");
-  //           console.log(response.data.message);
+  //           // =>console.log(response.data.message);
   //         }
   //       })
   //       .catch((err) => {
@@ -119,7 +120,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -139,11 +140,11 @@ const EmployeeCompleteAppraisalCard = (props) => {
           setAreaofDevelopmentList1(response.data.areaofDevelopmentList1)
           setSpecificfocusList1(response.data.specificFocusList1)
 
-          console.log(response.data);
+          // =>console.log(response.data);
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -156,7 +157,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -168,7 +169,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           // setActivityList(response.data.performanceActivities);
           setStandardList(response.data.employeeAppraisalStandards);
           setDisableCreateNewActivity(false);
@@ -176,7 +177,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -193,7 +194,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -226,7 +227,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
         }
       })
       .catch((err) => {
-        // console.log("catch err:"+err);
+        // // =>console.log("catch err:"+err);
         if (err !== undefined) {
           swal("Ooh!", "Error File not Found", "error");
         }
@@ -242,7 +243,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -269,7 +270,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
         }
       })
       .catch((err) => {
-        console.log("catch err:" + err);
+        // =>console.log("catch err:" + err);
         // if (err !== undefined) {
         //   swal("Ooh!", err, "error");
         // }
@@ -312,7 +313,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
       responseType: "arraybuffer",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
         // responseType:'arraybuffer',
         // 'Content-Type': 'blob',
@@ -358,7 +359,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -394,7 +395,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -442,7 +443,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
       } else {
         list[index][name] = "No";
         list[index].id = index;
-        console.log(list);
+        // =>console.log(list);
         setAreaofDevelopmentList(list);
       }
     } else {
@@ -461,7 +462,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -521,7 +522,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
     //Get the record
     const list = [...areaofDevelopmentList];
     let record = list[index];
-    // console.log(record);
+    // // =>console.log(record);
 
     if (record.lineNo === "") {
       //Oridinal Entry
@@ -533,7 +534,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -556,7 +557,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -574,7 +575,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -597,7 +598,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been Updated!", "success");
         })
         .catch((err) => {
@@ -623,7 +624,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
       } else {
         list[index][name] = "No";
         list[index].id = index;
-        console.log(list);
+        // =>console.log(list);
         setSpecificfocusList(list);
       }
     } else {
@@ -642,7 +643,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -702,7 +703,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
     //Get the record
     const list = [...specificfocusList];
     let record = list[index];
-    // console.log(record);
+    // // =>console.log(record);
 
     if (record.lineNo === "") {
       //Oridinal Entry
@@ -714,7 +715,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -737,7 +738,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -755,7 +756,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -778,7 +779,7 @@ const EmployeeCompleteAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been Updated!", "success");
         })
         .catch((err) => {

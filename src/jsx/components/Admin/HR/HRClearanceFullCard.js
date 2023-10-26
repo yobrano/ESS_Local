@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect, useMemo, forwardRef } from "react";
 import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const HRClearanceFullCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -63,7 +64,7 @@ const HRClearanceFullCard = (props) => {
   //     const config = {
   //       headers: {
   //         Authorization: `Bearer ${
-  //           JSON.parse(localStorage.getItem("userDetails")).idToken
+  //           JSON.parse(secureLocalStorage.getItem("userDetails"))
   //         }`,
   //       },
   //     };
@@ -91,7 +92,7 @@ const HRClearanceFullCard = (props) => {
   //         }
   //       })
   //       .then((json) => {
-  //         // console.log(json.data);
+  //         // // =>console.log(json.data);
   //         list1.splice(index, 1);
   //         setPlines(list1);
   //         swal("Success!", "Your record has been Deleted!", "success");
@@ -153,7 +154,7 @@ const HRClearanceFullCard = (props) => {
   //     const config = {
   //       headers: {
   //         Authorization: `Bearer ${
-  //           JSON.parse(localStorage.getItem("userDetails")).idToken
+  //           JSON.parse(secureLocalStorage.getItem("userDetails"))
   //         }`,
   //       },
   //     };
@@ -174,7 +175,7 @@ const HRClearanceFullCard = (props) => {
   //         }
   //       })
   //       .then((json) => {
-  //         console.log(json.data);
+  //         // =>console.log(json.data);
   //         swal("Success!", "Your record has been uploaded!", "success");
   //       })
   //       .catch((err) => {
@@ -196,7 +197,7 @@ const HRClearanceFullCard = (props) => {
   //     const config = {
   //       headers: {
   //         Authorization: `Bearer ${
-  //           JSON.parse(localStorage.getItem("userDetails")).idToken
+  //           JSON.parse(secureLocalStorage.getItem("userDetails"))
   //         }`,
   //       },
   //     };
@@ -217,7 +218,7 @@ const HRClearanceFullCard = (props) => {
   //         }
   //       })
   //       .then((json) => {
-  //         console.log(json.data);
+  //         // =>console.log(json.data);
   //         swal("Success!", "Your record has been uploaded!", "success");
   //       })
   //       .catch((err) => {
@@ -235,7 +236,7 @@ const HRClearanceFullCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -247,7 +248,7 @@ const HRClearanceFullCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
 
           setGroupedClearanceEmp(response.data.clearanceFullFormEmployee);
           setGroupedClearanceICT(response.data.clearanceFullFormICT);
@@ -261,7 +262,7 @@ const HRClearanceFullCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -278,7 +279,7 @@ const HRClearanceFullCard = (props) => {
   //     const config = {
   //       headers: {
   //         Authorization: `Bearer ${
-  //           JSON.parse(localStorage.getItem("userDetails")).idToken
+  //           JSON.parse(secureLocalStorage.getItem("userDetails"))
   //         }`,
   //       },
   //     };
@@ -306,7 +307,7 @@ const HRClearanceFullCard = (props) => {
   //         }
   //       })
   //       .then((json) => {
-  //         console.log(json.data);
+  //         // =>console.log(json.data);
   //         // list1.splice(index, 1);
   //         // setQualificationList(list1);
   //         swal("Success!", "Your record has been Created!", "success");
@@ -323,7 +324,7 @@ const HRClearanceFullCard = (props) => {
   //     const config = {
   //       headers: {
   //         Authorization: `Bearer ${
-  //           JSON.parse(localStorage.getItem("userDetails")).idToken
+  //           JSON.parse(secureLocalStorage.getItem("userDetails"))
   //         }`,
   //       },
   //     };
@@ -351,7 +352,7 @@ const HRClearanceFullCard = (props) => {
   //         }
   //       })
   //       .then((json) => {
-  //         console.log(json.data);
+  //         // =>console.log(json.data);
   //         // list1.splice(index, 1);
   //         // setQualificationList(list1);
   //         swal("Success!", "Your record has been Approved!", "success");
@@ -368,7 +369,7 @@ const HRClearanceFullCard = (props) => {
   //     const config = {
   //       headers: {
   //         Authorization: `Bearer ${
-  //           JSON.parse(localStorage.getItem("userDetails")).idToken
+  //           JSON.parse(secureLocalStorage.getItem("userDetails"))
   //         }`,
   //       },
   //     };
@@ -397,7 +398,7 @@ const HRClearanceFullCard = (props) => {
   //         }
   //       })
   //       .then((json) => {
-  //         console.log(json.data);
+  //         // =>console.log(json.data);
   //         // list1.splice(index, 1);
   //         // setQualificationList(list1);
   //         swal("Success!", "Your record has been Pushed", "success");
@@ -426,7 +427,7 @@ const HRClearanceFullCard = (props) => {
   //       const config = {
   //         headers: {
   //           Authorization: `Bearer ${
-  //             JSON.parse(localStorage.getItem("userDetails")).idToken
+  //             JSON.parse(secureLocalStorage.getItem("userDetails"))
   //           }`,
   //         },
   //       };
@@ -456,7 +457,7 @@ const HRClearanceFullCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -477,7 +478,7 @@ const HRClearanceFullCard = (props) => {
         }
       })
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         swal("Success!", "Your record has been Approved", "success");
       })
       .catch((err) => {
@@ -494,7 +495,7 @@ const HRClearanceFullCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -515,7 +516,7 @@ const HRClearanceFullCard = (props) => {
         }
       })
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         swal("Success!", "Mailing was Successful", "success");
       })
       .catch((err) => {

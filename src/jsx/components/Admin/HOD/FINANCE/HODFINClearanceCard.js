@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect, useMemo, forwardRef } from "react";
 import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const HODFINClearanceCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -61,8 +62,8 @@ const HODFINClearanceCard = (props) => {
   //Select List
 
   const handleSelectListChange = (nameq,e, index) => {
-    console.log(e);
-    console.log(nameq);
+    // =>console.log(e);
+    // =>console.log(nameq);
     const { label, value } = e;
     const { name } = nameq;
     const list = [...groupedClearanceEmp];
@@ -84,7 +85,7 @@ const HODFINClearanceCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -105,7 +106,7 @@ const HODFINClearanceCard = (props) => {
           }
         })
         .then((json) => {
-          // console.log(json.data);
+          // // =>console.log(json.data);
           list1.splice(index, 1);
           setGroupedClearanceEmp(list1);
           swal("Success!", "Your record has been Deleted!", "success");
@@ -202,7 +203,7 @@ const HODFINClearanceCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -223,7 +224,7 @@ const HODFINClearanceCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           list[index].lineno = json.data
           setGroupedClearanceEmp(list);
           swal("Success!", "Your record has been uploaded!", "success");
@@ -270,7 +271,7 @@ const HODFINClearanceCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -291,7 +292,7 @@ const HODFINClearanceCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           list[index].lineno = json.data
           setGroupedClearanceEmp(list);
           swal("Success!", "Your record has been updated!", "success");
@@ -315,7 +316,7 @@ const HODFINClearanceCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -327,7 +328,7 @@ const HODFINClearanceCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
 
           setGroupedClearanceEmp(response.data.clearanceFullFormAdmin);
           setEmployeeList(response.data.employeeListModels);
@@ -338,7 +339,7 @@ const HODFINClearanceCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -355,7 +356,7 @@ const HODFINClearanceCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -376,7 +377,7 @@ const HODFINClearanceCard = (props) => {
         }
       })
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         swal("Success!", "Your record has been Pushed", "success");
       })
       .catch((err) => {

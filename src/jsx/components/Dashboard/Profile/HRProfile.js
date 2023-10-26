@@ -14,6 +14,7 @@ import swal from "sweetalert";
 import { format } from "date-fns";
 import DateTimePicker from "react-datetime-picker";
 import TimePicker from "react-time-picker";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 function HRProfile(props) {
   const [skilllist, setSkilllist] = useState([{ id: "", title: "" }]);
@@ -95,7 +96,11 @@ function HRProfile(props) {
       return;
     }
     //create aux
-    window.localStorage.setItem(
+    // window.localStorage0.setItem(
+    //   "datum",
+    //   JSON.stringify(props.location.state[0].datum[0])
+    // );
+    secureLocalStorage.setItem(
       "datum",
       JSON.stringify(props.location.state[0].datum[0])
     );
@@ -107,7 +112,7 @@ function HRProfile(props) {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -119,7 +124,7 @@ function HRProfile(props) {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setLoading(false);
           // alert(response.data.message);
           setSkilllist(response.data.skillList);
@@ -164,7 +169,7 @@ function HRProfile(props) {
               : "No"
           );
 
-          // console.log(response.data);
+          // // =>console.log(response.data);
         }
         if (response.status === 404) {
           alert(response.data.message);
@@ -179,7 +184,7 @@ function HRProfile(props) {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -239,7 +244,7 @@ function HRProfile(props) {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -266,7 +271,7 @@ function HRProfile(props) {
   };
 
   const initJob = () => {
-    let lcal = JSON.parse(window.localStorage.getItem("datum"));
+    let lcal = JSON.parse(window.secureLocalStorage.getItem("datum"));
     let ReqID = lcal.reqNo;
     let UID = lcal.userId;
     const yearsBetween =
@@ -277,7 +282,7 @@ function HRProfile(props) {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -303,7 +308,7 @@ function HRProfile(props) {
         })
         .then(function (response) {
           if (response.status === 200) {
-            console.log(response.data);
+            // =>console.log(response.data);
 
             setJobAppCode(response.data);
             setJInit(true);
@@ -320,13 +325,13 @@ function HRProfile(props) {
   };
 
   const postJobApp = () => {
-    let lcal = JSON.parse(window.localStorage.getItem("datum"));
+    let lcal = JSON.parse(window.secureLocalStorage.getItem("datum"));
     let userId = lcal.userId;
     let jobTitle = lcal.title;
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -364,7 +369,7 @@ function HRProfile(props) {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
 
           // setJobAppCode(response.data);
           setJInit(true);
@@ -474,7 +479,7 @@ function HRProfile(props) {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -498,7 +503,7 @@ function HRProfile(props) {
           const pdfWindow = window.open();
           pdfWindow.location.href = fileURL;
 
-          // console.log(response.data);
+          // // =>console.log(response.data);
           // window.open(response.data, '_blank', 'fullscreen=yes');
           // FileDownload(response.data, 'current_cv.pdf');
         }
@@ -512,17 +517,17 @@ function HRProfile(props) {
         } else {
           swal("Oh!", err.message, "error");
         }
-        // console.log(err.response.status);
+        // // =>console.log(err.response.status);
       });
   };
 
   const viewAttach = (fid) => {
-    let userID = JSON.parse(localStorage.getItem("datum")).userId;
+    let userID = JSON.parse(secureLocalStorage.getItem("datum")).userId;
     const config = {
       responseType: "arraybuffer",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
         // responseType:'arraybuffer',
         // 'Content-Type': 'blob',

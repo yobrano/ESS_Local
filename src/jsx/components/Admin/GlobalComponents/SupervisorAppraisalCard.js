@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import Select from "react-select";
 import swal from "sweetalert";
 import BreadCrumb from "./BreadCrumb";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const SupervisorAppraisalCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -31,7 +32,7 @@ const SupervisorAppraisalCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -43,7 +44,7 @@ const SupervisorAppraisalCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setJobkpiList(response.data.performanceIndicators);
           setData(props.location.state[0].datum[0]);
           InitialStdLoad();
@@ -58,7 +59,7 @@ const SupervisorAppraisalCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -76,7 +77,7 @@ const SupervisorAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -88,7 +89,7 @@ const SupervisorAppraisalCard = (props) => {
         )
         .then(function (response) {
           if (response.status === 200) {
-            console.log(response.data);
+            // =>console.log(response.data);
             // setActivityList(response.data.performanceActivities);
             setStandardList(response.data.supervisorAppraisalStandards);
             setDisableCreateNewActivity(false);
@@ -96,7 +97,7 @@ const SupervisorAppraisalCard = (props) => {
           }
           if (response.status === 404) {
             swal("Oh!", response.data.message, "error");
-            console.log(response.data.message);
+            // =>console.log(response.data.message);
           }
         })
         .catch((err) => {
@@ -116,7 +117,7 @@ const SupervisorAppraisalCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -133,11 +134,11 @@ const SupervisorAppraisalCard = (props) => {
           setAreaofDevelopmentList(response.data.areaofDevelopmentList);
           setSpecificfocusList(response.data.specificFocusList);
 
-          console.log(response.data);
+          // =>console.log(response.data);
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -150,7 +151,7 @@ const SupervisorAppraisalCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -162,7 +163,7 @@ const SupervisorAppraisalCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           // setActivityList(response.data.performanceActivities);
           setStandardList(response.data.employeeAppraisalStandards);
           setDisableCreateNewActivity(false);
@@ -170,7 +171,7 @@ const SupervisorAppraisalCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -187,7 +188,7 @@ const SupervisorAppraisalCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -220,7 +221,7 @@ const SupervisorAppraisalCard = (props) => {
         }
       })
       .catch((err) => {
-        // console.log("catch err:"+err);
+        // // =>console.log("catch err:"+err);
         if (err !== undefined) {
           swal("Ooh!", "Error File not Found", "error");
         }
@@ -236,7 +237,7 @@ const SupervisorAppraisalCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -263,7 +264,7 @@ const SupervisorAppraisalCard = (props) => {
         }
       })
       .catch((err) => {
-        console.log("catch err:" + err);
+        // =>console.log("catch err:" + err);
         // if (err !== undefined) {
         //   swal("Ooh!", err, "error");
         // }
@@ -302,7 +303,7 @@ const SupervisorAppraisalCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -334,7 +335,7 @@ const SupervisorAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -382,7 +383,7 @@ const SupervisorAppraisalCard = (props) => {
       } else {
         list[index][name] = "No";
         list[index].id = index;
-        console.log(list);
+        // =>console.log(list);
         setAreaofDevelopmentList(list);
       }
     } else {
@@ -401,7 +402,7 @@ const SupervisorAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -470,7 +471,7 @@ const SupervisorAppraisalCard = (props) => {
     //Get the record
     const list = [...areaofDevelopmentList];
     let record = list[index];
-    // console.log(record);
+    // // =>console.log(record);
 
     if (record.lineNo === "") {
       //Oridinal Entry
@@ -482,7 +483,7 @@ const SupervisorAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -505,7 +506,7 @@ const SupervisorAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           list[index].lineNo = json.data.extMessage;
           setAreaofDevelopmentList(list)
           swal("Success!", "Your record has been uploaded!", "success");
@@ -525,7 +526,7 @@ const SupervisorAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -548,7 +549,7 @@ const SupervisorAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been Updated!", "success");
         })
         .catch((err) => {
@@ -574,7 +575,7 @@ const SupervisorAppraisalCard = (props) => {
       } else {
         list[index][name] = "No";
         list[index].id = index;
-        console.log(list);
+        // =>console.log(list);
         setSpecificfocusList(list);
       }
     } else {
@@ -593,7 +594,7 @@ const SupervisorAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -662,7 +663,7 @@ const SupervisorAppraisalCard = (props) => {
     //Get the record
     const list = [...specificfocusList];
     let record = list[index];
-    // console.log(record);
+    // // =>console.log(record);
 
     if (record.lineNo === "") {
       //Oridinal Entry
@@ -674,7 +675,7 @@ const SupervisorAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -697,7 +698,7 @@ const SupervisorAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           list[index].lineNo = json.data.extMessage;
           setSpecificfocusList(list)
           swal("Success!", "Your record has been uploaded!", "success");
@@ -717,7 +718,7 @@ const SupervisorAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -740,7 +741,7 @@ const SupervisorAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been Updated!", "success");
         })
         .catch((err) => {

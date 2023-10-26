@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import "./HRDashboard.css";
 import LeaveStatistic from "../../Admin/GlobalComponents/LeaveStatistic";
 import DashboardUI from "../../Admin/GlobalComponents/DashboardUI";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const sampleData1 = [
   8, 7, 6, 3, 2, 4, 6, 8, 12, 6, 12, 13, 10, 18, 14, 24, 16, 12, 19, 21, 16, 14,
@@ -27,7 +28,7 @@ const HRHome = () => {
   const config = {
     headers: {
       Authorization: `Bearer ${
-        JSON.parse(localStorage.getItem("userDetails")).idToken
+        JSON.parse(secureLocalStorage.getItem("userDetails"))
       }`,
     },
   };
@@ -40,7 +41,7 @@ const HRHome = () => {
         config
       )
       .then((result) => {
-        console.log(result.data);
+        // // =>console.log(result.data);
         setApplicatants(result.data.viewedCount);
         setViewed(result.data.pendingCount);
       })

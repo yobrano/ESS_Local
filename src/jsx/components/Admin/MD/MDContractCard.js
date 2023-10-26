@@ -6,6 +6,7 @@ import "./ExitForm.css";
 import axios from "axios";
 import swal from "sweetalert";
 import BreadCrumb from "../GlobalComponents/BreadCrumb";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const MDContractCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -154,7 +155,7 @@ const MDContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -166,7 +167,7 @@ const MDContractCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data.probationFirstList[0]);
+          // =>console.log(response.data.probationFirstList[0]);
 
           setJobTitle(response.data.probationFirstList[0].jobtitle)
           setBranch(response.data.probationFirstList[0].branch)
@@ -407,7 +408,7 @@ const MDContractCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -421,7 +422,7 @@ const MDContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -451,7 +452,7 @@ const MDContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Contract Record Reversed.", "success");
         }
@@ -475,7 +476,7 @@ const MDContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -503,7 +504,7 @@ const MDContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Contract Form Updated/Pushed", "success");
         }
@@ -526,7 +527,7 @@ const MDContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -554,7 +555,7 @@ const MDContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Contract Form Rejected/Pushed", "success");
         }
@@ -578,7 +579,7 @@ const MDContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -614,7 +615,7 @@ const MDContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           swal("Success!", "Probation Card Updated", "success");
         }
         if (response.status === 404) {
@@ -637,7 +638,7 @@ const MDContractCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };

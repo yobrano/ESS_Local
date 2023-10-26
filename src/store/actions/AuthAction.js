@@ -1,4 +1,5 @@
 import swal from "sweetalert";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../AppUtility"; import jwt_decode from "jwt-decode";
 import RedirectToDocIfNotRead from "../../jsx/components/Admin/GlobalComponents/RedirectToDocIfNotRead";
 import {
   formatError,
@@ -17,6 +18,7 @@ export const LOGIN_FAILED_ACTION = "[login action] failed login";
 export const LOADING_TOGGLE_ACTION = "[Loading action] toggle loading";
 export const LOGOUT_ACTION = "[Logout action] logout action";
 
+
 export function signupActionAdmin(email, password, name, hrID, history) {
   return (dispatch) => {
     signUpAdmin(email, password, name, hrID, history)
@@ -24,7 +26,7 @@ export function signupActionAdmin(email, password, name, hrID, history) {
         if (response.status === 208) {
           dispatch(signupFailedAction(response.data.message));
           // alert(response.data.message)
-          console.log(response.data);
+          // =>console.log(response.data);
         } else {
           saveTokenInLocalStorage(response.data);
           runLogoutTimer(dispatch, response.data.expiresIn * 1000, history);
@@ -34,7 +36,7 @@ export function signupActionAdmin(email, password, name, hrID, history) {
       })
       .catch((error) => {
        // swal("Ops",error.response.data.message.toString(),"error")
-        // console.log(error.response.data.message);
+        // // =>console.log(error.response.data.message);
         const errorMessage = formatError(error.response.data);
         dispatch(signupFailedAction(errorMessage));
       });
@@ -48,9 +50,9 @@ export function signupAction(email, password, username, name, history) {
         if (response.status === 208) {
           dispatch(signupFailedAction(response.data.message));
           // alert(response.data.message)
-          console.log(response.data);
+          // =>console.log(response.data);
         } else {
-          console.log(response.data);
+          // =>console.log(response.data);
           // saveTokenInLocalStorage(response.data);
           // runLogoutTimer(
           //     dispatch,
@@ -71,7 +73,8 @@ export function signupAction(email, password, username, name, history) {
 }
 
 export function logout(history) {
-  localStorage.removeItem("userDetails");
+  secureLocalStorage.removeItem("userDetails");
+  secureLocalStorage.removeItem("expireDate");
   history.push("/");
   return {
     type: LOGOUT_ACTION,
@@ -83,7 +86,7 @@ export function loginAction(email, password, history) {
   return (dispatch) => {
     login(email, password)
       .then((response) => {
-        // console.log(response.data);
+        // // =>console.log(response.data);
         saveTokenInLocalStorage(response.data);
 
         // runLogoutTimer(
@@ -97,15 +100,16 @@ export function loginAction(email, password, history) {
         // } else {
           
         // }
-        if (JSON.parse(localStorage.getItem("userDetails")).user.length === 0) {
+        // // =>console.log(jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))));
+        if (jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role.length === 0) {
           history.push("/dashboard");
         } else if (
-          JSON.parse(localStorage.getItem("userDetails")).user[0] === "HOD"
+          jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "HOD"
         ) {
          
           // history.push("/HOD-dashboard");
           RedirectToDocIfNotReadFn().then(function (response) {
-            console.log( response.data);
+            // =>console.log( response.data);
             if(response.data.return_value){
               history.push("/HOD-dashboard");
              }else{
@@ -129,11 +133,11 @@ export function loginAction(email, password, history) {
         }
 
         else if (
-          JSON.parse(localStorage.getItem("userDetails")).user[0] === "HOD-ADMIN"
+          jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "HOD-ADMIN"
         ) {
           //history.push("/HOD-dashboard");
           RedirectToDocIfNotReadFn().then(function (response) {
-            console.log( response.data);
+            // =>console.log( response.data);
             if(response.data.return_value){
               history.push("/HOD-dashboard");
              }else{
@@ -157,11 +161,11 @@ export function loginAction(email, password, history) {
         }
 
         else if (
-          JSON.parse(localStorage.getItem("userDetails")).user[0] === "HOD-IT"
+          jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "HOD-IT"
         ) {
           //history.push("/HOD-dashboard");
           RedirectToDocIfNotReadFn().then(function (response) {
-            console.log( response.data);
+            // =>console.log( response.data);
             if(response.data.return_value){
               history.push("/HOD-dashboard");
              }else{
@@ -185,11 +189,11 @@ export function loginAction(email, password, history) {
         }
 
         else if (
-          JSON.parse(localStorage.getItem("userDetails")).user[0] === "HOD-HR"
+          jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "HOD-HR"
         ) {
           //history.push("/HOD-dashboard");
           RedirectToDocIfNotReadFn().then(function (response) {
-            console.log( response.data);
+            // =>console.log( response.data);
             if(response.data.return_value){
               history.push("/HOD-dashboard");
              }else{
@@ -213,11 +217,11 @@ export function loginAction(email, password, history) {
         }
 
         else if (
-          JSON.parse(localStorage.getItem("userDetails")).user[0] === "HOD-FIN"
+          jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "HOD-FIN"
         ) {
           //history.push("/HOD-dashboard");
           RedirectToDocIfNotReadFn().then(function (response) {
-            console.log( response.data);
+            // =>console.log( response.data);
             if(response.data.return_value){
               history.push("/HOD-dashboard");
              }else{
@@ -242,12 +246,12 @@ export function loginAction(email, password, history) {
 
         
         else if (
-          JSON.parse(localStorage.getItem("userDetails")).user[0] === "MD"
+          jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "MD"
         ) {
         
           // history.push("/MD-dashboard");
           RedirectToDocIfNotReadFn().then(function (response) {
-            console.log( response.data);
+            // =>console.log( response.data);
             if(response.data.return_value){
               history.push("/MD-dashboard");
              }else{
@@ -270,11 +274,11 @@ export function loginAction(email, password, history) {
 
         }
         else if (
-          JSON.parse(localStorage.getItem("userDetails")).user[0] === "FD"
+          jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "FD"
         ) {
           //history.push("/FD-dashboard");
           RedirectToDocIfNotReadFn().then(function (response) {
-            console.log( response.data);
+            // =>console.log( response.data);
             if(response.data.return_value){
               history.push("/FD-dashboard");
              }else{
@@ -293,15 +297,15 @@ export function loginAction(email, password, history) {
               swal("Oh!", err.message, "error");
             }
             
-          });
+          }); 
         }
 
         else if (
-          JSON.parse(localStorage.getItem("userDetails")).user[0] === "NOS"
+          jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "NOS"
         ) {
           //history.push("/FD-dashboard");
           RedirectToDocIfNotReadFn().then(function (response) {
-            console.log( response.data);
+            // =>console.log( response.data);
             if(response.data.return_value){
               history.push("/NOS-dashboard");
              }else{
@@ -325,11 +329,11 @@ export function loginAction(email, password, history) {
 
 
         else if (
-          JSON.parse(localStorage.getItem("userDetails")).user[0] === "NORMAL"
+          jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "NORMAL"
         ) {
           //history.push("/staff-dashboard");
           RedirectToDocIfNotReadFn().then(function (response) {
-            console.log( response.data);
+            // =>console.log( response.data);
             if(response.data.return_value){
               history.push("/staff-dashboard");
              }else{
@@ -351,12 +355,12 @@ export function loginAction(email, password, history) {
           });
         }
          else if (
-          JSON.parse(localStorage.getItem("userDetails")).user[0] === "HR"
+          jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "HR"
         ) {
 
 
           RedirectToDocIfNotReadFn().then(function (response) {
-            console.log( response.data);
+            // =>console.log( response.data);
             if(response.data.return_value){
               history.push("/HR-dashboard");
              }else{
@@ -383,12 +387,12 @@ export function loginAction(email, password, history) {
          
         } 
         else if (
-          JSON.parse(localStorage.getItem("userDetails")).user[0] === "HEAD-HR"
+          jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "HEAD-HR"
         ) {
 
 
           RedirectToDocIfNotReadFn().then(function (response) {
-            console.log( response.data);
+            // =>console.log( response.data);
             if(response.data.return_value){
               history.push("/HR-dashboard");
              }else{
@@ -423,9 +427,9 @@ export function loginAction(email, password, history) {
       })
       .catch((error) => {
         // dispatch(loadingToggleAction(false));
-        // console.log(error.response.data);
-        const errorMessage = formatError(error.response.data);
-        dispatch(loginFailedAction(errorMessage));
+        // =>console.log(error);
+        // const errorMessage = formatError(error.response.data);
+        // dispatch(loginFailedAction(errorMessage));
       });
   };
 }

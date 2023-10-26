@@ -5,6 +5,7 @@ import { Link, withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
 import { Collapse } from "react-bootstrap";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const HODRequisionCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -96,7 +97,7 @@ const HODRequisionCard = (props) => {
   const [reversalLevel, setReversalLevel] = useState("");
 
   //{ id: "", description: "",rqmentcode:"",mandatory:"",lineno:"",jobno:"" },
-  // console.log(requirementlist);
+  // // =>console.log(requirementlist);
 
   // handle input change
   const handleInputRequireChange = (e, index) => {
@@ -112,7 +113,7 @@ const HODRequisionCard = (props) => {
       } else {
         list[index][name] = "No";
         list[index].id = index;
-        console.log(list);
+        // =>console.log(list);
         setRequirementlist(list);
       }
     } else {
@@ -130,7 +131,7 @@ const HODRequisionCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -187,7 +188,7 @@ const HODRequisionCard = (props) => {
     //Get the record
     const list = [...requirementlist];
     let record = list[index];
-    // console.log(record);
+    // // =>console.log(record);
     let jobno = list[0]["jobno"];
     let data = {
       Description: record.description,
@@ -200,7 +201,7 @@ const HODRequisionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -223,7 +224,7 @@ const HODRequisionCard = (props) => {
       })
       // .then(result => result.json())
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         swal("Success!", "Your record has been uploaded!", "success");
       })
       .catch((err) => {
@@ -246,7 +247,7 @@ const HODRequisionCard = (props) => {
       } else {
         list[index][name] = "No";
         list[index].id = index;
-        console.log(list[index]);
+        // =>console.log(list[index]);
         setQualificationList(list);
       }
     } else {
@@ -259,12 +260,12 @@ const HODRequisionCard = (props) => {
   const handleRemoveQualifClick = (index) => {
     const list1 = [...qualificationList];
     let _no = list1[index].lineno;
-    console.log(_no);
+    // =>console.log(_no);
     if (_no !== "") {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -284,7 +285,7 @@ const HODRequisionCard = (props) => {
           }
         })
         .then((json) => {
-          // console.log(json.data);
+          // // =>console.log(json.data);
           list1.splice(index, 1);
           setQualificationList(list1);
           swal("Success!", "Your record has been Deleted!", "success");
@@ -322,7 +323,7 @@ const HODRequisionCard = (props) => {
     //Add record to d365
     const list = [...qualificationList];
     let record = list[index];
-    // console.log(record);
+    // // =>console.log(record);
     if (list[0] !== undefined) {
       let jobno = list[0]["jobno"];
 
@@ -337,7 +338,7 @@ const HODRequisionCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -358,7 +359,7 @@ const HODRequisionCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -386,7 +387,7 @@ const HODRequisionCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -406,7 +407,7 @@ const HODRequisionCard = (props) => {
           }
         })
         .then((json) => {
-          // console.log(json.data);
+          // // =>console.log(json.data);
           list1.splice(index, 1);
           setResponsibilityList(list1);
           swal("Success!", "Your record has been Deleted!", "success");
@@ -444,7 +445,7 @@ const HODRequisionCard = (props) => {
     //Add record to d365
     const list = [...responsibiltyList];
     let record = list[index];
-    // console.log(record);
+    // // =>console.log(record);
     let jobno =
       list[0]["jobno"] === ""
         ? props.location.state[0].jobNo
@@ -460,7 +461,7 @@ const HODRequisionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -481,7 +482,7 @@ const HODRequisionCard = (props) => {
         }
       })
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         swal("Success!", "Your record has been uploaded!", "success");
       })
       .catch((err) => {
@@ -506,7 +507,7 @@ const HODRequisionCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -526,7 +527,7 @@ const HODRequisionCard = (props) => {
           }
         })
         .then((json) => {
-          // console.log(json.data);
+          // // =>console.log(json.data);
           list1.splice(index, 1);
           setCheckList(list1);
           swal("Success!", "Your record has been Deleted!", "success");
@@ -577,7 +578,7 @@ const HODRequisionCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -598,7 +599,7 @@ const HODRequisionCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -616,7 +617,7 @@ const HODRequisionCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -637,7 +638,7 @@ const HODRequisionCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -652,7 +653,7 @@ const HODRequisionCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -679,7 +680,7 @@ const HODRequisionCard = (props) => {
           const pdfWindow = window.open();
           pdfWindow.location.href = fileURL;
 
-          // console.log(response.data);
+          // // =>console.log(response.data);
           // window.open(response.data, '_blank', 'fullscreen=yes');
           // FileDownload(response.data, 'current_cv.pdf');
         }
@@ -699,7 +700,7 @@ const HODRequisionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -740,7 +741,7 @@ const HODRequisionCard = (props) => {
 
           setStatusProgress(response.data.statusProgress);
 
-          console.log(response.data);
+          // =>console.log(response.data);
           //  if (employeeList.length > 0) {
 
           // }
@@ -748,7 +749,7 @@ const HODRequisionCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -761,7 +762,7 @@ const HODRequisionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -782,7 +783,7 @@ const HODRequisionCard = (props) => {
         }
       })
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         swal("Success!", "Your record has been Approved!", "success");
       })
       .catch((err) => {
@@ -811,7 +812,7 @@ const HODRequisionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -834,7 +835,7 @@ const HODRequisionCard = (props) => {
       })
       // .then(result => result.json())
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         swal("Success!", "Your record has been uploaded!", "success");
       })
       .catch((err) => {
@@ -859,7 +860,7 @@ const HODRequisionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -876,11 +877,11 @@ const HODRequisionCard = (props) => {
       .then(function (response) {
         if (response.status === 200) {
           swal("Success", response.data.message, "success");
-          console.log(response.data);
+          // =>console.log(response.data);
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -899,7 +900,7 @@ const HODRequisionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -923,7 +924,7 @@ const HODRequisionCard = (props) => {
         }
       })
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         swal(
           "Success!",
           "Your record has been Approved and Publish",
@@ -958,7 +959,7 @@ const HODRequisionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -992,10 +993,10 @@ const HODRequisionCard = (props) => {
       })
       .catch((err) => {
         if (err.response !== undefined) {
-          console.log(err.response.data.message);
+          // =>console.log(err.response.data.message);
           swal("Oh!", "Requisition Reversed Failed", "error");
         } else {
-          console.log(err.message);
+          // =>console.log(err.message);
           swal("Oh!","Requisition Reversed Failed", "error");
         }
       });

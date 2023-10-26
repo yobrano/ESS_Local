@@ -13,6 +13,7 @@ import {
 } from "react-table";
 import { matchSorter } from "match-sorter";
 import swal from "sweetalert";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 // import { Interweave, Markup } from "interweave";
 
 const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
@@ -240,7 +241,7 @@ const DataTable = ({ columns, data, setSelection, props }) => {
       responseType: "arraybuffer",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
         // responseType: "blob",
       },
@@ -272,7 +273,7 @@ const DataTable = ({ columns, data, setSelection, props }) => {
         //   const pdfWindow = window.open();
         //   pdfWindow.location.href = fileURL;
 
-        //   // console.log(response.data);
+        //   // // =>console.log(response.data);
         //   // window.open(response.data, '_blank', 'fullscreen=yes');
         //   // FileDownload(response.data, 'current_cv.pdf');
         // }
@@ -435,7 +436,7 @@ function LeaveSupervisee(props) {
   const config = {
     headers: {
       Authorization: `Bearer ${
-        JSON.parse(localStorage.getItem("userDetails")).idToken
+        JSON.parse(secureLocalStorage.getItem("userDetails"))
       }`,
     },
   };
@@ -445,7 +446,7 @@ function LeaveSupervisee(props) {
     axios
       .get(`${process.env.REACT_APP_API_S_LINK}/leave/getemployeepermanager`, config)
       .then((result) => {
-        console.log(result.data);
+        // =>console.log(result.data);
         setData(result.data.managerEmployees);
       })
       .catch((err) => {
@@ -506,7 +507,7 @@ function LeaveSupervisee(props) {
   //     setSelection,
   //   ]);
   if (selection.length === 1) {
-    console.log(selection[0].employeeNo);
+    // =>console.log(selection[0].employeeNo);
     if (selection[0].employeeNo !== undefined) {
       props.history.push("/supervisees-card", [{ datum: selection }]);
     }

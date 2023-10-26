@@ -7,6 +7,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
 import axios from "axios";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 function Profile() {
   const [cvfile, setCvfile] = useState("");
@@ -118,7 +119,7 @@ function Profile() {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -132,7 +133,7 @@ function Profile() {
         .then(function (response) {
           if (response.status === 200) {
             alert(response.data.message);
-            //console.log(response.data);
+            //// =>console.log(response.data);
           }
           if (response.status === 404) {
             alert(response.data.message);
@@ -154,7 +155,7 @@ function Profile() {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -163,7 +164,7 @@ function Profile() {
       .get(`${process.env.REACT_APP_API_S_LINK}/profile/profile`, config)
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           // setSkilllist
           // let DOB = format(response.data.profileModel.dob,'dd/mm/yyyy')
           // setStartDate(DOB)
@@ -199,12 +200,12 @@ function Profile() {
           //selected from code
           // let list = [...bankList]
           // let keyvbank= list.find(e=>e.value === response.data.profileModel.bankCode);
-          // //console.log(keyvbank);
+          // //// =>console.log(keyvbank);
           // setSelectedBank(keyvbank);
           // setBankcode(response.data.profileModel.bankCode)
           // let list2 = [...bankbranchList]
           // let keyvbrnch=list2['value']=response.data.profileModel.bankBranchCode
-          // console.log(keyvbrnch);
+          // // =>console.log(keyvbrnch);
           // setSelectedBankBranch(keyvbrnch)
           //setBbranchcode(response.data.profileModel.bankBranchCode)
           setDisabled(response.data.profileModel.personWithDisability);
@@ -220,7 +221,7 @@ function Profile() {
           setBankList(response.data.bankModels);
           setCVPath(response.data.userCV.filePath);
           setStartDate(new Date(response.data.profileModel.dob));
-          // console.log(response.data);
+          // // =>console.log(response.data);
         }
         if (response.status === 404) {
           alert(response.data.message);
@@ -234,7 +235,7 @@ function Profile() {
       .get(`${process.env.REACT_APP_API_S_LINK}/profile/getskills`, config)
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
 
           if (response.data.length === 0) {
             setSkilllist([{ id: "", title: "" }]);
@@ -242,7 +243,7 @@ function Profile() {
             setSkilllist(response.data);
           }
 
-          // console.log(response.data);
+          // // =>console.log(response.data);
         }
         if (response.status === 404) {
           alert(response.data.message);
@@ -258,7 +259,7 @@ function Profile() {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -270,7 +271,7 @@ function Profile() {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setBankbranchList(response.data.bankBranches);
         }
       })
@@ -286,7 +287,7 @@ function Profile() {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -299,7 +300,7 @@ function Profile() {
         .then(function (response) {
           if (response.status === 200) {
             subsetCountyList(response.data.subCountyModels);
-            console.log(response.data);
+            // =>console.log(response.data);
           }
         })
         .catch((err) => {
@@ -353,7 +354,7 @@ function Profile() {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -419,7 +420,7 @@ function Profile() {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -451,7 +452,7 @@ function Profile() {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -475,7 +476,7 @@ function Profile() {
           const pdfWindow = window.open();
           pdfWindow.location.href = fileURL;
 
-          // console.log(response.data);
+          // // =>console.log(response.data);
           // window.open(response.data, '_blank', 'fullscreen=yes');
           // FileDownload(response.data, 'current_cv.pdf');
         }

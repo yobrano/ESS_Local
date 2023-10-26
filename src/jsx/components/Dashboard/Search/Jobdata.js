@@ -19,6 +19,7 @@ import "./filtering.css";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 import swal from "sweetalert";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const Jobdata = (props) => {
   // const location = useLocation();
@@ -48,7 +49,7 @@ const Jobdata = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -70,7 +71,7 @@ const Jobdata = (props) => {
         if (response.status === 200) {
           alert(response.data.message);
           
-          // console.log(response.data);
+          // // =>console.log(response.data);
         }
       })
       .catch((err) => {
@@ -83,7 +84,7 @@ const Jobdata = (props) => {
   };
   // const loadFromLocalStorage = () => {
   //   try {
-  //     const stateStr = localStorage.getItem("state");
+  //     const stateStr = secureLocalStorage.getItem("state");
   //     return stateStr ? JSON.parse(stateStr) : undefined;
   //   } catch (e) {
   //     console.error(e);
@@ -91,7 +92,7 @@ const Jobdata = (props) => {
   //   }
   // };
 
-  // console.log(props.location.state[0].jobData.jobCheck.length);
+  // // =>console.log(props.location.state[0].jobData.jobCheck.length);
   // if(props.location.state[0].jobData.jobCheck !== undefined){
     // if(props.location.state[0].jobData.jobCheck.length>0){
     //   setUploadButtonActive(true)
@@ -104,7 +105,7 @@ const Jobdata = (props) => {
   // }
 
   const checkFile = (event,i) => {
-   console.log(event.target.files);
+   // =>console.log(event.target.files);
    let list = [...selectedFile]
     list[i] = event.target.files;
    setSelectedFile(list)
@@ -161,7 +162,7 @@ const Jobdata = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -171,7 +172,7 @@ const Jobdata = (props) => {
     //   jobId:props.location.state[0].jobData.jobMeta.no
     //   // form:
     // };
-    // console.log(bodyParameters);
+    // // =>console.log(bodyParameters);
 
     let jobNo = props.location.state[0].jobData.jobMeta.no;
  
@@ -183,7 +184,7 @@ const Jobdata = (props) => {
       )
       .then((result) => {
         if(result.status ===200){
-        console.log("Success:", result);
+        // =>console.log("Success:", result);
         swal(result.data.message)
         setSelectedFile([])
         setUploadButtonActive(true)
@@ -365,7 +366,7 @@ const Jobdata = (props) => {
       );
     }
   } catch (error) {
-    console.log(error);
+    // =>console.log(error);
     return <></>;
   }
 };

@@ -6,6 +6,7 @@ import "./ExitForm.css";
 import axios from "axios";
 import swal from "sweetalert";
 import BreadCrumb from "../GlobalComponents/BreadCrumb";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const ContractCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -157,7 +158,7 @@ const ContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -169,7 +170,7 @@ const ContractCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setSuperVisionTime(props.location.state[0].datum[0].supervisionTime)
           setDoRenew(props.location.state[0].datum[0].doRenew)
           setHowlong(props.location.state[0].datum[0].howlong)
@@ -187,7 +188,7 @@ const ContractCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -215,7 +216,7 @@ const ContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -242,7 +243,7 @@ const ContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           swal("Success!", "Contact Form Updated", "success");
         }
         if (response.status === 404) {
@@ -281,7 +282,7 @@ const ContractCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -316,7 +317,7 @@ const ContractCard = (props) => {
   const uploadFirstSegmentCard = (e) => {
     e.preventDefault();
 
-    //console.log(`outstanding=${outstanding} aboveAverage=${aboveAverage} satisfactory=${satisfactory} marginal=${marginal} unsatisfactory=${unsatisfactory}`);
+    //// =>console.log(`outstanding=${outstanding} aboveAverage=${aboveAverage} satisfactory=${satisfactory} marginal=${marginal} unsatisfactory=${unsatisfactory}`);
     let error=false;
     if ((outstanding === false && aboveAverage === false && satisfactory === false && marginal === false && unsatisfactory === false ) ) {
       setAlrtone('alrt-border-1 border border-danger p-3 m-2 rounded')
@@ -366,7 +367,7 @@ const ContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -485,7 +486,7 @@ const ContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           swal("Success!", "Contract Card Updated", "success");
         }
         if (response.status === 404) {
@@ -507,7 +508,7 @@ const ContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -538,7 +539,7 @@ const ContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           swal("Success!", "Probation Card Updated", "success");
         }
        
@@ -613,7 +614,7 @@ const ContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -649,7 +650,7 @@ const ContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           swal("Success!", "Probation Card Updated", "success");
         }
         if (response.status === 404) {
@@ -670,8 +671,8 @@ const ContractCard = (props) => {
   let sectionOne = "";
   let reversePath="";
   let authUser= "";
-  if (JSON.parse(localStorage.getItem("userDetails")).user.length > 0) {
-    authUser = JSON.parse(localStorage.getItem("userDetails")).user[0];
+  if (JSON.parse(secureLocalStorage.getItem("userDetails")).user.length > 0) {
+    authUser = jwt_decode(JSON.parse(decryptToken(secureLocalStorage.getItem("userDetails")))).Role;
   }
 
   if (props.location.state[0].datum[0].status === "Open"  && props.location.state[0].datum[0].contractStatus !== 10 ) {

@@ -54,7 +54,7 @@ function Resetpassword(props) {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           props.history.push("forgot", [{ datax: email }]);
           // swal("Success!", "Job Application Created", "success");
         }

@@ -67,7 +67,7 @@ function Login(props) {
   // )
 
   const buton = props.showLoading === true ? "Loading..." : "Sign In";
-    // console.log(process.env.REACT_APP_MOMENTUM_ESS);
+    // // =>console.log(process.env.REACT_APP_MOMENTUM_ESS);
   let UI = ""
   if (process.env.REACT_APP_MOMENTUM_ESS==="true") {
     // alert("if")
@@ -185,9 +185,9 @@ function Login(props) {
                             aria-label="Input group Password"
                             aria-describedby="btnGroupAddon"
                           />
-                           <div class="input-group-append">
+                           <div className="input-group-append">
                             <div
-                              class="input-group-text"
+                              className="input-group-text"
                               id="btnGroupAddon"
                               onClick={togglePassword}
                             >
@@ -358,9 +358,9 @@ function Login(props) {
                               aria-label="Input group Password"
                               aria-describedby="btnGroupAddon"
                             />
-                             <div class="input-group-append">
+                             <div className="input-group-append">
                               <div
-                                class="input-group-text"
+                                className="input-group-text"
                                 id="btnGroupAddon"
                                 onClick={togglePassword}
                               >

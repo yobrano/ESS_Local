@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "../HR/ExitForm.css";
 import axios from "axios";
 import swal from "sweetalert";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 
 const BucketProbationHODCard = (props) => {
@@ -166,7 +167,7 @@ const BucketProbationHODCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -178,7 +179,7 @@ const BucketProbationHODCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data.probationFirstList[0]);
+          // =>console.log(response.data.probationFirstList[0]);
 
           setJobTitle(response.data.probationFirstList[0].jobtitle)
           setBranch(response.data.probationFirstList[0].branch)
@@ -416,7 +417,7 @@ const BucketProbationHODCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -434,7 +435,7 @@ const BucketProbationHODCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -462,7 +463,7 @@ const BucketProbationHODCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Probation Form Updated/Pushed", "success");
         }
@@ -486,7 +487,7 @@ const BucketProbationHODCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -514,7 +515,7 @@ const BucketProbationHODCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Probation Form Rejected/Pushed", "success");
         }
@@ -539,7 +540,7 @@ const BucketProbationHODCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -575,7 +576,7 @@ const BucketProbationHODCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           swal("Success!", "Probation Card Updated", "success");
         }
         if (response.status === 404) {
@@ -598,7 +599,7 @@ const BucketProbationHODCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -639,7 +640,7 @@ const BucketProbationHODCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -669,7 +670,7 @@ const BucketProbationHODCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Probation Record Reversed.", "success");
         }
@@ -694,7 +695,7 @@ const BucketProbationHODCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -718,7 +719,7 @@ const BucketProbationHODCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Probation Pushed", "success");
         }
@@ -742,7 +743,7 @@ const BucketProbationHODCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -770,7 +771,7 @@ const BucketProbationHODCard = (props) => {
   
         .then(function (response) {
           if (response.status === 200) {
-            // console.log(response.data);
+            // // =>console.log(response.data);
             setDisableBtn(false);
             swal("Success!", "Probation  Re-enstated", "success");
           }
@@ -794,8 +795,8 @@ const BucketProbationHODCard = (props) => {
   let reversePath="";
   let authUser= "";
   let routeq = "1"
-  if (JSON.parse(localStorage.getItem("userDetails")).user.length > 0) {
-    authUser = JSON.parse(localStorage.getItem("userDetails")).user[0];
+  if (JSON.parse(secureLocalStorage.getItem("userDetails")).user.length > 0) {
+    authUser = jwt_decode(JSON.parse(decryptToken(secureLocalStorage.getItem("userDetails")))).Role;
   }
   if(authUser =="HEAD-HR"){
     routeq="4";

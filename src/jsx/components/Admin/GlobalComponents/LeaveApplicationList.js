@@ -13,6 +13,7 @@ import {
 } from "react-table";
 import { matchSorter } from "match-sorter";
 import swal from "sweetalert";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 // import { Interweave, Markup } from "interweave";
 
 const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
@@ -240,7 +241,7 @@ const DataTable = ({ columns, data, setSelection,props }) => {
       responseType: "arraybuffer",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
         // responseType: "blob",
       },
@@ -272,7 +273,7 @@ const DataTable = ({ columns, data, setSelection,props }) => {
         //   const pdfWindow = window.open();
         //   pdfWindow.location.href = fileURL;
 
-        //   // console.log(response.data);
+        //   // // =>console.log(response.data);
         //   // window.open(response.data, '_blank', 'fullscreen=yes');
         //   // FileDownload(response.data, 'current_cv.pdf');
         // }
@@ -435,7 +436,7 @@ function LeaveApplicationList(props) {
   const config = {
     headers: {
       Authorization: `Bearer ${
-        JSON.parse(localStorage.getItem("userDetails")).idToken
+        JSON.parse(secureLocalStorage.getItem("userDetails"))
       }`,
     },
   };
@@ -448,7 +449,7 @@ function LeaveApplicationList(props) {
         config
       )
       .then((result) => {
-        console.log(result.data.leaveApplications);
+        // =>console.log(result.data.leaveApplications);
         setData(result.data.leaveApplications);
       })
       .catch((err) => {
@@ -514,7 +515,7 @@ function LeaveApplicationList(props) {
   //     setSelection,
   //   ]);
   if (selection.length === 1) {
-    console.log(selection[0].no);
+    // =>console.log(selection[0].no);
     if (selection[0].no !== undefined) {
       props.history.push("/edit-leave", [{ datum: selection }]);
     }

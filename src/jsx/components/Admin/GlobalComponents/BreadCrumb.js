@@ -1,9 +1,10 @@
 // import React from "react";
 import { Link, withRouter } from "react-router-dom";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const BreadCrumb = (props) => {
   const Home = () => {
-    let rank = JSON.parse(localStorage.getItem("userDetails")).user[0];
+    let rank = jwt_decode(JSON.parse(decryptToken(secureLocalStorage.getItem("userDetails")))).Role;
     switch (rank) {
       case "HR":
         return props.history.push("HR-dashboard");

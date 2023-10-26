@@ -19,6 +19,7 @@ import Jobdetails from "./jsx/pages/Jobdetails";
 import NewStaff from "./jsx/pages/NewStaff";
 import NewStaffPassword from "./jsx/pages/NewStaffPassword";
 import Newpassword from "./jsx/pages/Newpassword";
+import { handelRightClick } from "./AppUtility";
 // import Forgot from "./jsx/pages/Forgotpassword";
 // import Resetpassword from "./jsx/pages/Resetpassword";
 // import AdminRegister from "./jsx/pages/AdminRegister";
@@ -43,6 +44,7 @@ const Login = lazy(() => {
 function App(props) {
   const dispatch = useDispatch();
   useEffect(() => {
+    document.addEventListener('contextmenu', handelRightClick);
     checkAutoLogin(dispatch,props.history)
   }, [dispatch,props.history]);
 
@@ -61,7 +63,7 @@ function App(props) {
       <Route path='/postpasswordreset/:customerNo/:passwordResetToken'  component={NewStaffPassword} />
     </Switch>
   );
-  // console.log(props.isAuthenticated);
+  // // =>console.log(props.isAuthenticated);
   if (props.isAuthenticated) {
 		return (
 			<>

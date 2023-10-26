@@ -72,7 +72,7 @@ function Newpassword(props) {
           swal("Success!", "Successfully reset", "success");
           setShowLoading(false);
           setContinueDeactive(false);
-          console.log(response.data);
+          // =>console.log(response.data);
         }
       })
       .catch((err) => {

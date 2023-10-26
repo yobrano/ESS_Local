@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "../HR/ExitForm.css";
 import axios from "axios";
 import swal from "sweetalert";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const ImmediateHODEOCCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -176,7 +177,7 @@ const ImmediateHODEOCCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -188,7 +189,7 @@ const ImmediateHODEOCCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data.probationFirstList[0]);
+          // =>console.log(response.data.probationFirstList[0]);
 
           setJobTitle(response.data.probationFirstList[0].jobtitle)
           setBranch(response.data.probationFirstList[0].branch)
@@ -428,7 +429,7 @@ const ImmediateHODEOCCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -443,7 +444,7 @@ const ImmediateHODEOCCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -473,7 +474,7 @@ const ImmediateHODEOCCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Contract Record Reversed.", "success");
         }
@@ -502,7 +503,7 @@ const ImmediateHODEOCCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -531,7 +532,7 @@ const ImmediateHODEOCCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Contract Form Updated/Pushed", "success");
         }
@@ -555,7 +556,7 @@ const ImmediateHODEOCCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -591,7 +592,7 @@ const ImmediateHODEOCCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           swal("Success!", "Probation Card Updated", "success");
         }
         if (response.status === 404) {
@@ -613,7 +614,7 @@ const ImmediateHODEOCCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -641,7 +642,7 @@ const ImmediateHODEOCCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Contract Form Approved", "success");
         }
@@ -665,7 +666,7 @@ const ImmediateHODEOCCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -705,7 +706,7 @@ const ImmediateHODEOCCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -732,7 +733,7 @@ const ImmediateHODEOCCard = (props) => {
       })
       .then((json) => {
         swal("Success!", json.data.message, "success");
-        console.log(json.data);
+        // =>console.log(json.data);
         // swal("Success!", "Your record has been Non Renewed!", "success");
       })
       .catch((err) => {
@@ -750,7 +751,7 @@ const ImmediateHODEOCCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -781,7 +782,7 @@ const ImmediateHODEOCCard = (props) => {
       })
       .then((json) => {
         swal("Success!", json.data.message, "success");
-        console.log(json.data);
+        // =>console.log(json.data);
         // swal("Success!", "Your record has been Renewed!", "success");
       })
       .catch((err) => {
@@ -800,7 +801,7 @@ const ImmediateHODEOCCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -824,7 +825,7 @@ const ImmediateHODEOCCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Contract Pushed", "success");
         }

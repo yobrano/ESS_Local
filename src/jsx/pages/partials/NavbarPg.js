@@ -40,7 +40,7 @@ function NavbarPg(props) {
       return props.history.push('/signup')
     }
     
-    console.log(props.isAuthenticated);
+    // =>console.log(props.isAuthenticated);
   return (
     <Fragment>
       

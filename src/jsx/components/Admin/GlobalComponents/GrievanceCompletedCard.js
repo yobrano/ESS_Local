@@ -7,6 +7,7 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import { Accordion, Collapse } from "react-bootstrap";
 import "./NewGrievance.css";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const GrievanceCompletedCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -82,7 +83,7 @@ const GrievanceCompletedCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -94,7 +95,7 @@ const GrievanceCompletedCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data.grievanceRanksRemarks);
+          // =>console.log(response.data.grievanceRanksRemarks);
           setLoading(false);
 
           setSelectedEmp(response.data.grievancesingle.employeename);
@@ -118,8 +119,8 @@ const GrievanceCompletedCard = (props) => {
           setAppealAlternativeRec(response.data.grievancesingle.appealAlternativeRemark)
           setAppealRecomm(response.data.grievancesingle.appealOutcomeRemark)
 
-          var stageVar = JSON.parse(localStorage.getItem("userDetails"));
-          if (JSON.parse(localStorage.getItem("userDetails")).user.length > 0) {
+          var stageVar = JSON.parse(secureLocalStorage.getItem("userDetails"));
+          if (JSON.parse(secureLocalStorage.getItem("userDetails")).user.length > 0) {
             if (stageVar.user[0] === "NORMAL" && currentStage === "Employee") {
               // setApproveBtnActuator(true);
               // setUploadBtnActuator(false);
@@ -128,7 +129,7 @@ const GrievanceCompletedCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -147,7 +148,7 @@ const GrievanceCompletedCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -201,7 +202,7 @@ const GrievanceCompletedCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -229,7 +230,7 @@ const GrievanceCompletedCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           // setPush(true)
           setGrievanceNo(response.data.return_value);
           swal("Success!", "Grievance Card Moved", "success");
@@ -254,7 +255,7 @@ const GrievanceCompletedCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -282,7 +283,7 @@ const GrievanceCompletedCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           // setPush(true)
           setGrievanceNo(response.data.return_value);
           swal("Success!", "Grievance Card Approved", "success");
@@ -315,7 +316,7 @@ const GrievanceCompletedCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -345,7 +346,7 @@ const GrievanceCompletedCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           // setPush(true)
           setGrievanceNo(response.data.return_value);
           swal("Success!", "Grievance Card Submited", "success");
@@ -377,7 +378,7 @@ const GrievanceCompletedCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -407,7 +408,7 @@ const GrievanceCompletedCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           // setPush(true)
           setGrievanceNo(response.data.return_value);
           swal("Success!", "Grievance Card Submited", "success");
@@ -435,7 +436,7 @@ const GrievanceCompletedCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -465,7 +466,7 @@ const GrievanceCompletedCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           // setPush(true)
           setGrievanceNo(response.data.return_value);
           swal("Success!", "Grievance Card Dismissed", "success");
@@ -490,7 +491,7 @@ const GrievanceCompletedCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -520,7 +521,7 @@ const GrievanceCompletedCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           // setPush(true)
           setGrievanceNo(response.data.return_value);
           swal("Success!", "Grievance Appeal Upheld", "success");

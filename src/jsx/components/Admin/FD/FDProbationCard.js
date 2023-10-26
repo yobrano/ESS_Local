@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "./ExitForm.css";
 import axios from "axios";
 import swal from "sweetalert";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const FDProbationCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -153,7 +154,7 @@ const FDProbationCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -165,7 +166,7 @@ const FDProbationCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data.probationFirstList[0]);
+          // =>console.log(response.data.probationFirstList[0]);
           setDatax(response.data.probationFirstList[0])
 
           setJobTitle(response.data.probationFirstList[0].jobtitle)
@@ -292,7 +293,7 @@ const FDProbationCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -306,7 +307,7 @@ const FDProbationCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -334,7 +335,7 @@ const FDProbationCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false)
           swal("Success!", "Probation Form Updated/Pushed", "success");
         }
@@ -357,7 +358,7 @@ const FDProbationCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -385,7 +386,7 @@ const FDProbationCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false)
           swal("Success!", "Probation Form Rejected/Pushed", "success");
         }
@@ -408,7 +409,7 @@ const FDProbationCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -438,7 +439,7 @@ const FDProbationCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Probation Record Reversed.", "success");
         }
@@ -464,7 +465,7 @@ const FDProbationCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -500,7 +501,7 @@ const FDProbationCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           swal("Success!", "Probation Card Updated", "success");
         }
         if (response.status === 404) {

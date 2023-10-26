@@ -6,6 +6,7 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import { format, parse } from "date-fns";
 import BreadCrumb from "./BreadCrumb";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const EditLeaveCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -59,7 +60,7 @@ const EditLeaveCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -69,7 +70,7 @@ const EditLeaveCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          // console.log(response.data);
+          // // =>console.log(response.data);
           setEmployeeList(response.data.employeeListModels);
           setLeaveNo(props.location.state[0].datum[0].no);
           // setLeaveType(props.location.state[0].datum[0].leaveType);
@@ -98,7 +99,7 @@ const EditLeaveCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -120,7 +121,7 @@ const EditLeaveCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -132,7 +133,7 @@ const EditLeaveCard = (props) => {
         )
         .then(function (response) {
           if (response.status === 200) {
-            console.log(">>" + response.data.hasExtraDays);
+            // =>console.log(">>" + response.data.hasExtraDays);
             if (response.data.return_value === true) {
               // check if the leave is already pending approval
               if (props.location.state[0].datum[0].leaveType === "") {
@@ -213,7 +214,7 @@ const EditLeaveCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -225,7 +226,7 @@ const EditLeaveCard = (props) => {
         )
         .then(function (response) {
           if (response.status === 200) {
-            console.log(response.data.return_value);
+            // =>console.log(response.data.return_value);
             if (response.data.return_value === true) {
               setDisplayAttachment(false);
               setDisplayUpload(true);
@@ -295,7 +296,7 @@ const EditLeaveCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -322,12 +323,12 @@ const EditLeaveCard = (props) => {
 
   //Get End and Return Dates
   const onTapReturnDate = () => {
-    console.log(appliedDays.length > 0);
+    // =>console.log(appliedDays.length > 0);
     if (appliedDays.length > 0) {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -346,7 +347,7 @@ const EditLeaveCard = (props) => {
         )
         .then(function (response) {
           if (response.status === 200) {
-            console.log(response.data);
+            // =>console.log(response.data);
             setLeaveEndDate(response.data.endD);
             setReturnDate(response.data.returnD);
           }
@@ -367,7 +368,7 @@ const EditLeaveCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -379,7 +380,7 @@ const EditLeaveCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          // console.log(response.data);
+          // // =>console.log(response.data);
           setLeaveList(response.data.leaveTypeList);
           // setTimeout(()=>{
           // let labl = response.data.leaveTypeList.find(x=>x.value === props.location.state[0].datum[0].leaveType)
@@ -416,7 +417,7 @@ const EditLeaveCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -440,7 +441,7 @@ const EditLeaveCard = (props) => {
 
         .then(function (response) {
           if (response.status === 200) {
-            //console.log(response.data);
+            //// =>console.log(response.data);
             swal("Success", response.data.message, "success");
             setViewAttachmentState(false);
             setDisplayUpload(true);
@@ -465,7 +466,7 @@ const EditLeaveCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -496,7 +497,7 @@ const EditLeaveCard = (props) => {
         }
       })
       .catch((err) => {
-        // console.log("catch err:"+err);
+        // // =>console.log("catch err:"+err);
         if (err !== undefined) {
           swal("Ooh!", "Error File not Found", "error");
         }
@@ -590,7 +591,7 @@ const EditLeaveCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -613,7 +614,7 @@ const EditLeaveCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          //console.log(response.data);
+          //// =>console.log(response.data);
           swal("Success", response.data.message, "success");
           setDisplayUpload(false);
 
@@ -639,7 +640,7 @@ const EditLeaveCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -733,7 +734,7 @@ const EditLeaveCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -758,7 +759,7 @@ const EditLeaveCard = (props) => {
           }
         })
         .then((json) => {
-          // console.log(json.data);
+          // // =>console.log(json.data);
           list1.splice(index, 1);
           setDlines(list1);
           swal("Success!", "Your record has been Deleted!", "success");
@@ -814,7 +815,7 @@ const EditLeaveCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -835,7 +836,7 @@ const EditLeaveCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           if (json.data.return_value !== "") {
             list[index]["Returndate"] = json.data.return_value;
             //record.Returndate

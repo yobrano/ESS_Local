@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../AppUtility"; import jwt_decode from "jwt-decode";
 /// React router dom
 import { Switch, Route } from "react-router-dom";
 /// Css
@@ -550,10 +551,17 @@ const Markup = () => {
   const routes6 = [
     /// Dashboard
     { url: "HOD-dashboard", component:HODDashboard, usr: "HOD-ADMIN" },
+
+    // { url: "new-requisition", component: EmployeeRequision,usr:"HOD-ADMIN" },
+    // { url: "employee-requisition-card", component: EmployeeRequisitionCard,usr:"HOD-ADMIN" },
+    // { url: "employee-requisition-modify", component: EmployeeRequisitionCardModify,usr:"HOD-ADMIN" },
+    // { url: "requisition-list", component: HODRequisitionApproval,usr:"HOD-ADMIN" },
     { url: "new-requisition", component: EmployeeRequision,usr:"HOD-ADMIN" },
     { url: "employee-requisition-card", component: EmployeeRequisitionCard,usr:"HOD-ADMIN" },
-    { url: "employee-requisition-modify", component: EmployeeRequisitionCardModify,usr:"HOD-ADMIN" },
-    { url: "requisition-list", component: HODRequisitionApproval,usr:"HOD-ADMIN" },
+    { url: "hod-requisition-card", component: HODRequisionCard,usr:"HOD-ADMIN" },
+    { url: "approval-requisition", component: HODRequisitionApproval,usr:"HOD-ADMIN" },
+    { url: "requisition-list", component: StaffRequisitionRecs,usr:"HOD-ADMIN" },
+
     { url: "Monitoring", component: Performancemonitoring,usr:"HOD-ADMIN" },
     { url: "monitoring-list", component: PerformanceList,usr:"HOD-ADMIN" },
     { url: "monitoring-card", component: MonitoringCard,usr:"HOD-ADMIN" },
@@ -653,10 +661,17 @@ const Markup = () => {
   const routes7 = [
     /// Dashboard
     { url: "HOD-dashboard", component:HODDashboard, usr: "HOD-ICT" },
+
+    // { url: "new-requisition", component: EmployeeRequision,usr:"HOD-ICT" },
+    // { url: "employee-requisition-card", component: EmployeeRequisitionCard,usr:"HOD-ICT" },
+    // { url: "employee-requisition-modify", component: EmployeeRequisitionCardModify,usr:"HOD-ICT" },
+    // { url: "requisition-list", component: HODRequisitionApproval,usr:"HOD-ICT" },
     { url: "new-requisition", component: EmployeeRequision,usr:"HOD-ICT" },
     { url: "employee-requisition-card", component: EmployeeRequisitionCard,usr:"HOD-ICT" },
-    { url: "employee-requisition-modify", component: EmployeeRequisitionCardModify,usr:"HOD-ICT" },
-    { url: "requisition-list", component: HODRequisitionApproval,usr:"HOD-ICT" },
+    { url: "hod-requisition-card", component: HODRequisionCard,usr:"HOD-ICT" },
+    { url: "approval-requisition", component: HODRequisitionApproval,usr:"HOD-ICT" },
+    { url: "requisition-list", component: StaffRequisitionRecs,usr:"HOD-ICT" },
+
     { url: "Monitoring", component: Performancemonitoring,usr:"HOD-ICT" },
     { url: "monitoring-list", component: PerformanceList,usr:"HOD-ICT" },
     { url: "monitoring-card", component: MonitoringCard,usr:"HOD-ICT" },
@@ -757,10 +772,17 @@ const Markup = () => {
   const routes8 = [
     /// Dashboard
     { url: "HOD-dashboard", component:HODDashboard, usr: "HOD-HR" },
+
+    // { url: "new-requisition", component: EmployeeRequision,usr:"HOD-HR" },
+    // { url: "employee-requisition-card", component: EmployeeRequisitionCard,usr:"HOD-HR" },
+    // { url: "employee-requisition-modify", component: EmployeeRequisitionCardModify,usr:"HOD-HR" },
+    // { url: "requisition-list", component: HODRequisitionApproval,usr:"HOD-HR" },
     { url: "new-requisition", component: EmployeeRequision,usr:"HOD-HR" },
     { url: "employee-requisition-card", component: EmployeeRequisitionCard,usr:"HOD-HR" },
-    { url: "employee-requisition-modify", component: EmployeeRequisitionCardModify,usr:"HOD-HR" },
-    { url: "requisition-list", component: HODRequisitionApproval,usr:"HOD-HR" },
+    { url: "hod-requisition-card", component: HODRequisionCard,usr:"HOD-HR" },
+    { url: "approval-requisition", component: HODRequisitionApproval,usr:"HOD-HR" },
+    { url: "requisition-list", component: StaffRequisitionRecs,usr:"HOD-HR" },
+
     { url: "Monitoring", component: Performancemonitoring,usr:"HOD-HR" },
     { url: "monitoring-list", component: PerformanceList,usr:"HOD-HR" },
     { url: "monitoring-card", component: MonitoringCard,usr:"HOD-HR" },
@@ -869,10 +891,17 @@ const Markup = () => {
   const routes9 = [
     /// Dashboard
     { url: "HOD-dashboard", component:HODDashboard, usr: "HOD-FIN" },
+
+    // { url: "new-requisition", component: EmployeeRequision,usr:"HOD-FIN" },
+    // { url: "employee-requisition-card", component: EmployeeRequisitionCard,usr:"HOD-FIN" },
+    // { url: "employee-requisition-modify", component: EmployeeRequisitionCardModify,usr:"HOD-FIN" },
+    // { url: "requisition-list", component: HODRequisitionApproval,usr:"HOD-FIN" },
     { url: "new-requisition", component: EmployeeRequision,usr:"HOD-FIN" },
     { url: "employee-requisition-card", component: EmployeeRequisitionCard,usr:"HOD-FIN" },
-    { url: "employee-requisition-modify", component: EmployeeRequisitionCardModify,usr:"HOD-FIN" },
-    { url: "requisition-list", component: HODRequisitionApproval,usr:"HOD-FIN" },
+    { url: "hod-requisition-card", component: HODRequisionCard,usr:"HOD-FIN" },
+    { url: "approval-requisition", component: HODRequisitionApproval,usr:"HOD-FIN" },
+    { url: "requisition-list", component: StaffRequisitionRecs,usr:"HOD-FIN" },
+
     { url: "Monitoring", component: Performancemonitoring,usr:"HOD-FIN" },
     { url: "monitoring-list", component: PerformanceList,usr:"HOD-FIN" },
     { url: "monitoring-card", component: MonitoringCard,usr:"HOD-FIN" },
@@ -981,6 +1010,10 @@ const Markup = () => {
     { url: "FD-approvals", component: FDContractList,usr:"FD" },
 
 
+    { url: "new-requisition", component: EmployeeRequision,usr:"FD" },
+    { url: "employee-requisition-card", component: EmployeeRequisitionCard,usr:"FD" },
+    { url: "employee-requisition-modify", component: StaffEmployeeRequisitionCardModify,usr:"FD" },
+    { url: "requisition-list", component: StaffRequisitionRecs,usr:"FD" },
 
     { url: "new-probation", component:NewProbation, usr: "FD" },
     { url: "probation-list", component:ProbationList, usr: "FD" },
@@ -1327,13 +1360,14 @@ const Markup = () => {
 
 
 
+
   let aux = "";
-  if(JSON.parse(localStorage.getItem("userDetails"))===null ||JSON.parse(localStorage.getItem("userDetails")).user===null){
+  if(secureLocalStorage.getItem("userDetails")===null ||jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role===null){
     window.location="/login"
   }
 
-  if (JSON.parse(localStorage.getItem("userDetails")).user.length > 0) {
-    aux = JSON.parse(localStorage.getItem("userDetails")).user[0];
+  if (jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role.length > 0) {
+    aux = jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role;
   }
 
   if(aux==="HR"){

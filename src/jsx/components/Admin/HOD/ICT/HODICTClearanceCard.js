@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect, useMemo, forwardRef } from "react";
 import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const HODICTClearanceCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -67,7 +68,7 @@ const HODICTClearanceCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -95,7 +96,7 @@ const HODICTClearanceCard = (props) => {
           }
         })
         .then((json) => {
-          // console.log(json.data);
+          // // =>console.log(json.data);
           list1.splice(index, 1);
           setGroupedClearanceEmp(list1);
           swal("Success!", "Your record has been Deleted!", "success");
@@ -161,7 +162,7 @@ const HODICTClearanceCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -182,7 +183,7 @@ const HODICTClearanceCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -212,7 +213,7 @@ const HODICTClearanceCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -233,7 +234,7 @@ const HODICTClearanceCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -251,7 +252,7 @@ const HODICTClearanceCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -263,7 +264,7 @@ const HODICTClearanceCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data.clearanceFullFormAdmin);
+          // =>console.log(response.data.clearanceFullFormAdmin);
 
       setGroupedClearanceEmp(response.data.clearanceFullFormAdmin);
     //   setGroupedClearanceICT(response.data.clearanceFullFormICT);
@@ -276,7 +277,7 @@ const HODICTClearanceCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -295,7 +296,7 @@ const HODICTClearanceCard = (props) => {
   //     const config = {
   //       headers: {
   //         Authorization: `Bearer ${
-  //           JSON.parse(localStorage.getItem("userDetails")).idToken
+  //           JSON.parse(secureLocalStorage.getItem("userDetails"))
   //         }`,
   //       },
   //     };
@@ -323,7 +324,7 @@ const HODICTClearanceCard = (props) => {
   //         }
   //       })
   //       .then((json) => {
-  //         console.log(json.data);
+  //         // =>console.log(json.data);
   //         // list1.splice(index, 1);
   //         // setQualificationList(list1);
   //         swal("Success!", "Your record has been Created!", "success");
@@ -340,7 +341,7 @@ const HODICTClearanceCard = (props) => {
     //   const config = {
     //     headers: {
     //       Authorization: `Bearer ${
-    //         JSON.parse(localStorage.getItem("userDetails")).idToken
+    //         JSON.parse(secureLocalStorage.getItem("userDetails"))
     //       }`,
     //     },
     //   };
@@ -368,7 +369,7 @@ const HODICTClearanceCard = (props) => {
     //       }
     //     })
     //     .then((json) => {
-    //       console.log(json.data);
+    //       // =>console.log(json.data);
     //       // list1.splice(index, 1);
     //       // setQualificationList(list1);
     //       swal("Success!", "Your record has been Approved!", "success");
@@ -385,7 +386,7 @@ const HODICTClearanceCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -414,7 +415,7 @@ const HODICTClearanceCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           // list1.splice(index, 1);
           // setQualificationList(list1);
           swal("Success!", "Your record has been Pushed", "success");

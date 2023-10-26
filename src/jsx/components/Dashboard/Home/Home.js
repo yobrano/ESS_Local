@@ -3,6 +3,7 @@ import React, { Fragment, useEffect, useState} from "react";
 //** Import Image */
 
 import {  Sparklines,  SparklinesLine,  } from "react-sparklines";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 // import ApexchartsNegPost from './ApexNagetivePosative';
 // import ApexchartsNegPost1 from './ApexNagetivePosative1';
@@ -21,7 +22,7 @@ const Home = () => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -34,7 +35,7 @@ const Home = () => {
           config
         )
         .then((result) => {
-          console.log(result.data);
+          // =>console.log(result.data);
           setViewed(result.data.viewedCount);
           setPending(result.data.pendingCount);
         })

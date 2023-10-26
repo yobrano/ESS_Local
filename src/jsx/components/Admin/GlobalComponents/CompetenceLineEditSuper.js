@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import BreadCrumb from "./BreadCrumb";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
  
 const CompetenceLineEditSuper = (props) => {
   const [loading, setLoading] = useState(true);
@@ -39,7 +40,7 @@ const CompetenceLineEditSuper = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -77,7 +78,7 @@ const CompetenceLineEditSuper = (props) => {
         }
       })
       .catch((err) => {
-        console.log("catch err:" + err);
+        // =>console.log("catch err:" + err);
         if (err.response !== undefined) {
           swal("Ooh!", err.response.data.message, "error");
         } else {

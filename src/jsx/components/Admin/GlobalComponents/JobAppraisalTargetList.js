@@ -13,6 +13,7 @@ import {
 } from "react-table";
 import { matchSorter } from "match-sorter";
 import swal from "sweetalert";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 // import { Interweave, Markup } from "interweave";
 
 const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
@@ -238,7 +239,7 @@ const DataTable = ({ columns, data, setSelection }) => {
       responseType: "arraybuffer",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
         // responseType: "blob",
       },
@@ -270,7 +271,7 @@ const DataTable = ({ columns, data, setSelection }) => {
         //   const pdfWindow = window.open();
         //   pdfWindow.location.href = fileURL;
 
-        //   // console.log(response.data);
+        //   // // =>console.log(response.data);
         //   // window.open(response.data, '_blank', 'fullscreen=yes');
         //   // FileDownload(response.data, 'current_cv.pdf');
         // }
@@ -430,7 +431,7 @@ function JobAppraisalTargetList(props) {
   const config = {
     headers: {
       Authorization: `Bearer ${
-        JSON.parse(localStorage.getItem("userDetails")).idToken
+        JSON.parse(secureLocalStorage.getItem("userDetails"))
       }`,
     },
   };
@@ -440,7 +441,7 @@ function JobAppraisalTargetList(props) {
     axios
       .get(`${process.env.REACT_APP_API_S_LINK}/performance/getemployeetargets`, config)
       .then((result) => {
-        console.log(result.data);
+        // =>console.log(result.data);
         setData(result.data.employeeAppraisalList);
       })
       .catch((err) => {
@@ -503,7 +504,7 @@ function JobAppraisalTargetList(props) {
   //     setSelection,
   //   ]);
   if (selection.length === 1) {
-    console.log(selection[0].no);
+    // =>console.log(selection[0].no);
     if (selection[0].no !== undefined) {
       // <Redirect
       //   push

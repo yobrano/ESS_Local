@@ -3,13 +3,14 @@ import { format } from "date-fns";
 import React, { useState, useRef, useEffect, Fragment } from "react";
 import { Container, Row, Table } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 function AppliedJob(props){
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const config = {
         headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem('userDetails')).idToken}`,
+          Authorization: `Bearer ${JSON.parse(secureLocalStorage.getItem('userDetails')).idToken}`,
         },
       };
 
@@ -17,7 +18,7 @@ function AppliedJob(props){
       setLoading(true);
       axios.get(`${process.env.REACT_APP_API_S_LINK}/home/appliedjobs`,config)
         .then((result) => {
-        //   console.log(result.data);
+        //   // =>console.log(result.data);
           setData(result.data);
         })
         .catch((err) => {

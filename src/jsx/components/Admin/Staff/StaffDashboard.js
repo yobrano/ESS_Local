@@ -8,6 +8,7 @@ import axios from "axios";
 import "./StaffDashboard.css";
 import DashboardUI from "../GlobalComponents/DashboardUI";
 import LeaveStatistic from "../GlobalComponents/LeaveStatistic";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 // const sampleData1 = [8, 7, 6, 3, 2, 4, 6, 8, 12, 6, 12, 13, 10, 18, 14, 24, 16, 12, 19, 21, 16, 14, 24, 21, 13, 15, 27, 29, 21, 11, 14, 19, 21, 17,];
 const sampleData2 = [
@@ -27,7 +28,7 @@ const StaffDashboard = () => {
   const config = {
     headers: {
       Authorization: `Bearer ${
-        JSON.parse(localStorage.getItem("userDetails")).idToken
+        JSON.parse(secureLocalStorage.getItem("userDetails"))
       }`,
     },
   };
@@ -40,7 +41,7 @@ const StaffDashboard = () => {
         config
       )
       .then((result) => {
-        console.log(result.data);
+        // =>console.log(result.data);
         setExit(result.data.exitCount);
         LeaveTypes();
         // setPending(result.data.pendingCount);
@@ -60,7 +61,7 @@ const StaffDashboard = () => {
         config
       )
       .then((result) => {
-        console.log(result.data.leaveTypeList);
+        // =>console.log(result.data.leaveTypeList);
         setleaveData(result.data.leaveTypeList);
         setLoadingLeaves(false);
         // setPending(result.data.pendingCount);

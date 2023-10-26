@@ -5,6 +5,7 @@ import swal from "sweetalert";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import BreadCrumb from "./BreadCrumb";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const LeaveSuperviseeCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -25,7 +26,7 @@ const LeaveSuperviseeCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -38,7 +39,7 @@ const LeaveSuperviseeCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setPersonalData(response.data.employee[0])
           setLeaveBalance(response.data.leaveBalance)
           setLeaveHistory(response.data.usedLeaves)
@@ -47,7 +48,7 @@ const LeaveSuperviseeCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {

@@ -14,6 +14,7 @@ import {
 } from "react-table";
 import { matchSorter } from "match-sorter";
 import swal from "sweetalert";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 // import { Badge } from "reactstrap";
 
 const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
@@ -321,7 +322,7 @@ function ViewApplications(props) {
   const config = {
     headers: {
       Authorization: `Bearer ${
-        JSON.parse(localStorage.getItem("userDetails")).idToken
+        JSON.parse(secureLocalStorage.getItem("userDetails"))
       }`,
     },
   };
@@ -331,7 +332,7 @@ function ViewApplications(props) {
     axios
       .get(`${process.env.REACT_APP_API_S_LINK}/home/approvedapplicants`, config)
       .then((result) => {
-        console.log(result.data);
+        // =>console.log(result.data);
         setData(result.data);
       })
       .catch((err) => {
@@ -358,7 +359,7 @@ function ViewApplications(props) {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           swal("Ok","Applicant Moved","success")
         }
         if (response.status === 404) {
@@ -428,7 +429,7 @@ function ViewApplications(props) {
   //     setSelection,
   //   ]);
   if(selection.length ===1){
-      // console.log(selection);
+      // // =>console.log(selection);
     props.history.push("/HRprofile",[{datum:selection}])
   }
 

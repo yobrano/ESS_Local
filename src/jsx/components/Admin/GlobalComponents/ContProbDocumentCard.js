@@ -4,6 +4,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import swal from "sweetalert";
 import "./DocumentCard.css";
 import BreadCrumb from "./BreadCrumb";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const ViewPDF = ({ pdf, prop }) => {
@@ -14,7 +15,7 @@ const ViewPDF = ({ pdf, prop }) => {
   const [pageNumber, setPageNumber] = useState(1);
 
   // useEffect(() => {
-  //   console.log(props.location.state[0].datum[0]);
+  //   // =>console.log(props.location.state[0].datum[0]);
   //   setLoading(false)
   // }, [props.location.state]);
 
@@ -59,7 +60,7 @@ const ViewPDF = ({ pdf, prop }) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -86,7 +87,7 @@ const ViewPDF = ({ pdf, prop }) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -190,7 +191,7 @@ const ContProbDocumentCard = (props) => {
   const [loading, setLoading] = useState(true);
   const [pdfBuffer, setPDFBuffer] = useState("");
   useEffect(() => {
-    //console.log(props.location.state[0].datum[0].url);
+    //// =>console.log(props.location.state[0].datum[0].url);
     // setLoading(false)
 
     let filename = props.location.state[0].datum[0].url.split("\\")[2];
@@ -200,7 +201,7 @@ const ContProbDocumentCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
       timeout: 600000, //10 min
@@ -217,7 +218,7 @@ const ContProbDocumentCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          // console.log(response.data);
+          // // =>console.log(response.data);
           const file = new Blob([response.data], { type: "application/pdf" });
           //Build a URL from the file
           const fileURL = URL.createObjectURL(file);
@@ -228,11 +229,11 @@ const ContProbDocumentCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
         //   if (response.status === 500) {
         //     swal("Oh!", response.data.message, "error");
-        //     console.log(response.data.message);
+        //     // =>console.log(response.data.message);
         //   }
       })
       .catch((err) => {
@@ -252,7 +253,7 @@ const ContProbDocumentCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -264,11 +265,11 @@ const ContProbDocumentCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {

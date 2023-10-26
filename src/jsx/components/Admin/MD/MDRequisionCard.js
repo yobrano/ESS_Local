@@ -6,6 +6,7 @@ import swal from "sweetalert";
 import Select from "react-select";
 import BreadCrumb from "../GlobalComponents/BreadCrumb";
 import { Collapse } from "react-bootstrap";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const MDRequisionCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -91,7 +92,7 @@ const MDRequisionCard = (props) => {
   const [MDComment, setMDComment] = useState("");
 
   //{ id: "", description: "",rqmentcode:"",mandatory:"",lineno:"",jobno:"" },
-  // console.log(requirementlist);
+  // // =>console.log(requirementlist);
 
   const [reversalF, setReversalF] = useState(false);
   const [reversalRemark, setReversalRemark] = useState("");
@@ -111,7 +112,7 @@ const MDRequisionCard = (props) => {
       } else {
         list[index][name] = "No";
         list[index].id = index;
-        console.log(list);
+        // =>console.log(list);
         setRequirementlist(list);
       }
     } else {
@@ -129,7 +130,7 @@ const MDRequisionCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -186,7 +187,7 @@ const MDRequisionCard = (props) => {
     //Get the record
     const list = [...requirementlist];
     let record = list[index];
-    // console.log(record);
+    // // =>console.log(record);
     let jobno = list[0]["jobno"];
     let data = {
       Description: record.description,
@@ -199,7 +200,7 @@ const MDRequisionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -222,7 +223,7 @@ const MDRequisionCard = (props) => {
       })
       // .then(result => result.json())
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         swal("Success!", "Your record has been uploaded!", "success");
       })
       .catch((err) => {
@@ -244,7 +245,7 @@ const MDRequisionCard = (props) => {
       } else {
         list[index][name] = "No";
         list[index].id = index;
-        console.log(list[index]);
+        // =>console.log(list[index]);
         setQualificationList(list);
       }
     } else {
@@ -257,12 +258,12 @@ const MDRequisionCard = (props) => {
   const handleRemoveQualifClick = (index) => {
     const list1 = [...qualificationList];
     let _no = list1[index].lineno;
-    console.log(_no);
+    // =>console.log(_no);
     if (_no !== "") {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -282,7 +283,7 @@ const MDRequisionCard = (props) => {
           }
         })
         .then((json) => {
-          // console.log(json.data);
+          // // =>console.log(json.data);
           list1.splice(index, 1);
           setQualificationList(list1);
           swal("Success!", "Your record has been Deleted!", "success");
@@ -320,7 +321,7 @@ const MDRequisionCard = (props) => {
     //Add record to d365
     const list = [...qualificationList];
     let record = list[index];
-    // console.log(record);
+    // // =>console.log(record);
     if (list[0] !== undefined) {
       let jobno = list[0]["jobno"];
 
@@ -335,7 +336,7 @@ const MDRequisionCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -356,7 +357,7 @@ const MDRequisionCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -384,7 +385,7 @@ const MDRequisionCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -404,7 +405,7 @@ const MDRequisionCard = (props) => {
           }
         })
         .then((json) => {
-          // console.log(json.data);
+          // // =>console.log(json.data);
           list1.splice(index, 1);
           setResponsibilityList(list1);
           swal("Success!", "Your record has been Deleted!", "success");
@@ -442,7 +443,7 @@ const MDRequisionCard = (props) => {
     //Add record to d365
     const list = [...responsibiltyList];
     let record = list[index];
-    // console.log(record);
+    // // =>console.log(record);
     let jobno =
       list[0]["jobno"] === ""
         ? props.location.state[0].jobNo
@@ -458,7 +459,7 @@ const MDRequisionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -479,7 +480,7 @@ const MDRequisionCard = (props) => {
         }
       })
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         swal("Success!", "Your record has been uploaded!", "success");
       })
       .catch((err) => {
@@ -504,7 +505,7 @@ const MDRequisionCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -524,7 +525,7 @@ const MDRequisionCard = (props) => {
           }
         })
         .then((json) => {
-          // console.log(json.data);
+          // // =>console.log(json.data);
           list1.splice(index, 1);
           setCheckList(list1);
           swal("Success!", "Your record has been Deleted!", "success");
@@ -575,7 +576,7 @@ const MDRequisionCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -596,7 +597,7 @@ const MDRequisionCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -614,7 +615,7 @@ const MDRequisionCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -635,7 +636,7 @@ const MDRequisionCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -650,7 +651,7 @@ const MDRequisionCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -677,7 +678,7 @@ const MDRequisionCard = (props) => {
           const pdfWindow = window.open();
           pdfWindow.location.href = fileURL;
 
-          // console.log(response.data);
+          // // =>console.log(response.data);
           // window.open(response.data, '_blank', 'fullscreen=yes');
           // FileDownload(response.data, 'current_cv.pdf');
         }
@@ -695,7 +696,7 @@ const MDRequisionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -720,7 +721,7 @@ const MDRequisionCard = (props) => {
         }
       })
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         swal("Success!", "Your record has been Rejected", "success");
       })
       .catch((err) => {
@@ -735,7 +736,7 @@ const MDRequisionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -776,7 +777,7 @@ const MDRequisionCard = (props) => {
 
           setStatusProgress(response.data.statusProgress);
 
-          console.log(response.data);
+          // =>console.log(response.data);
           //  if (employeeList.length > 0) {
 
           // }
@@ -784,7 +785,7 @@ const MDRequisionCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -802,7 +803,7 @@ const MDRequisionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -823,7 +824,7 @@ const MDRequisionCard = (props) => {
         }
       })
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         swal("Success!", "Your record has been Approved!", "success");
       })
       .catch((err) => {
@@ -852,7 +853,7 @@ const MDRequisionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -875,7 +876,7 @@ const MDRequisionCard = (props) => {
       })
       // .then(result => result.json())
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         swal("Success!", "Your record has been uploaded!", "success");
       })
       .catch((err) => {
@@ -900,7 +901,7 @@ const MDRequisionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -947,11 +948,11 @@ const MDRequisionCard = (props) => {
     //   .then(function (response) {
     //     if (response.status === 200) {
     //       swal("Success", response.data.message, "success");
-    //       console.log(response.data);
+    //       // =>console.log(response.data);
     //     }
     //     if (response.status === 404) {
     //       swal("Oh!", response.data.message, "error");
-    //       console.log(response.data.message);
+    //       // =>console.log(response.data.message);
     //     }
     //   })
     //   .catch((err) => {
@@ -970,7 +971,7 @@ const MDRequisionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -991,7 +992,7 @@ const MDRequisionCard = (props) => {
         }
       })
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         swal(
           "Success!",
           "Your record has been Approved and Publish",
@@ -1021,7 +1022,7 @@ const MDRequisionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -1055,10 +1056,10 @@ const MDRequisionCard = (props) => {
       })
       .catch((err) => {
         if (err.response !== undefined) {
-          console.log(err.response.data.message);
+          // =>console.log(err.response.data.message);
           swal("Oh!", "Requisition Reversed Failed", "error");
         } else {
-          console.log(err.message);
+          // =>console.log(err.message);
           swal("Oh!","Requisition Reversed Failed", "error");
         }
       });

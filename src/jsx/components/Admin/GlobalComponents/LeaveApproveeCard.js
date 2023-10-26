@@ -6,6 +6,7 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import BreadCrumb from "./BreadCrumb";
 import ApproveeLeaveStatistic from "./ApproveeLeaveStatistic";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
  
 const LeaveApproveeCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -45,7 +46,7 @@ const LeaveApproveeCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -58,7 +59,7 @@ const LeaveApproveeCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setLeaveNo(response.data.leaveApplications[0].no);
           setLeaveType(response.data.leaveApplications[0].leaveType);
 
@@ -82,7 +83,7 @@ const LeaveApproveeCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -100,7 +101,7 @@ const LeaveApproveeCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -131,7 +132,7 @@ const LeaveApproveeCard = (props) => {
         }
       })
       .catch((err) => {
-        // console.log("catch err:"+err);
+        // // =>console.log("catch err:"+err);
         if (err !== undefined) {
           swal("Ooh!", "Error File not Found", "error");
         }
@@ -180,7 +181,7 @@ const LeaveApproveeCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -203,7 +204,7 @@ const LeaveApproveeCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          //console.log(response.data);
+          //// =>console.log(response.data);
           swal("Success", response.data.message, "success");
           setDisplayUpload(false);
         }
@@ -245,7 +246,7 @@ const LeaveApproveeCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -268,7 +269,7 @@ const LeaveApproveeCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          //console.log(response.data);
+          //// =>console.log(response.data);
           swal("Success", response.data.message, "success");
           // setDisplayUpload(false);
         }

@@ -14,6 +14,7 @@ import {
   import { matchSorter } from "match-sorter";
   import { Interweave, Markup } from "interweave";
   import { format } from "date-fns";
+  import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
     const defaultRef = useRef();
@@ -237,7 +238,7 @@ const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
         responseType: "arraybuffer",
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
           // responseType: "blob",
         },
@@ -269,7 +270,7 @@ const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
           //   const pdfWindow = window.open();
           //   pdfWindow.location.href = fileURL;
   
-          //   // console.log(response.data);
+          //   // // =>console.log(response.data);
           //   // window.open(response.data, '_blank', 'fullscreen=yes');
           //   // FileDownload(response.data, 'current_cv.pdf');
           // }
@@ -428,7 +429,7 @@ const HRPerformanceList = (props) => {
     const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -441,7 +442,7 @@ const HRPerformanceList = (props) => {
             config
           )
           .then((result) => {
-            console.log(result.data);
+            // =>console.log(result.data);
             setData(result.data.hrMonitoringList);
           })
           .catch((err) => {

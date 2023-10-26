@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../AppUtility"; import jwt_decode from "jwt-decode";
 /// Menu
 import MetisMenu from "metismenujs";
 /// Scroll
@@ -110,8 +111,8 @@ class SideBar extends Component {
     //     "task",
     //   ]
     // let aux = ""
-    // if(JSON.parse(localStorage.getItem("userDetails")).user.length>0){
-    //   aux=JSON.parse(localStorage.getItem("userDetails")).user[0];
+    // if(JSON.parse(secureLocalStorage.getItem("userDetails")).user.length>0){
+    //   aux=jwt_decode(JSON.parse(decryptToken(secureLocalStorage.getItem("userDetails")))).Role;
     // }
     let FDNav = (
       <>
@@ -450,7 +451,7 @@ class SideBar extends Component {
                 <span className="nav-text-drop">Requisition List</span>
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 className={`${
                   path === "approval-requisition" ? "mm-active" : ""
@@ -461,7 +462,7 @@ class SideBar extends Component {
                 <i className="flaticon-381-background-1  mr-3"></i>
                 <span className="nav-text-drop">Approval Request</span>
               </Link>
-            </li>
+            </li> */}
           </ul>
         </li>
         {/* <li className={`${TrainingNeeds.includes(path) ? "mm-active" : ""}`}>
@@ -3074,7 +3075,7 @@ class SideBar extends Component {
           </Link>
         </li>
 
-        <li className={`${path === "employee-requisition" ? "mm-active" : ""}`}>
+        {/* <li className={`${path === "employee-requisition" ? "mm-active" : ""}`}>
           <Link
             className=""
             to="/employee-requisition"
@@ -3093,7 +3094,51 @@ class SideBar extends Component {
             <i className="flaticon-381-layer-1"></i>
             <span className="nav-text">Job Requisition List</span>
           </Link>
+        </li> */}
+         <li className={`${EmployeeRequsition.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-notebook-4"></i>
+            <span className="nav-text">Employee Requisition</span>
+          </Link>
+          <ul>
+            <li className={`${path === "new-requisition" ? "mm-active" : ""}`}>
+              <Link
+                className=""
+                to="/new-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text">New Requisition</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className={`${
+                  path === "requisition-list" ? "mm-active" : ""
+                }`}
+                to="/requisition-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Requisition List</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${
+                  path === "approval-requisition" ? "mm-active" : ""
+                }`}
+                to="/approval-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-background-1  mr-3"></i>
+                <span className="nav-text-drop">Approval Request</span>
+              </Link>
+            </li>
+          </ul>
         </li>
+
         <li className={`${path === "Monitoring" ? "mm-active" : ""}`}>
           <Link
             className=""
@@ -3659,7 +3704,7 @@ class SideBar extends Component {
           </Link>
         </li>
 
-        <li className={`${path === "employee-requisition" ? "mm-active" : ""}`}>
+        {/* <li className={`${path === "employee-requisition" ? "mm-active" : ""}`}>
           <Link
             className=""
             to="/employee-requisition"
@@ -3678,7 +3723,52 @@ class SideBar extends Component {
             <i className="flaticon-381-layer-1"></i>
             <span className="nav-text">Job Requisition List</span>
           </Link>
+        </li> */}
+         <li className={`${EmployeeRequsition.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-notebook-4"></i>
+            <span className="nav-text">Employee Requisition</span>
+          </Link>
+          <ul>
+            <li className={`${path === "new-requisition" ? "mm-active" : ""}`}>
+              <Link
+                className=""
+                to="/new-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text">New Requisition</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className={`${
+                  path === "requisition-list" ? "mm-active" : ""
+                }`}
+                to="/requisition-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Requisition List</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${
+                  path === "approval-requisition" ? "mm-active" : ""
+                }`}
+                to="/approval-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-background-1  mr-3"></i>
+                <span className="nav-text-drop">Approval Request</span>
+              </Link>
+            </li>
+          </ul>
         </li>
+
+
         <li className={`${path === "Monitoring" ? "mm-active" : ""}`}>
           <Link
             className=""
@@ -4242,7 +4332,7 @@ class SideBar extends Component {
             <span className="nav-text">Dashboard</span>
           </Link>
         </li>
-        <li className={`${path === "employee-requisition" ? "mm-active" : ""}`}>
+        {/* <li className={`${path === "employee-requisition" ? "mm-active" : ""}`}>
           <Link
             className=""
             to="/employee-requisition"
@@ -4261,7 +4351,51 @@ class SideBar extends Component {
             <i className="flaticon-381-layer-1"></i>
             <span className="nav-text">Job Requisition List</span>
           </Link>
+        </li> */}
+         <li className={`${EmployeeRequsition.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-notebook-4"></i>
+            <span className="nav-text">Employee Requisition</span>
+          </Link>
+          <ul>
+            <li className={`${path === "new-requisition" ? "mm-active" : ""}`}>
+              <Link
+                className=""
+                to="/new-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text">New Requisition</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className={`${
+                  path === "requisition-list" ? "mm-active" : ""
+                }`}
+                to="/requisition-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Requisition List</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${
+                  path === "approval-requisition" ? "mm-active" : ""
+                }`}
+                to="/approval-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-background-1  mr-3"></i>
+                <span className="nav-text-drop">Approval Request</span>
+              </Link>
+            </li>
+          </ul>
         </li>
+
         <li className={`${path === "Monitoring" ? "mm-active" : ""}`}>
           <Link
             className=""
@@ -4867,7 +5001,7 @@ class SideBar extends Component {
           </Link>
         </li>
 
-        <li className={`${path === "employee-requisition" ? "mm-active" : ""}`}>
+        {/* <li className={`${path === "employee-requisition" ? "mm-active" : ""}`}>
           <Link
             className=""
             to="/employee-requisition"
@@ -4886,7 +5020,51 @@ class SideBar extends Component {
             <i className="flaticon-381-layer-1"></i>
             <span className="nav-text">Job Requisition List</span>
           </Link>
+        </li> */}
+         <li className={`${EmployeeRequsition.includes(path) ? "mm-active" : ""}`}>
+          <Link className="has-arrow ai-icon" to="#">
+            <i className="flaticon-381-notebook-4"></i>
+            <span className="nav-text">Employee Requisition</span>
+          </Link>
+          <ul>
+            <li className={`${path === "new-requisition" ? "mm-active" : ""}`}>
+              <Link
+                className=""
+                to="/new-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-add-1 mr-3"></i>
+                <span className="nav-text">New Requisition</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                className={`${
+                  path === "requisition-list" ? "mm-active" : ""
+                }`}
+                to="/requisition-list"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-album-1  mr-3"></i>
+                <span className="nav-text-drop">Requisition List</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${
+                  path === "approval-requisition" ? "mm-active" : ""
+                }`}
+                to="/approval-requisition"
+                onClick={() => this.props.onClick3()}
+              >
+                <i className="flaticon-381-background-1  mr-3"></i>
+                <span className="nav-text-drop">Approval Request</span>
+              </Link>
+            </li>
+          </ul>
         </li>
+
         <li className={`${path === "Monitoring" ? "mm-active" : ""}`}>
           <Link
             className=""
@@ -6671,55 +6849,55 @@ class SideBar extends Component {
     );
 
     let finalNani = "";
-    if (JSON.parse(localStorage.getItem("userDetails")).user.length === 0) {
+    if (jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role.length === 0) {
       finalNani = NormalNavi;
     } else if (
-      JSON.parse(localStorage.getItem("userDetails")).user[0] === "HOD"
+      jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "HOD"
     ) {
       finalNani = HODNavi;
     } else if (
-      JSON.parse(localStorage.getItem("userDetails")).user[0] === "HOD-ADMIN"
+      jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "HOD-ADMIN"
     ) {
       finalNani = HODADMINNavi;
     } else if (
-      JSON.parse(localStorage.getItem("userDetails")).user[0] === "HOD-IT"
+      jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "HOD-IT"
     ) {
       finalNani = HODICTNavi;
     } else if (
-      JSON.parse(localStorage.getItem("userDetails")).user[0] === "HOD-HR"
+      jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "HOD-HR"
     ) {
       finalNani = HODHRNavi;
     } else if (
-      JSON.parse(localStorage.getItem("userDetails")).user[0] === "HOD-FIN"
+      jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "HOD-FIN"
     ) {
       finalNani = HODFINNavi;
     } else if (
-      JSON.parse(localStorage.getItem("userDetails")).user[0] === "HR"
+      jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "HR"
     ) {
       finalNani = HRNavi;
     } else if (
-      JSON.parse(localStorage.getItem("userDetails")).user[0] === "HEAD-HR"
+      jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "HEAD-HR"
     ) {
       finalNani = HEADHRNavi;
     } else if (
-      JSON.parse(localStorage.getItem("userDetails")).user[0] === "MD"
+      jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "MD"
     ) {
       finalNani = MDNavi;
     } else if (
-      JSON.parse(localStorage.getItem("userDetails")).user[0] === "FD"
+      jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "FD"
     ) {
       finalNani = FDNav;
     } else if (
-      JSON.parse(localStorage.getItem("userDetails")).user[0] === "NOS"
+      jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "NOS"
     ) {
       finalNani = NOSNavi;
     } else if (
-      JSON.parse(localStorage.getItem("userDetails")).user[0] === "NORMAL"
+      jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "NORMAL"
     ) {
       finalNani = NormalEmployeeNavi;
     } else {
     }
-
+ 
     return (
       <div className="deznav">
         <PerfectScrollbar className="deznav-scroll">

@@ -13,6 +13,7 @@ import {
 } from "react-table";
 import { matchSorter } from "match-sorter";
 import swal from "sweetalert";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
   const defaultRef = useRef();
@@ -236,7 +237,7 @@ const DataTable = ({ columns, data, setSelection }) => {
       responseType: "arraybuffer",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
         // responseType: "blob",
       },
@@ -268,7 +269,7 @@ const DataTable = ({ columns, data, setSelection }) => {
         //   const pdfWindow = window.open();
         //   pdfWindow.location.href = fileURL;
 
-        //   // console.log(response.data);
+        //   // // =>console.log(response.data);
         //   // window.open(response.data, '_blank', 'fullscreen=yes');
         //   // FileDownload(response.data, 'current_cv.pdf');
         // }
@@ -286,7 +287,7 @@ const DataTable = ({ columns, data, setSelection }) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -308,7 +309,7 @@ const DataTable = ({ columns, data, setSelection }) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          //console.log(response.data);
+          //// =>console.log(response.data);
           swal("Success", response.data.message, "success");
           // setViewAttachmentState(false);
         }
@@ -479,7 +480,7 @@ function ViewApplications(props) {
   const config = {
     headers: {
       Authorization: `Bearer ${
-        JSON.parse(localStorage.getItem("userDetails")).idToken
+        JSON.parse(secureLocalStorage.getItem("userDetails"))
       }`,
     },
   };
@@ -490,7 +491,7 @@ function ViewApplications(props) {
       .get(`${process.env.REACT_APP_API_S_LINK}/home/applicants`, config)
       .then((result) => {
         setData(result.data);
-        console.log(result.data);
+        // =>console.log(result.data);
       })
       .catch((err) => {
         console.log(err);
@@ -548,7 +549,7 @@ function ViewApplications(props) {
   //     setSelection,
   //   ]);
   if (selection.length === 1) {
-    // console.log(selection);
+    // // =>console.log(selection);
     props.history.push("/HR-profile", [{ datum: selection }]);
   }
 

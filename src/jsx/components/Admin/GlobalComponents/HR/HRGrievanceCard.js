@@ -7,6 +7,7 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import { Accordion } from "react-bootstrap";
 import "./../NewGrievance.css";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const HRGrievanceCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -67,7 +68,7 @@ const HRGrievanceCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -79,7 +80,7 @@ const HRGrievanceCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setLoading(false);
 
           setSelectedEmp(response.data.grievancesingle.employeename);
@@ -105,8 +106,8 @@ const HRGrievanceCard = (props) => {
           setHRReference(response.data.grievanceRanksRemarks[0].hRref)
           setHRRemark(response.data.grievanceRanksRemarks[0].hRrem)
 
-          var stageVar = JSON.parse(localStorage.getItem("userDetails"));
-          if (JSON.parse(localStorage.getItem("userDetails")).user.length > 0) {
+          var stageVar = JSON.parse(secureLocalStorage.getItem("userDetails"));
+          if (JSON.parse(secureLocalStorage.getItem("userDetails")).user.length > 0) {
             if (
               stageVar.user[0] === "HR" &&
               response.data.grievancesingle.currentstage === "HR"
@@ -118,7 +119,7 @@ const HRGrievanceCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -136,7 +137,7 @@ const HRGrievanceCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -164,7 +165,7 @@ const HRGrievanceCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           // setPush(true)
           // setGrievanceNo(response.data.gid);
           swal("Success!", "Grievance Card Updated", "success");
@@ -189,7 +190,7 @@ const HRGrievanceCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -217,7 +218,7 @@ const HRGrievanceCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           // setPush(true)
           // setGrievanceNo(response.data.return_value);
           swal("Success!", "Grievance Card Resolved", "success");
@@ -242,7 +243,7 @@ const HRGrievanceCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -270,7 +271,7 @@ const HRGrievanceCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           // setPush(true)
           setGrievanceNo(response.data.return_value);
           swal("Success!", "Grievance Card Moved", "success");

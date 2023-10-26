@@ -1,6 +1,8 @@
 import axios from "axios";
 import swal from "sweetalert";
 import { loginConfirmedAction, logout } from "../store/actions/AuthAction";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../AppUtility"; 
+import jwt_decode from "jwt-decode";
 
 export function signUpAdmin(email, password, Username, EmployeeId, history) {
   //axios call
@@ -103,13 +105,17 @@ export function formatError(errorResponse) {
     default:
       return errorResponse.message;
   }
-}
+} 
 
 export function saveTokenInLocalStorage(tokenDetails) {
   // tokenDetails.expireDate = new Date(
   //     new Date().getTime() + tokenDetails.expiresIn * 1000,
   // );
-  localStorage.setItem("userDetails", JSON.stringify(tokenDetails));
+  
+  secureLocalStorage.setItem("userDetails", JSON.stringify(tokenDetails.idToken));
+  secureLocalStorage.setItem("expireDate", tokenDetails.expireDate);
+  // secureLocalStorage.setItem("userDetails", JSON.stringify(tokenDetails));
+  // // =>console.log(jwt_decode( JSON.parse(decryptToken(secureLocalStorage.getItem("userDetails")))));
 }
 
 export function runLogoutTimer(dispatch, timer, history) {
@@ -119,24 +125,29 @@ export function runLogoutTimer(dispatch, timer, history) {
 }
 
 export function checkAutoLogin(dispatch, history) {
-  const tokenDetailsString = localStorage.getItem("userDetails");
-  let tokenDetails = "";
+  //Decrpt to use in the UI
+  const tokenDetailsString = decryptToken(secureLocalStorage.getItem("userDetails"));
+  //Get the actual expiry datatime
+  const expiry = secureLocalStorage.getItem("expireDate");
+
   if (!tokenDetailsString) {
     dispatch(logout(history));
     return;
   }
 
-  tokenDetails = JSON.parse(tokenDetailsString);
-  let expireDate = new Date(tokenDetails.expireDate);
+  let expireDate = new Date(expiry);
   let todaysDate = new Date();
+
 
   if (todaysDate > expireDate) {
     dispatch(logout(history));
     return;
   }
-  dispatch(loginConfirmedAction(tokenDetails));
+  dispatch(loginConfirmedAction({"idToken":tokenDetailsString}));
 
   const timer = expireDate.getTime() - todaysDate.getTime();
+  console.log("timer = "+timer);
+  // console.log(tokenDetailsString);
   runLogoutTimer(dispatch, timer, history);
 }
 
@@ -146,7 +157,7 @@ export function RedirectToDocIfNotReadFn(){
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };

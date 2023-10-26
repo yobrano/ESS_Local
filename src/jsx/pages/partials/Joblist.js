@@ -24,7 +24,7 @@ function Joblist(props) {
         setLoading(true);
         axios.get(`${process.env.REACT_APP_API_S_LINK}/home/posted-jobs/`)
         .then((result) => {
-            //console.log(result);
+            //// =>console.log(result);
             setData(result.data);
         })
         .catch((err) => {
@@ -35,7 +35,7 @@ function Joblist(props) {
         });
     }, []);
 
-  console.log(data);
+  // =>console.log(data);
 
   if (loading) {
     return (

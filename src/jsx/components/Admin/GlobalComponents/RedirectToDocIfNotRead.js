@@ -3,13 +3,14 @@ import React,{ useEffect } from "react"
 import { propTypes } from "react-bootstrap/esm/Image";
 import { withRouter } from "react-router-dom"
 import swal from "sweetalert";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const RedirectToDocIfNotRead = (props)=>{
     useEffect(() => {
         const config = {
           headers: {
             Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("userDetails")).idToken
+              JSON.parse(secureLocalStorage.getItem("userDetails"))
             }`,
           },
         };
@@ -21,7 +22,7 @@ const RedirectToDocIfNotRead = (props)=>{
     
           .then(function (response) {
             if (response.data === true) {
-                console.log(props.rpath);
+                // =>console.log(props.rpath);
                 props.history.push(props.rpath);
              
             }else{

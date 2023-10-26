@@ -14,6 +14,7 @@ import {
 import { matchSorter } from "match-sorter";
 import swal from "sweetalert";
 import { Interweave, Markup } from "interweave";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
   const defaultRef = useRef();
@@ -238,7 +239,7 @@ const DataTable = ({ columns, data, setSelection }) => {
       // responseType: "arraybuffer",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
         // responseType: "blob",
       },
@@ -261,12 +262,12 @@ const DataTable = ({ columns, data, setSelection }) => {
       })
       .then(function (response) {
         if (response.status === 200) {
-          // console.log(response.data);
+          // // =>console.log(response.data);
           swal("Success!", response.data, "success");
         }
       })
       .catch((err) => {
-        console.log("catch err:" + err);
+        // =>console.log("catch err:" + err);
         if (err.response !== undefined) {
           swal("Ooh!", err.response.data.message, "error");
         } else {
@@ -419,7 +420,7 @@ function HRJobseekerList(props) {
   const config = {
     headers: {
       Authorization: `Bearer ${
-        JSON.parse(localStorage.getItem("userDetails")).idToken
+        JSON.parse(secureLocalStorage.getItem("userDetails"))
       }`,
     },
   };
@@ -432,7 +433,7 @@ function HRJobseekerList(props) {
         config
       )
       .then((result) => {
-        console.log(result.data.allUsers);
+        // =>console.log(result.data.allUsers);
         setData(result.data.allUsers);
       })
       .catch((err) => {
@@ -478,7 +479,7 @@ function HRJobseekerList(props) {
   //     setSelection,
   //   ]);
   if (selection.length === 1) {
-    // console.log(selection);
+    // // =>console.log(selection);
     props.history.push("/HR-jobseekers-card", [{ datum: selection }]);
   }
 

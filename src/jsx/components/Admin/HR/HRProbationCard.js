@@ -7,6 +7,7 @@ import "./ExitForm.css";
 import axios from "axios";
 import swal from "sweetalert";
 import Select from "react-select";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const HRProbationCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -153,6 +154,9 @@ const HRProbationCard = (props) => {
   const [product, setProduct] = useState("");
   const [employmentYear, setEmploymentYear] = useState("");
   const [yearsOfService, setYearsOfService] = useState("");
+  const [probStartDate, setProbStartDate] = useState("");
+  const [probEndDate, setProbEndDate] = useState("");
+  const [probDuration, setProbDuration] = useState("");
 
   const [selectedNo, setSelectedNo] = useState("");
   const [selectedDuration, setSelectedDuration] = useState("");
@@ -205,7 +209,7 @@ const HRProbationCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -217,7 +221,7 @@ const HRProbationCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data.probationFirstList[0]);
+          // =>console.log(response.data.probationFirstList[0]);
           setDatax(response.data.probationFirstList[0])
 
           setJobTitle(response.data.probationFirstList[0].jobtitle)
@@ -225,6 +229,9 @@ const HRProbationCard = (props) => {
           setProduct(response.data.probationFirstList[0].product)
           setEmploymentYear(response.data.probationFirstList[0].employmentyear)
           setYearsOfService(response.data.probationFirstList[0].tenureofservice)
+          setProbStartDate(response.data.probationFirstList[0].probationstart)
+          setProbEndDate(response.data.probationFirstList[0].probationexpiry)
+          setProbDuration(response.data.probationFirstList[0].supervisionduration)
 
           setSelectedEmp(response.data.probationFirstList[0].employeename)
           setSkills(response.data.probationFirstList[0].skill)
@@ -344,7 +351,7 @@ const HRProbationCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -358,7 +365,7 @@ const HRProbationCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -386,7 +393,7 @@ const HRProbationCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false)
           swal("Success!", "Probation Form Updated/Pushed", "success");
         }
@@ -409,7 +416,7 @@ const HRProbationCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -445,7 +452,7 @@ const HRProbationCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           swal("Success!", "Probation Card Updated", "success");
         }
         if (response.status === 404) {
@@ -467,7 +474,7 @@ const HRProbationCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -495,7 +502,7 @@ const HRProbationCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false)
           swal("Success!", "Probation Form Approved", "success");
         }
@@ -519,7 +526,7 @@ const HRProbationCard = (props) => {
       responseType: "blob",
     headers: {
       Authorization: `Bearer ${
-        JSON.parse(localStorage.getItem("userDetails")).idToken
+        JSON.parse(secureLocalStorage.getItem("userDetails"))
       }`,
     },
     timeout: 60000,
@@ -546,7 +553,7 @@ const HRProbationCard = (props) => {
         }
       })
       .then((json) => {
-        // console.log(json.data);
+        // // =>console.log(json.data);
         // swal("Success!", json.data.message, "success");
         // swal("Success!", "Your record has been non confirmed!", "success");
         var saveData = (function () {
@@ -588,7 +595,7 @@ const HRProbationCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
       timeout: 60000,
@@ -646,7 +653,7 @@ const HRProbationCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
       timeout: 60000,
@@ -714,7 +721,7 @@ const HRProbationCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -754,7 +761,7 @@ const HRProbationCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -782,7 +789,7 @@ const HRProbationCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Probation Form Updated/Pushed", "success");
         }
@@ -805,7 +812,7 @@ const HRProbationCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -829,7 +836,7 @@ const HRProbationCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Probation Moved to Bucket", "success");
         }
@@ -853,7 +860,7 @@ const HRProbationCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -883,7 +890,7 @@ const HRProbationCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Probation Record Reversed.", "success");
         }
@@ -907,8 +914,8 @@ const HRProbationCard = (props) => {
   let btnUP = "";
   let sectionOne = "";
   let authUser= "";
-  if (JSON.parse(localStorage.getItem("userDetails")).user.length > 0) {
-    authUser = JSON.parse(localStorage.getItem("userDetails")).user[0];
+  if (JSON.parse(secureLocalStorage.getItem("userDetails")).user.length > 0) {
+    authUser = jwt_decode(JSON.parse(decryptToken(secureLocalStorage.getItem("userDetails")))).Role;
   }
 
   if (props.location.state[0].datum[0].status === 'Open') {
@@ -1107,7 +1114,42 @@ const HRProbationCard = (props) => {
                 </div>
               </div>
              
+              <div className="col-xl-3 col-sm-6">
+                    <div className="form-group">
+                      <label htmlFor="">Probation Start Date</label>
 
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={probStartDate}
+                        disabled
+                      />
+                    </div>
+                  </div>
+                  <div className="col-xl-3 col-sm-6">
+                    <div className="form-group">
+                      <label htmlFor="">Probation Expiry Date</label>
+
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={probEndDate}
+                        disabled
+                      />
+                    </div>
+                  </div>
+                  <div className="col-xl-3 col-sm-6">
+                    <div className="form-group">
+                      <label htmlFor="">Supervision Duration</label>
+
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={probDuration}
+                        disabled
+                      />
+                    </div>
+                  </div>
               <div className="col-xl-12 col-sm-6">
                 <div className="form-group">
                   <label htmlFor=""> Skill</label>
@@ -2698,7 +2740,7 @@ const HRProbationCard = (props) => {
               onClick={() => toggleCollapse("reversal")}
               aria-controls="example-collapse-text"
               aria-expanded={reverseF}
-              disabled={disableBtn}
+              disabled={props.location.state[0].datum[0].status === 'Approved'?true:false}
 
             >
               <i className="fa fa-repeat px-1"></i>
@@ -2739,24 +2781,24 @@ const HRProbationCard = (props) => {
                     </div>
                   </div>
                   <div className="col-md-4">
-                    <div className="form-group">
+                    {/* <div className="form-group">
                       <label htmlFor="">Extend Date To</label>
                       <DatePicker
                         name="extendDate"
                         selected={extendDate}
                         onChange={(date) => setExtendDate(date)}
                       />
-                    </div>
+                    </div> */}
                   </div>
                   <div className="col-md-4">
-                    <div className="form-group">
+                    {/* <div className="form-group">
                       <label htmlFor="">Next Review Date</label>
                       <DatePicker
                         name="nextReviewDate"
                         selected={nextReviewDate}
                         onChange={(date) => setNextReviewDate(date)}
                       />
-                    </div>
+                    </div> */}
                   </div>
                   <div className="col-12">
                     <button
@@ -2775,7 +2817,7 @@ const HRProbationCard = (props) => {
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label htmlFor="">Contract Date</label>
+                      <label htmlFor="">Probation Date</label>
                       <DatePicker
                         name="contractDate"
                         selected={contractDate}
@@ -2786,7 +2828,7 @@ const HRProbationCard = (props) => {
 
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label htmlFor="">Contract Expire Date</label>
+                      <label htmlFor="">Probation Expire Date</label>
                       <DatePicker
                         name="contractExpire"
                         selected={contractExpire}
@@ -2813,7 +2855,7 @@ const HRProbationCard = (props) => {
                   <div className="col-md-6">
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label htmlFor="">Contract End Date</label>
+                        <label htmlFor="">Probation End Date</label>
                         <DatePicker
                           name="constractEndDate"
                           selected={constractEndDate}
@@ -2878,6 +2920,6 @@ const HRProbationCard = (props) => {
       </div>
     </>
   );
-};
+}; 
 
 export default withRouter(HRProbationCard);

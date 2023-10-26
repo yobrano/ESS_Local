@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect, useMemo, forwardRef } from "react";
 import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const Performancemonitoring = (props) => {
   const [loading, setLoading] = useState(true);
@@ -16,7 +17,7 @@ const Performancemonitoring = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -28,14 +29,14 @@ const Performancemonitoring = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setEmployeeList(response.data.employeeListModels);
           // populateReqList();
           setLoading(false);
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -49,7 +50,7 @@ const Performancemonitoring = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -76,7 +77,7 @@ const Performancemonitoring = (props) => {
         }
       })
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         // list1.splice(index, 1);
         // setQualificationList(list1);
         swal("Success!", "Your record has been Created!", "success");

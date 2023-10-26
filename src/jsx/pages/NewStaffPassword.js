@@ -62,7 +62,7 @@ function NewStaffPassword(props) {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           // props.history.push('forgot',[{datax:staffid}]);
           // swal("Success!", "Job Application Created", "success");
         }

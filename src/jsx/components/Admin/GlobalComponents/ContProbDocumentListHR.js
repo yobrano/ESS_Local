@@ -14,6 +14,7 @@ import {
 import { matchSorter } from "match-sorter";
 import swal from "sweetalert";
 import { format } from "date-fns";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 // import { Interweave, Markup } from "interweave";
 
 const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
@@ -239,7 +240,7 @@ const DataTable = ({ columns, data, setSelection }) => {
       responseType: "arraybuffer",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
         // responseType: "blob",
       },
@@ -271,7 +272,7 @@ const DataTable = ({ columns, data, setSelection }) => {
         //   const pdfWindow = window.open();
         //   pdfWindow.location.href = fileURL;
 
-        //   // console.log(response.data);
+        //   // // =>console.log(response.data);
         //   // window.open(response.data, '_blank', 'fullscreen=yes');
         //   // FileDownload(response.data, 'current_cv.pdf');
         // }
@@ -431,7 +432,7 @@ function ContProbDocumentListHR(props) {
   const config = {
     headers: {
       Authorization: `Bearer ${
-        JSON.parse(localStorage.getItem("userDetails")).idToken
+        JSON.parse(secureLocalStorage.getItem("userDetails"))
       }`,
     },
   };
@@ -444,7 +445,7 @@ function ContProbDocumentListHR(props) {
         config
       )
       .then((result) => {
-        console.log(result.data);
+        // =>console.log(result.data);
         setData(result.data.cp);
       })
       .catch((err) => {
@@ -492,7 +493,7 @@ function ContProbDocumentListHR(props) {
   //     setSelection,
   //   ]);
   if (selection.length === 1) {
-    // console.log(selection[0].docname);
+    // // =>console.log(selection[0].docname);
     if (selection[0].docname !== undefined) {
       props.history.push("/contract-probation-display", [{ datum: selection }]);
     }

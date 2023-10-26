@@ -14,7 +14,7 @@
 //         } catch (error) {
 //             setIsloading(false);
 //             setIserror(true);
-//             console.log(error);
+//             // =>console.log(error);
 //         }
 //     };
 //     useEffect(()=>{
@@ -39,7 +39,7 @@ export const GetProfile = (url) => {
     } catch (error) {
       setIsLoading(false);
       setIsError(true);
-      console.log(error);
+      // =>console.log(error);
     }
   };
   useEffect(() => {

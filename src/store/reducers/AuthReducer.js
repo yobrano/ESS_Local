@@ -10,16 +10,17 @@ import {
 const initialState = {
     // idToken:'',
     // expiresIn:'',
-    auth: {
+    // auth: {
     //     email: '',
-        idToken: '',
+        // idToken: '',
     //     localId: '',
-        expiresIn: '',
+        // expiresIn: '',
     //     refreshToken: '',
-    },
+    // },
     // errorMessage: '',
     // successMessage: '',
     // showLoading: false,
+    token:{ idToken: ''},
     message:'',
 };
 
@@ -27,7 +28,8 @@ export function AuthReducer(state = initialState, action) {
     if (action.type === SIGNUP_CONFIRMED_ACTION) {
         return {
             ...state,
-            auth: action.payload,
+            // auth: action.payload,
+            token: action.payload,
             errorMessage: '',
             successMessage: 'Signup Successfully Completed',
             showLoading: false,
@@ -36,7 +38,8 @@ export function AuthReducer(state = initialState, action) {
     if (action.type === LOGIN_CONFIRMED_ACTION) {
         return {
             ...state,
-            auth: action.payload,
+            // auth: action.payload,
+            token: action.payload,
             errorMessage: '',
             successMessage: 'Login Successfully Completed',
             showLoading: false,
@@ -48,13 +51,14 @@ export function AuthReducer(state = initialState, action) {
             ...state,
             errorMessage: '',
             successMessage: '',
-            auth: {
-                // email: '',
-                idToken: '',
-                // localId: '',
-                expiresIn: '',
-                // refreshToken: '',
-            },
+            // auth: {
+            //     // email: '',
+            //     // idToken: '',
+            //     // localId: '',
+            //     // expiresIn: '',
+            //     // refreshToken: '',
+            // },
+            token: {idToken:''},
         };
     }
 

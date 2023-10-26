@@ -14,6 +14,7 @@ import {
 import { matchSorter } from "match-sorter";
 import swal from "sweetalert";
 import { Interweave, Markup } from "interweave";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
   const defaultRef = useRef();
@@ -238,7 +239,7 @@ const DataTable = ({ columns, data, setSelection }) => {
       responseType: "arraybuffer",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
         // responseType: "blob",
       },
@@ -270,7 +271,7 @@ const DataTable = ({ columns, data, setSelection }) => {
         //   const pdfWindow = window.open();
         //   pdfWindow.location.href = fileURL;
 
-        //   // console.log(response.data);
+        //   // // =>console.log(response.data);
         //   // window.open(response.data, '_blank', 'fullscreen=yes');
         //   // FileDownload(response.data, 'current_cv.pdf');
         // }
@@ -430,7 +431,7 @@ function HODADMINClearanceList(props) {
   const config = {
     headers: {
       Authorization: `Bearer ${
-        JSON.parse(localStorage.getItem("userDetails")).idToken
+        JSON.parse(secureLocalStorage.getItem("userDetails"))
       }`,
     },
   };
@@ -443,7 +444,7 @@ function HODADMINClearanceList(props) {
         config
       )
       .then((result) => {
-        console.log(result.data);
+        // =>console.log(result.data);
         setData(result.data.clisthod);
       })
       .catch((err) => {
@@ -547,7 +548,7 @@ function HODADMINClearanceList(props) {
   //     setSelection,
   //   ]);
   if (selection.length === 1) {
-    // console.log(selection);
+    // // =>console.log(selection);
     props.history.push("/ADMIN-clearance-card", [{ datum: selection }]);
   }
 

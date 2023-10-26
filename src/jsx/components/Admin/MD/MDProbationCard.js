@@ -6,6 +6,7 @@ import "./ExitForm.css";
 import axios from "axios";
 import swal from "sweetalert";
 import BreadCrumb from "../GlobalComponents/BreadCrumb";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const MDProbationCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -138,6 +139,9 @@ const MDProbationCard = (props) => {
       const [product, setProduct] = useState("");
       const [employmentYear, setEmploymentYear] = useState("");
       const [yearsOfService, setYearsOfService] = useState("");
+      const [probStartDate, setProbStartDate] = useState("");
+      const [probEndDate, setProbEndDate] = useState("");
+      const [probDuration, setProbDuration] = useState("");
 
   const toggleCollapse = (from) => {
     switch (from) {
@@ -155,7 +159,7 @@ const MDProbationCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -167,7 +171,7 @@ const MDProbationCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data.probationFirstList[0]);
+          // =>console.log(response.data.probationFirstList[0]);
           setDatax(response.data.probationFirstList[0]);
 
           setJobTitle(response.data.probationFirstList[0].jobtitle)
@@ -175,6 +179,9 @@ const MDProbationCard = (props) => {
           setProduct(response.data.probationFirstList[0].product)
           setEmploymentYear(response.data.probationFirstList[0].employmentyear)
           setYearsOfService(response.data.probationFirstList[0].tenureofservice)
+          setProbStartDate(response.data.probationFirstList[0].probationstart)
+          setProbEndDate(response.data.probationFirstList[0].probationexpiry)
+          setProbDuration(response.data.probationFirstList[0].supervisionduration)
 
           setSelectedEmp(response.data.probationFirstList[0].employeename);
           setSkills(response.data.probationFirstList[0].skill);
@@ -408,7 +415,7 @@ const MDProbationCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -422,7 +429,7 @@ const MDProbationCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -452,7 +459,7 @@ const MDProbationCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Probation Record Reversed.", "success");
         }
@@ -475,7 +482,7 @@ const MDProbationCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -503,7 +510,7 @@ const MDProbationCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Probation Form Updated/Pushed", "success");
         }
@@ -526,7 +533,7 @@ const MDProbationCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -554,7 +561,7 @@ const MDProbationCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Probation Form Rejected/Pushed", "success");
         }
@@ -579,7 +586,7 @@ const MDProbationCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -615,7 +622,7 @@ const MDProbationCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           swal("Success!", "Probation Card Updated", "success");
         }
         if (response.status === 404) {
@@ -638,7 +645,7 @@ const MDProbationCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -820,7 +827,42 @@ const MDProbationCard = (props) => {
                       />
                     </div>
                   </div>
+                  <div className="col-xl-3 col-sm-6">
+                    <div className="form-group">
+                      <label htmlFor="">Probation Start Date</label>
 
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={probStartDate}
+                        disabled
+                      />
+                    </div>
+                  </div>
+                  <div className="col-xl-3 col-sm-6">
+                    <div className="form-group">
+                      <label htmlFor="">Probation Expiry Date</label>
+
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={probEndDate}
+                        disabled
+                      />
+                    </div>
+                  </div>
+                  <div className="col-xl-3 col-sm-6">
+                    <div className="form-group">
+                      <label htmlFor="">Supervision Duration</label>
+
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={probDuration}
+                        disabled
+                      />
+                    </div>
+                  </div>
                   <div className="col-xl-12 col-sm-6">
                     <div className="form-group">
                       <label htmlFor=""> Skill</label>

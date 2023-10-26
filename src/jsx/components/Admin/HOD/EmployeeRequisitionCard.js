@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const EmployeeRequisitionCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -83,7 +84,7 @@ const EmployeeRequisitionCard = (props) => {
   const [reqfile, setReqfile] = useState("");
   const [HODComment, setHODComment] = useState("");
   //{ id: "", description: "",rqmentcode:"",mandatory:"",lineno:"",jobno:"" },
-  // console.log(requirementlist);
+  // // =>console.log(requirementlist);
 
   const [disablePushToHR, setDisablePushToHR] = useState(false);
 
@@ -101,7 +102,7 @@ const EmployeeRequisitionCard = (props) => {
       } else {
         list[index][name] = "No";
         list[index].id = index;
-        console.log(list);
+        // =>console.log(list);
         setRequirementlist(list);
       }
     } else {
@@ -119,7 +120,7 @@ const EmployeeRequisitionCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -185,7 +186,7 @@ const EmployeeRequisitionCard = (props) => {
     //Get the record
     const list = [...requirementlist];
     let record = list[index];
-    // console.log(record);
+    // // =>console.log(record);
     let jobno = list[0]["jobno"];
     let data = {
       Description: record.description,
@@ -198,7 +199,7 @@ const EmployeeRequisitionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -221,7 +222,7 @@ const EmployeeRequisitionCard = (props) => {
       })
       // .then(result => result.json())
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         list[index].lineno = json.data;
         setRequirementlist(list);
         swal("Success!", "Your record has been uploaded!", "success");
@@ -246,7 +247,7 @@ const EmployeeRequisitionCard = (props) => {
       } else {
         list[index][name] = "No";
         list[index].id = index;
-        console.log(list[index]);
+        // =>console.log(list[index]);
         setQualificationList(list);
       }
     } else {
@@ -259,12 +260,12 @@ const EmployeeRequisitionCard = (props) => {
   const handleRemoveQualifClick = (index) => {
     const list1 = [...qualificationList];
     let _no = list1[index].lineno;
-    console.log(_no);
+    // =>console.log(_no);
     if (_no !== "") {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -284,7 +285,7 @@ const EmployeeRequisitionCard = (props) => {
           }
         })
         .then((json) => {
-          // console.log(json.data);
+          // // =>console.log(json.data);
           if (list1.length !== 1) {
             list1.splice(index, 1);
             setQualificationList(list1);
@@ -330,7 +331,7 @@ const EmployeeRequisitionCard = (props) => {
     //Add record to d365
     const list = [...qualificationList];
     let record = list[index];
-    // console.log(record);
+    // // =>console.log(record);
     if (list[0] !== undefined) {
       let jobno = list[0]["jobno"];
 
@@ -345,7 +346,7 @@ const EmployeeRequisitionCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -366,7 +367,7 @@ const EmployeeRequisitionCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           list[index].lineno = json.data;
           setQualificationList(list);
 
@@ -397,7 +398,7 @@ const EmployeeRequisitionCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -417,7 +418,7 @@ const EmployeeRequisitionCard = (props) => {
           }
         })
         .then((json) => {
-          // console.log(json.data);
+          // // =>console.log(json.data);
           if (list1.length !== 1) {
             list1.splice(index, 1);
             setResponsibilityList(list1);
@@ -464,8 +465,8 @@ const EmployeeRequisitionCard = (props) => {
     //Add record to d365
     const list = [...responsibiltyList];
     let record = list[index];
-    console.log(list[0]);
-    console.log(props.location.state[0].jobNo);
+    // =>console.log(list[0]);
+    // =>console.log(props.location.state[0].jobNo);
     let jobno =
       list[0]["jobno"] === ""
         ? props.location.state[0].jobNo.value
@@ -481,7 +482,7 @@ const EmployeeRequisitionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -502,7 +503,7 @@ const EmployeeRequisitionCard = (props) => {
         }
       })
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
 
         list[index].lineno = json.data;
         setResponsibilityList(list);
@@ -531,7 +532,7 @@ const EmployeeRequisitionCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -551,7 +552,7 @@ const EmployeeRequisitionCard = (props) => {
           }
         })
         .then((json) => {
-          // console.log(json.data);
+          // // =>console.log(json.data);
           if (list1.length !== 1) {
             list1.splice(index, 1);
             setCheckList(list1);
@@ -576,7 +577,7 @@ const EmployeeRequisitionCard = (props) => {
   };
   //handle cick event of the Add button
   const handleAddChecklistClick = () => {
-    //console.log(props.location.state[0].empReqNo);
+    //// =>console.log(props.location.state[0].empReqNo);
     const list = [...checkList];
     if (list[0] !== undefined) {
       let auxcode = list[0]["code"];
@@ -612,7 +613,7 @@ const EmployeeRequisitionCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -633,7 +634,7 @@ const EmployeeRequisitionCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
 
           list[index].lineno = json.data;
           setCheckList(list);
@@ -655,7 +656,7 @@ const EmployeeRequisitionCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -676,7 +677,7 @@ const EmployeeRequisitionCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           list[index].lineno = json.data;
           setCheckList(list);
           swal("Success!", "Your record has been uploaded!", "success");
@@ -694,7 +695,7 @@ const EmployeeRequisitionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -713,7 +714,7 @@ const EmployeeRequisitionCard = (props) => {
           //pop contract
           setContractList(response.data.contractListModels);
 
-          console.log(response.data);
+          // =>console.log(response.data);
           //  if (employeeList.length > 0) {
           categoryFive();
           // }
@@ -721,7 +722,7 @@ const EmployeeRequisitionCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -736,7 +737,7 @@ const EmployeeRequisitionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -759,11 +760,11 @@ const EmployeeRequisitionCard = (props) => {
           // Check list
           setCheckList(response.data.checklistModels);
 
-          console.log(response.data);
+          // =>console.log(response.data);
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -776,7 +777,7 @@ const EmployeeRequisitionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -797,7 +798,7 @@ const EmployeeRequisitionCard = (props) => {
         }
       })
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         swal("Success!", "Your record has been Approved!", "success");
       })
       .catch((err) => {
@@ -826,7 +827,7 @@ const EmployeeRequisitionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -849,7 +850,7 @@ const EmployeeRequisitionCard = (props) => {
       })
       // .then(result => result.json())
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         swal("Success!", "Your record has been uploaded!", "success");
       })
       .catch((err) => {
@@ -886,7 +887,7 @@ const EmployeeRequisitionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -910,11 +911,11 @@ const EmployeeRequisitionCard = (props) => {
         if (response.status === 200) {
           swal("Success", response.data.message, "success");
           // setDisablePushToHR(true);
-          console.log(response.data);
+          // =>console.log(response.data);
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -932,7 +933,7 @@ const EmployeeRequisitionCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -953,7 +954,7 @@ const EmployeeRequisitionCard = (props) => {
         }
       })
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         swal(
           "Success!",
           "Your record has been Approved and Publish",
@@ -988,7 +989,7 @@ const EmployeeRequisitionCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -1002,7 +1003,7 @@ const EmployeeRequisitionCard = (props) => {
         .then(function (response) {
           if (response.status === 200) {
             alert(response.data.message);
-            //console.log(response.data);
+            //// =>console.log(response.data);
           }
           if (response.status === 404) {
             alert(response.data.message);

@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect, useMemo, forwardRef } from "react";
 import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const MonitoringCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -54,7 +55,7 @@ const MonitoringCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -82,7 +83,7 @@ const MonitoringCard = (props) => {
           }
         })
         .then((json) => {
-          // console.log(json.data);
+          // // =>console.log(json.data);
           list1.splice(index, 1);
           setPlines(list1);
           swal("Success!", "Your record has been Deleted!", "success");
@@ -147,7 +148,7 @@ const MonitoringCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -168,7 +169,7 @@ const MonitoringCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
 
           swal("Success!", "Your record has been uploaded!", "success");
         })
@@ -196,7 +197,7 @@ const MonitoringCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -217,7 +218,7 @@ const MonitoringCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -240,7 +241,7 @@ const MonitoringCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -252,7 +253,7 @@ const MonitoringCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
 
           setHeaderData(props.location.state[0].datum[0]);
           setAreaSupport1(props.location.state[0].datum[0].areasofSupport);
@@ -270,7 +271,7 @@ const MonitoringCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -289,7 +290,7 @@ const MonitoringCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -317,7 +318,7 @@ const MonitoringCard = (props) => {
         }
       })
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         // list1.splice(index, 1);
         // setQualificationList(list1);
         swal("Success!", "Your record has been Created!", "success");
@@ -338,7 +339,7 @@ const MonitoringCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -366,7 +367,7 @@ const MonitoringCard = (props) => {
         }
       })
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         // list1.splice(index, 1);
         // setQualificationList(list1);
         swal("Success!", "Your record has been Approved!", "success");
@@ -382,7 +383,7 @@ const MonitoringCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -411,7 +412,7 @@ const MonitoringCard = (props) => {
         }
       })
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         // list1.splice(index, 1);
         // setQualificationList(list1);
         swal("Success!", "Your record has been Pushed", "success");
@@ -445,7 +446,7 @@ const MonitoringCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };

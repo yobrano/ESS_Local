@@ -14,6 +14,8 @@ import loginbg from "../../images/bg-login.jpg";
 import axios from "axios";
 import swal from "sweetalert";
 import "./UIStyle.css";
+import  secureLocalStorage  from  "react-secure-storage"; 
+import { decryptToken} from "./../../AppUtility"; 
 
 function Forgot(props) {
   const [email, setEmail] = useState("");
@@ -26,7 +28,7 @@ function Forgot(props) {
   const [showLoading, setShowLoading] = useState(false);
   // const {id} = props.match.params
 
-  // localStorage.setItem('resettoken',id)
+  // secureLocalStorage.setItem('resettoken',id)
 
   // function onLogin(e) {
   //   e.preventDefault();
@@ -73,7 +75,7 @@ function Forgot(props) {
         if (response.status === 200) {
           swal("Success!", "Successfully reset", "success");
           setShowLoading(false);
-          console.log(response.data);
+          // =>console.log(response.data);
         }
         if (response.status === 404) {
           // alert(response.data.message);

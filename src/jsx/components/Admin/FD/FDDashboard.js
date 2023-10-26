@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 //** Import Image */
 
@@ -25,7 +26,7 @@ const FDDashboard = () => {
   const config = {
     headers: {
       Authorization: `Bearer ${
-        JSON.parse(localStorage.getItem("userDetails")).idToken
+        JSON.parse(secureLocalStorage.getItem("userDetails"))
       }`,
     },
   };
@@ -38,7 +39,7 @@ const FDDashboard = () => {
         config
       )
       .then((result) => {
-        console.log(result.data);
+        // =>console.log(result.data);
         setViewed(result.data.doneCount);
         setPending(result.data.pendingCount);
       })

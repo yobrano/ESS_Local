@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import Select from "react-select";
 import swal from "sweetalert";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const JobKPICard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -22,7 +23,7 @@ const JobKPICard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -34,14 +35,14 @@ const JobKPICard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setLoading(false);
           setJobkpiList(response.data.performanceIndicators);
           setData(props.location.state[0].datum[0]);
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -59,7 +60,7 @@ const JobKPICard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -71,7 +72,7 @@ const JobKPICard = (props) => {
         )
         .then(function (response) {
           if (response.status === 200) {
-            console.log(response.data);
+            // =>console.log(response.data);
             setActivityList(response.data.performanceActivities);
             setStandardList(response.data.performanceStandards);
             setDisableCreateNewActivity(false);
@@ -79,7 +80,7 @@ const JobKPICard = (props) => {
           }
           if (response.status === 404) {
             swal("Oh!", response.data.message, "error");
-            console.log(response.data.message);
+            // =>console.log(response.data.message);
           }
         })
         .catch((err) => {
@@ -101,7 +102,7 @@ const JobKPICard = (props) => {
     const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -134,7 +135,7 @@ const JobKPICard = (props) => {
           }
         })
         .catch((err) => {
-          // console.log("catch err:"+err);
+          // // =>console.log("catch err:"+err);
           if (err !== undefined) {
             swal("Ooh!", "Error File not Found", "error");
           }

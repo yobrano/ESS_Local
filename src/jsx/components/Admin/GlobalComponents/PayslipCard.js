@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 import "./PayslipCard.css";
 const PayslipCard = (props) => {
@@ -15,7 +16,7 @@ const PayslipCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -27,13 +28,13 @@ const PayslipCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setPeriodList(response.data.periods);
           setLoading(false);
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -52,7 +53,7 @@ const PayslipCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
       timeout: 60000,
@@ -85,7 +86,7 @@ const PayslipCard = (props) => {
       })
       .catch((err) => {
 
-        // console.log(err.response.data);
+        // // =>console.log(err.response.data);
         swal("Oh!", 'Payslip for the choosen Period is NOT Ready', "error");
         // if (err.response !== undefined) {
         //   // swal("Oh!", err.response.data.message, "error");

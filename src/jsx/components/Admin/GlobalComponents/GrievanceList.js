@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import React, { useState, useRef, useEffect, useMemo, forwardRef } from "react";
 import { Container, Row } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 import {
   useTable,
   usePagination,
@@ -238,7 +239,7 @@ const DataTable = ({ columns, data, setSelection }) => {
       responseType: "arraybuffer",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
         // responseType: "blob",
       },
@@ -270,7 +271,7 @@ const DataTable = ({ columns, data, setSelection }) => {
         //   const pdfWindow = window.open();
         //   pdfWindow.location.href = fileURL;
 
-        //   // console.log(response.data);
+        //   // // =>console.log(response.data);
         //   // window.open(response.data, '_blank', 'fullscreen=yes');
         //   // FileDownload(response.data, 'current_cv.pdf');
         // }
@@ -430,7 +431,7 @@ function GrievanceList(props) {
   const config = {
     headers: {
       Authorization: `Bearer ${
-        JSON.parse(localStorage.getItem("userDetails")).idToken
+        JSON.parse(secureLocalStorage.getItem("userDetails"))
       }`,
     },
   };
@@ -443,7 +444,7 @@ function GrievanceList(props) {
         config
       )
       .then((result) => {
-        console.log(result.data);
+        // =>console.log(result.data);
         setData(result.data.grievancelist);
       })
       .catch((err) => {
@@ -502,7 +503,7 @@ function GrievanceList(props) {
   //     setSelection,
   //   ]);
   if (selection.length === 1) {
-    console.log(selection[0].gid);
+    // =>console.log(selection[0].gid);
     if (selection[0].gid !== undefined) {
       props.history.push("/GrievanceCard", [{ datum: selection }]);
     }

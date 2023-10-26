@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
 import axios from "axios";
 import swal from "sweetalert";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const StaffProfile = () => {
   const [cvfile, setCvfile] = useState("");
@@ -53,7 +54,7 @@ const StaffProfile = () => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -64,7 +65,7 @@ const StaffProfile = () => {
         config
       )
       .then((result) => {
-        // console.log(result.data);
+        // // =>console.log(result.data);
         if(result.data.userName!== null){
           setUserName(result.data.userName)
         }
@@ -93,7 +94,7 @@ const StaffProfile = () => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };

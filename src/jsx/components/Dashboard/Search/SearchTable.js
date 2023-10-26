@@ -3,6 +3,7 @@ import { Container, Row, Table } from "react-bootstrap";
 
 import axios from "axios";
 import { withRouter } from "react-router-dom";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const SearchTable = (props) => {
   const [data, setData] = useState([]);
@@ -12,14 +13,14 @@ const SearchTable = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
     fetch(`${process.env.REACT_APP_API_S_LINK}/home/posted-jobs/`, config)
       .then((res) => res.json())
       .then((result) => {
-        //console.log(result);
+        //// =>console.log(result);
         setData(result);
       })
       .catch((err) => {
@@ -61,9 +62,9 @@ const SearchTable = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
-      },
+      }, 
     };
     return axios(`${process.env.REACT_APP_API_S_LINK}/home/jobdata/${id}`,config);
   };

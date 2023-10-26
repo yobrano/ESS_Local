@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import Select from "react-select";
 import swal from "sweetalert";
 import BreadCrumb from "./BreadCrumb";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const SupervisorModerationAppraisalCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -34,7 +35,7 @@ const SupervisorModerationAppraisalCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -46,7 +47,7 @@ const SupervisorModerationAppraisalCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setJobkpiList(response.data.performanceIndicators);
           setData(props.location.state[0].datum[0]);
           InitialStdLoad();
@@ -61,7 +62,7 @@ const SupervisorModerationAppraisalCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -79,7 +80,7 @@ const SupervisorModerationAppraisalCard = (props) => {
   //     const config = {
   //       headers: {
   //         Authorization: `Bearer ${
-  //           JSON.parse(localStorage.getItem("userDetails")).idToken
+  //           JSON.parse(secureLocalStorage.getItem("userDetails"))
   //         }`,
   //       },
   //     };
@@ -91,7 +92,7 @@ const SupervisorModerationAppraisalCard = (props) => {
   //       )
   //       .then(function (response) {
   //         if (response.status === 200) {
-  //           console.log(response.data);
+  //           // =>console.log(response.data);
   //           // setActivityList(response.data.performanceActivities);
   //           setStandardList(response.data.supervisorAppraisalStandards);
   //           setDisableCreateNewActivity(false);
@@ -99,7 +100,7 @@ const SupervisorModerationAppraisalCard = (props) => {
   //         }
   //         if (response.status === 404) {
   //           swal("Oh!", response.data.message, "error");
-  //           console.log(response.data.message);
+  //           // =>console.log(response.data.message);
   //         }
   //       })
   //       .catch((err) => {
@@ -119,7 +120,7 @@ const SupervisorModerationAppraisalCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -139,11 +140,11 @@ const SupervisorModerationAppraisalCard = (props) => {
           setAreaofDevelopmentList1(response.data.areaofDevelopmentList1) //supervisor
           setSpecificfocusList(response.data.specificFocusList);//supervisor
 
-          console.log(response.data);
+          // =>console.log(response.data);
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -156,7 +157,7 @@ const SupervisorModerationAppraisalCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -168,7 +169,7 @@ const SupervisorModerationAppraisalCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           // setActivityList(response.data.performanceActivities);
           setStandardList(response.data.employeeAppraisalStandards);
           setDisableCreateNewActivity(false);
@@ -176,7 +177,7 @@ const SupervisorModerationAppraisalCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -193,7 +194,7 @@ const SupervisorModerationAppraisalCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -226,7 +227,7 @@ const SupervisorModerationAppraisalCard = (props) => {
         }
       })
       .catch((err) => {
-        // console.log("catch err:"+err);
+        // // =>console.log("catch err:"+err);
         if (err !== undefined) {
           swal("Ooh!", "Error File not Found", "error");
         }
@@ -242,7 +243,7 @@ const SupervisorModerationAppraisalCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -269,7 +270,7 @@ const SupervisorModerationAppraisalCard = (props) => {
         }
       })
       .catch((err) => {
-        console.log("catch err:" + err);
+        // =>console.log("catch err:" + err);
         // if (err !== undefined) {
         //   swal("Ooh!", err, "error");
         // }
@@ -310,7 +311,7 @@ const SupervisorModerationAppraisalCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -343,7 +344,7 @@ const SupervisorModerationAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -379,7 +380,7 @@ const SupervisorModerationAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -427,7 +428,7 @@ const SupervisorModerationAppraisalCard = (props) => {
       } else {
         list[index][name] = "No";
         list[index].id = index;
-        console.log(list);
+        // =>console.log(list);
         setAreaofDevelopmentList(list);
       }
     } else {
@@ -446,7 +447,7 @@ const SupervisorModerationAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -506,7 +507,7 @@ const SupervisorModerationAppraisalCard = (props) => {
     //Get the record
     const list = [...areaofDevelopmentList];
     let record = list[index];
-    // console.log(record);
+    // // =>console.log(record);
 
     if (record.lineNo === "") {
       //Oridinal Entry
@@ -518,7 +519,7 @@ const SupervisorModerationAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -541,7 +542,7 @@ const SupervisorModerationAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -559,7 +560,7 @@ const SupervisorModerationAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -582,7 +583,7 @@ const SupervisorModerationAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been Updated!", "success");
         })
         .catch((err) => {
@@ -608,7 +609,7 @@ const SupervisorModerationAppraisalCard = (props) => {
       } else {
         list[index][name] = "No";
         list[index].id = index;
-        console.log(list);
+        // =>console.log(list);
         setSpecificfocusList(list);
       }
     } else {
@@ -627,7 +628,7 @@ const SupervisorModerationAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -687,7 +688,7 @@ const SupervisorModerationAppraisalCard = (props) => {
     //Get the record
     const list = [...specificfocusList];
     let record = list[index];
-    // console.log(record);
+    // // =>console.log(record);
 
     if (record.lineNo === "") {
       //Oridinal Entry
@@ -699,7 +700,7 @@ const SupervisorModerationAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -722,7 +723,7 @@ const SupervisorModerationAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -740,7 +741,7 @@ const SupervisorModerationAppraisalCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -763,7 +764,7 @@ const SupervisorModerationAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been Updated!", "success");
         })
         .catch((err) => {

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const HRUserCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -15,7 +16,7 @@ const HRUserCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -24,19 +25,19 @@ const HRUserCard = (props) => {
       .get(`${process.env.REACT_APP_API_S_LINK}/home/getuserroles`, config)
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setLoading(false);
           setUserRoles(response.data.userRoles);
         //   let objElem = response.data.userRoles.find(
         //     (x) => x.value === props.location.state[0].datum[0].rank
         //   );
         //   setSelectedRole(objElem);
-        // console.log(objElem);
+        // // =>console.log(objElem);
           setBasicData(props.location.state[0].datum[0]);
         }
         if (response.status === 404) {
           // swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -53,7 +54,7 @@ const HRUserCard = (props) => {
     const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -77,7 +78,7 @@ const HRUserCard = (props) => {
   
         .then(function (response) {
           if (response.status === 200) {
-            console.log(response.data);
+            // =>console.log(response.data);
             swal("Success!", "Profile Udated", "success");
           }
           if (response.status === 404) {
@@ -98,7 +99,7 @@ const HRUserCard = (props) => {
     const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };

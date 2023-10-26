@@ -7,6 +7,7 @@ import axios from "axios";
 import swal from "sweetalert";
 import Select from "react-select";
 import { format } from "date-fns";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const HRContractCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -192,7 +193,7 @@ const HRContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -204,9 +205,9 @@ const HRContractCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data.probationFirstList[0]);
+          // =>console.log(response.data.probationFirstList[0]);
           let cDArr = response.data.probationFirstList[0].contractstart.split('/');
-          console.log(response.data.probationFirstList[0].contractstart);
+          // =>console.log(response.data.probationFirstList[0].contractstart);
 
           setJobTitle(response.data.probationFirstList[0].jobtitle)
           setBranch(response.data.probationFirstList[0].branch)
@@ -452,7 +453,7 @@ const HRContractCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -468,7 +469,7 @@ const HRContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -498,7 +499,7 @@ const HRContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Contract Record Reversed.", "success");
         }
@@ -522,7 +523,7 @@ const HRContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -550,7 +551,7 @@ const HRContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Contract Form Updated/Pushed", "success");
         }
@@ -573,7 +574,7 @@ const HRContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -601,7 +602,7 @@ const HRContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Contract Form Updated/Pushed", "success");
         }
@@ -624,7 +625,7 @@ const HRContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -648,7 +649,7 @@ const HRContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Contract Pushed", "success");
         }
@@ -672,7 +673,7 @@ const HRContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -708,7 +709,7 @@ const HRContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           swal("Success!", "Probation Card Updated", "success");
         }
         if (response.status === 404) {
@@ -730,7 +731,7 @@ const HRContractCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -758,7 +759,7 @@ const HRContractCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Contract Form Approved", "success");
         }
@@ -782,7 +783,7 @@ const HRContractCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -823,7 +824,7 @@ const HRContractCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
       timeout: 60000,
@@ -881,7 +882,7 @@ const HRContractCard = (props) => {
 
 
         // swal("Success!", json.data.message, "success");
-        // console.log(json.data);
+        // // =>console.log(json.data);
         // swal("Success!", "Your record has been Non Renewed!", "success");
       })
       .catch((err) => {
@@ -901,7 +902,7 @@ const HRContractCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
       timeout: 60000,
@@ -952,11 +953,11 @@ const HRContractCard = (props) => {
       saveData(response, fileName);
 
         // swal("Success!", json.data.message, "success");
-        // console.log(json.data);
+        // // =>console.log(json.data);
         // swal("Success!", "Your record has been Renewed!", "success");
       })
       .catch((err) => {
-        console.log({"i/o err":err.response});
+        // =>console.log({"i/o err":err.response});
         swal("Oh!", err.message, "error");
         // if (err.response !== undefined) {
         //   swal("Oh!", err.response.message, "error");

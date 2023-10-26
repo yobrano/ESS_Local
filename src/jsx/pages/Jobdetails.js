@@ -10,6 +10,7 @@ import landing from "./../../images/icon.png"
 import { withRouter } from 'react-router-dom';
 import { format } from 'date-fns';
 // import { useLocation } from 'react-router-dom';
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../AppUtility"; import jwt_decode from "jwt-decode";
 
 function Jobdetails(props) {
 
@@ -18,7 +19,7 @@ function Jobdetails(props) {
 
   useEffect(()=>{
     // datum = props.location.state
-    // console.log(props.location.state[0].jobData)
+    // // =>console.log(props.location.state[0].jobData)
 
     window.scrollTo(0, 0)
   },[props.location.state]);
@@ -28,7 +29,7 @@ function Jobdetails(props) {
   }
   const loadFromLocalStorage = () => {
     try {
-      const stateStr = localStorage.getItem('state');
+      const stateStr = secureLocalStorage.getItem('state');
       return stateStr ? JSON.parse(stateStr) : undefined;
     } catch (e) {
       console.error(e);
@@ -115,7 +116,7 @@ function Jobdetails(props) {
                   <h4>   Deadline: 
                  </h4>
                  <p className='ml-3 text-danger dendidate' > 
-                 {/* {console.log(props.location.state[0].jobData[0].dealine)} */}
+                 {/* {// =>console.log(props.location.state[0].jobData[0].dealine)} */}
                  {/* {new Date().getDate()}/02/2002 */}
                  {
                  props.location.state[0].jobData.jobMeta.closingdate
@@ -142,7 +143,7 @@ function Jobdetails(props) {
       )
     }
   } catch (error) {
-    console.log(error);
+    // =>console.log(error);
     return(
       <>
       

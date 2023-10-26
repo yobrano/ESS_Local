@@ -6,6 +6,7 @@ import swal from "sweetalert";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import { format } from "date-fns";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const NewTrainingNeedsCard = () => {
   const [loading, setLoading] = useState(true);
@@ -49,7 +50,7 @@ const NewTrainingNeedsCard = () => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -62,7 +63,7 @@ const NewTrainingNeedsCard = () => {
 
       .then(function (response) {
         if (response.status === 200) {
-          // console.log(response.data);
+          // // =>console.log(response.data);
           setTrainingNeedNo(response.data.recid);
           setEmployeeList(response.data.employeeList);
           //getdate
@@ -74,7 +75,7 @@ const NewTrainingNeedsCard = () => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -91,7 +92,7 @@ const NewTrainingNeedsCard = () => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -103,12 +104,12 @@ const NewTrainingNeedsCard = () => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          // console.log(response.data);
+          // // =>console.log(response.data);
           setCalenderYears(response.data.years);
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -125,7 +126,7 @@ const NewTrainingNeedsCard = () => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -137,7 +138,7 @@ const NewTrainingNeedsCard = () => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setTline(response.data.trainingNeedLines);
           if(Object.keys(response.data.employee).length>0){
             setSelectedEmployee(response.data.employee)
@@ -145,7 +146,7 @@ const NewTrainingNeedsCard = () => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -170,7 +171,7 @@ const NewTrainingNeedsCard = () => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -193,7 +194,7 @@ const NewTrainingNeedsCard = () => {
 
       .then(function (response) {
         if (response.status === 200) {
-          //console.log(response.data);
+          //// =>console.log(response.data);
           swal("Success", response.data.message, "success");
           // setViewAttachmentState(false);
         }
@@ -242,7 +243,7 @@ const NewTrainingNeedsCard = () => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -268,7 +269,7 @@ const NewTrainingNeedsCard = () => {
           }
         })
         .then((json) => {
-          // console.log(json.data);
+          // // =>console.log(json.data);
           list1.splice(index, 1);
           setTline(list1);
           swal("Success!", "Your record has been Deleted!", "success");
@@ -386,7 +387,7 @@ const NewTrainingNeedsCard = () => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -407,7 +408,7 @@ const NewTrainingNeedsCard = () => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           list[index]["lineno"] = json.data.return_value;
           setTline(list);
           swal("Success!", "Your record has been uploaded!", "success");
@@ -441,7 +442,7 @@ const NewTrainingNeedsCard = () => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -462,7 +463,7 @@ const NewTrainingNeedsCard = () => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -487,7 +488,7 @@ const NewTrainingNeedsCard = () => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -510,7 +511,7 @@ const NewTrainingNeedsCard = () => {
 
       .then(function (response) {
         if (response.status === 200) {
-          //console.log(response.data);
+          //// =>console.log(response.data);
           swal("Success", response.data.message, "success");
           // setViewAttachmentState(false);
         }

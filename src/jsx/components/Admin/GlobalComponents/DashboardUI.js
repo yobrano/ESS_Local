@@ -60,7 +60,6 @@ const DashboardUI = () => {
   }
 
   let essdashboard = "";
-  console.log(process.env.REACT_APP_MOMENTUM_ESS);
   if  (process.env.REACT_APP_MOMENTUM_ESS==="true") {
     essdashboard = (
       <>

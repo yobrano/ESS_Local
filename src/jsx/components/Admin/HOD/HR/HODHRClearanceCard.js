@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect, useMemo, forwardRef } from "react";
 import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const HODHRClearanceCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -53,7 +54,7 @@ const HODHRClearanceCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -74,7 +75,7 @@ const HODHRClearanceCard = (props) => {
           }
         })
         .then((json) => {
-          // console.log(json.data);
+          // // =>console.log(json.data);
           list1.splice(index, 1);
           setGroupedClearanceEmp(list1);
           swal("Success!", "Your record has been Deleted!", "success");
@@ -152,7 +153,7 @@ const HODHRClearanceCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -173,7 +174,7 @@ const HODHRClearanceCard = (props) => {
           }
         })
         .then((json) => {
-          console.log(json.data);
+          // =>console.log(json.data);
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -208,7 +209,7 @@ const HODHRClearanceCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -230,7 +231,7 @@ const HODHRClearanceCard = (props) => {
         })
         .then((json) => {
           swal("Success!", "Your record has been uploaded!", "success");
-          console.log(json.data);
+          // =>console.log(json.data);
         })
         .catch((err) => {
           swal("Oops!", "Seems like we couldn't upload the record", "error");
@@ -246,7 +247,7 @@ const HODHRClearanceCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -258,7 +259,7 @@ const HODHRClearanceCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data.clearanceFullFormAdmin);
+          // =>console.log(response.data.clearanceFullFormAdmin);
 
           setGroupedClearanceEmp(response.data.clearanceFullFormAdmin);
           setRedirectData(props.location.state[0].datum[0]);
@@ -268,7 +269,7 @@ const HODHRClearanceCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -285,7 +286,7 @@ const HODHRClearanceCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -306,7 +307,7 @@ const HODHRClearanceCard = (props) => {
         }
       })
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         swal("Success!", "Your record has been Pushed", "success");
       })
       .catch((err) => {

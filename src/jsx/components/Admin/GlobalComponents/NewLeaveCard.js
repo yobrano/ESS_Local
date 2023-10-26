@@ -5,6 +5,7 @@ import swal from "sweetalert";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import BreadCrumb from "./BreadCrumb";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const NewLeaveCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -58,7 +59,7 @@ const NewLeaveCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -68,7 +69,7 @@ const NewLeaveCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          // console.log(response.data);
+          // // =>console.log(response.data);
           setEmployeeList(response.data.employeeListModels);
           setLeaveNo(response.data.return_value);
           setLoading(false);
@@ -77,7 +78,7 @@ const NewLeaveCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -96,7 +97,7 @@ const NewLeaveCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -108,7 +109,7 @@ const NewLeaveCard = (props) => {
         )
         .then(function (response) {
           if (response.status === 200) {
-            console.log(response.data.return_value);
+            // =>console.log(response.data.return_value);
             if (response.data.return_value === true) {
               setDisplayAttachment(true);
               setDisplayUpload(false);
@@ -154,7 +155,7 @@ const NewLeaveCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -181,12 +182,12 @@ const NewLeaveCard = (props) => {
 
   //Get End and Return Dates
   const onTapReturnDate = () => {
-    console.log(appliedDays.length > 0);
+    // =>console.log(appliedDays.length > 0);
     if (appliedDays.length > 0) {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -205,7 +206,7 @@ const NewLeaveCard = (props) => {
         )
         .then(function (response) {
           if (response.status === 200) {
-            console.log(response.data);
+            // =>console.log(response.data);
             setLeaveEndDate(response.data.endD);
             setReturnDate(response.data.returnD);
           }
@@ -226,7 +227,7 @@ const NewLeaveCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -238,7 +239,7 @@ const NewLeaveCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          // console.log(response.data);
+          // // =>console.log(response.data);
           setLeaveList(response.data.leaveTypeList);
         }
       })
@@ -270,7 +271,7 @@ const NewLeaveCard = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userDetails")).idToken
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
           }`,
         },
       };
@@ -294,7 +295,7 @@ const NewLeaveCard = (props) => {
 
         .then(function (response) {
           if (response.status === 200) {
-            //console.log(response.data);
+            //// =>console.log(response.data);
             swal("Success", response.data.message, "success");
             setViewAttachmentState(false);
             setDisplayUpload(true);
@@ -319,7 +320,7 @@ const NewLeaveCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -350,7 +351,7 @@ const NewLeaveCard = (props) => {
         }
       })
       .catch((err) => {
-        // console.log("catch err:"+err);
+        // // =>console.log("catch err:"+err);
         if (err !== undefined) {
           swal("Ooh!", "Error File not Found", "error");
         }
@@ -443,7 +444,7 @@ const NewLeaveCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -466,7 +467,7 @@ const NewLeaveCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          //console.log(response.data);
+          //// =>console.log(response.data);
           swal("Success", response.data.message, "success");
           // setViewAttachmentState(false);
           setDisplayUpload(false);
@@ -526,7 +527,7 @@ const handleRemoveCheckistClick = (index) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -551,7 +552,7 @@ const handleRemoveCheckistClick = (index) => {
         }
       })
       .then((json) => {
-        // console.log(json.data);
+        // // =>console.log(json.data);
         list1.splice(index, 1);
         setDlines(list1);
         swal("Success!", "Your record has been Deleted!", "success");
@@ -607,7 +608,7 @@ const handlePushChecklistClick = (index) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -628,7 +629,7 @@ const handlePushChecklistClick = (index) => {
         }
       })
       .then((json) => {
-        console.log(json.data);
+        // =>console.log(json.data);
         if(json.data.return_value !== ""){
           list[index]['Returndate']=json.data.return_value;
           //record.Returndate

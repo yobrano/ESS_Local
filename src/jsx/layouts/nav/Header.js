@@ -1,4 +1,5 @@
 import React from "react";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../AppUtility"; import jwt_decode from "jwt-decode";
 import { Link } from "react-router-dom";
 /// Scroll
 import PerfectScrollbar from "react-perfect-scrollbar";
@@ -96,14 +97,14 @@ const Header = ({ onNote, toggle, onProfile, onActivity, onNotification}) => {
                         {/* <div className="nav-link"> */}
                         <div className="header-info">
 								<small>Hi</small>
-								<span>{JSON.parse(localStorage.getItem("userDetails")).name}</span>
+								<span>{jwt_decode(secureLocalStorage.getItem("userDetails")).Name}</span>
                            </div>
                            <img src={profile} width="20" alt="" />
                         {/* </div> */}
                         
                           
                         </a>
-                    
+                     
                         <div
                            className={`dropdown-menu dropdown-menu-right ${
                               toggle === "profile" ? "show" : ""

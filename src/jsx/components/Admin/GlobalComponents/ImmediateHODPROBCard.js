@@ -6,6 +6,7 @@ import "../HR/ExitForm.css";
 import axios from "axios";
 import swal from "sweetalert";
 import BreadCrumb from "./BreadCrumb";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const ImmediateHODPROBCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -133,6 +134,9 @@ const ImmediateHODPROBCard = (props) => {
   const [product, setProduct] = useState("");
   const [employmentYear, setEmploymentYear] = useState("");
   const [yearsOfService, setYearsOfService] = useState("");
+  const [probStartDate, setProbStartDate] = useState("");
+  const [probEndDate, setProbEndDate] = useState("");
+  const [probDuration, setProbDuration] = useState("");
 
   //F=Flag
   const [renewalF, setRenewalF] = useState(false);
@@ -166,7 +170,7 @@ const ImmediateHODPROBCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -178,13 +182,16 @@ const ImmediateHODPROBCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data.probationFirstList[0]);
+          // =>console.log(response.data.probationFirstList[0]);
 
           setJobTitle(response.data.probationFirstList[0].jobtitle)
           setBranch(response.data.probationFirstList[0].branch)
           setProduct(response.data.probationFirstList[0].product)
           setEmploymentYear(response.data.probationFirstList[0].employmentyear)
           setYearsOfService(response.data.probationFirstList[0].tenureofservice)
+          setProbStartDate(response.data.probationFirstList[0].probationstart)
+          setProbEndDate(response.data.probationFirstList[0].probationexpiry)
+          setProbDuration(response.data.probationFirstList[0].supervisionduration)
 
           setDatax(response.data.probationFirstList[0]);
           setSelectedEmp(response.data.probationFirstList[0].employeename);
@@ -416,7 +423,7 @@ const ImmediateHODPROBCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -434,7 +441,7 @@ const ImmediateHODPROBCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -462,7 +469,7 @@ const ImmediateHODPROBCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Probation Form Updated/Pushed", "success");
         }
@@ -486,7 +493,7 @@ const ImmediateHODPROBCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -514,7 +521,7 @@ const ImmediateHODPROBCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Probation Form Rejected/Pushed", "success");
         }
@@ -539,7 +546,7 @@ const ImmediateHODPROBCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -575,7 +582,7 @@ const ImmediateHODPROBCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           swal("Success!", "Probation Card Updated", "success");
         }
         if (response.status === 404) {
@@ -598,7 +605,7 @@ const ImmediateHODPROBCard = (props) => {
       responseType: "blob",
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -639,7 +646,7 @@ const ImmediateHODPROBCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -669,7 +676,7 @@ const ImmediateHODPROBCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Probation Record Reversed.", "success");
         }
@@ -694,7 +701,7 @@ const ImmediateHODPROBCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -718,7 +725,7 @@ const ImmediateHODPROBCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setDisableBtn(false);
           swal("Success!", "Probation Pushed", "success");
         }
@@ -893,6 +900,42 @@ const ImmediateHODPROBCard = (props) => {
                         type="text"
                         className="form-control"
                         value={selectedMgr}
+                        disabled
+                      />
+                    </div>
+                  </div>
+                  <div className="col-xl-3 col-sm-6">
+                    <div className="form-group">
+                      <label htmlFor="">Probation Start Date</label>
+
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={probStartDate}
+                        disabled
+                      />
+                    </div>
+                  </div>
+                  <div className="col-xl-3 col-sm-6">
+                    <div className="form-group">
+                      <label htmlFor="">Probation Expiry Date</label>
+
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={probEndDate}
+                        disabled
+                      />
+                    </div>
+                  </div>
+                  <div className="col-xl-3 col-sm-6">
+                    <div className="form-group">
+                      <label htmlFor="">Supervision Duration</label>
+
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={probDuration}
                         disabled
                       />
                     </div>

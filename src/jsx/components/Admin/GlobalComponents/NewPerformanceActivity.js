@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const NewPerformanceActivity = (props) => {
   const [loading, setLoading] = useState(false);
@@ -33,7 +34,7 @@ const NewPerformanceActivity = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -67,7 +68,7 @@ const NewPerformanceActivity = (props) => {
         }
       })
       .catch((err) => {
-        // console.log("catch err:"+err);
+        // // =>console.log("catch err:"+err);
         if (err !== undefined) {
           swal("Ooh!", "Error File not Found", "error");
         }

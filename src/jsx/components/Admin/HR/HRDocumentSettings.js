@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
 import axios from "axios";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const HRDocumentSettings = (props) => {
   const [loading, setLoading] = useState(true);
@@ -15,7 +16,7 @@ const HRDocumentSettings = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -27,14 +28,14 @@ const HRDocumentSettings = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          // console.log(response.data);
+          // // =>console.log(response.data);
           setDocumentlist(response.data.docLists);
           setSelectedDocDB(response.data.selectedDocument);
           setLoading(false);
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -53,7 +54,7 @@ const HRDocumentSettings = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -85,7 +86,7 @@ const HRDocumentSettings = (props) => {
         // }
       })
       .catch((err) => {
-        console.log("catch err:" + err);
+        // =>console.log("catch err:" + err);
         if (err.response !== undefined) {
           swal("Ooh!", err.response.data.message, "error");
         } else {

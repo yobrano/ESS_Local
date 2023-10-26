@@ -7,6 +7,7 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import { Accordion } from "react-bootstrap";
 import "./NewGrievance.css"
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const GrievanceCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -56,7 +57,7 @@ const GrievanceCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -68,7 +69,7 @@ const GrievanceCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setLoading(false);
 
           setSelectedEmp(response.data.grievancesingle.employeename)
@@ -82,8 +83,8 @@ const GrievanceCard = (props) => {
           setCommEnt(response.data.grievancesingle.comment)
           setRecommendAtion(response.data.grievancesingle.recommendation)
 
-          var stageVar = JSON.parse(localStorage.getItem("userDetails"));
-          if (JSON.parse(localStorage.getItem("userDetails")).user.length > 0) {
+          var stageVar = JSON.parse(secureLocalStorage.getItem("userDetails"));
+          if (JSON.parse(secureLocalStorage.getItem("userDetails")).user.length > 0) {
             if (stageVar.user[0] === "NORMAL" && currentStage === "Employee") {
               setApproveBtnActuator(true);
               setUploadBtnActuator(false);
@@ -94,7 +95,7 @@ const GrievanceCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -112,7 +113,7 @@ const GrievanceCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -156,7 +157,7 @@ const GrievanceCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           // setPush(true)
           setGrievanceNo(response.data.gid)
           swal("Success!", "Grievance Card Created", "success");
@@ -180,7 +181,7 @@ const GrievanceCard = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -208,7 +209,7 @@ const GrievanceCard = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           // setPush(true)
           setGrievanceNo(response.data.return_value)
           swal("Success!", "Grievance Card Moved", "success");

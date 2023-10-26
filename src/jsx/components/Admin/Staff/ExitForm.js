@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "./ExitForm.css";
 import axios from "axios";
 import swal from "sweetalert";
+import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const ExitForm = (props) => {
   const [loading, setLoading] = useState(true);
@@ -71,7 +72,7 @@ const ExitForm = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -83,14 +84,14 @@ const ExitForm = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           setExitModel(response.data.exitModel);
           setLoading(false);
           setFormfilled(response.data.exitModel.formUploaded);
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          console.log(response.data.message);
+          // =>console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -119,7 +120,7 @@ const ExitForm = (props) => {
     const config = {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("userDetails")).idToken
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
         }`,
       },
     };
@@ -197,7 +198,7 @@ const ExitForm = (props) => {
 
       .then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
+          // =>console.log(response.data);
           swal("Success!", "Exit Interview Application Uploaded", "success");
         }
         if (response.status === 404) {
@@ -216,7 +217,7 @@ const ExitForm = (props) => {
 
   let otherReasoFlactuator = "form-control";
   const fluctuator = () => {
-    // console.log("fluc");
+    // // =>console.log("fluc");
     // //Fluctuation
     // if (otherReason === "YES") {
     //   otherReasoFlactuator = "form-control border-danger";
