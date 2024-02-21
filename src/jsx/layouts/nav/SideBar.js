@@ -111,7 +111,7 @@ class SideBar extends Component {
     //     "task",
     //   ]
     // let aux = ""
-    // if(JSON.parse(secureLocalStorage.getItem("userDetails")).user.length>0){
+    // if(jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role.length>0){
     //   aux=jwt_decode(JSON.parse(decryptToken(secureLocalStorage.getItem("userDetails")))).Role;
     // }
     let FDNav = (
@@ -6849,7 +6849,7 @@ class SideBar extends Component {
     );
 
     let finalNani = "";
-    if (jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role.length === 0) {
+    if (jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === undefined) {
       finalNani = NormalNavi;
     } else if (
       jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "HOD"

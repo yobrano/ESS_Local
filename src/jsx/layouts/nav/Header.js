@@ -97,7 +97,7 @@ const Header = ({ onNote, toggle, onProfile, onActivity, onNotification}) => {
                         {/* <div className="nav-link"> */}
                         <div className="header-info">
 								<small>Hi</small>
-								<span>{jwt_decode(secureLocalStorage.getItem("userDetails")).Name}</span>
+                        <span>{jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Name}</span>
                            </div>
                            <img src={profile} width="20" alt="" />
                         {/* </div> */}

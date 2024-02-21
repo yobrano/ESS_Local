@@ -130,9 +130,9 @@ const GrievanceAppealCard = (props) => {
             stage: "2",
             user: props.location.state[0].datum[0].stepTwoEmp,
           });
-          var stageVar = JSON.parse(secureLocalStorage.getItem("userDetails"));
-          if (JSON.parse(secureLocalStorage.getItem("userDetails")).user.length > 0) {
-            if (stageVar.user[0] === "NORMAL" && currentStage === "Employee") {
+          var stageVar = jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails")));
+          if (jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role.length > 0) {
+            if (stageVar.Role === "NORMAL" && currentStage === "Employee") {
               // setApproveBtnActuator(true);
               // setUploadBtnActuator(false);
             }

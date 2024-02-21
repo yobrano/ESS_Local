@@ -100,7 +100,9 @@ export function formatError(errorResponse) {
       swal("Oops", "Invalid D365 User", "error", { button: "Try Again!" });
       break;
     case "USER_DISABLED":
-      return "User Disabled";
+      // return "User Disabled";
+      swal("Oops", "Account Disabled", "error");
+      break;
 
     default:
       return errorResponse.message;

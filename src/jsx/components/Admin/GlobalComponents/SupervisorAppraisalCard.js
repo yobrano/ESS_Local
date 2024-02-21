@@ -1,3 +1,8 @@
+
+import  secureLocalStorage  from  "react-secure-storage"; 
+import jwt_decode from "jwt-decode";
+import { decryptToken } from "./../../../../AppUtility"; 
+
 import axios from "axios";
 import { setDate } from "date-fns/esm";
 import React, { useEffect, useState } from "react";
@@ -5,7 +10,6 @@ import { withRouter } from "react-router-dom";
 import Select from "react-select";
 import swal from "sweetalert";
 import BreadCrumb from "./BreadCrumb";
-import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const SupervisorAppraisalCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -24,6 +28,13 @@ const SupervisorAppraisalCard = (props) => {
 
   const [areaofDevelopmentList, setAreaofDevelopmentList] = useState([]);
   const [specificfocusList, setSpecificfocusList] = useState([]);
+
+  const [courses, setCourses] = useState([]);
+  const [selectedCourses, setSelectedCourses] = useState([]);
+  const [customCourse, setCustomCourse] = useState({
+    lineNo: "",
+    ccustom: "",
+  });
 
   const [isActive,setIsActive] = useState(false)
 
@@ -44,11 +55,13 @@ const SupervisorAppraisalCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          // =>console.log(response.data);
+          // => console.log(response.data);
           setJobkpiList(response.data.performanceIndicators);
           setData(props.location.state[0].datum[0]);
           InitialStdLoad();
           GetReflectionData();
+          GetCoursesData();
+          GetSelectedCourses();
           if(props.location.state[0].datum[0].appraisalLevel ==="Employee"){
 
             setIsActive(false)
@@ -59,7 +72,7 @@ const SupervisorAppraisalCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          // =>console.log(response.data.message);
+          // => console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -89,7 +102,7 @@ const SupervisorAppraisalCard = (props) => {
         )
         .then(function (response) {
           if (response.status === 200) {
-            // =>console.log(response.data);
+            // => console.log(response.data);
             // setActivityList(response.data.performanceActivities);
             setStandardList(response.data.supervisorAppraisalStandards);
             setDisableCreateNewActivity(false);
@@ -97,7 +110,7 @@ const SupervisorAppraisalCard = (props) => {
           }
           if (response.status === 404) {
             swal("Oh!", response.data.message, "error");
-            // =>console.log(response.data.message);
+            // => console.log(response.data.message);
           }
         })
         .catch((err) => {
@@ -134,12 +147,95 @@ const SupervisorAppraisalCard = (props) => {
           setAreaofDevelopmentList(response.data.areaofDevelopmentList);
           setSpecificfocusList(response.data.specificFocusList);
 
-          // =>console.log(response.data);
+          // => console.log(response.data);
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          // =>console.log(response.data.message);
+          // => console.log(response.data.message);
         }
+      })
+      .catch((err) => {
+        console.log({ err: err });
+        swal("Oh!", err.data.message, "error");
+      });
+  };
+
+  //Courses  Data
+  const GetCoursesData = () => {
+    //Get Job Cat 5 data
+    const config = {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(
+          secureLocalStorage.getItem("userDetails")
+        )}`,
+      },
+    };
+
+    axios
+      .get(`${process.env.REACT_APP_API_S_LINK}/lms/courses`, config)
+      .then(function (response) {
+        if (response.status === 200) {
+          //Courses
+          setCourses(response.data.courses);
+        }
+        if (response.status === 404) {
+          swal("Oh!", response.data.message, "error");
+        }
+      })
+      .catch((err) => {
+        console.log({ err: err });
+        swal("Oh!", err.data.message, "error");
+      });
+  };
+
+  //Selected Courses  Data
+  const GetSelectedCourses = () => {
+    //Get Selected Courses
+    const config = {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(
+          secureLocalStorage.getItem("userDetails")
+        )}`,
+      },
+    };
+
+    axios
+      .get(
+        `${process.env.REACT_APP_API_S_LINK}/lms/selectedcourse/${props.location.state[0].datum[0].employeeNo}/${props.location.state[0].datum[0].no}`,
+        config
+      )
+      .then(function (response) {
+        if (response.status === 200) {
+          //Seleted Courses
+          // setSelectedCourses(response.data.selectedCourse);
+
+          if (response.data.selectedCourse.length > 0) {
+            setSelectedCourses(response.data.selectedCourse);
+          } else {
+            setSelectedCourses([{
+              id: "",
+              lineNo: "",
+              course: { value: "", label: "" },
+              employeeId: "",
+              employeeName: "",
+              employeeEmail: "",
+              appraisalNo: "",
+            }]);
+          }
+
+          if (response.data.customeCourse.length > 0) {
+            setCustomCourse({
+              lineNo: response.data.customeCourse[0].lineNo,
+              ccustom: response.data.customeCourse[0].course.value,
+            });
+          } else {
+            setCustomCourse({
+              lineNo: "",
+              ccustom: "",
+            });
+          }
+        }
+       
       })
       .catch((err) => {
         console.log({ err: err });
@@ -163,7 +259,7 @@ const SupervisorAppraisalCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          // =>console.log(response.data);
+          // => console.log(response.data);
           // setActivityList(response.data.performanceActivities);
           setStandardList(response.data.employeeAppraisalStandards);
           setDisableCreateNewActivity(false);
@@ -171,7 +267,7 @@ const SupervisorAppraisalCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          // =>console.log(response.data.message);
+          // => console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -221,7 +317,7 @@ const SupervisorAppraisalCard = (props) => {
         }
       })
       .catch((err) => {
-        // // =>console.log("catch err:"+err);
+         console.log("catch err:"+err);
         if (err !== undefined) {
           swal("Ooh!", "Error File not Found", "error");
         }
@@ -264,7 +360,7 @@ const SupervisorAppraisalCard = (props) => {
         }
       })
       .catch((err) => {
-        // =>console.log("catch err:" + err);
+        console.log("catch err:" + err);
         // if (err !== undefined) {
         //   swal("Ooh!", err, "error");
         // }
@@ -366,6 +462,53 @@ const SupervisorAppraisalCard = (props) => {
         });
     };
 
+      //View Report
+  const ViewReport = () => {
+  
+
+    const config = {
+      responseType: "arraybuffer",
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(secureLocalStorage.getItem("userDetails"))
+        }`,
+        // responseType:'arraybuffer',
+        // 'Content-Type': 'blob',
+        // responseType: "blob",
+
+        "Content-Type": "blob", //application/json
+        Accept: "application/pdf",
+      },
+    };
+
+    axios
+      .get(
+        `${process.env.REACT_APP_API_S_LINK}/performanceevaluation/viewsupervisorreport/${props.location.state[0].datum[0].no}`,
+        config
+      )
+
+      .then(function (response) {
+        if (response.status === 200) {
+          const file = new Blob([response.data], { type: "application/pdf" });
+          //Build a URL from the file
+          const fileURL = URL.createObjectURL(file);
+          //Open the URL on new Window
+          const pdfWindow = window.open();
+          pdfWindow.location.href = fileURL;
+
+        }
+      })
+      .catch((err) => {
+        console.log({ err: err });
+
+        if (err.response !== undefined) {
+          swal("Ooh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+      });
+
+  };
 
 
 
@@ -383,7 +526,7 @@ const SupervisorAppraisalCard = (props) => {
       } else {
         list[index][name] = "No";
         list[index].id = index;
-        // =>console.log(list);
+        // => console.log(list);
         setAreaofDevelopmentList(list);
       }
     } else {
@@ -471,7 +614,7 @@ const SupervisorAppraisalCard = (props) => {
     //Get the record
     const list = [...areaofDevelopmentList];
     let record = list[index];
-    // // =>console.log(record);
+    // // => console.log(record);
 
     if (record.lineNo === "") {
       //Oridinal Entry
@@ -506,7 +649,7 @@ const SupervisorAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          // =>console.log(json.data);
+          // => console.log(json.data);
           list[index].lineNo = json.data.extMessage;
           setAreaofDevelopmentList(list)
           swal("Success!", "Your record has been uploaded!", "success");
@@ -549,7 +692,7 @@ const SupervisorAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          // =>console.log(json.data);
+          // => console.log(json.data);
           swal("Success!", "Your record has been Updated!", "success");
         })
         .catch((err) => {
@@ -575,7 +718,7 @@ const SupervisorAppraisalCard = (props) => {
       } else {
         list[index][name] = "No";
         list[index].id = index;
-        // =>console.log(list);
+        // => console.log(list);
         setSpecificfocusList(list);
       }
     } else {
@@ -663,7 +806,7 @@ const SupervisorAppraisalCard = (props) => {
     //Get the record
     const list = [...specificfocusList];
     let record = list[index];
-    // // =>console.log(record);
+    // // => console.log(record);
 
     if (record.lineNo === "") {
       //Oridinal Entry
@@ -698,7 +841,7 @@ const SupervisorAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          // =>console.log(json.data);
+          // => console.log(json.data);
           list[index].lineNo = json.data.extMessage;
           setSpecificfocusList(list)
           swal("Success!", "Your record has been uploaded!", "success");
@@ -741,7 +884,7 @@ const SupervisorAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          // =>console.log(json.data);
+          // => console.log(json.data);
           swal("Success!", "Your record has been Updated!", "success");
         })
         .catch((err) => {
@@ -751,6 +894,281 @@ const SupervisorAppraisalCard = (props) => {
     }
   };
 
+  //***********COURSES */
+
+  // Input a Course
+  const handleCoursesInput = (e, index) => {
+    const list = [...selectedCourses];
+    list[index].course = e;
+    list[index].id = index;
+    setSelectedCourses(list);
+  };
+
+  // Add a Course
+  const handleAddCourseOnClick = () => {
+    setSelectedCourses([
+      ...selectedCourses,
+      {
+        id: "",
+        lineNo: "",
+        course: { value: "", label: "" },
+        employeeId: "",
+        employeeName: "",
+        employeeEmail: "",
+        appraisalNo: "",
+      },
+    ]);
+  };
+
+  // Delete  a Course
+  const handleRemoveCourseonClick = (index) => {
+    const list = [...selectedCourses];
+
+    let record = list[index];
+
+    if (record.lineNo !== "") {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(
+            secureLocalStorage.getItem("userDetails")
+          )}`,
+        },
+      };
+
+      swal({
+        title: "Are you sure?",
+        text: "Are you sure that you want to delete",
+        icon: "warning",
+        dangerMode: true,
+      })
+        .then((willDelete) => {
+          if (willDelete) {
+            return axios.delete(
+              `${process.env.REACT_APP_API_S_LINK}/lms/deleteselectedcourse/${record.lineNo}/${record.course.label}`,
+              config
+            );
+          }
+        })
+        .then((json) => {
+          if (list.length !== 1) {
+            list.splice(index, 1);
+            setSelectedCourses(list);
+          } else {
+            list[index].lineNo = "";
+            list[index].course = { value: "", label: "" };
+            setSelectedCourses(list);
+          }
+
+          swal("Success!", "Your record has been Deleted!", "success");
+        })
+        .catch((err) => {
+          console.log(err);
+          swal("Oops!", "Seems like we couldn't delete the record", "error");
+        });
+    } else {
+      if (list.length !== 1) {
+        list.splice(index, 1);
+        setSelectedCourses(list);
+      }
+    }
+  };
+
+  // Upload a Course
+  const handlePushCourseOnClick = (index) => {
+    //Get the record
+    const list = [...selectedCourses];
+    let record = list[index];
+
+    if (record.lineNo === "") {
+      //Oridinal Entry
+      let data = {
+        CourseId: record.course.value,
+        CourseName: record.course.label,
+        AppraisalNo: props.location.state[0].datum[0].no,
+        EmployeeId: props.location.state[0].datum[0].employeeNo,
+      };
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(
+            secureLocalStorage.getItem("userDetails")
+          )}`,
+        },
+      };
+
+      swal({
+        title: "Are you sure?",
+        text: "Are you sure that you want to upload",
+        icon: "warning",
+        dangerMode: true,
+      })
+        .then((willUpload) => {
+          if (willUpload) {
+            return axios.post(
+              `${process.env.REACT_APP_API_S_LINK}/lms/createselectedcourse`,
+              data,
+              config
+              // method: 'post',
+            );
+          }
+        })
+        // .then(result => result.json())
+        .then((json) => {
+          // => console.log(json.data);
+          list[index].lineNo = json.data.extMessage;
+          setSelectedCourses(list);
+          swal("Success!", "Your record has been uploaded!", "success");
+        })
+        .catch((err) => {
+          console.log(err);
+          swal(
+            "Oops!",
+            `Seems like we couldn't upload the record:${err.response.data.message}`,
+            "error"
+          );
+        });
+    } else {
+      //Modify Entry
+      let data = {
+        // AppraisalNo: props.location.state[0].datum[0].no,
+        LineNo: parseInt(record.lineNo),
+        CourseId: record.course.value,
+        CourseName: record.course.label,
+      };
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(
+            secureLocalStorage.getItem("userDetails")
+          )}`,
+        },
+      };
+
+      swal({
+        title: "Are you sure?",
+        text: "Are you sure that you want to Update",
+        icon: "warning",
+        dangerMode: true,
+      })
+        .then((willUpload) => {
+          if (willUpload) {
+            return axios.post(
+              `${process.env.REACT_APP_API_S_LINK}/lms/updateselectedcourse`,
+              data,
+              config
+              // method: 'post',
+            );
+          }
+        })
+        // .then(result => result.json())
+        .then((json) => {
+          // => console.log(json.data);
+          swal("Success!", "Your record has been Updated!", "success");
+        })
+        .catch((err) => {
+          console.log(err);
+          swal("Oops!", "Seems like we couldn't Update the record", "error");
+        });
+    }
+  };
+
+  //Post Custome Course
+
+  const PostCustomeCourse = (e) => {
+    e.preventDefault();
+    if (customCourse.length >= 99) {
+      swal("Oops!", "Too long, shorten the course name", "error");
+      return;
+    }
+    if (customCourse.ccustom !== "" && customCourse.lineNo ==="") {
+      //Oridinal Entry
+      let data = {
+        CourseId: customCourse.ccustom,
+        CourseName: customCourse.ccustom,
+        AppraisalNo: props.location.state[0].datum[0].no,
+      };
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(
+            secureLocalStorage.getItem("userDetails")
+          )}`,
+        },
+      };
+
+      swal({
+        title: "Are you sure?",
+        text: "Are you sure that you want to upload",
+        icon: "warning",
+        dangerMode: true,
+      })
+        .then((willUpload) => {
+          if (willUpload) {
+            return axios.post(
+              `${process.env.REACT_APP_API_S_LINK}/lms/createselectedcourse`,
+              data,
+              config
+              // method: 'post',
+            );
+          }
+        })
+        // .then(result => result.json())
+        .then((json) => {
+          setCustomCourse({ ...customCourse, lineNo: json.data.extMessage });
+          swal("Success!", "Your record has been uploaded!", "success");
+        })
+        .catch((err) => {
+          console.log(err);
+          swal(
+            "Oops!",
+            `Seems like we couldn't upload the record:${err.response.data.message}`,
+            "error"
+          );
+        });
+    }else {
+      //Modify Entry
+      let data = {
+        // AppraisalNo: props.location.state[0].datum[0].no,
+        LineNo: parseInt(customCourse.lineNo),
+        CourseId: customCourse.ccustom,
+        CourseName: customCourse.ccustom,
+      };
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
+          }`,
+        },
+      };
+
+      swal({
+        title: "Are you sure?",
+        text: "Are you sure that you want to Update",
+        icon: "warning",
+        dangerMode: true,
+      })
+        .then((willUpload) => {
+          if (willUpload) {
+            return axios.post(
+              `${process.env.REACT_APP_API_S_LINK}/lms/updateselectedcourse`,
+              data,
+              config
+              // method: 'post',
+            );
+          }
+        })
+        // .then(result => result.json())
+        .then((json) => {
+          // => console.log(json.data);
+          swal("Success!", "Your record has been Updated !", "success");
+        })
+        .catch((err) => {
+          console.log(err);
+          swal("Oops!", "Seems like we couldn't Update the record :"+err.response.data.message, "error");
+        });
+    }
+  };
 
 
   if (loading) {
@@ -788,6 +1206,9 @@ const SupervisorAppraisalCard = (props) => {
           </button>
           <button className="btn btn-info rounded-0" onClick={CalculateWeight} disabled={isActive}>
             Calculate Weight <i className="ml-2  	fa fa-calculator"></i>
+          </button>
+          <button className="btn btn-secondary rounded-0" onClick={ViewReport}>
+          Appraisal Report<i className="fa fa-file-pdf-o ml-2"></i>
           </button>
         </div>
         {/* </div>
@@ -1269,9 +1690,109 @@ const SupervisorAppraisalCard = (props) => {
             </div>
           </div>
         </div>
+
+         {/* Training and Developement Section*/}
+         <div className="card my-4">
+          <div className="card-header">Training and Developement Section</div>
+          <div className="card-body">
+            <h5 className="my-3 ml-3">Courses</h5>
+            <div className="reqcontentDataDiv">
+              <div className="jobRequirement-set">
+                {selectedCourses.map((x3, i3) => (
+                  <div className="row mx-1 my-2" key={i3}>
+                    <div className="col-md-8">
+                      <Select
+                        className=""
+                        defaultValue={x3.course}
+                        onChange={(e) => handleCoursesInput(e, i3)}
+                        options={courses}
+                      />
+                    </div>
+
+                    <div className="col-md-4">
+                      <div className="button-div">
+                        <>
+                          <button
+                            type="button"
+                            className="btn btn-danger rounded-0"
+                            onClick={() => handleRemoveCourseonClick(i3)}
+                            disabled={isActive}
+                          >
+                            Del <i className="fa fa-trash"></i>
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-success rounded-0"
+                            onClick={() => handlePushCourseOnClick(i3)}
+                            disabled={isActive}
+                          >
+                            Post <i className="fa fa-arrow-up"></i>
+                          </button>
+                          {selectedCourses.length - 1 === i3 && (
+                            <>
+                              <button
+                                type="button"
+                                className="btn btn-info rounded-0"
+                                onClick={handleAddCourseOnClick}
+                                disabled={isActive}
+                              >
+                                New Line <i className="fa fa-arrow-down"></i>
+                              </button>
+                            </>
+                          )}
+                        </>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                {/* Custome Course */}
+                <div className="row mx-1 mt-5">
+                  <div className="col-md-8">
+                    <div className="form-group">
+                      <label>Custom Course (max 100 characters)</label>
+                      <textarea
+                        name="customCourse"
+                        value={customCourse.ccustom}
+                        onChange={(e) =>
+                          setCustomCourse({
+                            ...customCourse,
+                            ccustom: e.target.value,
+                          })
+                        }
+                        className="form-control rounded-1"
+                        rows={3}
+                      ></textarea>
+                      <button
+                        type="button"
+                        className="btn btn-success rounded-1 my-2"
+                        onClick={(e) => PostCustomeCourse(e)}
+                        disabled={isActive}
+                      >
+                        Post Custom Course <i className="fa fa-arrow-up"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    {/* <button
+                              type="button"
+                              className="btn btn-success rounded-0"
+                              onClick={() => PostCustomeCourse()}
+                              disabled={isActive}
+                            >
+                              Post <i className="fa fa-arrow-up"></i>
+                            </button> */}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
       </div>
     </>
   );
 };
  
 export default withRouter(SupervisorAppraisalCard);
+

@@ -4,7 +4,7 @@ import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken}
 
 const BreadCrumb = (props) => {
   const Home = () => {
-    let rank = jwt_decode(JSON.parse(decryptToken(secureLocalStorage.getItem("userDetails")))).Role;
+    let rank = jwt_decode((decryptToken(secureLocalStorage.getItem("userDetails")))).Role;
     switch (rank) {
       case "HR":
         return props.history.push("HR-dashboard");

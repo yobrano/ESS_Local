@@ -106,10 +106,10 @@ const HRGrievanceCard = (props) => {
           setHRReference(response.data.grievanceRanksRemarks[0].hRref)
           setHRRemark(response.data.grievanceRanksRemarks[0].hRrem)
 
-          var stageVar = JSON.parse(secureLocalStorage.getItem("userDetails"));
-          if (JSON.parse(secureLocalStorage.getItem("userDetails")).user.length > 0) {
+          var stageVar = jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails")));
+          if (jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role.length > 0) {
             if (
-              stageVar.user[0] === "HR" &&
+              stageVar.Role === "HR" &&
               response.data.grievancesingle.currentstage === "HR"
             ) {
               setApproveBtnActuator(true);

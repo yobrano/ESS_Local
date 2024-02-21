@@ -671,8 +671,8 @@ const ContractCard = (props) => {
   let sectionOne = "";
   let reversePath="";
   let authUser= "";
-  if (JSON.parse(secureLocalStorage.getItem("userDetails")).user.length > 0) {
-    authUser = jwt_decode(JSON.parse(decryptToken(secureLocalStorage.getItem("userDetails")))).Role;
+  if (jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role.length > 0) {
+    authUser = jwt_decode((decryptToken(secureLocalStorage.getItem("userDetails")))).Role;
   }
 
   if (props.location.state[0].datum[0].status === "Open"  && props.location.state[0].datum[0].contractStatus !== 10 ) {

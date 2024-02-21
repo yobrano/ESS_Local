@@ -1,8 +1,12 @@
+
+import  secureLocalStorage  from  "react-secure-storage"; 
+import jwt_decode from "jwt-decode";
+import { decryptToken } from "./../../../../AppUtility"; 
+
 import axios from "axios";
 import { useState } from "react";
 import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
-import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const EditAppraisal = (props) => {
   const [loading, setLoading] = useState(false);
@@ -19,16 +23,19 @@ const EditAppraisal = (props) => {
       errorObj.empcomm = "Comment is Required";
       error = true;
     }
-    if (achievedScore === "") {
-      errorObj.achievedScore = "Achieved score is Required";
-      error = true;
-    }
+    if(props.location.state[0].kpiindicator !=='Learning and Development'){
+
+      if (achievedScore === "") {
+        errorObj.achievedScore = "Achieved score is Required";
+        error = true;
+      }
+    
     if (achievedScore > parseFloat(props.location.state[0].targetscore)) {
       errorObj.achievedScore =
         "Achieved score is Not greater than the target score";
       error = true;
     }
-
+  }
     setErrors(errorObj);
     if (error) {
       return;
@@ -47,7 +54,7 @@ const EditAppraisal = (props) => {
       IndicatorCode: parseInt(props.location.state[0].indicatorcode),
       KPICode: parseInt(props.location.state[0].kpicode),
       HeaderNo: props.location.state[0].headerno,
-      AchievedScore: parseFloat(achievedScore),
+      AchievedScore: parseFloat(achievedScore==''?'0':achievedScore),
       EmployeeComments: empcomm,
     };
 
@@ -76,7 +83,7 @@ const EditAppraisal = (props) => {
         }
       })
       .catch((err) => {
-        // =>console.log("catch err:" + err);
+        console.log("catch err:" + err);
         if (err.response !== undefined) {
           swal("Ooh!", err.response.data.message, "error");
         } else {
@@ -177,6 +184,7 @@ const EditAppraisal = (props) => {
                 className="form-control"
                 value={achievedScore}
                 onChange={(e) => setAchievedScore(e.target.value)}
+                disabled={props.location.state[0].kpiindicator ==='Learning and Development'?true:false}
               />
               {errors.achievedScore && (
                 <div className="text-danger fs-12">{errors.achievedScore}</div>
@@ -220,3 +228,4 @@ const EditAppraisal = (props) => {
 };
 
 export default withRouter(EditAppraisal);
+

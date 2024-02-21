@@ -466,15 +466,15 @@ function MDRequisitionApproval(props) {
         Header: "Req ID",
         accessor: "reqID",
       },
-      {
-        Header: "Job Grade",
-        accessor: "jobGrade",
-      },
+      // {
+      //   Header: "Job Grade",
+      //   accessor: "jobGrade",
+      // },
       {
         Header: "Closing Date",
         accessor: "closingDate",
         Cell: ({ value }) => {
-          return format(new Date(value), "dd/mm/yyyy");
+          return format(new Date(value), "dd/MM/yyyy");
         },
       },
       {
@@ -485,9 +485,9 @@ function MDRequisitionApproval(props) {
 
           if (value === 3) {
             buttvar[0] = `
-            <button disabled className="btn btn-warning">
-              <span class="action-btn">Pending Your Approval</span>
-            </button>
+            <button disabled class="btn btn-warning">
+            <span class="action-btn">Pending Your Approval</span>
+          </button>
           `;
           } 
 

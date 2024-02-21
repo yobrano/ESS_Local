@@ -855,6 +855,11 @@ const HODRequisionCard = (props) => {
     //   Closingdate: closinDate,
     //   RequestedEmployees: requestedEmployees,
     // };
+
+    if(HODComment===""){
+      swal("Ops!","HOD Comment Required", "error");
+      return;
+    }
     setDisablePustoMD(true);
 
     const config = {
@@ -1021,7 +1026,7 @@ const HODRequisionCard = (props) => {
         className="btn btn-primary rounded-0"
         // onClick={publish}
       >
-        Pending Approval by MD <i className="fa fa-user-o"></i>
+        Pending Approval by HEADHR <i className="fa fa-user-o"></i>
       </button>
     );
   } else if (statusProgress === 3) {
@@ -1127,7 +1132,7 @@ const HODRequisionCard = (props) => {
                   </div>
                 </div>
 
-                <div className="col-md-4">
+                {/* <div className="col-md-4">
                   <div className="form-group">
                     <label>Job Grade</label>
                     <input
@@ -1137,7 +1142,7 @@ const HODRequisionCard = (props) => {
                       value={reqCard.jobgrade}
                     />
                   </div>
-                </div>
+                </div> */}
 
                 <div className="col-md-4">
                   <div className="form-group">
@@ -1186,6 +1191,51 @@ const HODRequisionCard = (props) => {
                     />
                   </div>
                 </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>Department code</label>
+                    <input
+                      type="text"
+                      disabled
+                      className="form-control"
+                      value={reqCard.department}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>Product code</label>
+                    <input
+                      type="text"
+                      disabled
+                      className="form-control"
+                      value={reqCard.product}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>Requisition Nature</label>
+                    <input
+                      type="text"
+                      disabled
+                      className="form-control"
+                      value={reqCard.requisitionNature}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>Staff Replaced</label>
+                    <input
+                      type="text"
+                      disabled
+                      className="form-control"
+                      value={reqCard.employeetoreplace}
+                    />
+                  </div>
+                </div>
+         
 
                 <div className="col-md-4">
                   <div className="form-group">

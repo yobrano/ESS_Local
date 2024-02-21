@@ -271,7 +271,7 @@ function HRProfile(props) {
   };
 
   const initJob = () => {
-    let lcal = JSON.parse(window.secureLocalStorage.getItem("datum"));
+    let lcal = JSON.parse(secureLocalStorage.getItem("datum"));
     let ReqID = lcal.reqNo;
     let UID = lcal.userId;
     const yearsBetween =
@@ -325,7 +325,7 @@ function HRProfile(props) {
   };
 
   const postJobApp = () => {
-    let lcal = JSON.parse(window.secureLocalStorage.getItem("datum"));
+    let lcal = JSON.parse(secureLocalStorage.getItem("datum"));
     let userId = lcal.userId;
     let jobTitle = lcal.title;
     const config = {

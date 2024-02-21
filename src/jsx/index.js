@@ -446,6 +446,8 @@ const Markup = () => {
     /// Dashboard
     { url: "HOD-dashboard", component:HODDashboard, usr: "HOD" },
 
+    // { url: "employee-requisition-modify", component: EmployeeRequisitionCardModify,usr:"HOD" },
+
     { url: "new-requisition", component: EmployeeRequision,usr:"HOD" },
     { url: "employee-requisition-card", component: EmployeeRequisitionCard,usr:"HOD" },
     { url: "hod-requisition-card", component: HODRequisionCard,usr:"HOD" },
@@ -1366,9 +1368,12 @@ const Markup = () => {
     window.location="/login"
   }
 
-  if (jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role.length > 0) {
-    aux = jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role;
+  if(jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role !== undefined){
+    if (jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role.length > 0) {
+      aux = jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role;
+    }
   }
+  
 
   if(aux==="HR"){
     return (

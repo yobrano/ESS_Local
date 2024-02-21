@@ -856,6 +856,11 @@ const HRRequisionCard = (props) => {
     //   Closingdate: closinDate,
     //   RequestedEmployees: requestedEmployees,
     // };
+    if(HRComment === "" || HRComment == null){
+      swal("Ops!", "Your comment is required", "error");
+      return;
+    }
+
     setDisablePustoMD(true);
 
     const config = {
@@ -1148,7 +1153,7 @@ const HRRequisionCard = (props) => {
                   </div>
                 </div>
 
-                <div className="col-md-4">
+                {/* <div className="col-md-4">
                   <div className="form-group">
                     <label>Job Grade</label>
                     <input
@@ -1158,7 +1163,7 @@ const HRRequisionCard = (props) => {
                       value={reqCard.jobgrade}
                     />
                   </div>
-                </div>
+                </div> */}
 
                 <div className="col-md-4">
                   <div className="form-group">
@@ -1207,6 +1212,52 @@ const HRRequisionCard = (props) => {
                     />
                   </div>
                 </div>
+
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>Department code</label>
+                    <input
+                      type="text"
+                      disabled
+                      className="form-control"
+                      value={reqCard.department}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>Product code</label>
+                    <input
+                      type="text"
+                      disabled
+                      className="form-control"
+                      value={reqCard.product}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>Requisition Nature</label>
+                    <input
+                      type="text"
+                      disabled
+                      className="form-control"
+                      value={reqCard.requisitionNature}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>Staff Replaced</label>
+                    <input
+                      type="text"
+                      disabled
+                      className="form-control"
+                      value={reqCard.employeetoreplace}
+                    />
+                  </div>
+                </div>
+         
 
                 <div className="col-md-4">
                   <div className="form-group">

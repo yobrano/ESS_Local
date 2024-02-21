@@ -101,7 +101,7 @@ export function loginAction(email, password, history) {
           
         // }
         // // =>console.log(jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))));
-        if (jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role.length === 0) {
+        if (jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === undefined) {
           history.push("/dashboard");
         } else if (
           jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role === "HOD"
@@ -426,10 +426,10 @@ export function loginAction(email, password, history) {
         // //history.pushState('/index');
       })
       .catch((error) => {
-        // dispatch(loadingToggleAction(false));
-        // =>console.log(error);
-        // const errorMessage = formatError(error.response.data);
-        // dispatch(loginFailedAction(errorMessage));
+        dispatch(loadingToggleAction(false));
+        console.log(error);
+        const errorMessage = formatError(error.response.data);
+        dispatch(loginFailedAction(errorMessage));
       });
   };
 }

@@ -707,12 +707,12 @@ const HRProbationCard = (props) => {
         if (err.response !== undefined) {
           swal("Oh!", err.response.data.message, "error");
         } else {
-          swal("Oh!", err.message, "error");
+          swal("Oh!", err.data.message, "error");
         }
         if(err !== undefined){
           swal("Oh!","Extension Failed", "error");
         }
-      });
+      }); 
   };
 
   //View Attached Document
@@ -914,8 +914,8 @@ const HRProbationCard = (props) => {
   let btnUP = "";
   let sectionOne = "";
   let authUser= "";
-  if (JSON.parse(secureLocalStorage.getItem("userDetails")).user.length > 0) {
-    authUser = jwt_decode(JSON.parse(decryptToken(secureLocalStorage.getItem("userDetails")))).Role;
+  if (jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role.length > 0) {
+    authUser = jwt_decode((decryptToken(secureLocalStorage.getItem("userDetails")))).Role;
   }
 
   if (props.location.state[0].datum[0].status === 'Open') {

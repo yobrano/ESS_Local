@@ -795,8 +795,8 @@ const BucketProbationHODCard = (props) => {
   let reversePath="";
   let authUser= "";
   let routeq = "1"
-  if (JSON.parse(secureLocalStorage.getItem("userDetails")).user.length > 0) {
-    authUser = jwt_decode(JSON.parse(decryptToken(secureLocalStorage.getItem("userDetails")))).Role;
+  if (jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role.length > 0) {
+    authUser = jwt_decode((decryptToken(secureLocalStorage.getItem("userDetails")))).Role;
   }
   if(authUser =="HEAD-HR"){
     routeq="4";

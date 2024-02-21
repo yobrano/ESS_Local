@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import swal from "sweetalert";
 import Select from "react-select";
 import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
+import './Requisition.css'
 
 const EmployeeRequisitionCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -32,6 +33,7 @@ const EmployeeRequisitionCard = (props) => {
   const [reqComment, setReqComment] = useState("");
 
   const [requestedEmployees, setRequestedEmployees] = useState(0);
+
 
   // const [requirementListPush, setRequirementListPush] = useState([]);
   const [requirementlist, setRequirementlist] = useState([
@@ -87,6 +89,20 @@ const EmployeeRequisitionCard = (props) => {
   // // =>console.log(requirementlist);
 
   const [disablePushToHR, setDisablePushToHR] = useState(false);
+
+  //Extra Fields
+  // Branch, Product, Department, Nature of Request [new ,replacement of whom],
+  const [branchList, setBranchList] = useState([]);
+  const [selectedBranch, setSelectedBranch] = useState("");
+
+  const [productList, setProductList] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState("");
+
+  const [requisitionNature, setRequisitionNature] = useState("");
+
+  let errorsObj = { Requisiontype: "", Enddate: "",Contracttype:"", Department:"",Description:"",Reason:"",Comment:"",RequestedNo:"",Branch:"",Product:"",RequisitionNature:"",Employeereplaced:""};
+
+  const [errors, setErrors] = useState(errorsObj);
 
   // handle input change
   const handleInputRequireChange = (e, index) => {
@@ -713,6 +729,10 @@ const EmployeeRequisitionCard = (props) => {
           setDepartmentList(response.data.departmentListModels);
           //pop contract
           setContractList(response.data.contractListModels);
+          //setBranchList
+          setBranchList(response.data.branchListModels)
+          //setProductList
+          setProductList(response.data.productListModels)
 
           // =>console.log(response.data);
           //  if (employeeList.length > 0) {
@@ -814,7 +834,6 @@ const EmployeeRequisitionCard = (props) => {
       Enddate: closinDate,
       Contracttype: selectedContract.value,
       Department: selectedDept.value,
-      Employeereplaced: replaceEmp.value,
       HOD: HODEmp.value,
       HRManager: HREmp.value,
       MD: MDEmp.value,
@@ -822,7 +841,72 @@ const EmployeeRequisitionCard = (props) => {
       Reason: reqReason,
       Comment: reqComment,
       RequestedNo: requestedEmployees,
+
+      Branch:selectedBranch.value,
+      Product:selectedProduct.value,
+      RequisitionNature:requisitionNature,
+      Employeereplaced: replaceEmp.value,
     };
+
+    let error = false;
+    const errorObj = { ...errorsObj };
+    if (requisitionType === "") {
+      errorObj.Requisiontype = "Requisition is Required";
+      error = true;
+    }
+    if (closinDate === "") {
+      errorObj.Enddate = "Deadline is Required";
+      error = true;
+    }
+    if (selectedContract.value === "" || selectedContract === "") {
+      errorObj.Contracttype = "Contract Type is Required";
+      error = true;
+    }
+    if (selectedDept.value === "" || selectedDept === "") {
+      errorObj.Department = "Department is Required";
+      error = true;
+    }
+    if (reqDescription === "") {
+      errorObj.Description = "Description is Required";
+      error = true;
+    }
+    if (reqReason === "") {
+      errorObj.Reason = "Reason is Required";
+      error = true;
+    }
+    if (reqComment === "") {
+      errorObj.Comment = "Comment is Required";
+      error = true;
+    }
+    if (requestedEmployees === "" || requestedEmployees === 0) {
+      errorObj.RequestedNo = "Requested Number is Required";
+      error = true;
+    }
+    if (selectedBranch.value === "" || selectedBranch === "") {
+      errorObj.Branch = "Branch is Required";
+      error = true;
+    }
+    if (selectedProduct.value === "" || selectedProduct === "") {
+      errorObj.Product = "Product is Required";
+      error = true;
+    }
+    if (requisitionNature === "") {
+      errorObj.RequisitionNature = "Requisition Nature is Required";
+      error = true;
+    }
+    if( (requisitionNature === "Replacement")){
+      if (replaceEmp.value === "" || replaceEmp === "") {
+        errorObj.Employeereplaced = "Replaced Employee is Required";
+        error = true;
+      }
+    }
+   
+
+    setErrors(errorObj);
+    if (error) {
+      return;
+    }
+
 
     const config = {
       headers: {
@@ -1015,6 +1099,7 @@ const EmployeeRequisitionCard = (props) => {
     }
   };
 
+
   if (loading) {
     return (
       <>
@@ -1059,6 +1144,7 @@ const EmployeeRequisitionCard = (props) => {
                       className="form-control"
                       disabled={true}
                     />
+                     
                   </div>
                 </div>
 
@@ -1078,6 +1164,11 @@ const EmployeeRequisitionCard = (props) => {
                         Internal/External
                       </option>
                     </select>
+                    {errors.Requisiontype && (
+                            <div className="text-danger fs-12">
+                              {errors.Requisiontype}
+                            </div>
+                    )}
                   </div>
                 </div>
                 <div className="col-md-4 d-none">
@@ -1094,10 +1185,15 @@ const EmployeeRequisitionCard = (props) => {
                   <div className="form-group">
                     <label>Requision Deadline</label>
                     <DatePicker
-                      className="form-control"
+                      className="form-control w-100"
                       selected={closinDate}
                       onChange={(date) => setClosingDate(date)}
                     />
+                     {errors.Enddate && (
+                            <div className="text-danger fs-12">
+                              {errors.Enddate}
+                            </div>
+                    )}
                   </div>
                 </div>
 
@@ -1110,6 +1206,11 @@ const EmployeeRequisitionCard = (props) => {
                     onChange={setSelectedContract}
                     options={contractList}
                   />
+                  {errors.Contracttype && (
+                            <div className="text-danger fs-12">
+                              {errors.Contracttype}
+                            </div>
+                    )}
                 </div>
 
                 <div className="col-md-4">
@@ -1121,9 +1222,63 @@ const EmployeeRequisitionCard = (props) => {
                     onChange={setSelectedDept}
                     options={departmentList}
                   />
+                    {errors.Department && (
+                            <div className="text-danger fs-12">
+                              {errors.Department}
+                            </div>
+                    )}
+                </div>
+                <div className="col-md-4">
+                  <label htmlFor="redType" className="label">
+                    Branch
+                  </label>
+                  <Select
+                    defaultValue={selectedBranch}
+                    onChange={setSelectedBranch}
+                    options={branchList}
+                  />
+                    {errors.Branch && (
+                            <div className="text-danger fs-12">
+                              {errors.Branch}
+                            </div>
+                    )}
+                </div>
+                <div className="col-md-4">
+                  <label htmlFor="redType" className="label">
+                    Product
+                  </label>
+                  <Select
+                    defaultValue={selectedProduct}
+                    onChange={setSelectedProduct}
+                    options={productList}
+                  />
+                    {errors.Product && (
+                            <div className="text-danger fs-12">
+                              {errors.Product}
+                            </div>
+                    )}
                 </div>
 
-                <div className="col-md-4 d-none">
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label className="label">Requision Nature</label>
+                    <select className="form-control" value={requisitionNature}
+                      onChange={(e) => setRequisitionNature(e.target.value)}
+                    >
+                      <option value="">Choose</option>
+                      <option value="New">New</option>
+                      <option value="Replacement">Replacement</option>
+                    </select>
+                    {errors.RequisitionNature && (
+                            <div className="text-danger fs-12">
+                              {errors.RequisitionNature}
+                            </div>
+                    )}
+                  </div>
+                </div>
+
+
+                <div className={requisitionNature==='Replacement'?"col-md-4":"col-md-4 d-none"} >
                   <label htmlFor="redType" className="label">
                     Employee to Replace
                   </label>
@@ -1131,8 +1286,15 @@ const EmployeeRequisitionCard = (props) => {
                     defaultValue={replaceEmp}
                     onChange={setReplaceEmp}
                     options={employeeList}
+                    disabled={requisitionNature==='Replacement'?true:false}
                   />
+                   {errors.Employeereplaced && (
+                            <div className="text-danger fs-12">
+                              {errors.Employeereplaced}
+                            </div>
+                    )}
                 </div>
+
                 <div className="col-md-4 d-none">
                   <label htmlFor="redType" className="label">
                     HOD
@@ -1178,6 +1340,11 @@ const EmployeeRequisitionCard = (props) => {
                       className="form-control"
                       placeholder="Content max size 250 character"
                     />
+                    {errors.RequestedNo && (
+                            <div className="text-danger fs-12">
+                              {errors.RequestedNo}
+                            </div>
+                    )}
                   </div>
                 </div>
 
@@ -1195,6 +1362,12 @@ const EmployeeRequisitionCard = (props) => {
                       className="form-control"
                       placeholder="Content max size 250 character"
                     ></textarea>
+                    {errors.Description && (
+                            <div className="text-danger fs-12">
+                              {errors.Description}
+                            </div>
+                    )}
+
                   </div>
                 </div>
                 <div className="col-md-4">
@@ -1210,6 +1383,11 @@ const EmployeeRequisitionCard = (props) => {
                       className="form-control"
                       placeholder="Content max size 250 character"
                     ></textarea>
+                     {errors.Reason && (
+                            <div className="text-danger fs-12">
+                              {errors.Reason}
+                            </div>
+                    )}
                   </div>
                 </div>
                 <div className="col-md-4">
@@ -1225,6 +1403,11 @@ const EmployeeRequisitionCard = (props) => {
                       className="form-control"
                       placeholder="Content max size 250 character"
                     ></textarea>
+                    {errors.Comment && (
+                            <div className="text-danger fs-12">
+                              {errors.Comment}
+                            </div>
+                    )}
                   </div>
                 </div>
 

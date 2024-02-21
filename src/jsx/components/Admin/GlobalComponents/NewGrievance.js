@@ -78,9 +78,9 @@ const NewGrievance = (props) => {
           setStationList(response.data.stationList);
           setSectionList(response.data.sectionList);
           setDepartmentList(response.data.departmentList);
-          var stageVar = JSON.parse(secureLocalStorage.getItem("userDetails"));
-          if (JSON.parse(secureLocalStorage.getItem("userDetails")).user.length > 0) {
-            if (stageVar.user[0] === "NORMAL") {
+          var stageVar = jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails")));
+          if (jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role.length > 0) {
+            if (stageVar.Role === "NORMAL") {
               setCurrentStage("Employee");
             }
           }

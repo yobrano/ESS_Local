@@ -1,3 +1,7 @@
+import secureLocalStorage from "react-secure-storage";
+import jwt_decode from "jwt-decode";
+import { decryptToken } from "./../../../../AppUtility";
+
 import axios from "axios";
 import { setDate } from "date-fns/esm";
 import React, { useEffect, useState } from "react";
@@ -5,7 +9,6 @@ import { withRouter } from "react-router-dom";
 import Select from "react-select";
 import swal from "sweetalert";
 import BreadCrumb from "./BreadCrumb";
-import  secureLocalStorage  from  "react-secure-storage"; import { decryptToken} from "./../../../../AppUtility"; import jwt_decode from "jwt-decode";
 
 const EmployeeAppraisalCard = (props) => {
   const [loading, setLoading] = useState(true);
@@ -24,15 +27,22 @@ const EmployeeAppraisalCard = (props) => {
   const [areaofDevelopmentList, setAreaofDevelopmentList] = useState([]);
   const [specificfocusList, setSpecificfocusList] = useState([]);
 
-  const [isActive,setIsActive] = useState(true)
+  const [courses, setCourses] = useState([]);
+  const [selectedCourses, setSelectedCourses] = useState([]);
+  const [customCourse, setCustomCourse] = useState({
+    lineNo: "",
+    ccustom: "",
+  });
+
+  const [isActive, setIsActive] = useState(true);
 
   useEffect(() => {
     //let docCode = props.location.state[0].datum[0].documentCode;
     const config = {
       headers: {
-        Authorization: `Bearer ${
-          JSON.parse(secureLocalStorage.getItem("userDetails"))
-        }`,
+        Authorization: `Bearer ${JSON.parse(
+          secureLocalStorage.getItem("userDetails")
+        )}`,
       },
     };
 
@@ -43,22 +53,22 @@ const EmployeeAppraisalCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          // =>console.log(response.data);
+          // => console.log(response.data);
           setJobkpiList(response.data.performanceIndicators);
           setData(props.location.state[0].datum[0]);
           InitialStdLoad();
           GetReflectionData();
-          if(props.location.state[0].datum[0].appraisalLevel ==="Employee"){
-
-            setIsActive(false)
+          GetCoursesData();
+          GetSelectedCourses();
+          if (props.location.state[0].datum[0].appraisalLevel === "Employee") {
+            setIsActive(false);
           }
-          
 
           setLoading(false);
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          // =>console.log(response.data.message);
+          // => console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -75,9 +85,9 @@ const EmployeeAppraisalCard = (props) => {
     if (selectedKPI.value !== undefined) {
       const config = {
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(secureLocalStorage.getItem("userDetails"))
-          }`,
+          Authorization: `Bearer ${JSON.parse(
+            secureLocalStorage.getItem("userDetails")
+          )}`,
         },
       };
 
@@ -88,7 +98,7 @@ const EmployeeAppraisalCard = (props) => {
         )
         .then(function (response) {
           if (response.status === 200) {
-            // =>console.log(response.data);
+            // => console.log(response.data);
             // setActivityList(response.data.performanceActivities);
             setStandardList(response.data.employeeAppraisalStandards);
             setDisableCreateNewActivity(false);
@@ -96,7 +106,7 @@ const EmployeeAppraisalCard = (props) => {
           }
           if (response.status === 404) {
             swal("Oh!", response.data.message, "error");
-            // =>console.log(response.data.message);
+            // => console.log(response.data.message);
           }
         })
         .catch((err) => {
@@ -115,9 +125,9 @@ const EmployeeAppraisalCard = (props) => {
     //Get Job Cat 5 data
     const config = {
       headers: {
-        Authorization: `Bearer ${
-          JSON.parse(secureLocalStorage.getItem("userDetails"))
-        }`,
+        Authorization: `Bearer ${JSON.parse(
+          secureLocalStorage.getItem("userDetails")
+        )}`,
       },
     };
 
@@ -133,11 +143,93 @@ const EmployeeAppraisalCard = (props) => {
           setAreaofDevelopmentList(response.data.areaofDevelopmentList);
           setSpecificfocusList(response.data.specificFocusList);
 
-          // =>console.log(response.data);
+          // => console.log(response.data);
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          // =>console.log(response.data.message);
+          // => console.log(response.data.message);
+        }
+      })
+      .catch((err) => {
+        console.log({ err: err });
+        swal("Oh!", err.data.message, "error");
+      });
+  };
+
+  //Courses  Data
+  const GetCoursesData = () => {
+    //Get Job Cat 5 data
+    const config = {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(
+          secureLocalStorage.getItem("userDetails")
+        )}`,
+      },
+    };
+
+    axios
+      .get(`${process.env.REACT_APP_API_S_LINK}/lms/courses`, config)
+      .then(function (response) {
+        if (response.status === 200) {
+          //Courses
+          setCourses(response.data.courses);
+        }
+        if (response.status === 404) {
+          swal("Oh!", response.data.message, "error");
+        }
+      })
+      .catch((err) => {
+        console.log({ err: err });
+        swal("Oh!", err.data.message, "error");
+      });
+  };
+
+  //Selected Courses  Data
+  const GetSelectedCourses = () => {
+    //Get Selected Courses
+    const config = {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(
+          secureLocalStorage.getItem("userDetails")
+        )}`,
+      },
+    };
+
+    axios
+      .get(
+        `${process.env.REACT_APP_API_S_LINK}/lms/selectedcourse/${props.location.state[0].datum[0].employeeNo}/${props.location.state[0].datum[0].no}`,
+        config
+      )
+      .then(function (response) {
+        if (response.status === 200) {
+          //Seleted Courses
+          if (response.data.selectedCourse.length > 0) {
+            setSelectedCourses(response.data.selectedCourse);
+          } else {
+            setSelectedCourses([{
+              id: "",
+              lineNo: "",
+              course: { value: "", label: "" },
+              employeeId: "",
+              employeeName: "",
+              employeeEmail: "",
+              appraisalNo: "",
+            }]);
+          }
+          if (response.data.customeCourse.length > 0) {
+            setCustomCourse({
+              lineNo: response.data.customeCourse[0].lineNo,
+              ccustom: response.data.customeCourse[0].course.value,
+            });
+          } else {
+            setCustomCourse({
+              lineNo: "",
+              ccustom: "",
+            });
+          }
+        }
+        if (response.status === 404) {
+          swal("Oh!", response.data.message, "error");
         }
       })
       .catch((err) => {
@@ -149,9 +241,9 @@ const EmployeeAppraisalCard = (props) => {
   const InitialStdLoad = () => {
     const config = {
       headers: {
-        Authorization: `Bearer ${
-          JSON.parse(secureLocalStorage.getItem("userDetails"))
-        }`,
+        Authorization: `Bearer ${JSON.parse(
+          secureLocalStorage.getItem("userDetails")
+        )}`,
       },
     };
 
@@ -162,7 +254,7 @@ const EmployeeAppraisalCard = (props) => {
       )
       .then(function (response) {
         if (response.status === 200) {
-          // =>console.log(response.data);
+          // => console.log(response.data);
           // setActivityList(response.data.performanceActivities);
           setStandardList(response.data.employeeAppraisalStandards);
           setDisableCreateNewActivity(false);
@@ -170,7 +262,7 @@ const EmployeeAppraisalCard = (props) => {
         }
         if (response.status === 404) {
           swal("Oh!", response.data.message, "error");
-          // =>console.log(response.data.message);
+          // => console.log(response.data.message);
         }
       })
       .catch((err) => {
@@ -186,9 +278,9 @@ const EmployeeAppraisalCard = (props) => {
   const DeleteActivity = (targetCode, headerNo, kpiCode) => {
     const config = {
       headers: {
-        Authorization: `Bearer ${
-          JSON.parse(secureLocalStorage.getItem("userDetails"))
-        }`,
+        Authorization: `Bearer ${JSON.parse(
+          secureLocalStorage.getItem("userDetails")
+        )}`,
       },
     };
 
@@ -220,7 +312,7 @@ const EmployeeAppraisalCard = (props) => {
         }
       })
       .catch((err) => {
-        // // =>console.log("catch err:"+err);
+        console.log("catch err:" + err);
         if (err !== undefined) {
           swal("Ooh!", "Error File not Found", "error");
         }
@@ -235,9 +327,9 @@ const EmployeeAppraisalCard = (props) => {
   const ApproveAppraisal = () => {
     const config = {
       headers: {
-        Authorization: `Bearer ${
-          JSON.parse(secureLocalStorage.getItem("userDetails"))
-        }`,
+        Authorization: `Bearer ${JSON.parse(
+          secureLocalStorage.getItem("userDetails")
+        )}`,
       },
     };
 
@@ -263,7 +355,7 @@ const EmployeeAppraisalCard = (props) => {
         }
       })
       .catch((err) => {
-        // =>console.log("catch err:" + err);
+        console.log("catch err:" + err);
         // if (err !== undefined) {
         //   swal("Ooh!", err, "error");
         // }
@@ -283,7 +375,7 @@ const EmployeeAppraisalCard = (props) => {
     tscore,
     stdesc,
     kpi,
-    kpiactivity,
+    kpiactivity
   ) => {
     props.history.push("/edit-appraisal", [
       {
@@ -294,7 +386,7 @@ const EmployeeAppraisalCard = (props) => {
         targetscore: tscore,
         standarddesc: stdesc,
         kpiindicator: kpi,
-        activity:kpiactivity
+        activity: kpiactivity,
       },
     ]);
   };
@@ -303,9 +395,9 @@ const EmployeeAppraisalCard = (props) => {
   const CalculateWeight = () => {
     const config = {
       headers: {
-        Authorization: `Bearer ${
-          JSON.parse(secureLocalStorage.getItem("userDetails"))
-        }`,
+        Authorization: `Bearer ${JSON.parse(
+          secureLocalStorage.getItem("userDetails")
+        )}`,
       },
     };
     swal({
@@ -331,42 +423,87 @@ const EmployeeAppraisalCard = (props) => {
       });
   };
 
-    //Submit to Superviser
-    const SubmitSuperviser = () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(secureLocalStorage.getItem("userDetails"))
-          }`,
-        },
-      };
-      swal({
-        title: "Are you sure?",
-        text: "Are you sure that you want to Submit",
-        icon: "warning",
-        dangerMode: true,
+  //Submit to Superviser
+  const SubmitSuperviser = () => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(
+          secureLocalStorage.getItem("userDetails")
+        )}`,
+      },
+    };
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to Submit",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          return axios.get(
+            `${process.env.REACT_APP_API_S_LINK}/performanceevaluation/submittosupervisor/${props.location.state[0].datum[0].no}`,
+            config
+          );
+        }
       })
-        .then((willDelete) => {
-          if (willDelete) {
-            return axios.get(
-              `${process.env.REACT_APP_API_S_LINK}/performanceevaluation/submittosupervisor/${props.location.state[0].datum[0].no}`,
-              config
-            );
-          }
-        })
-        .then((json) => {
-          swal("Success!", "Your record has been Submited", "success");
-        })
-        .catch((err) => {
-          console.log(err);
-          if (err.response !== undefined) {
-            swal("Ooh!", err.response.data.message, "error");
-          } else {
-            swal("Oh!", err.message, "error");
-          }
-        });
+      .then((json) => {
+        swal("Success!", "Your record has been Submited", "success");
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.response !== undefined) {
+          swal("Ooh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+      });
+  };
+
+  //View Report
+  const ViewReport = () => {
+    const controller = new AbortController();
+
+    const config = {
+      responseType: "arraybuffer",
+      headers: {
+        Authorization: `Bearer ${JSON.parse(
+          secureLocalStorage.getItem("userDetails")
+        )}`,
+        // responseType:'arraybuffer',
+        // 'Content-Type': 'blob',
+        // responseType: "blob",
+
+        "Content-Type": "blob", //application/json
+        Accept: "application/pdf",
+      },
     };
 
+    axios
+      .get(
+        `${process.env.REACT_APP_API_S_LINK}/performanceevaluation/viewemployeereport/${props.location.state[0].datum[0].no}`,
+        config
+      )
+
+      .then(function (response) {
+        if (response.status === 200) {
+          const file = new Blob([response.data], { type: "application/pdf" });
+          //Build a URL from the file
+          const fileURL = URL.createObjectURL(file);
+          //Open the URL on new Window
+          const pdfWindow = window.open();
+          pdfWindow.location.href = fileURL;
+        }
+      })
+      .catch((err) => {
+        console.log({ err: err });
+
+        if (err.response !== undefined) {
+          swal("Ooh!", err.response.data.message, "error");
+        } else {
+          swal("Oh!", err.message, "error");
+        }
+      });
+  };
 
   // handle input change
   const handleInputAreaofAchievementChange = (e, index) => {
@@ -382,7 +519,7 @@ const EmployeeAppraisalCard = (props) => {
       } else {
         list[index][name] = "No";
         list[index].id = index;
-        // =>console.log(list);
+        // => console.log(list);
         setAreaOfAchievement(list);
       }
     } else {
@@ -400,9 +537,9 @@ const EmployeeAppraisalCard = (props) => {
     if (record.lineNo !== "") {
       const config = {
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(secureLocalStorage.getItem("userDetails"))
-          }`,
+          Authorization: `Bearer ${JSON.parse(
+            secureLocalStorage.getItem("userDetails")
+          )}`,
         },
       };
       let data = {
@@ -426,15 +563,15 @@ const EmployeeAppraisalCard = (props) => {
           }
         })
         .then((json) => {
-          if(list.length !== 1){
+          if (list.length !== 1) {
             list.splice(index, 1);
             setAreaOfAchievement(list);
-          }else{
-            list[index].lineNo ='';
-            list[index].areaOfAchievement=''
-            setAreaOfAchievement(list)
+          } else {
+            list[index].lineNo = "";
+            list[index].areaOfAchievement = "";
+            setAreaOfAchievement(list);
           }
-         
+
           swal("Success!", "Your record has been Deleted!", "success");
         })
         .catch((err) => {
@@ -442,11 +579,10 @@ const EmployeeAppraisalCard = (props) => {
           swal("Oops!", "Seems like we couldn't delete the record", "error");
         });
     } else {
-      if(list.length !== 1){
+      if (list.length !== 1) {
         list.splice(index, 1);
         setAreaOfAchievement(list);
       }
-
     }
   };
   //handle cick event of the Add button
@@ -471,7 +607,7 @@ const EmployeeAppraisalCard = (props) => {
     //Get the record
     const list = [...areaOfAchievement];
     let record = list[index];
-    // // =>console.log(record);
+    // // => console.log(record);
     // let jobno = list[0]["jobno"];
     if (record.lineNo === "") {
       //Oridinal Entry
@@ -482,9 +618,9 @@ const EmployeeAppraisalCard = (props) => {
 
       const config = {
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(secureLocalStorage.getItem("userDetails"))
-          }`,
+          Authorization: `Bearer ${JSON.parse(
+            secureLocalStorage.getItem("userDetails")
+          )}`,
         },
       };
 
@@ -506,9 +642,9 @@ const EmployeeAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          // =>console.log(json.data);
+          // => console.log(json.data);
           list[index].lineNo = json.data.extMessage;
-          setAreaOfAchievement(list)
+          setAreaOfAchievement(list);
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -525,9 +661,9 @@ const EmployeeAppraisalCard = (props) => {
 
       const config = {
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(secureLocalStorage.getItem("userDetails"))
-          }`,
+          Authorization: `Bearer ${JSON.parse(
+            secureLocalStorage.getItem("userDetails")
+          )}`,
         },
       };
 
@@ -549,7 +685,7 @@ const EmployeeAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          // =>console.log(json.data);
+          // => console.log(json.data);
           swal("Success!", "Your record has been Updated!", "success");
         })
         .catch((err) => {
@@ -573,7 +709,7 @@ const EmployeeAppraisalCard = (props) => {
       } else {
         list[index][name] = "No";
         list[index].id = index;
-        // =>console.log(list);
+        // => console.log(list);
         setAreaofDevelopmentList(list);
       }
     } else {
@@ -591,9 +727,9 @@ const EmployeeAppraisalCard = (props) => {
     if (record.lineNo !== "") {
       const config = {
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(secureLocalStorage.getItem("userDetails"))
-          }`,
+          Authorization: `Bearer ${JSON.parse(
+            secureLocalStorage.getItem("userDetails")
+          )}`,
         },
       };
       let data = {
@@ -617,15 +753,15 @@ const EmployeeAppraisalCard = (props) => {
           }
         })
         .then((json) => {
-          if(list.length !==1){
+          if (list.length !== 1) {
             list.splice(index, 1);
             setAreaofDevelopmentList(list);
-          }else{
-            list[index].lineNo = '';
-            list[index].areaOfDevelopment = '';
+          } else {
+            list[index].lineNo = "";
+            list[index].areaOfDevelopment = "";
             setAreaofDevelopmentList(list);
           }
-         
+
           swal("Success!", "Your record has been Deleted!", "success");
         })
         .catch((err) => {
@@ -633,8 +769,7 @@ const EmployeeAppraisalCard = (props) => {
           swal("Oops!", "Seems like we couldn't delete the record", "error");
         });
     } else {
-      if(list.length !== 1){
-
+      if (list.length !== 1) {
         list.splice(index, 1);
         setAreaofDevelopmentList(list);
       }
@@ -662,7 +797,7 @@ const EmployeeAppraisalCard = (props) => {
     //Get the record
     const list = [...areaofDevelopmentList];
     let record = list[index];
-    // // =>console.log(record);
+    // // => console.log(record);
 
     if (record.lineNo === "") {
       //Oridinal Entry
@@ -673,9 +808,9 @@ const EmployeeAppraisalCard = (props) => {
 
       const config = {
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(secureLocalStorage.getItem("userDetails"))
-          }`,
+          Authorization: `Bearer ${JSON.parse(
+            secureLocalStorage.getItem("userDetails")
+          )}`,
         },
       };
 
@@ -697,9 +832,9 @@ const EmployeeAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          // =>console.log(json.data);
+          // => console.log(json.data);
           list[index].lineNo = json.data.extMessage;
-          setAreaofDevelopmentList(list)
+          setAreaofDevelopmentList(list);
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -716,9 +851,9 @@ const EmployeeAppraisalCard = (props) => {
 
       const config = {
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(secureLocalStorage.getItem("userDetails"))
-          }`,
+          Authorization: `Bearer ${JSON.parse(
+            secureLocalStorage.getItem("userDetails")
+          )}`,
         },
       };
 
@@ -740,7 +875,7 @@ const EmployeeAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          // =>console.log(json.data);
+          // => console.log(json.data);
           swal("Success!", "Your record has been Updated!", "success");
         })
         .catch((err) => {
@@ -764,7 +899,7 @@ const EmployeeAppraisalCard = (props) => {
       } else {
         list[index][name] = "No";
         list[index].id = index;
-        // =>console.log(list);
+        // => console.log(list);
         setSpecificfocusList(list);
       }
     } else {
@@ -782,9 +917,9 @@ const EmployeeAppraisalCard = (props) => {
     if (record.lineNo !== "") {
       const config = {
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(secureLocalStorage.getItem("userDetails"))
-          }`,
+          Authorization: `Bearer ${JSON.parse(
+            secureLocalStorage.getItem("userDetails")
+          )}`,
         },
       };
       let data = {
@@ -808,16 +943,15 @@ const EmployeeAppraisalCard = (props) => {
           }
         })
         .then((json) => {
-          if(list.length !== 1){
+          if (list.length !== 1) {
             list.splice(index, 1);
             setSpecificfocusList(list);
-          }else{
-            list[index].lineNo = '';
-            list[index].specificFocusArea =''
-            setSpecificfocusList(list)
+          } else {
+            list[index].lineNo = "";
+            list[index].specificFocusArea = "";
+            setSpecificfocusList(list);
           }
 
-         
           swal("Success!", "Your record has been Deleted!", "success");
         })
         .catch((err) => {
@@ -825,7 +959,7 @@ const EmployeeAppraisalCard = (props) => {
           swal("Oops!", "Seems like we couldn't delete the record", "error");
         });
     } else {
-      if(list.length !==1){
+      if (list.length !== 1) {
         list.splice(index, 1);
         setSpecificfocusList(list);
       }
@@ -853,20 +987,20 @@ const EmployeeAppraisalCard = (props) => {
     //Get the record
     const list = [...specificfocusList];
     let record = list[index];
-    // // =>console.log(record);
+    // // => console.log(record);
 
     if (record.lineNo === "") {
       //Oridinal Entry
       let data = {
         HeaderNo: props.location.state[0].datum[0].no,
         SpecificFocusArea: record.specificFocusArea,
-      }; 
+      };
 
       const config = {
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(secureLocalStorage.getItem("userDetails"))
-          }`,
+          Authorization: `Bearer ${JSON.parse(
+            secureLocalStorage.getItem("userDetails")
+          )}`,
         },
       };
 
@@ -888,9 +1022,9 @@ const EmployeeAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          // =>console.log(json.data);
+          // => console.log(json.data);
           list[index].lineNo = json.data.extMessage;
-          setSpecificfocusList(list)
+          setSpecificfocusList(list);
           swal("Success!", "Your record has been uploaded!", "success");
         })
         .catch((err) => {
@@ -907,9 +1041,9 @@ const EmployeeAppraisalCard = (props) => {
 
       const config = {
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(secureLocalStorage.getItem("userDetails"))
-          }`,
+          Authorization: `Bearer ${JSON.parse(
+            secureLocalStorage.getItem("userDetails")
+          )}`,
         },
       };
 
@@ -931,7 +1065,282 @@ const EmployeeAppraisalCard = (props) => {
         })
         // .then(result => result.json())
         .then((json) => {
-          // =>console.log(json.data);
+          // => console.log(json.data);
+          swal("Success!", "Your record has been Updated!", "success");
+        })
+        .catch((err) => {
+          console.log(err);
+          swal("Oops!", "Seems like we couldn't Update the record", "error");
+        });
+    }
+  };
+
+  //***********COURSES */
+
+  // Input a Course
+  const handleCoursesInput = (e, index) => {
+    const list = [...selectedCourses];
+    list[index].course = e;
+    list[index].id = index;
+    setSelectedCourses(list);
+  };
+
+  // Add a Course
+  const handleAddCourseOnClick = () => {
+    setSelectedCourses([
+      ...selectedCourses,
+      {
+        id: "",
+        lineNo: "",
+        course: { value: "", label: "" },
+        employeeId: "",
+        employeeName: "",
+        employeeEmail: "",
+        appraisalNo: "",
+      },
+    ]);
+  };
+
+  // Delete  a Course
+  const handleRemoveCourseonClick = (index) => {
+    const list = [...selectedCourses];
+
+    let record = list[index];
+
+    if (record.lineNo !== "") {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(
+            secureLocalStorage.getItem("userDetails")
+          )}`,
+        },
+      };
+
+      swal({
+        title: "Are you sure?",
+        text: "Are you sure that you want to delete",
+        icon: "warning",
+        dangerMode: true,
+      })
+        .then((willDelete) => {
+          if (willDelete) {
+            return axios.delete(
+              `${process.env.REACT_APP_API_S_LINK}/lms/deleteselectedcourse/${record.lineNo}/${record.course.label}`,
+              config
+            );
+          }
+        })
+        .then((json) => {
+          if (list.length !== 1) {
+            list.splice(index, 1);
+            setSelectedCourses(list);
+          } else {
+            list[index].lineNo = "";
+            list[index].course = { value: "", label: "" };
+            setSelectedCourses(list);
+          }
+
+          swal("Success!", "Your record has been Deleted!", "success");
+        })
+        .catch((err) => {
+          console.log(err);
+          swal("Oops!", "Seems like we couldn't delete the record", "error");
+        });
+    } else {
+      if (list.length !== 1) {
+        list.splice(index, 1);
+        setSelectedCourses(list);
+      }
+    }
+  };
+
+  // Upload a Course
+  const handlePushCourseOnClick = (index) => {
+    //Get the record
+    const list = [...selectedCourses];
+    let record = list[index];
+
+    if (record.lineNo === "") {
+      //Oridinal Entry
+      let data = {
+        CourseId: record.course.value,
+        CourseName: record.course.label,
+        AppraisalNo: props.location.state[0].datum[0].no,
+      };
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(
+            secureLocalStorage.getItem("userDetails")
+          )}`,
+        },
+      };
+
+      swal({
+        title: "Are you sure?",
+        text: "Are you sure that you want to upload",
+        icon: "warning",
+        dangerMode: true,
+      })
+        .then((willUpload) => {
+          if (willUpload) {
+            return axios.post(
+              `${process.env.REACT_APP_API_S_LINK}/lms/createselectedcourse`,
+              data,
+              config
+              // method: 'post',
+            );
+          }
+        })
+        // .then(result => result.json())
+        .then((json) => {
+          // => console.log(json.data);
+          list[index].lineNo = json.data.extMessage;
+          setSelectedCourses(list);
+          swal("Success!", "Your record has been uploaded!", "success");
+        })
+        .catch((err) => {
+          console.log(err);
+          swal(
+            "Oops!",
+            `Seems like we couldn't upload the record:${err.response.data.message}`,
+            "error"
+          );
+        });
+    } else {
+      //Modify Entry
+      let data = {
+        // AppraisalNo: props.location.state[0].datum[0].no,
+        LineNo: parseInt(record.lineNo),
+        CourseId: record.course.value,
+        CourseName: record.course.label,
+      };
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(
+            secureLocalStorage.getItem("userDetails")
+          )}`,
+        },
+      };
+
+      swal({
+        title: "Are you sure?",
+        text: "Are you sure that you want to Update",
+        icon: "warning",
+        dangerMode: true,
+      })
+        .then((willUpload) => {
+          if (willUpload) {
+            return axios.post(
+              `${process.env.REACT_APP_API_S_LINK}/lms/updateselectedcourse`,
+              data,
+              config
+              // method: 'post',
+            );
+          }
+        })
+        // .then(result => result.json())
+        .then((json) => {
+          // => console.log(json.data);
+          swal("Success!", "Your record has been Updated!", "success");
+        })
+        .catch((err) => {
+          console.log(err);
+          swal("Oops!", "Seems like we couldn't Update the record", "error");
+        });
+    }
+  };
+
+  //Post Custome Course
+
+  const PostCustomeCourse = (e) => {
+    e.preventDefault();
+    if (customCourse.length >= 99) {
+      swal("Oops!", "Too long, shorten the course name", "error");
+      return;
+    }
+    if (customCourse.ccustom !== "" && customCourse.lineNo ==="") {
+      //Oridinal Entry
+      let data = {
+        CourseId: customCourse.ccustom,
+        CourseName: customCourse.ccustom,
+        AppraisalNo: props.location.state[0].datum[0].no,
+      };
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(
+            secureLocalStorage.getItem("userDetails")
+          )}`,
+        },
+      };
+
+      swal({
+        title: "Are you sure?",
+        text: "Are you sure that you want to upload",
+        icon: "warning",
+        dangerMode: true,
+      })
+        .then((willUpload) => {
+          if (willUpload) {
+            return axios.post(
+              `${process.env.REACT_APP_API_S_LINK}/lms/createselectedcourse`,
+              data,
+              config
+              // method: 'post',
+            );
+          }
+        })
+        // .then(result => result.json())
+        .then((json) => {
+          setCustomCourse({ ...customCourse, lineNo: json.data.extMessage });
+          swal("Success!", "Your record has been uploaded!", "success");
+        })
+        .catch((err) => {
+          console.log(err);
+          swal(
+            "Oops!",
+            `Seems like we couldn't upload the record:${err.response.data.message}`,
+            "error"
+          );
+        });
+    }else {
+      //Modify Entry
+      let data = {
+        // AppraisalNo: props.location.state[0].datum[0].no,
+        LineNo: parseInt(customCourse.lineNo),
+        CourseId: customCourse.ccustom,
+        CourseName: customCourse.ccustom,
+      };
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(secureLocalStorage.getItem("userDetails"))
+          }`,
+        },
+      };
+
+      swal({
+        title: "Are you sure?",
+        text: "Are you sure that you want to Update",
+        icon: "warning",
+        dangerMode: true,
+      })
+        .then((willUpload) => {
+          if (willUpload) {
+            return axios.post(
+              `${process.env.REACT_APP_API_S_LINK}/lms/updateselectedcourse`,
+              data,
+              config
+              // method: 'post',
+            );
+          }
+        })
+        // .then(result => result.json())
+        .then((json) => {
+          // => console.log(json.data);
           swal("Success!", "Your record has been Updated!", "success");
         })
         .catch((err) => {
@@ -966,16 +1375,27 @@ const EmployeeAppraisalCard = (props) => {
   return (
     <>
       <div className="container0">
-        <BreadCrumb props={props} backlink={"employee-appraisal"}/>
+        <BreadCrumb props={props} backlink={"employee-appraisal"} />
         {/* <div className="row">
           <div className="col-md-2"></div>
           <div className="col-md-8"> */}
         <div className="d-md-flex justify-content-end mb-2">
-          <button className="btn btn-warning rounded-0" onClick={SubmitSuperviser} disabled={isActive}>
+          <button
+            className="btn btn-warning rounded-0"
+            onClick={SubmitSuperviser}
+            disabled={isActive}
+          >
             Submit to Supervisor<i className="ml-2 fa fa-arrow-circle-up"></i>{" "}
           </button>
-          <button className="btn btn-info rounded-0" onClick={CalculateWeight} disabled={isActive}>
+          <button
+            className="btn btn-info rounded-0"
+            onClick={CalculateWeight}
+            disabled={isActive}
+          >
             Calculate Weight <i className="ml-2  	fa fa-calculator"></i>
+          </button>
+          <button className="btn btn-secondary rounded-0" onClick={ViewReport}>
+            Appraisal Report<i className="fa fa-file-pdf-o ml-2"></i>
           </button>
         </div>
         {/* </div>
@@ -1277,41 +1697,39 @@ const EmployeeAppraisalCard = (props) => {
 
                     <div className="col-md-4">
                       <div className="button-div">
-                      <>
-                            <button
-                              type="button"
-                              className="btn btn-danger rounded-0"
-                              onClick={() =>
-                                handleRemoveAreaofAchievementClick(i3)
-                              }
-                              disabled={isActive}
-                            >
-                              Del <i className="fa fa-trash"></i>
-                            </button>
-                            <button
-                              type="button"
-                              className="btn btn-success rounded-0"
-                              onClick={() =>
-                                handlePushAreaofAchievementClick(i3)
-                              }
-                              disabled={isActive}
-                            >
-                              Post <i className="fa fa-arrow-up"></i>
-                            </button>
+                        <>
+                          <button
+                            type="button"
+                            className="btn btn-danger rounded-0"
+                            onClick={() =>
+                              handleRemoveAreaofAchievementClick(i3)
+                            }
+                            disabled={isActive}
+                          >
+                            Del <i className="fa fa-trash"></i>
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-success rounded-0"
+                            onClick={() => handlePushAreaofAchievementClick(i3)}
+                            disabled={isActive}
+                          >
+                            Post <i className="fa fa-arrow-up"></i>
+                          </button>
 
-                            {areaOfAchievement.length - 1 === i3 && (
-                          <>
-                            <button
-                              type="button"
-                              className="btn btn-info rounded-0"
-                              onClick={handleAddAreaofAchievementClick}
-                              disabled={isActive}
-                            >
-                              New Line <i className="fa fa-arrow-down"></i>
-                            </button>
-                          </>
-                        )}
-                          </>
+                          {areaOfAchievement.length - 1 === i3 && (
+                            <>
+                              <button
+                                type="button"
+                                className="btn btn-info rounded-0"
+                                onClick={handleAddAreaofAchievementClick}
+                                disabled={isActive}
+                              >
+                                New Line <i className="fa fa-arrow-down"></i>
+                              </button>
+                            </>
+                          )}
+                        </>
 
                         {/* {areaOfAchievement.length !== 1 && (
                           <>
@@ -1384,41 +1802,39 @@ const EmployeeAppraisalCard = (props) => {
 
                     <div className="col-md-4">
                       <div className="button-div">
-                      <>
-                            <button
-                              type="button"
-                              className="btn btn-danger rounded-0"
-                              onClick={() =>
-                                handleRemoveAreaOfDevelopmentClick(i3)
-                              }
-                              disabled={isActive}
-                            >
-                              Del <i className="fa fa-trash"></i>
-                            </button>
-                            <button
-                              type="button"
-                              className="btn btn-success rounded-0"
-                              onClick={() =>
-                                handlePushAreaOfDevelopmentClick(i3)
-                              }
-                              disabled={isActive}
-                            >
-                              Post <i className="fa fa-arrow-up"></i>
-                            </button>
+                        <>
+                          <button
+                            type="button"
+                            className="btn btn-danger rounded-0"
+                            onClick={() =>
+                              handleRemoveAreaOfDevelopmentClick(i3)
+                            }
+                            disabled={isActive}
+                          >
+                            Del <i className="fa fa-trash"></i>
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-success rounded-0"
+                            onClick={() => handlePushAreaOfDevelopmentClick(i3)}
+                            disabled={isActive}
+                          >
+                            Post <i className="fa fa-arrow-up"></i>
+                          </button>
 
-                            {areaofDevelopmentList.length - 1 === i3 && (
-                          <>
-                            <button
-                              type="button"
-                              className="btn btn-info rounded-0"
-                              onClick={handleAddAreaOfDevelopmentClick}
-                              disabled={isActive}
-                            >
-                              New Line <i className="fa fa-arrow-down"></i>
-                            </button>
-                          </>
-                        )} 
-                          </>
+                          {areaofDevelopmentList.length - 1 === i3 && (
+                            <>
+                              <button
+                                type="button"
+                                className="btn btn-info rounded-0"
+                                onClick={handleAddAreaOfDevelopmentClick}
+                                disabled={isActive}
+                              >
+                                New Line <i className="fa fa-arrow-down"></i>
+                              </button>
+                            </>
+                          )}
+                        </>
 
                         {/* {areaofDevelopmentList.length !== 1 && (
                           <>
@@ -1491,37 +1907,36 @@ const EmployeeAppraisalCard = (props) => {
 
                     <div className="col-md-4">
                       <div className="button-div">
-                      <>
-                            <button
-                              type="button"
-                              className="btn btn-danger rounded-0"
-                              onClick={() => handleRemoveSpecificFocusClick(i3)}
-                              disabled={isActive}
-                            >
-                              Del <i className="fa fa-trash"></i>
-                            </button>
-                            <button
-                              type="button"
-                              className="btn btn-success rounded-0"
-                              onClick={() => handlePushSpecificFocusClick(i3)}
-                              disabled={isActive}
-                            >
-                              Post <i className="fa fa-arrow-up"></i>
-                            </button>
-                            {specificfocusList.length - 1 === i3 && (
-                          <>
-                            <button
-                              type="button"
-                              className="btn btn-info rounded-0"
-                              onClick={handleAddSpecificFocusClick}
-                              disabled={isActive}
-                            >
-                              New Line <i className="fa fa-arrow-down"></i>
-                            </button>
-                          </>
-                        )}
-
-                          </>
+                        <>
+                          <button
+                            type="button"
+                            className="btn btn-danger rounded-0"
+                            onClick={() => handleRemoveSpecificFocusClick(i3)}
+                            disabled={isActive}
+                          >
+                            Del <i className="fa fa-trash"></i>
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-success rounded-0"
+                            onClick={() => handlePushSpecificFocusClick(i3)}
+                            disabled={isActive}
+                          >
+                            Post <i className="fa fa-arrow-up"></i>
+                          </button>
+                          {specificfocusList.length - 1 === i3 && (
+                            <>
+                              <button
+                                type="button"
+                                className="btn btn-info rounded-0"
+                                onClick={handleAddSpecificFocusClick}
+                                disabled={isActive}
+                              >
+                                New Line <i className="fa fa-arrow-down"></i>
+                              </button>
+                            </>
+                          )}
+                        </>
                         {/* {specificfocusList.length !== 1 && (
                           <>
                             <button
@@ -1558,6 +1973,96 @@ const EmployeeAppraisalCard = (props) => {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Training and Developement Section*/}
+        <div className="card my-4">
+          <div className="card-header">Training and Developement Section</div>
+          <div className="card-body">
+            <h5 className="my-3 ml-3">Courses</h5>
+            <div className="reqcontentDataDiv">
+              <div className="jobRequirement-set">
+                {selectedCourses.map((x3, i3) => (
+                  <div className="row mx-1 my-2" key={i3}>
+                    <div className="col-md-8">
+                      <Select
+                        className=""
+                        defaultValue={x3.course}
+                        onChange={(e) => handleCoursesInput(e, i3)}
+                        options={courses}
+                      />
+                    </div>
+
+                    <div className="col-md-4">
+                      <div className="button-div">
+                        <>
+                          <button
+                            type="button"
+                            className="btn btn-danger rounded-0"
+                            onClick={() => handleRemoveCourseonClick(i3)}
+                            disabled={isActive}
+                          >
+                            Del <i className="fa fa-trash"></i>
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-success rounded-0"
+                            onClick={() => handlePushCourseOnClick(i3)}
+                            disabled={isActive}
+                          >
+                            Post <i className="fa fa-arrow-up"></i>
+                          </button>
+                          {selectedCourses.length - 1 === i3 && (
+                            <>
+                              <button
+                                type="button"
+                                className="btn btn-info rounded-0"
+                                onClick={handleAddCourseOnClick}
+                                disabled={isActive}
+                              >
+                                New Line <i className="fa fa-arrow-down"></i>
+                              </button>
+                            </>
+                          )}
+                        </>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                {/* Custome Course */}
+                <div className="row mx-1 mt-5">
+                  <div className="col-md-8">
+                    <div className="form-group">
+                      <label>Custom Course (max 100 characters)</label>
+                      <textarea
+                        name="customCourse"
+                        value={customCourse.ccustom}
+                        onChange={(e) =>
+                          setCustomCourse({
+                            ...customCourse,
+                            ccustom: e.target.value,
+                          })
+                        }
+                        className="form-control rounded-1"
+                        rows={3}
+                      ></textarea>
+                      <button
+                        type="button"
+                        className="btn btn-success rounded-1 my-2"
+                        onClick={(e) => PostCustomeCourse(e)}
+                        disabled={isActive}
+                      >
+                        Post Custom Course <i className="fa fa-arrow-up"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    
+                  </div>
+                </div>
               </div>
             </div>
           </div>

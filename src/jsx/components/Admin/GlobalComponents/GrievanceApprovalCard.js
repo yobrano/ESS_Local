@@ -94,9 +94,9 @@ const GrievanceApprovalCard = (props) => {
           setGenRemarkList(response.data.grievanceRanksRemarks[0]);
           setEmployeeList(response.data.employeeList);
 
-          var stageVar = JSON.parse(secureLocalStorage.getItem("userDetails"));
-          if (JSON.parse(secureLocalStorage.getItem("userDetails")).user.length > 0) {
-            if (stageVar.user[0] === "NORMAL" && currentStage === "Employee") {
+          var stageVar = jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails")));
+          if (jwt_decode(decryptToken(secureLocalStorage.getItem("userDetails"))).Role.length > 0) {
+            if (stageVar.Role === "NORMAL" && currentStage === "Employee") {
               // setApproveBtnActuator(true);
               // setUploadBtnActuator(false);
             }

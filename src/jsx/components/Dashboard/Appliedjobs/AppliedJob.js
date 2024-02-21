@@ -10,7 +10,7 @@ function AppliedJob(props){
     const [loading, setLoading] = useState(false);
     const config = {
         headers: {
-          Authorization: `Bearer ${JSON.parse(secureLocalStorage.getItem('userDetails')).idToken}`,
+          Authorization: `Bearer ${JSON.parse(secureLocalStorage.getItem('userDetails'))}`,
         },
       };
 

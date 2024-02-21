@@ -898,6 +898,10 @@ const MDRequisionCard = (props) => {
     //   RequestedEmployees: requestedEmployees,
     // };
 
+    if(MDComment==='' || MDComment == null){
+      swal("Oh!", "Your comment is required", "error");
+      return;
+    }
     const config = {
       headers: {
         Authorization: `Bearer ${
@@ -1170,7 +1174,7 @@ const MDRequisionCard = (props) => {
                   </div>
                 </div>
 
-                <div className="col-md-4">
+                {/* <div className="col-md-4">
                   <div className="form-group">
                     <label>Job Grade</label>
                     <input
@@ -1180,7 +1184,7 @@ const MDRequisionCard = (props) => {
                       value={reqCard.jobgrade}
                     />
                   </div>
-                </div>
+                </div> */}
 
                 <div className="col-md-4">
                   <div className="form-group">
@@ -1229,7 +1233,50 @@ const MDRequisionCard = (props) => {
                     />
                   </div>
                 </div>
-
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>Department code</label>
+                    <input
+                      type="text"
+                      disabled
+                      className="form-control"
+                      value={reqCard.department}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>Product code</label>
+                    <input
+                      type="text"
+                      disabled
+                      className="form-control"
+                      value={reqCard.product}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>Requisition Nature</label>
+                    <input
+                      type="text"
+                      disabled
+                      className="form-control"
+                      value={reqCard.requisitionNature}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>Staff Replaced</label>
+                    <input
+                      type="text"
+                      disabled
+                      className="form-control"
+                      value={reqCard.employeetoreplace}
+                    />
+                  </div>
+                </div>
                 <div className="col-md-4">
                   <div className="form-group">
                     <label>Document Date</label>
@@ -1529,6 +1576,32 @@ const MDRequisionCard = (props) => {
                     </div>
                   </div>
                 </div>
+                <div className="col-md-12">
+                  <h5 className="my-3 ml-3">HR Mandatory Documents</h5>
+                  <div className="reqcontentDataDiv">
+                    <div className="jobRequirement-set">
+                      {checkList.map((x3, i3) => (
+                        <div className="row mx-1" key={i3}>
+                          <div className="col-md-8">
+                            <div className="form-group">
+                              <input
+                                disabled
+                                type="text"
+                                className="form-control rounded-0"
+                                placeholder="Enter..."
+                                name="description"
+                                value={x3.description}
+                                onChange={(e) =>
+                                  handleInputChecklistChange(e, i3)
+                                }
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
 
                 {/* <div className="row"> */}
               
@@ -1580,31 +1653,8 @@ const MDRequisionCard = (props) => {
                 </div>
 
                 {/* </div> */}
-                <div className="col-md-12">
-                  <h5 className="my-3 ml-3">HR Mandatory Documents</h5>
-                  <div className="reqcontentDataDiv">
-                    <div className="jobRequirement-set">
-                      {checkList.map((x3, i3) => (
-                        <div className="row mx-1" key={i3}>
-                          <div className="col-md-8">
-                            <div className="form-group">
-                              <input
-                                disabled
-                                type="text"
-                                className="form-control rounded-0"
-                                placeholder="Enter..."
-                                name="description"
-                                value={x3.description}
-                                onChange={(e) =>
-                                  handleInputChecklistChange(e, i3)
-                                }
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-
-                      <div className="row mx-1 my-1">
+             
+                <div className="row mx-1 my-1">
                         <div className="col-md-4">
                           <h4>Supporting Documents</h4>
                           <button
@@ -1683,11 +1733,8 @@ const MDRequisionCard = (props) => {
                             </div>
                           </Collapse>
                         </div>
-                      </div>
-
-                    </div>
-                  </div>
                 </div>
+
               </div>
             </form>
           </div>
